@@ -64,6 +64,13 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  # ===== S00 安全网：测试 mock 依赖（选用兼容 Dart 2.19 / SDK <3.0.0 的版本） =====
+  mocktail: ^0.3.0          # 纯 Dart mock，无需代码生成
+  # 不加 http_mock_adapter：0.4.4（Dart 2.19 下唯一可选的版本线）无法对本仓库解析出的
+  # dio 5.11.0 编译 —— http_mock_adapter-0.4.4 的 request_handling.dart:32 把
+  # `FutureOr<List<int>>` 赋给 `List<int>`（dio 5.5 起 RequestEncoder 改了签名）。
+  # `flutter pub get` 不会暴露它，只有真去 import 才炸。S00 里没有任何测试用到它，
+  # 留待 S12(自写 Dio ApiClient) 届时按当时的 dio/SDK 版本重新选型。
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
