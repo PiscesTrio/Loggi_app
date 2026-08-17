@@ -1,5 +1,3 @@
-import 'package:amap_flutter_base/amap_flutter_base.dart';
-import 'package:amap_flutter_map/amap_flutter_map.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,10 +5,9 @@ import 'package:loggi_app/app/data/models/index.dart';
 import 'package:loggi_app/app/modules/widgets/distribution_status_item.dart';
 
 import '../../theme/color_palette.dart';
-import '../../utils/distance.dart';
-import '../map/config.dart';
+import '../widgets/route_map.dart';
+import '../widgets/route_map_fullscreen.dart';
 import 'index.dart';
-import 'dart:math';
 
 class DistributionStatusPage extends GetView<DistributionStatusController> {
   final Distribution argument;
@@ -20,33 +17,12 @@ class DistributionStatusPage extends GetView<DistributionStatusController> {
   final String? name = '运单详情';
   @override
   Widget build(BuildContext context) {
-    AMapController mapController;
-    void _onMapCreated(AMapController controller) {
-      mapController = controller;
-    }
-
     controller.distribution(argument);
-    final AMapWidget map = AMapWidget(
-      scaleEnabled: true,
-      onMapCreated: _onMapCreated,
-      apiKey: ConstConfig.amapApiKeys,
-      markers: {
-        Marker(
-            position: LatLng(argument.fromLat!, argument.fromLng!),
-            icon: BitmapDescriptor.fromIconPath(
-                'lib/assets/map_icons/start.png')),
-        Marker(
-            position: LatLng(argument.toLat!, argument.toLng!),
-            icon:
-                BitmapDescriptor.fromIconPath('lib/assets/map_icons/end.png')),
-      },
-      initialCameraPosition: CameraPosition(
-          target: LatLng((argument.toLat! + argument.fromLat!) / 2,
-              (argument.fromLng! + argument.toLng!) / 2),
-          zoom: LatLngDistance().getDistance(argument.toLat!, argument.toLng!,
-                  argument.fromLat!, argument.fromLng!) /
-              10),
-    );
+
+    // A second AMapWidget used to be built here on every frame and then thrown
+    // away — it was never inserted into the widget tree, yet it asserted non-null
+    // on four coordinates while being constructed, so a distribution with any
+    // missing coordinate crashed this screen on behalf of something invisible.
 
     return GetBuilder<DistributionStatusController>(
       builder: (_) {
@@ -115,48 +91,37 @@ class DistributionStatusPage extends GetView<DistributionStatusController> {
                                 },
                                 child: ListView(
                                   children: [
-                                    InteractiveViewer(
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.4,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: controller.obx((data) =>
-                                            AMapWidget(
-                                              scaleEnabled: true,
-                                              apiKey: ConstConfig.amapApiKeys,
-                                              markers: {
-                                                Marker(
-                                                    position: LatLng(
-                                                        argument.fromLat!,
-                                                        argument.fromLng!),
-                                                    icon: BitmapDescriptor
-                                                        .fromIconPath(
-                                                            'lib/assets/map_icons/loca.png')),
-                                                Marker(
-                                                    position: LatLng(
-                                                        argument.toLat!,
-                                                        argument.toLng!),
-                                                    icon: BitmapDescriptor
-                                                        .fromIconPath(
-                                                            'lib/assets/map_icons/end.png')),
-                                                 Marker(position: LatLng(data![0].lat!,data![0].lng!))
-                                              },
-                                              initialCameraPosition: CameraPosition(
-                                                  target: LatLng(
-                                                      (argument.toLat! + data![0].lat!) /2,
-                                                      (data![0].lng! + argument.toLng!) /2),
-                                                  zoom:
-                                               LatLngDistance().scale2Zoom ((LatLngDistance()
-                                                          .getDistance(
-                                                              argument.toLat!,
-                                                              argument.toLng!,
-                                                              data[0].lat!,data![0].lng!)))-0.2
-                                                      ),
-                                            )),
-                                      ),
-                                    ),
+                                    // No InteractiveViewer: RouteMap runs its own
+                                    // gesture handling, and wrapping it would put
+                                    // the two in competition.
+                                    controller.obx((data) {
+                                      // data![0] used to be read three times; an
+                                      // empty status list threw RangeError before
+                                      // the map could render.
+                                      final latest =
+                                          (data != null && data.isNotEmpty)
+                                              ? data.first
+                                              : null;
+                                      final points = <RoutePoint>[
+                                        RoutePoint(argument.fromLat,
+                                            argument.fromLng, kIconStart),
+                                        if (latest != null)
+                                          RoutePoint(latest.lat, latest.lng,
+                                              kIconCurrent),
+                                        RoutePoint(argument.toLat,
+                                            argument.toLng, kIconEnd),
+                                      ];
+                                      return RouteMap(
+                                        points: points,
+                                        height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                            0.4,
+                                        onExpand: () => Get.to(
+                                            () => RouteMapFullscreen(
+                                                points: points)),
+                                      );
+                                    }),
                                     controller.obx(
                                       (data) => ListView.builder(
                                           shrinkWrap: true,

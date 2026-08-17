@@ -5,6 +5,12 @@ import 'package:latlong2/latlong.dart';
 import '../../data/map/map_tile_source.dart';
 import '../../theme/color_palette.dart';
 
+/// Marker icons. Named here rather than at each call site so the origin/current/
+/// destination roles stay consistent across the inline and fullscreen maps.
+const String kIconStart = 'lib/assets/map_icons/start.png';
+const String kIconCurrent = 'lib/assets/map_icons/loca.png';
+const String kIconEnd = 'lib/assets/map_icons/end.png';
+
 /// One point on a route. Coordinates are nullable AND may be (0,0): the backend
 /// declares lat/lng as primitive doubles, so "missing" is serialised as 0.0 and
 /// never as null. Both cases mean the same thing here and are filtered together.
