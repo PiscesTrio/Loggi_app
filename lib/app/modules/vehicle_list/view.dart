@@ -13,9 +13,6 @@ class VehicleListPage extends GetView<VehicleListController> {
 
   @override
   Widget build(BuildContext context) {
-    List<DropdownMenuItem> sb = <String>["货车", "卡车", "重卡"].map((e) {
-      return DropdownMenuItem(child: Text(e));
-    }).toList();
     return GetBuilder<VehicleListController>(
       builder: (_) {
         return Scaffold(

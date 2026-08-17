@@ -10,15 +10,18 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.7.12'   # Maps to Dart 2.19.x; bump to 3.x in the SDK upgrade slice
+          # Pinned to the version this migration was verified on, locally and on a device.
+          # 'stable' would move under the repository without a commit, which is the exact
+          # failure mode this project exists to demonstrate a fix for.
+          flutter-version: '3.47.0'
           channel: stable
       # This workflow lives inside the Loggi_app repo, so the checkout root is the frontend project root.
       - run: flutter pub get
       - name: Analyze
         # S00 gate: "no error, warnings acceptable". Unlike `dart analyze`, `flutter analyze`
-        # defaults to fatal-infos/fatal-warnings=true, and this repo has 481 infos (0 error,
+        # defaults to fatal-infos/fatal-warnings=true, and this repo still has infos (0 error,
         # 0 warning), so a bare run always exits 1. With both flags passed, error-level issues
-        # still exit 1 — exactly the gate. Zeroing the infos is S11 (frontend cleanup + stricter lints).
+        # still exit 1 — exactly the gate. Zeroing the infos is the lint-tightening step.
         run: flutter analyze --no-fatal-infos --no-fatal-warnings
       - name: Test with coverage
         run: flutter test --coverage

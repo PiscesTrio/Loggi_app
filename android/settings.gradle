@@ -1,11 +1,34 @@
-include ':app'
+// Declarative plugin application. The previous form,
+//
+//     apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
+//
+// is not merely discouraged: current Flutter refuses it outright, so this file had to
+// change before the SDK could move. `includeBuild` pulls the Flutter Gradle plugin in as
+// a composite build, which is what makes `dev.flutter.flutter-plugin-loader` resolvable.
+pluginManagement {
+    def flutterSdkPath = {
+        def properties = new Properties()
+        file("local.properties").withInputStream { properties.load(it) }
+        def flutterSdkPath = properties.getProperty("flutter.sdk")
+        assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
+        return flutterSdkPath
+    }()
 
-def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
-def properties = new Properties()
+    includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
 
-assert localPropertiesFile.exists()
-localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
 
-def flutterSdkPath = properties.getProperty("flutter.sdk")
-assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
-apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
+// Versions are declared once here and applied per-module, replacing the buildscript
+// classpath entries that used to live in build.gradle.
+plugins {
+    id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+    id "com.android.application" version "9.1.0" apply false
+    id "org.jetbrains.kotlin.android" version "2.4.0" apply false
+}
+
+include ":app"

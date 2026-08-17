@@ -1,60 +1,40 @@
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
+// local.properties is no longer parsed here. flutter.versionCode / flutter.versionName
+// come from the Flutter Gradle plugin, which reads pubspec.yaml, so the version lived in
+// two places before and now lives in one.
+plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin plugins.
+    id "dev.flutter.flutter-gradle-plugin"
 }
-
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-}
-
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
-
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    // Required from AGP 8 on, and it replaces the `package` attribute that used to sit in
+    // AndroidManifest.xml — AGP now fails the build if both are present.
+    namespace = "com.example.loggi_app"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+    kotlin {
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        }
     }
 
     defaultConfig {
-        ndk {
-            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","x86_64"
-        }
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.loggi_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 19
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        applicationId = "com.example.loggi_app"
+        // The abiFilters block that used to sit here listed five ABIs including the
+        // long-dead "armeabi". It existed for AMap's native libraries; AMap is gone and
+        // Flutter selects ABIs itself, so filtering here only risked excluding one.
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
     }
 
     // The signingConfigs block that used to sit here pinned the debug keystore to
@@ -68,24 +48,21 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig = signingConfigs.debug
         }
     }
 }
 
 flutter {
-    source '../..'
+    source = "../.."
 }
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    // The two com.amap.api artifacts (3dmap, search) were removed together with the
-    // AMap migration. They were declared as `latest.integration`, which is not a
-    // version but a moving target: it resolved to 3dmap 10.0.600 and search 9.7.1,
-    // two lines that ship the same classes, and the build died on
-    // `checkDebugDuplicateClasses`. So the Android build was already broken by them,
-    // and no Dart code referenced the search SDK at all.
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
-
-
+// The explicit kotlin-stdlib-jdk7 dependency is gone: the Kotlin Gradle plugin adds the
+// stdlib matching its own version, and pinning it by hand is how a project ends up with
+// a stdlib older than the compiler that produced its bytecode.
+//
+// The two com.amap.api artifacts (3dmap, search) were removed together with the AMap
+// migration. They were declared as `latest.integration`, which is not a version but a
+// moving target: it resolved to 3dmap 10.0.600 and search 9.7.1, two lines that ship the
+// same classes, and the build died on `checkDebugDuplicateClasses`. So the Android build
+// was already broken by them, and no Dart code referenced the search SDK at all.
