@@ -14,7 +14,7 @@ class DistributionStatusPage extends GetView<DistributionStatusController> {
 
   DistributionStatusPage({Key? key, required this.argument}) : super(key: key);
 
-  final String? name = '运单详情';
+  final String? name = '配送状況';
   @override
   Widget build(BuildContext context) {
     controller.distribution(argument);
