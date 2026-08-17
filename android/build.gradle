@@ -1,15 +1,5 @@
-buildscript {
-    ext.kotlin_version = '1.7.10'
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
+// The buildscript block that used to sit here (AGP and the Kotlin plugin on the
+// classpath) is gone: both are now declared in settings.gradle's plugins block.
 
 allprojects {
     repositories {
@@ -18,14 +8,42 @@ allprojects {
     }
 }
 
-rootProject.buildDir = '../build'
+// Keep build output at the repository root rather than under android/, matching what
+// this project has always done. `project.buildDir` was removed in Gradle 9, so the same
+// intent is expressed through the layout API.
+def newBuildDir = rootProject.layout.buildDirectory.dir("../../build").get()
+rootProject.layout.buildDirectory.value(newBuildDir)
+
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(':app')
+    project.layout.buildDirectory.value(newBuildDir.dir(project.name))
+
+    // Raise plugin modules that hard-code an old compileSdk.
+    //
+    // connectivity_plus 4.0.2 declares `compileSdkVersion 33` in its own build file while
+    // depending on androidx.fragment 1.7.1, which refuses to be consumed by anything built
+    // against less than 34. That combination cannot build, and no version inside the
+    // constraint fixes it: flutter_nb_net pins `connectivity_plus: ^4.0.1` and 4.0.2 is the
+    // last of that line. Both packages stopped being maintained in 2023.
+    //
+    // Raising compileSdk is safe in the direction it is applied — Android's APIs are
+    // backward compatible, so a library compiled against a newer SDK still runs on older
+    // devices, which is what minSdk governs. It remains a workaround for someone else's
+    // unmaintained build file; the real fix is to stop depending on flutter_nb_net.
+    //
+    // This has to run before evaluationDependsOn below: that call evaluates the subproject
+    // on the spot, and afterEvaluate on an already-evaluated project is an error.
+    project.afterEvaluate {
+        if (project.plugins.hasPlugin("com.android.library")
+                || project.plugins.hasPlugin("com.android.application")) {
+            if (project.android.compileSdk == null || project.android.compileSdk < 36) {
+                project.android.compileSdk = 36
+            }
+        }
+    }
+
+    project.evaluationDependsOn(":app")
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register("clean", Delete) {
+    delete rootProject.layout.buildDirectory
 }
