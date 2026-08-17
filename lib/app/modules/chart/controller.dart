@@ -2,7 +2,6 @@ import 'package:loggi_app/app/data/network/api.dart';
 import 'package:get/get.dart';
 
 import '../../data/models/commdity_vo.dart';
-import 'index.dart';
 
 class ChartController extends GetxController
     with StateMixin<Map<String, List<CommdityVo>>> {

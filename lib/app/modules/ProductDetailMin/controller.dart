@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import 'index.dart';
 
 class ProductdetailminController extends GetxController {
   ProductdetailminController();

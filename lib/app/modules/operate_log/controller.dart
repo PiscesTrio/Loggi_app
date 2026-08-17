@@ -2,7 +2,6 @@ import 'package:loggi_app/app/data/models/syslog.dart';
 import 'package:get/get.dart';
 
 import '../../data/network/api.dart';
-import 'index.dart';
 
 class OperateLogController extends GetxController with StateMixin<List<SysLog>>{
   OperateLogController();

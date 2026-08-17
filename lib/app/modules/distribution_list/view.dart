@@ -1,6 +1,5 @@
 import 'package:loggi_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get/get.dart';
 
 import '../../theme/color_palette.dart';

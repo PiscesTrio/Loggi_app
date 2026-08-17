@@ -2,7 +2,6 @@ import 'package:loggi_app/app/data/models/index.dart';
 import 'package:get/get.dart';
 
 import '../../data/network/api.dart';
-import 'index.dart';
 
 class DistributionStatusController extends GetxController with StateMixin<List<DistributionStatus>>{
   DistributionStatusController();

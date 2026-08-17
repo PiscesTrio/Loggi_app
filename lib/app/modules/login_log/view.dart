@@ -1,6 +1,4 @@
-import 'package:loggi_app/app/modules/sys_main.dart';
 import 'package:loggi_app/app/modules/widgets/login_log.dart';
-import 'package:loggi_app/app/modules/widgets/op_log.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

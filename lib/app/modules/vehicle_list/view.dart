@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../data/network/api.dart';
 import '../../theme/color_palette.dart';
 import '../widgets/toast.dart';
-import '../widgets/vehicle_card.dart';
 import '../widgets/vehicle_card_min.dart';
 import 'index.dart';
 

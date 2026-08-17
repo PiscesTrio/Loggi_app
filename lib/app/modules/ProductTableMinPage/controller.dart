@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '../../data/models/commodity.dart';
 import '../../data/network/api.dart';
-import '../../routes/app_pages.dart';
 
 class ProducttableminpageController extends GetxController with StateMixin<List<Product>> {
   ProducttableminpageController();

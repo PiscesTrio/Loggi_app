@@ -1,14 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:loggi_app/app/data/models/driver.dart';
-import 'package:loggi_app/app/modules/vehicle_list/controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:loggi_app/app/theme/color_palette.dart';
-import 'package:get/get.dart';
 
-import '../../data/models/driver.dart';
-import '../../routes/app_pages.dart';
-import '../driver_list/controller.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 

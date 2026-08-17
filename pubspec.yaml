@@ -34,15 +34,10 @@ dependencies:
     sdk: flutter
 
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  double_back_to_close_app: ^2.1.0
   get: ^4.6.5
   cached_network_image: ^3.2.3
   dio: ^5.1.1
   flutter_nb_net: ^1.0.0
-  pull_to_refresh: ^2.0.0
   fluttertoast: ^8.2.1
   multi_select_flutter: ^4.1.3
   flutter_svg: ^2.0.5
@@ -54,8 +49,6 @@ dependencies:
   # Must be declared explicitly: flutter_map does not re-export it, so relying on
   # it transitively would repeat the amap_flutter_base mistake.
   latlong2: ^0.8.2
-  flutter_echarts: ^2.4.0
-  graphic: ^2.1.0
   fl_chart: ^0.62.0
   url_launcher: ^6.1.10
 
@@ -70,13 +63,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  # ===== S00 safety net: test mock dependencies (versions compatible with Dart 2.19 / SDK <3.0.0) =====
-  mocktail: ^0.3.0          # pure-Dart mock, no code generation
-  # No http_mock_adapter: 0.4.4 (the only version line usable on Dart 2.19) fails to compile
-  # against the dio 5.11.0 this repo resolves to — its request_handling.dart:32 assigns
-  # `FutureOr<List<int>>` to `List<int>` (RequestEncoder changed signature in dio 5.5).
-  # `flutter pub get` won't surface this; it only blows up on a real import. No S00 test needs
-  # it — revisit in S12 (hand-written Dio ApiClient) against whatever dio/SDK versions apply then.
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

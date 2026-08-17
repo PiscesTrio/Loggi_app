@@ -1,4 +1,3 @@
-import 'package:loggi_app/app/data/network/options.dart';
 import 'package:loggi_app/my_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nb_net/flutter_net.dart';

@@ -4,11 +4,8 @@ import 'package:loggi_app/app/modules/login_log/bindings.dart';
 import 'package:loggi_app/app/modules/operate_log/bindings.dart';
 import 'package:loggi_app/app/modules/system_setting/index.dart';
 import 'package:loggi_app/app/modules/transport_management_page/index.dart';
-import 'package:loggi_app/app/modules/warehouse_list_page/views/warehouse_list_page_views.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get/get.dart';
 import 'package:loggi_app/app/routes/app_pages.dart';
 import 'package:get_storage/get_storage.dart';
@@ -17,8 +14,6 @@ import '../../../data/models/distribution.dart';
 import '../../base_mangement_page/base_mangement_page_view.dart';
 import '../../login_log/view.dart';
 import '../../operate_log/view.dart';
-import '../../system_setting/view.dart';
-import '../../transport_management_page/view.dart';
 import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   final GetStorage box = GetStorage();
@@ -56,6 +51,7 @@ class HomeView extends GetView<HomeController> {
                             argument: settings.arguments as Distribution),
                         binding: DistributionStatusBinding());
                 }
+                return null;
               },
             ),
 
@@ -81,6 +77,7 @@ class HomeView extends GetView<HomeController> {
                         page: () => LoginLogPage(),
                         binding: LoginLogBinding());
                 }
+                return null;
               },
             ),
           ],

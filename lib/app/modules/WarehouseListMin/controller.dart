@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 
 import '../../data/models/warehouse.dart';
 import '../../data/network/api.dart';
-import 'index.dart';
 
 class WarehouselistminController extends GetxController  with StateMixin<List<Warehouse>> {
   WarehouselistminController();

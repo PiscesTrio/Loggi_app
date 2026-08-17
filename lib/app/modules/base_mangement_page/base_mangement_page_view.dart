@@ -1,12 +1,10 @@
 import 'package:loggi_app/app/modules/WarehouseInventory/index.dart';
 import 'package:loggi_app/app/modules/base_mangement_page/base_mangement_page_controller.dart';
 import 'package:loggi_app/app/modules/warehouse_list_page/bindings/warehouse_list_page_bindings.dart';
-import 'package:loggi_app/app/utils/TokenStorage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
 
-import '../../data/models/commodity.dart';
 import '../../routes/app_pages.dart';
 import '../ProductDetailMin/bindings.dart';
 import '../ProductDetailMin/view.dart';
@@ -131,6 +129,7 @@ class BaseManagementPageView extends GetView<BaseManagementPageController> {
                                                       ProductdetailminBinding());
                                             default:
                                           }
+                                          return null;
                                         },
                                       ),         Navigator(
                                         key: Get.nestedKey(5),
@@ -166,6 +165,7 @@ class BaseManagementPageView extends GetView<BaseManagementPageController> {
                                                       WarehouseinventoryBinding());
                                             default:
                                           }
+                                          return null;
                                         },
                                       ),
 

@@ -1,13 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:loggi_app/app/data/models/inventory.dart';
-import 'package:loggi_app/app/data/network/api.dart';
 import 'package:flutter/material.dart';
 import 'package:loggi_app/app/data/models/warehouse.dart';
 // import 'package:warehouse_management/screens/warehouse_details_page.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../../assets/svg/svg_strings.dart';
 import '../../routes/app_pages.dart';

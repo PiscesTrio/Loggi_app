@@ -7,14 +7,10 @@ import 'package:loggi_app/app/modules/distribution_status/index.dart';
 import 'package:loggi_app/app/modules/login/view.dart';
 import 'package:loggi_app/app/modules/login_log/index.dart';
 import 'package:loggi_app/app/modules/operate_log/index.dart';
-import 'package:loggi_app/app/modules/operate_log/view.dart';
-import 'package:loggi_app/app/modules/system_setting/controller.dart';
 import 'package:loggi_app/app/modules/system_setting/view.dart';
 import 'package:loggi_app/app/modules/transport_management_page/index.dart';
 import 'package:get/get.dart';
 
-import '../data/models/commodity.dart';
-import '../data/models/distribution_status.dart';
 import '../modules/ProductDetailMin/bindings.dart';
 import '../modules/ProductDetailMin/view.dart';
 import '../modules/ProductTableMinPage/bindings.dart';
@@ -22,7 +18,6 @@ import '../modules/ProductTableMinPage/view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings.dart';
-import '../modules/login/controller.dart';
 import '../modules/system_setting/bindings.dart';
 part 'app_routes.dart';
 

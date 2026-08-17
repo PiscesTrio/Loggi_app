@@ -1,16 +1,9 @@
-import 'package:loggi_app/app/data/models/available.dart';
 import 'package:loggi_app/app/data/models/index.dart';
-import 'package:loggi_app/app/data/models/vehicle.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../../data/delivery_points.dart';
-import '../../data/models/distribution.dart';
-import '../../data/models/driver.dart';
 import '../../data/network/api.dart';
-import 'index.dart';
 import 'package:intl/intl.dart';
 
 class DistributionApplyController extends GetxController

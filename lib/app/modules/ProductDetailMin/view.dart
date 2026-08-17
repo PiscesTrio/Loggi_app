@@ -60,9 +60,9 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                               ),
                               height: 50,
                               child: TextFormField(
-                                initialValue: product!.name ?? '',
+                                initialValue: product.name ?? '',
                                 onChanged: (value) {
-                                  product!.name = value;
+                                  product.name = value;
                                 },
                                 textInputAction: TextInputAction.next,
                                 key: UniqueKey(),
@@ -108,11 +108,11 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                     ),
                                     height: 50,
                                     child: TextFormField(
-                                      initialValue: product!.price == null
+                                      initialValue: product.price == null
                                           ? ''
-                                          : product!.price.toString(),
+                                          : product.price.toString(),
                                       onChanged: (value) {
-                                        product!.price = double.parse(value);
+                                        product.price = double.parse(value);
                                       },
                                       textInputAction: TextInputAction.next,
                                       key: UniqueKey(),
@@ -157,11 +157,11 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                     ),
                                     height: 50,
                                     child: TextFormField(
-                                      initialValue: product!.count == null
+                                      initialValue: product.count == null
                                           ? ''
-                                          : product!.count.toString(),
+                                          : product.count.toString(),
                                       onChanged: (value) {
-                                        product!.count = int.parse(value);
+                                        product.count = int.parse(value);
                                       },
                                       textInputAction: TextInputAction.next,
                                       key: UniqueKey(),
@@ -198,7 +198,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                 bottom: 5,
                               ),
                               child: Text(
-                                "创建时间： ${product!.createAt==null?"":product.createAt}",
+                                "创建时间： ${product.createAt==null?"":product.createAt}",
                                 style: TextStyle(
                                   fontFamily: "Nunito",
                                   fontSize: 16,
@@ -240,9 +240,9 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                               child: TextFormField(
                                 maxLines: 7,
                                 minLines: 3,
-                                initialValue: product!.description ?? '',
+                                initialValue: product.description ?? '',
                                 onChanged: (value) {
-                                  product!.description = value;
+                                  product.description = value;
                                 },
                                 textInputAction: TextInputAction.next,
                                 key: UniqueKey(),
