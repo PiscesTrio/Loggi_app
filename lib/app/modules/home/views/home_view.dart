@@ -17,13 +17,9 @@ import '../../../data/models/distribution.dart';
 import '../../base_mangement_page/base_mangement_page_view.dart';
 import '../../login_log/view.dart';
 import '../../operate_log/view.dart';
-import '../../product_manage_main_page/views/product_manage_main_page.dart';
-import '../../product_table_page/views/product_table_page_views.dart';
 import '../../system_setting/view.dart';
 import '../../transport_management_page/view.dart';
 import '../controllers/home_controller.dart';
-import 'package:loggi_app/app/modules/product_page/views/product_page_view.dart';
-
 class HomeView extends GetView<HomeController> {
   final GetStorage box = GetStorage();
 

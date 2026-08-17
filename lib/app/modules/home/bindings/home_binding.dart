@@ -1,4 +1,3 @@
-import 'package:loggi_app/app/modules/product_manage_main_page/controllers/product_manage_main_controller.dart';
 import 'package:get/get.dart';
 import '../../ProductDetailMin/controller.dart';
 import '../../ProductTableMinPage/controller.dart';
@@ -11,7 +10,6 @@ import '../../distribution_status/controller.dart';
 import '../../driver_list/controller.dart';
 import '../../login_log/controller.dart';
 import '../../operate_log/controller.dart';
-import '../../product_table_page/controllers/product_table_page_controllers.dart';
 import '../../system_setting/controller.dart';
 import '../../transport_management_page/controller.dart';
 import '../../vehicle_list/controller.dart';
@@ -28,9 +26,6 @@ class HomeBinding extends Bindings {
 
     Get.lazyPut<WarehouseListPageController>(
         () => WarehouseListPageController());
-    Get.lazyPut<ProductTablePageController>(() => ProductTablePageController());
-    Get.lazyPut<ProductManageMainPageController>(
-        () => ProductManageMainPageController());
     Get.lazyPut<BaseManagementPageController>(
         () => BaseManagementPageController());
          Get.lazyPut<ChartController>(() => ChartController());

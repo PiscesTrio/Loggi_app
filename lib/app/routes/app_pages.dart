@@ -8,7 +8,6 @@ import 'package:loggi_app/app/modules/login/view.dart';
 import 'package:loggi_app/app/modules/login_log/index.dart';
 import 'package:loggi_app/app/modules/operate_log/index.dart';
 import 'package:loggi_app/app/modules/operate_log/view.dart';
-import 'package:loggi_app/app/modules/product_table_detail/bindings/product_table_detail_binding.dart';
 import 'package:loggi_app/app/modules/system_setting/controller.dart';
 import 'package:loggi_app/app/modules/system_setting/view.dart';
 import 'package:loggi_app/app/modules/transport_management_page/index.dart';
@@ -24,13 +23,7 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings.dart';
 import '../modules/login/controller.dart';
-import '../modules/product_table_detail/views/product_table_detail_view.dart';
-import '../modules/product_table_page/bindings/product_table_page_bindings.dart';
-import '../modules/product_table_page/views/product_table_page_views.dart';
 import '../modules/system_setting/bindings.dart';
-import '../modules/product_page/bindings/product_page_bindings.dart';
-import '../modules/product_page/views/product_page_view.dart';
-
 part 'app_routes.dart';
 
 class AppPages {

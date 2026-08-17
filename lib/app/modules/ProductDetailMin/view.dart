@@ -1,5 +1,4 @@
 import 'package:loggi_app/app/data/network/api.dart';
-import 'package:loggi_app/app/modules/product_table_detail/controllers/product_table_detail_controller.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
