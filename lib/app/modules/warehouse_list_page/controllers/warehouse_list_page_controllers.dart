@@ -1,8 +1,6 @@
 import 'package:loggi_app/app/data/models/warehouse.dart';
 import 'package:loggi_app/app/data/network/api.dart';
 import 'package:get/get.dart';
-import 'package:loggi_app/app/data/repository.dart';
-
 class WarehouseListPageController
     extends GetxController with StateMixin<List<Warehouse>> {
 

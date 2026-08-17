@@ -16,13 +16,6 @@ class ProductTableDetailController extends GetxController{
     super.onReady();
   }
 
-  Future goToDetailPage() async {
-    // var result = await Get.toNamed(Routes.NESTED_NAVIGATION_DETAIL,
-    //     arguments: argumentToDetailPage.value,
-    //     id: Constants.nestedNavigationNavigatorId);
-    // argumentFromDetailPage.value =
-    // result == null ? 'No argument' : (result as double).toStringAsFixed(0);
-  }
 
   @override
   void onClose() {}

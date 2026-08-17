@@ -1,15 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:loggi_app/app/data/repository.dart';
 
-/// Characterization test: pins the leftover demo Repository's behavior (groundwork for the "clean up demo modules" slice).
-/// Deleting the demo Repository turns this test red — a reminder the removal was deliberate, not accidental.
+/// Pins what is left of the demo Repository.
+///
+/// S00 planted a tripwire here: a test over `getComputers` whose only purpose was to
+/// go red when the demo modules were deleted, so that the removal had to be a decision
+/// rather than an accident. S11a deleted them, and that test went with the code it
+/// described — deliberately.
+///
+/// `getProducts` survives because `product_page` still calls it. That module is itself
+/// unreachable from the home shell, so this assertion is the same kind of tripwire, now
+/// aimed at the duplicate product screens.
 void main() {
   final repo = Repository();
-
-  test('getComputers returns the same three hardcoded Macs (demo leftover, pins current behavior)', () async {
-    final r = await repo.getComputers;
-    expect(r, ['iMac', 'Mac mini', 'Mac Pro']);
-  });
 
   test('getProducts returns 2 raw JSON strings, the second malformed (pins a known bug)', () async {
     final r = await repo.getProducts;

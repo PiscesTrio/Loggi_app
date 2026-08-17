@@ -10,13 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get/get.dart';
-import 'package:loggi_app/app/modules/nested_navigation_detail/bindings/nested_navigation_detail_binding.dart';
-import 'package:loggi_app/app/modules/nested_navigation_detail/views/nested_navigation_detail_view.dart';
-import 'package:loggi_app/app/modules/nested_navigation_main/views/nested_navigation_main_view.dart';
-import 'package:loggi_app/app/modules/standard_navigation_main/views/standard_navigation_main_view.dart';
-import 'package:loggi_app/app/modules/sub_tabs_nested_navigation_main/views/sub_tabs_nested_navigation_main_view.dart';
 import 'package:loggi_app/app/routes/app_pages.dart';
-import 'package:loggi_app/constants.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../data/models/distribution.dart';
