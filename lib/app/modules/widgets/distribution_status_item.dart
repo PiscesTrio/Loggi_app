@@ -44,7 +44,7 @@ class DistributionStatusItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-                // 圆和线
+                // circle and line
                 height: 32,
                 child: _leftLineWidget()),
             Expanded(

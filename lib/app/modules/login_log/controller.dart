@@ -11,7 +11,7 @@ class LoginLogController extends GetxController with StateMixin<List<LoginLog>>{
 
 
 
-  /// 在 widget 内存中分配后立即调用。
+  /// Called immediately after the widget is allocated in memory.
   @override
   void onInit() {
     super.onInit();
@@ -31,19 +31,19 @@ class LoginLogController extends GetxController with StateMixin<List<LoginLog>>{
 
   }
 
-  /// 在 onInit() 之后调用 1 帧。这是进入的理想场所
+  /// Called 1 frame after onInit(). The ideal place for entry logic.
   @override
   void onReady() {
     super.onReady();
   }
 
-  /// 在 [onDelete] 方法之前调用。
+  /// Called before the [onDelete] method.
   @override
   void onClose() {
     super.onClose();
   }
 
-  /// dispose 释放内存
+  /// dispose releases memory
   @override
   void dispose() {
     super.dispose();

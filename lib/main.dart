@@ -14,11 +14,11 @@ void main()async {
    NetOptions.instance
 
         // baseUrl
-        .setBaseUrl("http://YOUR_API_HOST:8088/api") // 请替换为实际后端地址
+        .setBaseUrl("http://YOUR_API_HOST:8088/api") // replace with the real backend address
         .setHttpDecoder(MyHttpDecoder.getInstance())
-        //  超时时间
+        //  timeout
         .setConnectTimeout(const Duration(milliseconds: 3000))
-        // 允许打印log，默认未 true
+        // allow log printing, defaults to true
         .enableLogger(true)
         .create();
   runApp(const MyApp());

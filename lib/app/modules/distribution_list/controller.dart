@@ -50,7 +50,7 @@ class DistributionListController extends GetxController
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }
 
-  /// dispose 释放内存
+  /// dispose releases memory
   @override
   void dispose() {
     super.dispose();

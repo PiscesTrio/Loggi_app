@@ -13,7 +13,7 @@ class DistributionStatusController extends GetxController with StateMixin<List<D
 
 
 
-  /// 在 widget 内存中分配后立即调用。
+  /// Called immediately after the widget is allocated in memory.
   @override
   void onInit() {
 
@@ -21,7 +21,7 @@ class DistributionStatusController extends GetxController with StateMixin<List<D
 
   }
 
-  /// 在 onInit() 之后调用 1 帧。这是进入的理想场所
+  /// Called 1 frame after onInit(). The ideal place for entry logic.
   @override
   void onReady() {
 
@@ -45,7 +45,7 @@ class DistributionStatusController extends GetxController with StateMixin<List<D
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }
 
-  /// 在 [onDelete] 方法之前调用。
+  /// Called before the [onDelete] method.
   @override
   void onClose() {
     super.onClose();
@@ -57,7 +57,7 @@ class DistributionStatusController extends GetxController with StateMixin<List<D
 
   }
 
-  /// dispose 释放内存
+  /// dispose releases memory
   @override
   void dispose() {
     super.dispose();
