@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../data/delivery_points.dart';
 import '../../data/models/distribution.dart';
 import '../../data/models/driver.dart';
 import '../../data/network/api.dart';
@@ -20,6 +21,7 @@ class DistributionApplyController extends GetxController
   Rx<Driver> selectedDriver = Driver().obs;
   Rx<Vehicle> selectedVehicle = Vehicle().obs;
   Rx<Warehouse> selectedWarehouse = Warehouse().obs;
+  Rx<DeliveryPoint?> selectedDeliveryPoint = Rx<DeliveryPoint?>(null);
   Rx<DateTime> dateTime = DateTime.now().obs;
   RxList<String> selectedCares = sb.obs;
   RxList<Warehouse> wareHouseList = [Warehouse()].obs;
@@ -34,6 +36,10 @@ class DistributionApplyController extends GetxController
       NbRequest().requestGet4().then((value) {
         wareHouseList(value);
         selectedWarehouse(wareHouseList[0]);
+        // The dropdown opens on the first warehouse but only writes wid when the
+        // user *changes* the selection, so a form submitted without touching it
+        // used to send wid == null.
+        distribution.update((val) => val!.wid = wareHouseList[0].name);
       });
       if (result == null ||
           result.drivers!.isEmpty ||
@@ -66,40 +72,30 @@ class DistributionApplyController extends GetxController
     });
   }
 
-  textToLocation() {
-    NbRequest().textToLocation(distribution.value.address!).then((value) {
-      distribution.update((self) {
-        self!.toLat = value!.lat;
-        self.toLng = value.lng;
-      });
+  /// Destination is chosen from [kDeliveryPoints], so its coordinates are known
+  /// up front and no geocoding round-trip is needed.
+  void selectDeliveryPoint(DeliveryPoint? point) {
+    selectedDeliveryPoint(point);
+    distribution.update((val) {
+      val!.address = point?.address;
+      val.toLat = point?.lat;
+      val.toLng = point?.lng;
     });
   }
 
   Future<bool> submitDis() async {
-    return await NbRequest()
-        .textToLocation(distribution.value.address!)
-        .then((value) {
-      distribution.update((self) {
-        self!.toLat = value!.lat;
-        self.toLng = value.lng;
-        Future.delayed(const Duration(seconds: 4), ()=> print(value));
-      });
-    }).then((value) async {
-      return await NbRequest()
-          .updateDistribution(distribution.value)
-          .then((value) async {
-        if (value != null) {
-          return await NbRequest().submitStatus(DistributionStatus(
-              disId: value.id,
-              lat: value.fromLat,
-              lng: value.fromLng,
-              status: 0,
-              location: value.wid));
-        } else {
-          return false;
-        }
-      });
-    });
+    final saved = await NbRequest().updateDistribution(distribution.value);
+    if (saved == null) return false;
+    return await NbRequest().submitStatus(DistributionStatus(
+      disId: saved.id,
+      lat: saved.fromLat,
+      lng: saved.fromLng,
+      status: 0,
+      // wid carries the warehouse *name* (see the warehouse dropdown), which is
+      // what the status timeline renders. Fall back to the current selection for
+      // requests submitted without ever touching that dropdown.
+      location: saved.wid ?? selectedWarehouse.value.name,
+    ));
   }
 
   generateCares() {

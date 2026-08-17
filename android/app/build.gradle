@@ -57,14 +57,12 @@ android {
         versionName flutterVersionName
     }
 
-    signingConfigs{
-        debug{
-            keyAlias "androiddebugkey"
-            keyPassword "android"
-            storeFile file("C:/Users/dev/.android/debug.keystore")
-            storePassword "android"
-        }
-    }
+    // The signingConfigs block that used to sit here pinned the debug keystore to
+    // another developer's home directory (C:/Users/<someone-else>/.android/), so the
+    // build failed for anyone else with "Keystore file not found". Its alias and
+    // passwords were just Android's standard debug defaults, which means the block
+    // was never adding anything: AGP's built-in debug config uses exactly those and
+    // generates the keystore under the current user's home on first build.
 
     buildTypes {
         release {
@@ -81,11 +79,12 @@ flutter {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //3D地图so及jar
-    implementation 'com.amap.api:3dmap:latest.integration'
-
-    //搜索功能
-    implementation 'com.amap.api:search:latest.integration'
+    // The two com.amap.api artifacts (3dmap, search) were removed together with the
+    // AMap migration. They were declared as `latest.integration`, which is not a
+    // version but a moving target: it resolved to 3dmap 10.0.600 and search 9.7.1,
+    // two lines that ship the same classes, and the build died on
+    // `checkDebugDuplicateClasses`. So the Android build was already broken by them,
+    // and no Dart code referenced the search SDK at all.
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 

@@ -2,7 +2,6 @@ import 'package:loggi_app/app/modules/distribution_apply/bindings.dart';
 import 'package:loggi_app/app/modules/distribution_apply/view.dart';
 import 'package:loggi_app/app/modules/distribution_list/index.dart';
 import 'package:loggi_app/app/modules/distribution_status/index.dart';
-import 'package:loggi_app/app/modules/map/amap_test.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:loggi_app/app/data/models/index.dart';
 import 'package:loggi_app/assets/svg/svg_strings.dart';

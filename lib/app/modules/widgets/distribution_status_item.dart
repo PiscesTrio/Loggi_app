@@ -54,22 +54,22 @@ class DistributionStatusItem extends StatelessWidget {
                       index: distributionStatus.status,
                       children: [
                         const Text(
-                          '已派遣任务',
+                          '配送指示済み',
                           style: TextStyle(fontSize: 18),
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          '已取货，当前在${distributionStatus.location}',
+                          '集荷完了・現在地：${distributionStatus.location}',
                           style: const TextStyle(fontSize: 18),
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          '正在运输，当前在${distributionStatus.location}',
+                          '輸送中・現在地：${distributionStatus.location}',
                           style: const TextStyle(fontSize: 18),
                           overflow: TextOverflow.ellipsis,
                         ),
                         const Text(
-                          '已完成配送',
+                          '配送完了',
                           style: TextStyle(fontSize: 18),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -85,8 +85,8 @@ class DistributionStatusItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('驾驶员：${distribution.driver} , ${distribution.number}'),
-              Text('时间：${distributionStatus.time}')
+              Text('ドライバー：${distribution.driver} / ${distribution.number}'),
+              Text('日時：${distributionStatus.time}')
             ],
           ),
         )
