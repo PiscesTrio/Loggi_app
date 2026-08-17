@@ -17,10 +17,10 @@ class MyApp extends StatelessWidget{
       getPages: AppPages.routes,
       defaultTransition: Transition.fadeIn,
       localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate, //指定本地化的字符串和一些其他的值
-        GlobalWidgetsLocalizations.delegate, //定义 widget 默认的文本方向，从左到右或从右到左。
+        GlobalMaterialLocalizations.delegate, //Supplies localized strings and other values
+        GlobalWidgetsLocalizations.delegate, //Defines the default text direction for widgets, LTR or RTL.
         GlobalCupertinoLocalizations
-            .delegate, //对应的 Cupertino 风格（Cupertino 风格组件即 iOS 风格组件）
+            .delegate, //The Cupertino counterpart (Cupertino widgets are the iOS-style ones)
       ],
       supportedLocales: const [
         Locale('zh', 'CH'),
@@ -33,10 +33,10 @@ class MyApp extends StatelessWidget{
       getPages: AppPages.routes,
       defaultTransition: Transition.fadeIn,
       localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate, //指定本地化的字符串和一些其他的值
-        GlobalWidgetsLocalizations.delegate, //定义 widget 默认的文本方向，从左到右或从右到左。
+        GlobalMaterialLocalizations.delegate, //Supplies localized strings and other values
+        GlobalWidgetsLocalizations.delegate, //Defines the default text direction for widgets, LTR or RTL.
         GlobalCupertinoLocalizations
-            .delegate, //对应的 Cupertino 风格（Cupertino 风格组件即 iOS 风格组件）
+            .delegate, //The Cupertino counterpart (Cupertino widgets are the iOS-style ones)
       ],
       supportedLocales: const [
         Locale('zh', 'CH'),

@@ -6,8 +6,8 @@ class LatLngDistance {
 
 
     double getDistance(double lat1, double lng1, double lat2, double lng2) {
-  	/// 单位：米
-  	/// def ：地球半径
+  	/// Unit: meters
+  	/// def: Earth radius
   	double def = 6378.137;
     double radLat1 = _rad(lat1);
     double radLat2 = _rad(lat2);

@@ -28,7 +28,7 @@ class TransportManagementPageController extends GetxController with GetTickerPro
   @override
   void onClose() {}
 
-  /// dispose 释放内存
+  /// dispose frees memory.
   @override
   void dispose() {
     super.dispose();

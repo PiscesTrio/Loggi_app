@@ -123,12 +123,12 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                     builder: (context) {
                                       return Scaffold(
                                           backgroundColor:
-                                              const Color(0x1E000000), //设置为透明色
+                                              const Color(0x1E000000), //transparent scrim
                                           body: Center(
-                                            //整体居中
+                                            //center the whole dialog
                                             child: Container(
                                               decoration: const BoxDecoration(
-                                                //优化dialog，不需要圆角删除
+                                                //dialog styling; remove the borderRadius if you don't want rounded corners
                                                 shape: BoxShape.rectangle,
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(18)),
@@ -502,12 +502,12 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                     builder: (context) {
                                       return Scaffold(
                                           backgroundColor:
-                                              const Color(0x1E000000), //设置为透明色
+                                              const Color(0x1E000000), //transparent scrim
                                           body: Center(
-                                            //整体居中
+                                            //center the whole dialog
                                             child: Container(
                                               decoration: const BoxDecoration(
-                                                //优化dialog，不需要圆角删除
+                                                //dialog styling; remove the borderRadius if you don't want rounded corners
                                                 shape: BoxShape.rectangle,
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(18)),

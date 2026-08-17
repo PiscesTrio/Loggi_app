@@ -2,21 +2,24 @@ import 'package:amap_flutter_base/amap_flutter_base.dart';
 import 'package:amap_flutter_map/amap_flutter_map.dart';
 
 class ConstConfig {
-  ///配置您申请的apikey，在此处配置之后，可以在初始化[AMapWidget]时，通过`apiKey`属性设置
+  ///Your own AMap API key; pass it to [AMapWidget] through the `apiKey` property.
   ///
-  ///注意：使用[AMapWidget]的`apiKey`属性设置的key的优先级高于通过Native配置key的优先级，
-  ///使用[AMapWidget]的`apiKey`属性配置后Native配置的key将失效，请根据实际情况选择使用
+  ///Note: a key set via [AMapWidget]'s `apiKey` property outranks the one configured
+  ///natively, and once set the native key is ignored entirely — use one or the other.
   static const AMapApiKey amapApiKeys = AMapApiKey(
       androidKey: 'YOUR_AMAP_ANDROID_KEY',
       iosKey: '您申请的iOS平台的key');
 
-  ///高德隐私合规声明，这里只是示例，实际使用中请按照实际参数设置[AMapPrivacyStatement]的'hasContains''hasShow''hasAgree'这三个参数
+  ///AMap privacy compliance statement. These are sample values — set
+  ///[AMapPrivacyStatement]'s 'hasContains', 'hasShow', 'hasAgree' to reflect what
+  ///the app actually does.
   ///
-  /// 注意：[AMapPrivacyStatement]的'hasContains''hasShow''hasAgree'这三个参数中有一个为false，高德SDK均不会工作，会造成地图白屏等现象
+  /// Note: if any one of 'hasContains', 'hasShow', 'hasAgree' is false the AMap SDK
+  /// will not work at all, and the map shows up as a blank white screen.
   ///
-  /// 高德开发者合规指南请参考：https://lbs.amap.com/agreement/compliance
+  /// AMap developer compliance guide: https://lbs.amap.com/agreement/compliance
   ///
-  /// 高德SDK合规使用方案请参考：https://lbs.amap.com/news/sdkhgsy
+  /// AMap SDK compliant usage guide: https://lbs.amap.com/news/sdkhgsy
   static const AMapPrivacyStatement amapPrivacyStatement =
   AMapPrivacyStatement(hasContains: true, hasShow: true, hasAgree: true);
 }

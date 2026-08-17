@@ -63,12 +63,12 @@ class _ShowMapPageState extends State<_ShowMapPageBody> {
     });
   }
 
-  /// 获取审图号
+  /// Fetch the map approval numbers.
   void getApprovalNumber() async {
-    //普通地图审图号
+    //standard map approval number
     String? mapContentApprovalNumber =
         await _mapController.getMapContentApprovalNumber();
-    //卫星地图审图号
+    //satellite map approval number
     String? satelliteImageApprovalNumber =
         await _mapController.getSatelliteImageApprovalNumber();
     setState(() {
