@@ -17,14 +17,14 @@ void main() {
   Response<dynamic> resp(dynamic data) =>
       Response(requestOptions: RequestOptions(path: '/x'), data: data);
 
-  test('code=200 且 data 为单对象时解包成 model（钉死现状）', () {
+  test('code=200 with a single object in data unwraps into the model (pins current behavior)', () {
     final r = resp({'code': 200, 'data': {'name': 'A仓库'}});
     final model = decoder.decode<_FakeModel, _FakeModel>(
         response: r, decodeType: _FakeModel());
     expect(model.name, 'A仓库');
   });
 
-  test('code=200 且 data 为 List 时解包成 List（钉死现状）', () {
+  test('code=200 with a List in data unwraps into a List (pins current behavior)', () {
     final r = resp({'code': 200, 'data': [{'name': 'a'}, {'name': 'b'}]});
     final list = decoder.decode<_FakeModel, List<_FakeModel>>(
         response: r, decodeType: _FakeModel());
@@ -32,7 +32,7 @@ void main() {
     expect(list.first.name, 'a');
   });
 
-  test('code!=200 时抛 NetException 且 code/message 透传（钉死现状）', () {
+  test('code!=200 throws NetException and passes code/message through (pins current behavior)', () {
     final r = resp({'code': 400, 'errorMsg': '出错了'});
     expect(
       () => decoder.decode<_FakeModel, _FakeModel>(
@@ -48,7 +48,7 @@ void main() {
   // reads only `errorMsg`, so the backend error text is always lost and the user only ever sees the
   // decoder's hardcoded fallback string (the exact literal is asserted below). This is the real
   // current behavior, not something this slice fixes — the test goes red once S18 aligns the contract.
-  test('后端真实错误体用 msg 而非 errorMsg，错误文案被丢弃（钉死已知 bug）', () {
+  test('a real backend error body uses msg, not errorMsg, so its text is discarded (pins a known bug)', () {
     final r = resp({'code': 403, 'status': false, 'msg': '你没有访问权限'});
     expect(
       () => decoder.decode<_FakeModel, _FakeModel>(
