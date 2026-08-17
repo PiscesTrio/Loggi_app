@@ -10,8 +10,9 @@ import 'route_map.dart';
 /// Interaction lives here rather than in the embedded map so it never competes
 /// with the scrolling list around it. Rotation is left out on purpose: a rotated
 /// map breaks the north-up assumption people read a delivery route with, and
-/// flutter_map 4 offers no double-tap zoom-*out*, so a user who rotates or zooms
-/// in has no obvious way back — on a full-screen page they can simply close it.
+/// there is no gesture that resets it — on a full-screen page they can simply
+/// close the page instead. Zoom needs no such escape hatch here: `all` includes
+/// doubleTapDragZoom, which zooms both ways.
 class RouteMapFullscreen extends StatelessWidget {
   final List<RoutePoint> points;
   final MapTileSource source;
@@ -43,14 +44,15 @@ class RouteMapFullscreen extends StatelessWidget {
               children: [
                 FlutterMap(
                   options: MapOptions(
-                    bounds: LatLngBounds.fromPoints(coords),
-                    boundsOptions: const FitBoundsOptions(
-                      padding: EdgeInsets.all(64),
+                    initialCameraFit: CameraFit.bounds(
+                      bounds: LatLngBounds.fromPoints(coords),
+                      padding: const EdgeInsets.all(64),
                       maxZoom: 15,
                     ),
                     maxZoom: source.maxZoom,
-                    interactiveFlags:
-                        InteractiveFlag.all & ~InteractiveFlag.rotate,
+                    interactionOptions: const InteractionOptions(
+                      flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+                    ),
                   ),
                   children: [
                     TileLayer(
@@ -74,8 +76,8 @@ class RouteMapFullscreen extends StatelessWidget {
                                 point: p.latLng,
                                 width: 44,
                                 height: 44,
-                                anchorPos: AnchorPos.align(AnchorAlign.top),
-                                builder: (_) => Image.asset(p.iconAsset),
+                                alignment: Alignment.topCenter,
+                                child: Image.asset(p.iconAsset),
                               ))
                           .toList(),
                     ),

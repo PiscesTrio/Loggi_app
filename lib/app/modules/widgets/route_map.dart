@@ -27,19 +27,21 @@ class RoutePoint {
   LatLng get latLng => LatLng(lat!, lng!);
 }
 
-/// The only file in the app that imports `package:flutter_map`.
+/// One of only two files that import `package:flutter_map`; the other is
+/// [RouteMapFullscreen].
 ///
-/// That is the point: flutter_map 4 is the last line supporting Dart 2.19, so a
-/// breaking migration to 8.x is already scheduled. Keeping every reference behind
-/// this one widget means that migration touches one file instead of the app.
+/// That containment was the point, and it paid: the 4.x to 8.x migration was a
+/// breaking one, and the analyzer reported every break inside these two files and
+/// nowhere else.
 ///
-/// The embedded map is deliberately NOT interactive. `interactiveFlags` cannot
-/// prevent the gesture arena from being entered — ScaleGestureRecognizer is
-/// registered unconditionally and claims team captaincy — so an embedded map
-/// inside a scrolling list can end up winning the gesture while doing nothing
-/// with it, leaving a region that neither pans the map nor scrolls the list.
-/// Scroll-wheel is off for the same reason: it defaults to on and would swallow
-/// the wheel from the surrounding list. Interaction lives in [RouteMapFullscreen].
+/// The embedded map is deliberately NOT interactive. Disabling the interaction
+/// flags cannot prevent the gesture arena from being entered — ScaleGestureRecognizer
+/// is registered unconditionally and claims team captaincy — so an embedded map
+/// inside a scrolling list can end up winning the gesture while doing nothing with
+/// it, leaving a region that neither pans the map nor scrolls the list. The scroll
+/// wheel is covered by the same `none`, which matters because it would otherwise
+/// swallow the wheel from the surrounding list. Interaction lives in
+/// [RouteMapFullscreen].
 class RouteMap extends StatelessWidget {
   final List<RoutePoint> points;
   final double height;
@@ -91,16 +93,16 @@ class RouteMap extends StatelessWidget {
               // throw away.
               key: ValueKey(coords.map((c) => '${c.latitude},${c.longitude}').join('|')),
               options: MapOptions(
-                bounds: LatLngBounds.fromPoints(coords),
-                boundsOptions: const FitBoundsOptions(
-                  padding: EdgeInsets.all(48),
+                initialCameraFit: CameraFit.bounds(
+                  bounds: LatLngBounds.fromPoints(coords),
+                  padding: const EdgeInsets.all(48),
                   // A single point, or from == to, gives a degenerate bounds whose
                   // computed zoom is infinite; this clamps it to something sane.
                   maxZoom: 15,
                 ),
                 maxZoom: source.maxZoom,
-                interactiveFlags: InteractiveFlag.none,
-                enableScrollWheel: false,
+                interactionOptions:
+                    const InteractionOptions(flags: InteractiveFlag.none),
               ),
               children: [
                 TileLayer(
@@ -152,10 +154,13 @@ class RouteMap extends StatelessWidget {
               point: p.latLng,
               width: 44,
               height: 44,
-              // Default anchoring centres the icon ON the point; these are pin
-              // graphics whose tip is at the bottom, so they must sit above it.
-              anchorPos: AnchorPos.align(AnchorAlign.top),
-              builder: (_) => Image.asset(p.iconAsset),
+              // The default centres the icon ON the point; these are pin graphics
+              // whose tip is at the bottom, so they must sit above it. Alignment
+              // here names where the marker goes relative to the point, so
+              // topCenter puts the whole widget above it — the inverse of how it
+              // reads at first glance.
+              alignment: Alignment.topCenter,
+              child: Image.asset(p.iconAsset),
             ))
         .toList();
   }
