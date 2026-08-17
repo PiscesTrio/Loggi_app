@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import '../../ProductDetailMin/controller.dart';
-import '../../ProductTableMinPage/controller.dart';
 import '../../WarehouseInventory/controller.dart';
 import '../../WarehouseListMin/controller.dart';
 import '../../base_mangement_page/base_mangement_page_controller.dart';

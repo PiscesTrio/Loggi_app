@@ -2,7 +2,6 @@
 import 'package:loggi_app/app/data/models/index.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../theme/color_palette.dart';
-import 'indicator.dart';
 import 'package:flutter/material.dart';
 
 class PieChartSample2 extends StatelessWidget {

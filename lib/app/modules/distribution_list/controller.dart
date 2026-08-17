@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../data/models/distribution.dart';
 import '../../data/network/api.dart';
 import '../vehicle_list/controller.dart';
-import 'index.dart';
 
 class DistributionListController extends GetxController
     with StateMixin<List<Distribution>> {

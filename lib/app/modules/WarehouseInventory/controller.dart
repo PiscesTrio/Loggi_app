@@ -1,4 +1,3 @@
-import 'package:loggi_app/app/data/models/commdity_vo.dart';
 import 'package:loggi_app/app/data/models/commodity.dart';
 import 'package:loggi_app/app/data/models/inventory.dart';
 import 'package:loggi_app/app/data/models/inventory_record.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../data/network/api.dart';
-import 'index.dart';
 
 class WarehouseinventoryController extends GetxController with StateMixin<List<Inventory>> {
   WarehouseinventoryController();

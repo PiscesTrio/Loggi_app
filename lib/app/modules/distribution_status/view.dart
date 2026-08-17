@@ -132,7 +132,7 @@ class DistributionStatusPage extends GetView<DistributionStatusController> {
                                             return DistributionStatusItem(
                                               distribution:
                                                   controller.distribution.value,
-                                              distributionStatus: data![index],
+                                              distributionStatus: data[index],
                                               isTop: index == 0,
                                               isBottom:
                                                   index == data.length - 1,

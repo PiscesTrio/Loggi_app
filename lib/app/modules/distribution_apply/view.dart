@@ -1,5 +1,4 @@
 import 'package:loggi_app/app/data/delivery_points.dart';
-import 'package:loggi_app/app/data/models/distribution.dart';
 import 'package:loggi_app/app/modules/distribution_list/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

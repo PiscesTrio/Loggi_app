@@ -1,10 +1,6 @@
-import 'package:loggi_app/app/data/network/api.dart';
 import 'package:loggi_app/app/modules/widgets/pie_chart_sample2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_echarts/flutter_echarts.dart';
 import 'package:get/get.dart';
-import 'package:graphic/graphic.dart';
-
 import '../../theme/color_palette.dart';
 import '../widgets/indicator.dart';
 import 'index.dart';
@@ -69,9 +65,9 @@ class ChartPage extends GetView<ChartController> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(130, 10, 10, 10),
                             child: Text(
-                              name!.length > 14
-                                  ? '${name!.substring(0, 12)}..'
-                                  : name!,
+                              name.length > 14
+                                  ? '${name.substring(0, 12)}..'
+                                  : name,
                               style: const TextStyle(
                                 fontFamily: "Nunito",
                                 fontSize: 28,

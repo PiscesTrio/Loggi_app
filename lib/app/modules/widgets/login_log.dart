@@ -1,5 +1,4 @@
 import 'package:loggi_app/app/data/models/login_log.dart';
-import 'package:loggi_app/app/data/models/syslog.dart';
 import 'package:flutter/material.dart';
 
 import '../../theme/color_palette.dart';

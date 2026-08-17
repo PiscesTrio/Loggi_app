@@ -1,8 +1,6 @@
 import 'package:loggi_app/app/data/models/index.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../../data/models/distribution_status.dart';
 
 class DistributionStatusItem extends StatelessWidget {
   const DistributionStatusItem(

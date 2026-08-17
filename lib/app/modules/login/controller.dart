@@ -5,7 +5,6 @@ import 'package:loggi_app/app/modules/widgets/toast.dart';
 import 'package:loggi_app/app/utils/TokenStorage.dart';
 import 'package:get/get.dart';
 
-import 'index.dart';
 
 class LoginController extends GetxController {
   LoginController();

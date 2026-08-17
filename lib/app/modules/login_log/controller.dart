@@ -1,9 +1,7 @@
-import 'package:loggi_app/app/data/models/syslog.dart';
 import 'package:get/get.dart';
 
 import '../../data/models/login_log.dart';
 import '../../data/network/api.dart';
-import 'index.dart';
 
 class LoginLogController extends GetxController with StateMixin<List<LoginLog>>{
   LoginLogController();

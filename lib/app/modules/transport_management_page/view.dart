@@ -1,13 +1,11 @@
 import 'package:loggi_app/app/modules/distribution_apply/bindings.dart';
 import 'package:loggi_app/app/modules/distribution_apply/view.dart';
 import 'package:loggi_app/app/modules/distribution_list/index.dart';
-import 'package:loggi_app/app/modules/distribution_status/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../routes/app_pages.dart';
 import '../../theme/color_palette.dart';
-import '../distribution_list/view.dart';
 import '../driver_list/view.dart';
 import '../vehicle_list/view.dart';
 import 'index.dart';
@@ -137,6 +135,7 @@ class TransportManagementPagePage
                                                           DistributionApplyBinding());
                                              
                                               }
+                                              return null;
                                             },
                                           ),
                                           VehicleListPage(),
