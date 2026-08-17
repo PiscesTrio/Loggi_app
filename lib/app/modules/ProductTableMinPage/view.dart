@@ -179,6 +179,8 @@ class ProducttableminpagePage extends GetView<ProducttableminpageController> {
                             })).then((value) {
                               controller.updateData();
                               showTextToast("添加成功");
+                              // The await above may outlive this widget; popping a dead context throws.
+                              if (!context.mounted) return;
                               Navigator.pop(context);
                               
                             });

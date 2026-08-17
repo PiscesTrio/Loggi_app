@@ -1,6 +1,7 @@
 import 'package:flutter_nb_net/flutter_net.dart';
 
 import 'decoder.dart';
+import 'request_log_interceptor.dart';
 
 class ApiOptions {
   init() {
@@ -11,8 +12,10 @@ class ApiOptions {
         .setHttpDecoder(MyHttpDecoder.getInstance())
         //  connect timeout
         .setConnectTimeout(const Duration(milliseconds: 3000))
-        // enable request logging (default: true)
-        .enableLogger(true)
+        // Off, and replaced by RequestLogInterceptor: this logger hard-codes
+        // requestHeader/requestBody and wrote the Bearer token into logcat.
+        .enableLogger(false)
+        .addInterceptor(RequestLogInterceptor())
         .create();
   }
 

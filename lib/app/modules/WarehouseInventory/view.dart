@@ -465,6 +465,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                                     _isLoading(false);
                                                                                     controller.updateData();
                                                                                     showTextToast("提交成功");
+                                                                                    // The await above may outlive this widget; popping a dead context throws.
+                                                                                    if (!context.mounted) return;
                                                                                     Navigator.pop(context);
                                                                                   } else {
                                                                                     _isLoading(false);
@@ -592,8 +594,6 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                                   self!.cid = newValue.cid;
                                                                                   self.name = newValue.name;
                                                                                 });
-                                                                                print(controller.inventoryRecordOut.value.cid);
-                                                                                print(controller.inventoryRecordOut.value.name);
                                                                               },
                                                                               items: controller.commo.map((process) {
                                                                                 return DropdownMenuItem(
@@ -846,6 +846,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                                     _isLoading(false);
                                                                                     controller.updateData();
                                                                                     showTextToast("提交成功");
+                                                                                    // The await above may outlive this widget; popping a dead context throws.
+                                                                                    if (!context.mounted) return;
                                                                                     Navigator.pop(context);
                                                                                   } else {
                                                                                     _isLoading(false);

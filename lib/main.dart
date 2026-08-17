@@ -5,6 +5,7 @@ import 'package:flutter_nb_net/flutter_net.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'app/data/network/decoder.dart';
+import 'app/data/network/request_log_interceptor.dart';
 
 
 void main()async {
@@ -17,8 +18,10 @@ void main()async {
         .setHttpDecoder(MyHttpDecoder.getInstance())
         //  timeout
         .setConnectTimeout(const Duration(milliseconds: 3000))
-        // allow log printing, defaults to true
-        .enableLogger(true)
+        // Off, and replaced by RequestLogInterceptor: this logger hard-codes
+        // requestHeader/requestBody and wrote the Bearer token into logcat.
+        .enableLogger(false)
+        .addInterceptor(RequestLogInterceptor())
         .create();
   runApp(const MyApp());
 }

@@ -7,7 +7,6 @@ class HomeController extends GetxController {
   RxInt tabIndex = 0.obs;
 
   void  onTabClick(int newTab) {
-    print('Tab $newTab');
     tabIndex(newTab);
   }
 

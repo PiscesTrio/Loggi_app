@@ -64,6 +64,11 @@ dependencies:
   # it transitively would repeat the amap_flutter_base mistake.
   latlong2: ^0.10.1
   fl_chart: ^1.2.0
+  # Imported directly by the distribution form for DateFormat. It was only ever
+  # present transitively through flutter_localizations, which is the same mistake
+  # latlong2 is declared explicitly to avoid: a transitive package can disappear
+  # when its parent's constraints change, and nothing warns you until it does.
+  intl: any
   url_launcher: ^6.3.2
 
 
