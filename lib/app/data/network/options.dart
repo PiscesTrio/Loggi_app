@@ -17,8 +17,12 @@ class ApiOptions {
   }
 
   setToken({required String token}) {
+    // "Bearer " is the standard scheme, and the server now requires it: it strips exactly this
+    // prefix and verifies what remains. Previously the token was sent bare and carried its own
+    // "logistics:" prefix, which the server treated as evidence the token was genuine — a
+    // transport convention standing in for a signature check.
     NetOptions.instance
-    .addHeaders({"Authorization": token})
+    .addHeaders({"Authorization": "Bearer $token"})
     .create();
   }
 }
