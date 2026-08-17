@@ -1,0 +1,31 @@
+name: frontend-ci
+on:
+  push:
+    branches: [ master, "slice/**" ]
+  pull_request:
+jobs:
+  analyze-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.7.12'   # 对应 Dart 2.19.x；SDK 升级 Slice 时改 3.x
+          channel: stable
+      # 注：本 workflow 位于 Loggi_app 仓库内，checkout 根目录即前端项目根。
+      - run: flutter pub get
+      - name: Analyze
+        # 验收线是 S00「无 error，warning 可接受」。注意 `flutter analyze` 与 `dart analyze`
+        # 不同，它默认 fatal-infos/fatal-warnings=true；本仓库现存 481 条 info（0 error、
+        # 0 warning），裸跑必然 exit 1。加这两个开关后 error 级问题仍会 exit 1，
+        # 恰好等价于验收线。info 清零由 S11(前端清理 + lint 加严) 负责。
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+      - name: Test with coverage
+        run: flutter test --coverage
+      # 说明：S00 暂不加 `dart format --set-exit-if-changed`（现存代码未格式化，会必然变红）；
+      # 留待前端清理 Slice 先做一次 format-only 提交后再开启。
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: flutter-coverage
+          path: coverage/lcov.info
