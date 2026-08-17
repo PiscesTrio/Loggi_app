@@ -22,7 +22,6 @@ import 'package:get_storage/get_storage.dart';
 import '../../../data/models/distribution.dart';
 import '../../base_mangement_page/base_mangement_page_view.dart';
 import '../../login_log/view.dart';
-import '../../map/amap_test.dart';
 import '../../operate_log/view.dart';
 import '../../product_manage_main_page/views/product_manage_main_page.dart';
 import '../../product_table_page/views/product_table_page_views.dart';

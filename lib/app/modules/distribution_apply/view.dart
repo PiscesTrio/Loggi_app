@@ -1,3 +1,4 @@
+import 'package:loggi_app/app/data/delivery_points.dart';
 import 'package:loggi_app/app/data/models/distribution.dart';
 import 'package:loggi_app/app/modules/distribution_list/controller.dart';
 import 'package:flutter/material.dart';
@@ -528,38 +529,45 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                     ),
                                   ],
                                 ),
-                                height: 160,
-                                child: TextFormField(
-                                  maxLines: 7,
-                                  minLines: 3,
-
-                                  onChanged: (value) {
-                                    controller.distribution.update((val) {
-                                      val!.address = value;
-                                    });
-                                  },
-                                  // textInputAction: TextInputAction.next,
-                                  key: UniqueKey(),
-                                  keyboardType: TextInputType.text,
-                                  style: const TextStyle(
-                                    fontFamily: "Nunito",
-                                    fontSize: 16,
-                                    color: ColorPalette.nileBlue,
-                                  ),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "客户地址",
-                                    filled: true,
-                                    fillColor: Colors.transparent,
-                                    hintStyle: TextStyle(
-                                      fontFamily: "Nunito",
-                                      fontSize: 16,
-                                      color: ColorPalette.nileBlue
-                                          .withOpacity(0.58),
-                                    ),
-                                  ),
-                                  cursorColor: ColorPalette.timberGreen,
-                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 2.5),
+                                // Free-text address + geocoding lookup replaced by a
+                                // fixed destination list: the coordinates now come
+                                // with the selection instead of from a service call
+                                // that always failed. Deliberately NOT preselected,
+                                // so the "address is empty" check below still bites.
+                                child: Obx(() => DropdownButton<DeliveryPoint>(
+                                      isExpanded: true,
+                                      iconSize: 30,
+                                      underline: const SizedBox(),
+                                      value: controller
+                                          .selectedDeliveryPoint.value,
+                                      hint: Text(
+                                        "客户地址",
+                                        style: TextStyle(
+                                          fontFamily: "Nunito",
+                                          fontSize: 16,
+                                          color: ColorPalette.nileBlue
+                                              .withOpacity(0.58),
+                                        ),
+                                      ),
+                                      onChanged: controller.selectDeliveryPoint,
+                                      items: kDeliveryPoints.map((point) {
+                                        return DropdownMenuItem<DeliveryPoint>(
+                                          value: point,
+                                          child: Text(
+                                            point.address,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontFamily: "Nunito",
+                                              fontSize: 16,
+                                              color: ColorPalette.nileBlue
+                                                  .withOpacity(0.58),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    )),
                               ),
                               SizedBox(
                                 height: 10,
@@ -610,8 +618,6 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                 }else{
                                                   
                                                   _isLoading(true);
-                                               controller.textToLocation();
-                                                  
                                                 await controller
                                                     .submitDis()
                                                     .then((value) {

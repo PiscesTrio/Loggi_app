@@ -2,10 +2,8 @@ import 'package:loggi_app/app/data/models/login_log.dart';
 import 'package:loggi_app/app/data/models/syslog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_nb_net/flutter_net.dart';
-import '../models/baiduLocationTextNLP.dart';
 import '../models/index.dart';
 import '../models/inventory_record.dart';
-import 'baidu_decoder.dart';
 
 class NbRequest {
   Future<List<Warehouse>?> requestGet4() async {
@@ -222,17 +220,6 @@ class NbRequest {
         await get<SysLog, List<SysLog>>("/systemlog", decodeType: SysLog());
     return appResp.when(success: (List<SysLog> model) {
       return model;
-    }, failure: (String msg, int code) {
-      debugPrint("失败了：msg=$msg/code=$code");
-      return null;
-    });
-  }
-
-
-    Future<NlpLocation?> textToLocation(String text) async{
-    var appResp = await get<NlpLocation,NlpLocation>("https://aip.baidubce.com/rpc/2.0/nlp/v1/address?access_token=YOUR_BAIDU_ACCESS_TOKEN",queryParameters: {"text":text}, decodeType: NlpLocation(),httpDecode: BaiduDecoder.getInstance());
-    return appResp.when(success: (NlpLocation model){
-              return model;
     }, failure: (String msg, int code) {
       debugPrint("失败了：msg=$msg/code=$code");
       return null;
