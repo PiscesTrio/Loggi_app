@@ -81,22 +81,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.1"
-  connectivity_plus:
-    dependency: transitive
-    description:
-      name: connectivity_plus
-      sha256: "77a180d6938f78ca7d2382d2240eb626c0f6a735d0bfdce227d8ffb80f95c48b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.2"
-  connectivity_plus_platform_interface:
-    dependency: transitive
-    description:
-      name: connectivity_plus_platform_interface
-      sha256: cf1d1c28f4416f8c654d7dc3cd638ec586076255d407cef3ddbdaf178272a71a
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.4"
   crypto:
     dependency: transitive
     description:
@@ -121,14 +105,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  dbus:
-    dependency: transitive
-    description:
-      name: dbus
-      sha256: "0ce9b0a839e6dee59a37a623d2fc26a35bbbe6404213e419b0d6411023d62645"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.14"
   dio:
     dependency: "direct main"
     description:
@@ -240,14 +216,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.3.1"
-  flutter_nb_net:
-    dependency: "direct main"
-    description:
-      name: flutter_nb_net
-      sha256: "869af2b7ad7740e70245ad22c3aa7a66420c676e04b0d0aea0b896cd04a1d040"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
   flutter_riverpod:
     dependency: "direct main"
     description:
@@ -330,14 +298,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.0.0"
-  freezed_annotation:
-    dependency: transitive
-    description:
-      name: freezed_annotation
-      sha256: c2e2d632dd9b8a2b7751117abcfc2b4888ecfe181bd9fca7170d9ef02e595fe2
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.4"
   fuchsia_remote_debug_protocol:
     dependency: transitive
     description: flutter
@@ -439,14 +399,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
-  json_annotation:
-    dependency: transitive
-    description:
-      name: json_annotation
-      sha256: "2a743920d81b7910627f68ee2c9ac1fc0bfee32b9fc3403587d7c6791ca12f80"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.12.0"
   latlong2:
     dependency: "direct main"
     description:
@@ -559,14 +511,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.3"
-  nm:
-    dependency: transitive
-    description:
-      name: nm
-      sha256: "2c9aae4127bdc8993206464fcc063611e0e36e72018696cd9631023a31b24254"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.5.0"
   objective_c:
     dependency: transitive
     description:
@@ -679,14 +623,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  pretty_dio_logger:
-    dependency: transitive
-    description:
-      name: pretty_dio_logger
-      sha256: "36f2101299786d567869493e2f5731de61ce130faa14679473b26905a92b6407"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.0"
   process:
     dependency: transitive
     description:

@@ -1,10 +1,9 @@
 
 import 'package:loggi_app/app/data/models/vehicle.dart';
-import 'package:flutter_nb_net/flutter_net.dart';
 
 import 'driver.dart';
 
-class Available extends BaseNetModel{
+class Available{
   List<Driver>? drivers;
   List<Vehicle>? vehicles;
 
@@ -16,14 +15,9 @@ class Available extends BaseNetModel{
 
   Available.fromJson(Map<String,dynamic> json){
     drivers = List<Driver>.from(
-      json['drivers'].map((item)=>Driver().fromJson(item)).toList());
+      json['drivers'].map((item)=>Driver.fromJson(item as Map<String,dynamic>)).toList());
     vehicles = List<Vehicle>.from(
-      json['vehicles'].map((item)=>Vehicle().fromJson(item)).toList());
-  }
-  
-  @override
-  fromJson(Map<String, dynamic> json) {
-    return Available.fromJson(json);
+      json['vehicles'].map((item)=>Vehicle.fromJson(item as Map<String,dynamic>)).toList());
   }
 
 

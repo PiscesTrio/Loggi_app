@@ -46,7 +46,6 @@ dependencies:
   # the package stopped. Crossing a major version of an abandoned package across
   # the 22 files that import it buys nothing when the plan is to replace it with a
   # hand-written Dio client.
-  flutter_nb_net: ^1.0.0
   # 10.x is the first line that stopped applying the Kotlin Gradle Plugin itself.
   # Current Flutter warns about that today and will fail on it later.
   fluttertoast: ^10.0.0

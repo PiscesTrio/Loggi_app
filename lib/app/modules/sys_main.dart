@@ -1,6 +1,6 @@
 import 'package:loggi_app/app/data/network/api.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
-import 'package:loggi_app/app/data/network/legacy_bridge.dart';
+import 'package:loggi_app/app/data/network/container_access.dart';
 import 'package:flutter/material.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
 import 'package:go_router/go_router.dart';

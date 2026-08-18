@@ -6,7 +6,7 @@ import 'package:loggi_app/my_app.dart';
 
 import 'app/auth/auth_provider.dart';
 import 'app/config/app_config.dart';
-import 'app/data/network/legacy_bridge.dart';
+import 'app/data/network/container_access.dart';
 import 'app/data/network/network_providers.dart';
 
 /// Starts the app.
@@ -43,8 +43,6 @@ Future<void> main() async {
 
   final container = ProviderContainer();
   appContainer = container;
-
-  configureLegacyNetworking(null);
 
   // Reads the credential before the first frame, so the router's redirect has an answer
   // rather than a guess. Until this completes the session is `unknown` and redirect

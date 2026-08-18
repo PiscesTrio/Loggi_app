@@ -1,8 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class Admin extends BaseNetModel {
+class Admin {
   String? id;
   String? email;
   String? password;
@@ -33,11 +32,6 @@ class Admin extends BaseNetModel {
     data['roles'] = roles;
     data['createAt'] = createAt;
     return data;
-  }
-  
-  @override
-  fromJson(Map<String, dynamic> json) {
-   return Admin.fromJson(json);
   }
 
   Admin copyWith({

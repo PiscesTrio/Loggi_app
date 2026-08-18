@@ -1,6 +1,5 @@
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class Driver extends BaseNetModel {
+class Driver {
   String? id;
   String? name;
   String? gender;
@@ -54,10 +53,5 @@ class Driver extends BaseNetModel {
     data['createAt'] = createAt;
     data['updateAt'] = updateAt;
     return data;
-  }
-
-  @override
-  fromJson(Map<String, dynamic> json) {
-    return Driver.fromJson(json);
   }
 }

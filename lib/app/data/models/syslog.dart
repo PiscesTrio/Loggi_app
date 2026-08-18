@@ -1,6 +1,5 @@
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class SysLog extends BaseNetModel{
+class SysLog{
   String? id;
   String? account;
   String? module;
@@ -38,10 +37,5 @@ class SysLog extends BaseNetModel{
     data['method'] = method;
     data['time'] = time;
     return data;
-  }
-  
-  @override
-  fromJson(Map<String, dynamic> json) {
-    return SysLog.fromJson(json);
   }
 }

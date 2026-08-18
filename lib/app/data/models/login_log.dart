@@ -1,6 +1,5 @@
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class LoginLog extends BaseNetModel{
+class LoginLog{
   String? id;
   String? email;
   int? status;
@@ -29,10 +28,5 @@ class LoginLog extends BaseNetModel{
     data['date'] = date;
     data['browser'] = browser;
     return data;
-  }
-  
-  @override
-  fromJson(Map<String, dynamic> json) {
-    return LoginLog.fromJson(json);
   }
 }

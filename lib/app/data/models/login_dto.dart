@@ -1,6 +1,5 @@
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class LoginDto extends BaseNetModel{
+class LoginDto{
   String? email;
   String? password;
   String? code;
@@ -24,8 +23,4 @@ class LoginDto extends BaseNetModel{
     return data;
   }
   
-  @override
-  fromJson(Map<String, dynamic> json) {
-    LoginDto.fromJson(json);
-  }
 }

@@ -1,8 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class Warehouse extends BaseNetModel {
+class Warehouse {
   String? id;
   String? name;
   String? principle;
@@ -43,11 +42,6 @@ class Warehouse extends BaseNetModel {
     data['lng'] = lng;
 
     return data;
-  }
-
-  @override
-  Warehouse fromJson(Map<String, dynamic> json) {
-    return Warehouse.fromJson(json);
   }
 
 

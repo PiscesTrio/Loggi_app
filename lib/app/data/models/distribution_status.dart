@@ -1,6 +1,5 @@
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class DistributionStatus extends BaseNetModel {
+class DistributionStatus {
   String? id;
   String? disId;
   double? lat;
@@ -38,10 +37,5 @@ class DistributionStatus extends BaseNetModel {
     data['time'] = time;
     data['status'] = status;
     return data;
-  }
-  
-  @override
-  fromJson(Map<String, dynamic> json) {
-  return DistributionStatus.fromJson(json);
   }
 }

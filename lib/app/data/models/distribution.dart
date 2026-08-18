@@ -1,6 +1,5 @@
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class Distribution extends BaseNetModel{
+class Distribution{
   String? id;
   String? did;
   String? vid;
@@ -78,9 +77,4 @@ class Distribution extends BaseNetModel{
     return data;
   }
   
-  @override
-  fromJson(Map<String, dynamic> json) {
-    // TODO: implement fromJson
-    return Distribution.fromJson(json);
-  }
 }
