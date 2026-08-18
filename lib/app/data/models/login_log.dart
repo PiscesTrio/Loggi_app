@@ -21,13 +21,13 @@ class LoginLog extends BaseNetModel{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['email'] = this.email;
-    data['status'] = this.status;
-    data['ip'] = this.ip;
-    data['date'] = this.date;
-    data['browser'] = this.browser;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['email'] = email;
+    data['status'] = status;
+    data['ip'] = ip;
+    data['date'] = date;
+    data['browser'] = browser;
     return data;
   }
   

@@ -38,10 +38,6 @@ static ProducttableminpageController get to => Get.find();
     });
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {}
@@ -50,7 +46,7 @@ static ProducttableminpageController get to => Get.find();
     change(commo, status: RxStatus.success());
   }
 
-  updateData(){
+  void updateData(){
     change(null, status: RxStatus.loading());
     NbRequest().getAllProducts().then((result) {
       change(result, status: RxStatus.success());

@@ -1,4 +1,4 @@
-import 'package:loggi_app/app/utils/TokenStorage.dart';
+import 'package:loggi_app/app/utils/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget{
     RxBool isLoggedIn = TokenStorage().isLoggedIn().obs;
     return Obx(()=>isLoggedIn.value?GetMaterialApp(
       title: "Application",
-      initialRoute: AppPages.HOME,
+      initialRoute: AppPages.home,
       getPages: AppPages.routes,
       defaultTransition: Transition.fadeIn,
       localizationsDelegates: const [
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget{
       theme: ThemeData(useMaterial3: true),
     ):GetMaterialApp(
       title: "Application",
-      initialRoute: AppPages.INITIAL,
+      initialRoute: AppPages.initial,
       getPages: AppPages.routes,
       defaultTransition: Transition.fadeIn,
       localizationsDelegates: const [

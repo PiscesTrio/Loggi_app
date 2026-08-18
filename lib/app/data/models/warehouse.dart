@@ -33,14 +33,14 @@ class Warehouse extends BaseNetModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['principle'] = this.principle;
-    data['createAt'] = this.createAt;
-    data['location'] = this.location;
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['principle'] = principle;
+    data['createAt'] = createAt;
+    data['location'] = location;
+    data['lat'] = lat;
+    data['lng'] = lng;
 
     return data;
   }

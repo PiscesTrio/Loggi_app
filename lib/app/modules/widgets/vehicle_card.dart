@@ -7,7 +7,7 @@ import 'package:loggi_app/app/theme/color_palette.dart';
 class VehicleCard extends StatelessWidget{
   final Vehicle? vehicle;
   final String? docID;
-  VehicleCard({Key? key, this.vehicle, this.docID}) : super(key: key);
+  const VehicleCard({super.key, this.vehicle, this.docID});
 
 
   @override
@@ -29,7 +29,7 @@ class VehicleCard extends StatelessWidget{
                   BoxShadow(
                     offset: const Offset(0, 5),
                     blurRadius: 6,
-                    color: const Color(0xff000000).withOpacity(0.06),
+                    color: const Color(0xff000000).withValues(alpha: 0.06),
                   ),
                 ],
               ),
@@ -58,7 +58,7 @@ class VehicleCard extends StatelessWidget{
                             child: Icon(
                               Icons.location_on,
                               size: 14,
-                              color: ColorPalette.timberGreen.withOpacity(0.44),
+                              color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                             ),
                           ),
                           TextSpan(
@@ -83,7 +83,7 @@ class VehicleCard extends StatelessWidget{
                                 fontFamily: "Nunito",
                                 fontSize: 12,
                                 color:
-                                    ColorPalette.timberGreen.withOpacity(0.44),
+                                    ColorPalette.timberGreen.withValues(alpha: 0.44),
                               ),
                             ),
                             Padding(
@@ -96,7 +96,7 @@ class VehicleCard extends StatelessWidget{
                                 Icons.person,
                                 size: 10,
                                 color:
-                                    ColorPalette.timberGreen.withOpacity(0.44),
+                                    ColorPalette.timberGreen.withValues(alpha: 0.44),
                               ),
                             ),
                             Text(
@@ -106,7 +106,7 @@ class VehicleCard extends StatelessWidget{
                                 fontFamily: "Nunito",
                                 fontSize: 12,
                                 color:
-                                    ColorPalette.timberGreen.withOpacity(0.44),
+                                    ColorPalette.timberGreen.withValues(alpha: 0.44),
                               ),
                             ),
                           ],
@@ -122,7 +122,7 @@ class VehicleCard extends StatelessWidget{
                             style: TextStyle(
                               fontFamily: "Nunito",
                               fontSize: 11,
-                              color: ColorPalette.timberGreen.withOpacity(0.35),
+                              color: ColorPalette.timberGreen.withValues(alpha: 0.35),
                             ),
                           ),
                         ),

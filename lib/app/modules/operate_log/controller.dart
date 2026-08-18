@@ -18,7 +18,7 @@ class OperateLogController extends GetxController with StateMixin<List<SysLog>>{
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }
 
-  updateData(){
+  void updateData(){
      NbRequest().getSysLog().then((result) => change(sortByTime(result!), status: RxStatus.success()))
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }

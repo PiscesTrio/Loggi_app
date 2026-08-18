@@ -58,23 +58,23 @@ class Distribution extends BaseNetModel{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['did'] = this.did;
-    data['vid'] = this.vid;
-    data['driver'] = this.driver;
-    data['number'] = this.number;
-    data['phone'] = this.phone;
-    data['address'] = this.address;
-    data['urgent'] = this.urgent;
-    data['care'] = this.care;
-    data['time'] = this.time;
-    data['status'] = this.status;
-    data['fromLat'] = this.fromLat;
-    data['fromLng'] = this.fromLng;
-    data['toLat'] = this.toLat;
-    data['toLng'] = this.toLng;
-    data['wid'] = this.wid;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['did'] = did;
+    data['vid'] = vid;
+    data['driver'] = driver;
+    data['number'] = number;
+    data['phone'] = phone;
+    data['address'] = address;
+    data['urgent'] = urgent;
+    data['care'] = care;
+    data['time'] = time;
+    data['status'] = status;
+    data['fromLat'] = fromLat;
+    data['fromLng'] = fromLng;
+    data['toLat'] = toLat;
+    data['toLng'] = toLng;
+    data['wid'] = wid;
     return data;
   }
   

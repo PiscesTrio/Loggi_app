@@ -49,12 +49,12 @@ class RouteMap extends StatelessWidget {
   final VoidCallback? onExpand;
 
   const RouteMap({
-    Key? key,
+    super.key,
     required this.points,
     this.height = 220,
     this.source = MapTileSource.gsiPale,
     this.onExpand,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class RouteMap extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Nunito',
               fontSize: 15,
-              color: ColorPalette.nileBlue.withOpacity(0.58),
+              color: ColorPalette.nileBlue.withValues(alpha: 0.58),
             ),
           ),
         ),
@@ -127,7 +127,7 @@ class RouteMap extends StatelessWidget {
                       Polyline(
                         points: coords,
                         strokeWidth: 3,
-                        color: ColorPalette.timberGreen.withOpacity(0.75),
+                        color: ColorPalette.timberGreen.withValues(alpha: 0.75),
                       ),
                     ],
                   ),
@@ -142,7 +142,7 @@ class RouteMap extends StatelessWidget {
                 right: 6,
                 top: 6,
                 child: Material(
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withValues(alpha: 0.9),
                   borderRadius: BorderRadius.circular(8),
                   child: IconButton(
                     iconSize: 20,
@@ -190,7 +190,7 @@ class RouteMap extends StatelessWidget {
   Widget _chip(String text) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.88),
+          color: Colors.white.withValues(alpha: 0.88),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
@@ -205,7 +205,7 @@ class RouteMap extends StatelessWidget {
 
   Widget _attribution() => Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-        color: Colors.white.withOpacity(0.72),
+        color: Colors.white.withValues(alpha: 0.72),
         child: Text(
           source.attribution,
           style: const TextStyle(fontSize: 10, color: Colors.black87),

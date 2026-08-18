@@ -71,7 +71,7 @@ class WarehouseinventoryController extends GetxController with StateMixin<List<I
 
 
 
-  updateData(){
+  void updateData(){
 
 
         change(null, status: RxStatus.loading());

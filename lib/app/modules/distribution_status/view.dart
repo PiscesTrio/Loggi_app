@@ -12,7 +12,7 @@ import 'index.dart';
 class DistributionStatusPage extends GetView<DistributionStatusController> {
   final Distribution argument;
 
-  DistributionStatusPage({Key? key, required this.argument}) : super(key: key);
+  const DistributionStatusPage({super.key, required this.argument});
 
   final String? name = '配送状況';
   @override

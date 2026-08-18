@@ -7,7 +7,7 @@ import '../widgets/distribution_card.dart';
 import 'index.dart';
 
 class DistributionListPage extends GetView<DistributionListController> {
-  const DistributionListPage({Key? key}) : super(key: key);
+  const DistributionListPage({super.key});
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DistributionListController>(builder: (_) {
@@ -19,7 +19,7 @@ class DistributionListPage extends GetView<DistributionListController> {
             ),
             child: FloatingActionButton(
               onPressed: () {
-               Get.toNamed(Routes.DISTRIBUTION_APPLY,id: 6);
+               Get.toNamed(Routes.distributionApply,id: 6);
               },
               splashColor: ColorPalette.bondyBlue,
               backgroundColor: ColorPalette.pacificBlue,

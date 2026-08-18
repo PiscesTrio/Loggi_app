@@ -11,8 +11,7 @@ class DriverCard extends StatelessWidget {
   final String? docID;
   final int imageIndex;
   const DriverCard(
-      {Key? key, required this.driver, this.docID, required this.imageIndex})
-      : super(key: key);
+      {super.key, required this.driver, this.docID, required this.imageIndex});
 
   Image buildImage(BuildContext context) {
     if (driver.gender == null || driver.gender == "男性") {
@@ -41,7 +40,7 @@ class DriverCard extends StatelessWidget {
                   BoxShadow(
                     offset: const Offset(0, 5),
                     blurRadius: 6,
-                    color: const Color(0xff000000).withOpacity(0.06),
+                    color: const Color(0xff000000).withValues(alpha: 0.06),
                   ),
                 ],
               ),
@@ -55,7 +54,7 @@ class DriverCard extends StatelessWidget {
                         ? Center(
                             child: Icon(
                               Icons.image,
-                              color: ColorPalette.nileBlue.withOpacity(0.5),
+                              color: ColorPalette.nileBlue.withValues(alpha: 0.5),
                             ),
                           )
                         : ClipRRect(
@@ -109,7 +108,7 @@ class DriverCard extends StatelessWidget {
                             child: Icon(
                               Icons.phone,
                               size: 14,
-                              color: ColorPalette.timberGreen.withOpacity(0.44),
+                              color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                             ),
                           ),
                           TextSpan(
@@ -134,7 +133,7 @@ class DriverCard extends StatelessWidget {
                                 fontFamily: "Nunito",
                                 fontSize: 12,
                                 color:
-                                    ColorPalette.timberGreen.withOpacity(0.44),
+                                    ColorPalette.timberGreen.withValues(alpha: 0.44),
                               ),
                             ),
                             Padding(
@@ -147,7 +146,7 @@ class DriverCard extends StatelessWidget {
                                 Icons.local_shipping,
                                 size: 10,
                                 color:
-                                    ColorPalette.timberGreen.withOpacity(0.44),
+                                    ColorPalette.timberGreen.withValues(alpha: 0.44),
                               ),
                             ),
                             Text(
@@ -157,7 +156,7 @@ class DriverCard extends StatelessWidget {
                                 fontFamily: "Nunito",
                                 fontSize: 12,
                                 color:
-                                    ColorPalette.timberGreen.withOpacity(0.44),
+                                    ColorPalette.timberGreen.withValues(alpha: 0.44),
                               ),
                             ),
                           ],
@@ -173,7 +172,7 @@ class DriverCard extends StatelessWidget {
                             style: TextStyle(
                               fontFamily: "Nunito",
                               fontSize: 11,
-                              color: ColorPalette.timberGreen.withOpacity(0.35),
+                              color: ColorPalette.timberGreen.withValues(alpha: 0.35),
                             ),
                           ),
                         ),

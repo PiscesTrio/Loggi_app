@@ -9,14 +9,14 @@ import '../../routes/app_pages.dart';
 import 'index.dart';
 
 class ProducttableminpagePage extends GetView<ProducttableminpageController> {
-  const ProducttableminpagePage({Key? key}) : super(key: key);
+  const ProducttableminpagePage({super.key});
 
   List<DataRow> getRows(List<Product>? products) =>
       products!.map((Product product) {
         final cells = [product.name, product.price, product.count];
         return DataRow(
             onSelectChanged: (value) async {
-              await Get.toNamed(Routes.PRODUCT_TABLE_DETAL,
+              await Get.toNamed(Routes.productTableDetail,
                   arguments: {"product":product}, id: 4);
             },
             cells: getCells(cells));

@@ -6,7 +6,7 @@ import '../widgets/indicator.dart';
 import 'index.dart';
 
 class ChartPage extends GetView<ChartController> {
-  ChartPage({Key? key}) : super(key: key);
+  ChartPage({super.key});
 
   final String name = "图表分析";
   final List color = [
@@ -81,7 +81,7 @@ class ChartPage extends GetView<ChartController> {
                       ),
                     ),
                     Expanded(
-                      child: Container(
+                      child: SizedBox(
                           width: 360,
                           child: RefreshIndicator(
                               onRefresh: () {

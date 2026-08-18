@@ -36,7 +36,7 @@ class DistributionStatusController extends GetxController with StateMixin<List<D
 
 
 
-  updateData(){
+  void updateData(){
         change(null, status: RxStatus.loading());
     NbRequest()
         .getStatus(distribution.value.id!)

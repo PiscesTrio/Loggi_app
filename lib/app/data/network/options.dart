@@ -4,7 +4,7 @@ import 'decoder.dart';
 import 'request_log_interceptor.dart';
 
 class ApiOptions {
-  init() {
+  void init() {
     NetOptions.instance
 
         // baseUrl
@@ -35,7 +35,7 @@ class ApiOptions {
   /// That is not a cosmetic bug: it made one POST look like three in the log, and it
   /// was reported as such before the duplication was found. A logger that multiplies
   /// what it reports is worse than no logger.
-  setToken({required String token}) {
+  void setToken({required String token}) {
     NetOptions.instance.dio.options.headers["Authorization"] = "Bearer $token";
   }
 }

@@ -19,11 +19,11 @@ class RouteMapFullscreen extends StatelessWidget {
   final String title;
 
   const RouteMapFullscreen({
-    Key? key,
+    super.key,
     required this.points,
     this.source = MapTileSource.gsiPale,
     this.title = '配送ルート',
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class RouteMapFullscreen extends StatelessWidget {
                           Polyline(
                             points: coords,
                             strokeWidth: 4,
-                            color: ColorPalette.timberGreen.withOpacity(0.75),
+                            color: ColorPalette.timberGreen.withValues(alpha: 0.75),
                           ),
                         ],
                       ),
@@ -97,7 +97,7 @@ class RouteMapFullscreen extends StatelessWidget {
                   child: Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    color: Colors.white.withOpacity(0.72),
+                    color: Colors.white.withValues(alpha: 0.72),
                     child: Text(
                       source.attribution,
                       style: const TextStyle(

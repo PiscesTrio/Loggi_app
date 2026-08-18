@@ -1,4 +1,4 @@
-library driver_list;
+library;
 
 
 export './controller.dart';

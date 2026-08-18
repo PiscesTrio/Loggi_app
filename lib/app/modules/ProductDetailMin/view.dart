@@ -11,7 +11,7 @@ import 'index.dart';
 class ProductdetailminPage extends GetView<ProductdetailminController> {
   final Map<String,dynamic> arguments;
  
-  const ProductdetailminPage( {Key? key,required this.arguments}) : super(key: key);
+  const ProductdetailminPage( {super.key,required this.arguments});
   @override
   Widget build(BuildContext context) {
     Product product = arguments['product'];
@@ -54,7 +54,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                     offset: const Offset(0, 3),
                                     blurRadius: 6,
                                     color:
-                                        ColorPalette.nileBlue.withOpacity(0.1),
+                                        ColorPalette.nileBlue.withValues(alpha: 0.1),
                                   ),
                                 ],
                               ),
@@ -81,7 +81,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                     fontFamily: "Nunito",
                                     fontSize: 16,
                                     color:
-                                        ColorPalette.nileBlue.withOpacity(0.58),
+                                        ColorPalette.nileBlue.withValues(alpha: 0.58),
                                   ),
                                 ),
                                 cursorColor: ColorPalette.timberGreen,
@@ -102,7 +102,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                           offset: const Offset(0, 3),
                                           blurRadius: 6,
                                           color: ColorPalette.nileBlue
-                                              .withOpacity(0.1),
+                                              .withValues(alpha: 0.1),
                                         ),
                                       ],
                                     ),
@@ -131,7 +131,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                           fontFamily: "Nunito",
                                           fontSize: 16,
                                           color: ColorPalette.nileBlue
-                                              .withOpacity(0.58),
+                                              .withValues(alpha: 0.58),
                                         ),
                                       ),
                                       cursorColor: ColorPalette.timberGreen,
@@ -151,7 +151,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                           offset: const Offset(0, 3),
                                           blurRadius: 6,
                                           color: ColorPalette.nileBlue
-                                              .withOpacity(0.1),
+                                              .withValues(alpha: 0.1),
                                         ),
                                       ],
                                     ),
@@ -180,7 +180,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                           fontFamily: "Nunito",
                                           fontSize: 16,
                                           color: ColorPalette.nileBlue
-                                              .withOpacity(0.58),
+                                              .withValues(alpha: 0.58),
                                         ),
                                       ),
                                       cursorColor: ColorPalette.timberGreen,
@@ -198,7 +198,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                 bottom: 5,
                               ),
                               child: Text(
-                                "创建时间： ${product.createAt==null?"":product.createAt}",
+                                "创建时间： ${product.createAt ?? ""}",
                                 style: TextStyle(
                                   fontFamily: "Nunito",
                                   fontSize: 16,
@@ -212,7 +212,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                 bottom: 5,
                               ),
                               child: Text(
-                                "上次更新时间：${product.updateAt==null?"无":product.updateAt}",
+                                "上次更新时间：${product.updateAt ?? "无"}",
                                 style: TextStyle(
                                   fontFamily: "Nunito",
                                   fontSize: 16,
@@ -232,7 +232,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                     offset: const Offset(0, 3),
                                     blurRadius: 6,
                                     color:
-                                        ColorPalette.nileBlue.withOpacity(0.1),
+                                        ColorPalette.nileBlue.withValues(alpha: 0.1),
                                   ),
                                 ],
                               ),
@@ -261,7 +261,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                     fontFamily: "Nunito",
                                     fontSize: 16,
                                     color:
-                                        ColorPalette.nileBlue.withOpacity(0.58),
+                                        ColorPalette.nileBlue.withValues(alpha: 0.58),
                                   ),
                                 ),
                                 cursorColor: ColorPalette.timberGreen,
@@ -294,7 +294,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                           offset: const Offset(0, 3),
                                           blurRadius: 6,
                                           color: ColorPalette.nileBlue
-                                              .withOpacity(0.1),
+                                              .withValues(alpha: 0.1),
                                         ),
                                       ],
                                     ),
@@ -352,7 +352,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                             offset: const Offset(0, 3),
                                             blurRadius: 6,
                                             color: ColorPalette.nileBlue
-                                                .withOpacity(0.1),
+                                                .withValues(alpha: 0.1),
                                           ),
                                         ],
                                       ),

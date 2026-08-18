@@ -24,64 +24,64 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
-  static const HOME = Routes.HOME;
+  static const initial = Routes.login;
+  static const home = Routes.home;
 
   static final routes = [
     GetPage(
-        name: _Paths.SYS,
+        name: _Paths.sys,
         page: () => SystemSettingPage(),
         binding: SystemSettingBinding()),
     GetPage(
-        name: _Paths.OPLOG,
+        name: _Paths.opLog,
         page: () => OperateLogPage(),
         binding: OperateLogBinding()),
     GetPage(
-        name: _Paths.LOGINLOG,
+        name: _Paths.loginLog,
         page: () => LoginLogPage(),
         binding: LoginLogBinding()),
     GetPage(
-        name: _Paths.TRANSPORT,
+        name: _Paths.transport,
         page: () => TransportManagementPagePage(),
         binding: TransportManagementPageBinding()),
     GetPage(
-        name: _Paths.DISTRIBUTION_STATUS,
+        name: _Paths.distributionStatus,
         page: () => DistributionStatusPage(argument: Distribution()),
         binding: DistributionStatusBinding()),
     GetPage(
-        name: _Paths.LOGIN, page: () => LoginPage(), binding: LoginBinding()),
+        name: _Paths.login, page: () => LoginPage(), binding: LoginBinding()),
     GetPage(
-        name: _Paths.DISTRIBUTION_LIST,
+        name: _Paths.distributionList,
         page: () => DistributionListPage(),
         binding: DistributionListBinding()),
     GetPage(
-        name: _Paths.DISTRIBUTION_APPLY,
+        name: _Paths.distributionApply,
         page: () => DistributionApplyPage(),
         binding: DistributionApplyBinding()),
     GetPage(
-        name: _Paths.WAREHOUSE_LIST,
+        name: _Paths.warehouseList,
         page: () => WarehouselistminPage(),
         binding: WarehouselistminBinding()),
     GetPage(
-        name: _Paths.WAREHOUSE_INVENTORY,
+        name: _Paths.warehouseInventory,
         page: () => WarehouseinventoryPage(
               warehouseId: '',
             ),
         binding: WarehouseinventoryBinding()),
     GetPage(
-      name: _Paths.PRODUCT_TABLE_DETAL,
+      name: _Paths.productTableDetail,
       page: () => ProductdetailminPage(
         arguments: {},
       ),
       binding: ProductdetailminBinding(),
     ),
     GetPage(
-      name: _Paths.PRODUCTS,
+      name: _Paths.products,
       page: () => ProducttableminpagePage(),
       binding: ProducttableminpageBinding(),
     ),
     GetPage(
-      name: _Paths.HOME,
+      name: _Paths.home,
       page: () => HomeView(),
       binding: HomeBinding(),
     ),

@@ -8,7 +8,7 @@ import '../widgets/vehicle_card_min.dart';
 import 'index.dart';
 
 class VehicleListPage extends GetView<VehicleListController> {
-  VehicleListPage({Key? key}) : super(key: key);
+  VehicleListPage({super.key});
   final RxBool _isLoading = false.obs;
 
   @override

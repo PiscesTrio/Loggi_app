@@ -7,7 +7,7 @@ import 'package:loggi_app/app/theme/color_palette.dart';
 class ProductCard extends StatelessWidget {
   final Product? product;
   final String? docID;
-  const ProductCard({Key? key, this.product, this.docID}) : super(key: key);
+  const ProductCard({super.key, this.product, this.docID});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class ProductCard extends StatelessWidget {
             BoxShadow(
               offset: const Offset(0, 5),
               blurRadius: 6,
-              color: const Color(0xff000000).withOpacity(0.06),
+              color: const Color(0xff000000).withValues(alpha: 0.06),
             ),
           ],
         ),
@@ -46,7 +46,7 @@ class ProductCard extends StatelessWidget {
                   ? Center(
                       child: Icon(
                         Icons.image,
-                        color: ColorPalette.nileBlue.withOpacity(0.5),
+                        color: ColorPalette.nileBlue.withValues(alpha: 0.5),
                       ),
                     )
                   : ClipRRect(
@@ -57,7 +57,7 @@ class ProductCard extends StatelessWidget {
                         errorWidget: (context, s, a) {
                           return Icon(
                             Icons.image,
-                            color: ColorPalette.nileBlue.withOpacity(0.5),
+                            color: ColorPalette.nileBlue.withValues(alpha: 0.5),
                           );
                         },
                       ),
@@ -88,7 +88,7 @@ class ProductCard extends StatelessWidget {
                       Icon(
                         Icons.location_on,
                         size: 14,
-                        color: ColorPalette.timberGreen.withOpacity(0.44),
+                        color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                       ),
                       Text(
                         product!.location ?? '-',
@@ -112,7 +112,7 @@ class ProductCard extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: "Nunito",
                           fontSize: 12,
-                          color: ColorPalette.timberGreen.withOpacity(0.44),
+                          color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                         ),
                       ),
                       Padding(
@@ -124,7 +124,7 @@ class ProductCard extends StatelessWidget {
                         child: Icon(
                           Icons.circle,
                           size: 5,
-                          color: ColorPalette.timberGreen.withOpacity(0.44),
+                          color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                         ),
                       ),
                       Text(
@@ -133,7 +133,7 @@ class ProductCard extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: "Nunito",
                           fontSize: 12,
-                          color: ColorPalette.timberGreen.withOpacity(0.44),
+                          color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                         ),
                       ),
                     ],
@@ -149,7 +149,7 @@ class ProductCard extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: "Nunito",
                         fontSize: 11,
-                        color: ColorPalette.timberGreen.withOpacity(0.35),
+                        color: ColorPalette.timberGreen.withValues(alpha: 0.35),
                       ),
                     ),
                   ),

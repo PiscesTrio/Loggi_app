@@ -14,10 +14,6 @@ class BaseManagementPageController extends GetxController with GetTickerProvider
     });
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {}

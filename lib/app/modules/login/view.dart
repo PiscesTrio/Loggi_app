@@ -8,7 +8,7 @@ import 'index.dart';
 
 
 class LoginPage extends GetView<LoginController> {
- LoginPage({Key? key}) : super(key: key);
+ LoginPage({super.key});
  
  
   final GetStorage box = GetStorage();
@@ -19,7 +19,7 @@ class LoginPage extends GetView<LoginController> {
      
     box.listenKey("token", (value) {
     if(value!="not logged in"&&value!=null){
-      Get.offAndToNamed(Routes.HOME);
+      Get.offAndToNamed(Routes.home);
     }
    });
     return GetBuilder<LoginController>(
@@ -70,7 +70,7 @@ class LoginPage extends GetView<LoginController> {
                     BoxShadow(
                       offset: const Offset(0, 3),
                       blurRadius: 6,
-                      color: const Color(0xff000000).withOpacity(0.16),
+                      color: const Color(0xff000000).withValues(alpha: 0.16),
                     ),
                   ],
                 ),
@@ -95,7 +95,7 @@ class LoginPage extends GetView<LoginController> {
                     hintStyle: TextStyle(
                       fontFamily: "Nunito",
                       fontSize: 16,
-                      color: ColorPalette.nileBlue.withOpacity(0.58),
+                      color: ColorPalette.nileBlue.withValues(alpha: 0.58),
                     ),
                   ),
                   cursorColor: ColorPalette.timberGreen,
@@ -112,7 +112,7 @@ class LoginPage extends GetView<LoginController> {
                     BoxShadow(
                       offset: const Offset(0, 3),
                       blurRadius: 6,
-                      color: const Color(0xff000000).withOpacity(0.16),
+                      color: const Color(0xff000000).withValues(alpha: 0.16),
                     ),
                   ],
                 ),
@@ -141,7 +141,7 @@ class LoginPage extends GetView<LoginController> {
                           hintStyle: TextStyle(
                             fontFamily: "Nunito",
                             fontSize: 16,
-                            color: ColorPalette.nileBlue.withOpacity(0.58),
+                            color: ColorPalette.nileBlue.withValues(alpha: 0.58),
                           ),
                         ),
                         cursorColor: ColorPalette.timberGreen,
@@ -194,7 +194,7 @@ class LoginPage extends GetView<LoginController> {
                           BoxShadow(
                             offset: const Offset(0, 3),
                             blurRadius: 6,
-                            color: const Color(0xff000000).withOpacity(0.16),
+                            color: const Color(0xff000000).withValues(alpha: 0.16),
                           ),
                         ],
                       ),

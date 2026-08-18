@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 
 class DistributionStatusItem extends StatelessWidget {
   const DistributionStatusItem(
-      {Key? key,
+      {super.key,
       required this.distributionStatus,
       required this.distribution,
       required this.isTop,
       required this.isBottom,
-      required this.isStart})
-      : super(key: key);
+      required this.isStart});
   final DistributionStatus distributionStatus;
   final Distribution distribution;
   final bool isTop;

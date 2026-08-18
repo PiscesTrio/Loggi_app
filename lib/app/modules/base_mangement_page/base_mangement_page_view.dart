@@ -15,9 +15,9 @@ import '../WarehouseListMin/view.dart';
 class BaseManagementPageView extends GetView<BaseManagementPageController> {
   final String? name = '基础管理';
   const BaseManagementPageView({
-    Key? key,
+    super.key,
     /* this.name*/
-  }) : super(key: key);
+  });
 
   // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -97,12 +97,12 @@ class BaseManagementPageView extends GetView<BaseManagementPageController> {
                                     children: [
                                       Navigator(
                                         key: Get.nestedKey(4),
-                                        initialRoute: Routes.PRODUCTS,
+                                        initialRoute: Routes.products,
                                         onGenerateRoute: (settings) {
                                           switch (settings.name) {
-                                            case Routes.PRODUCTS:
+                                            case Routes.products:
                                               return GetPageRoute(
-                                                  routeName: Routes.PRODUCTS,
+                                                  routeName: Routes.products,
                                                   page: () =>
                                                       ProducttableminpagePage(),
                                                   transition:
@@ -111,11 +111,11 @@ class BaseManagementPageView extends GetView<BaseManagementPageController> {
                                                   maintainState: true,
                                                   binding:
                                                       ProducttableminpageBinding());
-                                            case Routes.PRODUCT_TABLE_DETAL:
+                                            case Routes.productTableDetail:
                                               return GetPageRoute(
 
                                                   routeName: Routes
-                                                      .PRODUCT_TABLE_DETAL,
+                                                      .productTableDetail,
                                                   page: () =>
                                                       ProductdetailminPage(
                                                           arguments:
@@ -133,12 +133,12 @@ class BaseManagementPageView extends GetView<BaseManagementPageController> {
                                         },
                                       ),         Navigator(
                                         key: Get.nestedKey(5),
-                                        initialRoute: Routes.WAREHOUSE_LIST,
+                                        initialRoute: Routes.warehouseList,
                                         onGenerateRoute: (settings) {
                                           switch (settings.name) {
-                                            case Routes.WAREHOUSE_LIST:
+                                            case Routes.warehouseList:
                                               return GetPageRoute(
-                                                  routeName: Routes.WAREHOUSE_LIST,
+                                                  routeName: Routes.warehouseList,
                                                   page: () =>
                                                       WarehouselistminPage(),
                                                   transition:
@@ -147,11 +147,11 @@ class BaseManagementPageView extends GetView<BaseManagementPageController> {
                                                   maintainState: true,
                                                   binding:
                                                       WarehouseListPageBinding());
-                                            case Routes.WAREHOUSE_INVENTORY:
+                                            case Routes.warehouseInventory:
                                               return GetPageRoute(
 
                                                   routeName: Routes
-                                                      .WAREHOUSE_INVENTORY,
+                                                      .warehouseInventory,
                                                   page: () =>
                                                       WarehouseinventoryPage(
                                                           warehouseId:

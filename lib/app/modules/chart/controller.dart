@@ -26,7 +26,7 @@ class ChartController extends GetxController
     });
   }
 
-  updateData(){
+  void updateData(){
      change(null, status: RxStatus.loading());
     NbRequest().getChartData(true).then((result) {
       tempData.addAll({"in": result!});

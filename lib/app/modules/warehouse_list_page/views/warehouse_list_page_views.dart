@@ -10,9 +10,9 @@ import '../controllers/warehouse_list_page_controllers.dart';
 class WarehouseListPage extends GetView<WarehouseListPageController> {
   final String? name = 'SB';
   const WarehouseListPage({
-    Key? key,
+    super.key,
     /* this.name*/
-  }) : super(key: key);
+  });
 
   // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 

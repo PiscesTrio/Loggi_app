@@ -22,7 +22,7 @@ class VehicleListController extends GetxController with StateMixin<List<Vehicle>
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }
 
-  updateData() {
+  void updateData() {
     change(null, status: RxStatus.loading());
     NbRequest()
         .getVehicles()

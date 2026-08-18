@@ -6,7 +6,7 @@ import '../../theme/color_palette.dart';
 import 'index.dart';
 
 class OperateLogPage extends GetView<OperateLogController> {
-  const OperateLogPage({Key? key}) : super(key: key);
+  const OperateLogPage({super.key});
 
   final String? name = "操作日志";
   @override

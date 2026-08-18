@@ -16,11 +16,11 @@ class LoginDto extends BaseNetModel{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['code'] = this.code;
-    data['remember'] = this.remember;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['email'] = email;
+    data['password'] = password;
+    data['code'] = code;
+    data['remember'] = remember;
     return data;
   }
   

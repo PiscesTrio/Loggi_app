@@ -10,7 +10,7 @@ import '../distribution_list/controller.dart';
 class DistributionCard extends GetView<DistributionListController> {
   final Distribution? distribution;
   final String? docID;
-  DistributionCard({Key? key, this.distribution, this.docID}) : super(key: key);
+  DistributionCard({super.key, this.distribution, this.docID});
   final RxInt status = 0.obs;
   
   
@@ -55,7 +55,7 @@ class DistributionCard extends GetView<DistributionListController> {
                                         ElevatedButton(
                                         onPressed:(){
                                           Navigator.pop(context);
-                                          Get.toNamed(Routes.DISTRIBUTION_STATUS,arguments: distribution,id: 70);},
+                                          Get.toNamed(Routes.distributionStatus,arguments: distribution,id: 70);},
                                         child: const Text("查看配送进度")),
                                     ElevatedButton(
                                         onPressed: details.onStepContinue,
@@ -240,7 +240,7 @@ class DistributionCard extends GetView<DistributionListController> {
                   BoxShadow(
                     offset: const Offset(0, 5),
                     blurRadius: 6,
-                    color: const Color(0xff000000).withOpacity(0.06),
+                    color: const Color(0xff000000).withValues(alpha: 0.06),
                   ),
                 ],
               ),
@@ -269,7 +269,7 @@ class DistributionCard extends GetView<DistributionListController> {
                             child: Icon(
                               Icons.warehouse_rounded,
                               size: 14,
-                              color: ColorPalette.timberGreen.withOpacity(0.44),
+                              color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                             ),
                           ),
                           TextSpan(
@@ -289,28 +289,28 @@ class DistributionCard extends GetView<DistributionListController> {
                             child: Icon(
                               Icons.arrow_forward_ios_rounded,
                               size: 14,
-                              color: ColorPalette.timberGreen.withOpacity(0.44),
+                              color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                             ),
                           ),
                           WidgetSpan(
                             child: Icon(
                               Icons.arrow_forward_ios_rounded,
                               size: 14,
-                              color: ColorPalette.timberGreen.withOpacity(0.44),
+                              color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                             ),
                           ),
                           WidgetSpan(
                             child: Icon(
                               Icons.arrow_forward_ios_rounded,
                               size: 14,
-                              color: ColorPalette.timberGreen.withOpacity(0.44),
+                              color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                             ),
                           ),
                           WidgetSpan(
                             child: Icon(
                               Icons.location_on,
                               size: 14,
-                              color: ColorPalette.timberGreen.withOpacity(0.44),
+                              color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                             ),
                           ),
                           TextSpan(
@@ -335,7 +335,7 @@ class DistributionCard extends GetView<DistributionListController> {
                                 fontFamily: "Nunito",
                                 fontSize: 12,
                                 color:
-                                    ColorPalette.timberGreen.withOpacity(0.44),
+                                    ColorPalette.timberGreen.withValues(alpha: 0.44),
                               ),
                             ),
                             Padding(
@@ -348,7 +348,7 @@ class DistributionCard extends GetView<DistributionListController> {
                                 Icons.person,
                                 size: 10,
                                 color:
-                                    ColorPalette.timberGreen.withOpacity(0.44),
+                                    ColorPalette.timberGreen.withValues(alpha: 0.44),
                               ),
                             ),
                             Text(
@@ -358,7 +358,7 @@ class DistributionCard extends GetView<DistributionListController> {
                                 fontFamily: "Nunito",
                                 fontSize: 12,
                                 color:
-                                    ColorPalette.timberGreen.withOpacity(0.44),
+                                    ColorPalette.timberGreen.withValues(alpha: 0.44),
                               ),
                             ),
                           ],
@@ -374,7 +374,7 @@ class DistributionCard extends GetView<DistributionListController> {
                             style: TextStyle(
                               fontFamily: "Nunito",
                               fontSize: 11,
-                              color: ColorPalette.timberGreen.withOpacity(0.44),
+                              color: ColorPalette.timberGreen.withValues(alpha: 0.44),
                             ),
                           ),
                         ),

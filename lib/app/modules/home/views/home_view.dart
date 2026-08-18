@@ -18,11 +18,13 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   final GetStorage box = GetStorage();
 
+  HomeView({super.key});
+
   @override
   Widget build(BuildContext context) {
     box.listenKey("token", (value) {
       if (value == "not logged in") {
-        Get.offAndToNamed(Routes.LOGIN);
+        Get.offAndToNamed(Routes.login);
         showTextToast("已退出登录");
       }
     });
@@ -36,17 +38,17 @@ class HomeView extends GetView<HomeController> {
             // TransportManagementPagePage(),
             Navigator(
               key: Get.nestedKey(70),
-              initialRoute: Routes.TRANSPORT,
+              initialRoute: Routes.transport,
               onGenerateRoute: (settings) {
                 switch (settings.name) {
-                  case Routes.TRANSPORT:
+                  case Routes.transport:
                     return GetPageRoute(
-                        routeName: Routes.TRANSPORT,
+                        routeName: Routes.transport,
                         page: () => TransportManagementPagePage(),
                         binding: TransportManagementPageBinding());
-                  case Routes.DISTRIBUTION_STATUS:
+                  case Routes.distributionStatus:
                     return GetPageRoute(
-                        routeName: Routes.DISTRIBUTION_STATUS,
+                        routeName: Routes.distributionStatus,
                         page: () => DistributionStatusPage(
                             argument: settings.arguments as Distribution),
                         binding: DistributionStatusBinding());
@@ -58,22 +60,22 @@ class HomeView extends GetView<HomeController> {
             ChartPage(),
             Navigator(
               key: Get.nestedKey(69),
-              initialRoute: Routes.SYS,
+              initialRoute: Routes.sys,
               onGenerateRoute: (settings) {
                 switch (settings.name) {
-                  case Routes.SYS:
+                  case Routes.sys:
                     return GetPageRoute(
-                        routeName: Routes.SYS,
+                        routeName: Routes.sys,
                         page: () => SystemSettingPage(),
                         binding: SystemSettingBinding());
-                  case Routes.OPLOG:
+                  case Routes.opLog:
                     return GetPageRoute(
-                        routeName: Routes.OPLOG,
+                        routeName: Routes.opLog,
                         page: () => OperateLogPage(),
                         binding: OperateLogBinding());
-                  case Routes.LOGINLOG:
+                  case Routes.loginLog:
                     return GetPageRoute(
-                        routeName: Routes.LOGINLOG,
+                        routeName: Routes.loginLog,
                         page: () => LoginLogPage(),
                         binding: LoginLogBinding());
                 }

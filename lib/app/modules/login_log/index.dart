@@ -1,4 +1,4 @@
-library system_setting;
+library;
 
 
 export './controller.dart';

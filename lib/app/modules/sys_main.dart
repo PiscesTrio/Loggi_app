@@ -1,6 +1,6 @@
 import 'package:loggi_app/app/data/network/api.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
-import 'package:loggi_app/app/utils/TokenStorage.dart';
+import 'package:loggi_app/app/utils/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -61,7 +61,7 @@ class SysMain extends StatelessWidget {
             children: [
               ListTile(
                 onTap: () {
-                  Get.toNamed(Routes.LOGINLOG, id: 69);
+                  Get.toNamed(Routes.loginLog, id: 69);
                 },
                 title: Text("登录日志"),
               ),
@@ -71,7 +71,7 @@ class SysMain extends StatelessWidget {
               ),
               ListTile(
                 onTap: () {
-                  Get.toNamed(Routes.OPLOG, id: 69);
+                  Get.toNamed(Routes.opLog, id: 69);
                 },
                 title: Text("操作日志"),
               ),
@@ -85,8 +85,7 @@ class SysMain extends StatelessWidget {
         SizedBox(
           height: 50,
         ),
-        Container(
-          child: OutlinedButton(
+        OutlinedButton(
             onPressed: () {
               showDialog(
                   context: context,
@@ -118,6 +117,12 @@ class SysMain extends StatelessWidget {
                     );
                   });
             },
+            style: const ButtonStyle(
+              backgroundColor:
+                  WidgetStatePropertyAll(Color.fromARGB(255, 221, 159, 159)),
+              foregroundColor:
+                  WidgetStatePropertyAll(Color.fromARGB(255, 230, 13, 13)),
+            ),
             child: Text(
               "退出登录",
               style: TextStyle(
@@ -125,14 +130,7 @@ class SysMain extends StatelessWidget {
                   fontSize: 20,
                   color: ColorPalette.contentColorRed),
             ),
-            style: const ButtonStyle(
-              backgroundColor:
-                  MaterialStatePropertyAll(Color.fromARGB(255, 221, 159, 159)),
-              foregroundColor:
-                  MaterialStatePropertyAll(Color.fromARGB(255, 230, 13, 13)),
-            ),
-          ),
-        )
+          )
       ],
     );
   }
