@@ -1,10 +1,11 @@
-import 'package:loggi_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../theme/color_palette.dart';
 import '../widgets/distribution_card.dart';
 import 'index.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loggi_app/app/router/routes.dart';
 
 class DistributionListPage extends GetView<DistributionListController> {
   const DistributionListPage({super.key});
@@ -19,7 +20,7 @@ class DistributionListPage extends GetView<DistributionListController> {
             ),
             child: FloatingActionButton(
               onPressed: () {
-               Get.toNamed(Routes.distributionApply,id: 6);
+               context.push(Routes.distributionApply);
               },
               splashColor: ColorPalette.bondyBlue,
               backgroundColor: ColorPalette.pacificBlue,

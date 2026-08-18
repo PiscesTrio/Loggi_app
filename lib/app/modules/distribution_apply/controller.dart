@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import '../../data/delivery_points.dart';
 import '../../data/network/api.dart';
 import 'package:intl/intl.dart';
+import 'package:loggi_app/app/data/network/legacy_bridge.dart';
+import 'package:loggi_app/app/router/app_router.dart';
 
 class DistributionApplyController extends GetxController
     with StateMixin<Available> {
@@ -37,7 +39,10 @@ class DistributionApplyController extends GetxController
       if (result == null ||
           result.drivers!.isEmpty ||
           result.vehicles!.isEmpty) {
-        Get.back(id: 6);
+        // No BuildContext in a controller, so the router is reached through the
+        // container rather than through context. GoRouter is an object; `of(context)` is
+        // only a lookup.
+        appContainer.read(routerProvider).pop();
 
         showTextToast("无可用司机或驾驶员");
       } else {

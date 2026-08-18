@@ -5,16 +5,18 @@ import 'package:get/get.dart';
 import '../../theme/color_palette.dart';
 import '../widgets/toast.dart';
 import 'index.dart';
+import 'package:go_router/go_router.dart';
 
 class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
   WarehouseinventoryPage({super.key, required this.warehouseId});
   final String warehouseId;
-  List<DataRow> getRows(List<Inventory>? inventorys) =>
+  // Takes the context: navigation needs one, and this helper is called from build().
+  List<DataRow> getRows(BuildContext context, List<Inventory>? inventorys) =>
       inventorys!.map((Inventory inventory) {
         final cells = [inventory.name, inventory.count];
         return DataRow(
             onSelectChanged: (value) {
-              Get.back(id: 5);
+              context.pop();
             },
             cells: getCells(cells));
       }).toList();
@@ -47,7 +49,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
         }
       }).toList();
 
-  Widget buildDataTable() {
+  Widget buildDataTable(BuildContext context) {
     return controller.obx((data) => Obx(() => DataTable(
         showCheckboxColumn: false,
         sortColumnIndex: controller.sortColumnIndex.value,
@@ -56,7 +58,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
           DataColumn(label: const Text("名称"), onSort: onSort),
           DataColumn(label: const Text("数量"), onSort: onSort),
         ],
-        rows: getRows(data))));
+        rows: getRows(context, data))));
   }
 
   void onSort(int columnIndex, bool ascending) {
@@ -87,7 +89,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
           ),
           child: FloatingActionButton(
             onPressed: () {
-              Get.back(id: 5);
+              context.pop();
             },
             splashColor: ColorPalette.bondyBlue,
             backgroundColor: ColorPalette.pacificBlue,
@@ -876,7 +878,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          buildDataTable(),
+                          buildDataTable(context),
                         ],
                       ),
                       SizedBox(

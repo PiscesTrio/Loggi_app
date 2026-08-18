@@ -5,19 +5,21 @@ import 'package:get/get.dart';
 
 import '../../data/models/commodity.dart';
 import '../../data/network/api.dart';
-import '../../routes/app_pages.dart';
 import 'index.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loggi_app/app/router/routes.dart';
 
 class ProducttableminpagePage extends GetView<ProducttableminpageController> {
   const ProducttableminpagePage({super.key});
 
-  List<DataRow> getRows(List<Product>? products) =>
+  // Takes the context: navigation needs one, and this helper is called from build().
+  List<DataRow> getRows(BuildContext context, List<Product>? products) =>
       products!.map((Product product) {
         final cells = [product.name, product.price, product.count];
         return DataRow(
             onSelectChanged: (value) async {
-              await Get.toNamed(Routes.productTableDetail,
-                  arguments: {"product":product}, id: 4);
+              await context.push(Routes.productDetail,
+                  extra: <String, dynamic>{"product": product});
             },
             cells: getCells(cells));
       }).toList();
@@ -89,7 +91,7 @@ class ProducttableminpagePage extends GetView<ProducttableminpageController> {
           return data;
   }
 
-  Widget buildDataTable() {
+  Widget buildDataTable(BuildContext context) {
     return controller.obx((data) => Obx(() => DataTable(
         showCheckboxColumn: false,
         sortColumnIndex: controller.sortColumnIndex.value,
@@ -99,7 +101,7 @@ class ProducttableminpagePage extends GetView<ProducttableminpageController> {
           DataColumn(label: const Text("价格"), onSort: onSort),
           DataColumn(label: const Text("库存"), onSort: onSort),
         ],
-        rows: getRows(data))));
+        rows: getRows(context, data))));
   }
 
   void onSort(int columnIndex, bool ascending) {
@@ -210,7 +212,7 @@ class ProducttableminpagePage extends GetView<ProducttableminpageController> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(children: [
-                  buildDataTable(),
+                  buildDataTable(context),
                   SizedBox(height: 1000,)
                 ]),
               ),

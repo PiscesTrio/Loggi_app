@@ -1,58 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'app/routes/app_pages.dart';
+import 'app/router/app_router.dart';
 
-class MyApp extends StatelessWidget{
-  const MyApp({super.key, required this.isLoggedIn});
-
-  /// Decided in `main()` before the first frame.
-  ///
-  /// This used to be `TokenStorage().isLoggedIn().obs` read here, in build(). Two problems
-  /// went with that: the read was synchronous, which secure storage cannot be, and wrapping
-  /// it in an Rx implied the value could change while nothing ever changed it — logging out
-  /// navigates, it does not update this flag.
-  final bool isLoggedIn;
+/// One app, one router.
+///
+/// There were two `GetMaterialApp`s here, identical except for `initialRoute`, chosen by an
+/// `Obx` around a local `RxBool` that nothing ever updated — so the twenty-odd lines of
+/// theme, locale and delegate configuration existed twice and could drift, and the login
+/// state they switched on could not actually change while the app ran.
+///
+/// `MaterialApp.router` has no `initialRoute` to branch on: where the user lands is the
+/// router's `redirect`, which reads the one source of truth and re-runs whenever it moves.
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return (isLoggedIn?GetMaterialApp(
-      title: "Application",
-      initialRoute: AppPages.home,
-      getPages: AppPages.routes,
-      defaultTransition: Transition.fadeIn,
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaterialApp.router(
+      title: 'Application',
+      routerConfig: ref.watch(routerProvider),
       localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate, //Supplies localized strings and other values
-        GlobalWidgetsLocalizations.delegate, //Defines the default text direction for widgets, LTR or RTL.
-        GlobalCupertinoLocalizations
-            .delegate, //The Cupertino counterpart (Cupertino widgets are the iOS-style ones)
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
         Locale('zh', 'CH'),
         Locale('en', 'US'),
       ],
       theme: ThemeData(useMaterial3: true),
-    ):GetMaterialApp(
-      title: "Application",
-      initialRoute: AppPages.initial,
-      getPages: AppPages.routes,
-      defaultTransition: Transition.fadeIn,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate, //Supplies localized strings and other values
-        GlobalWidgetsLocalizations.delegate, //Defines the default text direction for widgets, LTR or RTL.
-        GlobalCupertinoLocalizations
-            .delegate, //The Cupertino counterpart (Cupertino widgets are the iOS-style ones)
-      ],
-      supportedLocales: const [
-        Locale('zh', 'CH'),
-        Locale('en', 'US'),
-      ],
-      theme: ThemeData(useMaterial3: true),
-    ));
-
-
+    );
   }
-
-
 }

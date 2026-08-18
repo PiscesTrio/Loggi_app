@@ -3,10 +3,10 @@ import 'package:loggi_app/app/data/models/warehouse.dart';
 // import 'package:warehouse_management/screens/warehouse_details_page.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 
 import '../../../assets/svg/svg_strings.dart';
-import '../../routes/app_pages.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loggi_app/app/router/routes.dart';
 
 class WarehouseCard extends StatelessWidget {
   final Warehouse? warehouse;
@@ -18,7 +18,7 @@ class WarehouseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        Get.toNamed(Routes.warehouseInventory,arguments: warehouse!.id,id: 5);
+        context.push('${Routes.warehouseInventory}/${warehouse!.id}');
             },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),

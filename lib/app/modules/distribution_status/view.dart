@@ -8,6 +8,7 @@ import '../../theme/color_palette.dart';
 import '../widgets/route_map.dart';
 import '../widgets/route_map_fullscreen.dart';
 import 'index.dart';
+import 'package:go_router/go_router.dart';
 
 class DistributionStatusPage extends GetView<DistributionStatusController> {
   final Distribution argument;
@@ -60,7 +61,7 @@ class DistributionStatusPage extends GetView<DistributionStatusController> {
                               size: 35,
                             ),
                             onPressed: () {
-                              Get.back(id: 70);
+                              context.pop();
                             },
                           ),
                           Padding(
@@ -117,9 +118,12 @@ class DistributionStatusPage extends GetView<DistributionStatusController> {
                                                 .size
                                                 .height *
                                             0.4,
-                                        onExpand: () => Get.to(
-                                            () => RouteMapFullscreen(
-                                                points: points)),
+                                        onExpand: () => Navigator.of(context,
+                                                rootNavigator: true)
+                                            .push(MaterialPageRoute<void>(
+                                                builder: (_) =>
+                                                    RouteMapFullscreen(
+                                                        points: points))),
                                       );
                                     }),
                                     controller.obx(

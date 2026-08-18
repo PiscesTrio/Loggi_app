@@ -1,28 +1,35 @@
-import 'package:loggi_app/app/modules/WarehouseInventory/index.dart';
 import 'package:loggi_app/app/modules/base_mangement_page/base_mangement_page_controller.dart';
-import 'package:loggi_app/app/modules/warehouse_list_page/bindings/warehouse_list_page_bindings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
-
-import '../../routes/app_pages.dart';
-import '../ProductDetailMin/bindings.dart';
-import '../ProductDetailMin/view.dart';
-import '../ProductTableMinPage/bindings.dart';
-import '../ProductTableMinPage/view.dart';
-import '../WarehouseListMin/view.dart';
 
 class BaseManagementPageView extends GetView<BaseManagementPageController> {
   final String? name = '基础管理';
-  const BaseManagementPageView({
-    super.key,
-    /* this.name*/
-  });
+
+  const BaseManagementPageView({super.key, required this.shell});
+
+  /// The inner tabs' navigators.
+  ///
+  /// This screen used to hold an `IndexedStack` of two hand-written `Navigator`s keyed by
+  /// `Get.nestedKey(4)` and `(5)`, sitting in the `Expanded` below — so a pushed page
+  /// (商品详情, 仓库库存) rendered inside the content area with this header and tab bar
+  /// still above it. Replacing those navigators with the pages themselves moved the push
+  /// up to the outer branch, which covers everything; the drill-downs came up with no
+  /// header, no tabs, and their first row against the status bar.
+  ///
+  /// A nested shell restores the arrangement: same two navigators, same position in the
+  /// tree, now declared as branches instead of switch statements.
+  final StatefulNavigationShell shell;
 
   // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
+    // Keeps the indicator honest if the branch changed by any route other than a tap.
+    if (controller.tabController.index != shell.currentIndex) {
+      controller.tabController.index = shell.currentIndex;
+    }
     return Scaffold(
       body:  Container(
         color: ColorPalette.pacificBlue,
@@ -83,6 +90,12 @@ class BaseManagementPageView extends GetView<BaseManagementPageController> {
                               length: 2,
                               child: TabBar(
                                 controller: controller.tabController,
+                                // The branch decides what is shown; the TabController only
+                                // draws the indicator. Tapping the tab you are on returns
+                                // it to its root, which is where a pushed 商品详情 or
+                                // 仓库库存 gets dismissed from.
+                                onTap: (i) => shell.goBranch(i,
+                                    initialLocation: i == shell.currentIndex),
                                 tabs: const [
                                   Tab(
                                      text: "商品管理",),
@@ -91,88 +104,7 @@ class BaseManagementPageView extends GetView<BaseManagementPageController> {
                                 ],
                               )),
                           const SizedBox(height: 20),
-                          Expanded(
-                              child: Obx(() => IndexedStack(
-                                    index: controller.tabIndex.value,
-                                    children: [
-                                      Navigator(
-                                        key: Get.nestedKey(4),
-                                        initialRoute: Routes.products,
-                                        onGenerateRoute: (settings) {
-                                          switch (settings.name) {
-                                            case Routes.products:
-                                              return GetPageRoute(
-                                                  routeName: Routes.products,
-                                                  page: () =>
-                                                      ProducttableminpagePage(),
-                                                  transition:
-                                                      Transition.upToDown,
-                                                  popGesture: true,
-                                                  maintainState: true,
-                                                  binding:
-                                                      ProducttableminpageBinding());
-                                            case Routes.productTableDetail:
-                                              return GetPageRoute(
-
-                                                  routeName: Routes
-                                                      .productTableDetail,
-                                                  page: () =>
-                                                      ProductdetailminPage(
-                                                          arguments:
-                                                              settings.arguments as Map<String,dynamic>),
-                                                  transition:
-                                            
-                                                      Transition.downToUp,
-                                                  popGesture: true,
-                                                  maintainState: true,
-                                                  binding:
-                                                      ProductdetailminBinding());
-                                            default:
-                                          }
-                                          return null;
-                                        },
-                                      ),         Navigator(
-                                        key: Get.nestedKey(5),
-                                        initialRoute: Routes.warehouseList,
-                                        onGenerateRoute: (settings) {
-                                          switch (settings.name) {
-                                            case Routes.warehouseList:
-                                              return GetPageRoute(
-                                                  routeName: Routes.warehouseList,
-                                                  page: () =>
-                                                      WarehouselistminPage(),
-                                                  transition:
-                                                      Transition.upToDown,
-                                                  popGesture: true,
-                                                  maintainState: true,
-                                                  binding:
-                                                      WarehouseListPageBinding());
-                                            case Routes.warehouseInventory:
-                                              return GetPageRoute(
-
-                                                  routeName: Routes
-                                                      .warehouseInventory,
-                                                  page: () =>
-                                                      WarehouseinventoryPage(
-                                                          warehouseId:
-                                                              settings.arguments as String),
-                                                  transition:
-                                            
-                                                      Transition.downToUp,
-                                                  popGesture: true,
-                                                  maintainState: true,
-                                                  binding:
-                                                      WarehouseinventoryBinding());
-                                            default:
-                                          }
-                                          return null;
-                                        },
-                                      ),
-
-                                      // ProducttableminpagePage(),
-                                      // ProductdetailminPage()
-                                    ],
-                                  )))
+                          Expanded(child: shell)
                         ],
                       ),
                     ),

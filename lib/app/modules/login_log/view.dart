@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../theme/color_palette.dart';
 import 'index.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginLogPage extends GetView<LoginLogController> {
   const LoginLogPage({super.key});
@@ -47,7 +48,7 @@ class LoginLogPage extends GetView<LoginLogController> {
                               size: 35,
                             ),
                             onPressed: () {
-                              Get.back(id: 69);
+                              context.pop();
                             },
                           ),
                           Padding(

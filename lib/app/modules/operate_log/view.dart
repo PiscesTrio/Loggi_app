@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../theme/color_palette.dart';
 import 'index.dart';
+import 'package:go_router/go_router.dart';
 
 class OperateLogPage extends GetView<OperateLogController> {
   const OperateLogPage({super.key});
@@ -47,7 +48,7 @@ class OperateLogPage extends GetView<OperateLogController> {
                               size: 35,
                             ),
                             onPressed: () {
-                              Get.back(id: 69);
+                              context.pop();
                             },
                           ),
                           Padding(
