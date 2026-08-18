@@ -183,7 +183,10 @@ class NbRequest {
 
   Future<LoginResp?>login(LoginDto data)async{
     var appResp =
-    await post<LoginResp,LoginResp>("/admin/login?type=password",decodeType: LoginResp(),data: data);
+    // Was "/admin/login?type=password". The backend split that one endpoint in two:
+    // the `type` string had no @RequestParam, so a caller who omitted it reached
+    // type.equals("email") on a null, and the NPE was reported as a wrong password.
+    await post<LoginResp,LoginResp>("/admin/login/password",decodeType: LoginResp(),data: data);
     return appResp.when(success: (LoginResp model){
       debugPrint("LOGIN OK!");
       return model;
