@@ -1,18 +1,24 @@
-import 'package:loggi_app/app/modules/distribution_list/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/color_palette.dart';
-import '../driver_list/view.dart';
-import '../vehicle_list/view.dart';
 import 'index.dart';
 
 class TransportManagementPagePage
     extends GetView<TransportManagementPageController> {
-  const TransportManagementPagePage({super.key});
+  const TransportManagementPagePage({super.key, required this.shell});
+
+  /// The inner tabs' navigators — see BaseManagementPageView for why this is a shell and
+  /// not an IndexedStack of pages. 配送申请 is the drill-down that lives inside the 配送管理
+  /// tab; without the nested shell it covered this header and these tabs.
+  final StatefulNavigationShell shell;
 
   final String? name = '运输管理';
   @override
   Widget build(BuildContext context) {
+    if (controller.tabController.index != shell.currentIndex) {
+      controller.tabController.index = shell.currentIndex;
+    }
     return GetBuilder<TransportManagementPageController>(
       builder: (_) {
         return Scaffold(
@@ -75,6 +81,8 @@ class TransportManagementPagePage
                                   length: 3,
                                   child: TabBar(
                                     controller: controller.tabController,
+                                    onTap: (i) => shell.goBranch(i,
+                                        initialLocation: i == shell.currentIndex),
                                     tabs: const [
                                       Tab(
                                         text: "配送管理",
@@ -97,14 +105,7 @@ class TransportManagementPagePage
                                   )),
                               const SizedBox(height: 20),
                               Expanded(
-                                  child: Obx(() => IndexedStack(
-                                        index: controller.tabIndex.value,
-                                        children: [
-                                          DistributionListPage(),
-                                          VehicleListPage(),
-                                          DriverListPage()
-                                        ],
-                                      ))),
+                                  child: shell),
                             ],
                           ),
                         ),

@@ -1,37 +1,51 @@
 /// Every path in the app, written once.
 ///
-/// Replaces `app_routes.dart`, which was a flat list of thirteen paths with no structure —
-/// `/op`, `/loginlog`, `/transport` were all siblings even though two of them only ever
-/// appeared inside the settings tab. A path that says where it lives is the difference
-/// between a deep link that works and one that lands on a screen with no way back.
+/// The shape mirrors the screens: two of the four tabs have their own tab bar inside them,
+/// so their paths have two levels. That is not decoration — it is what decides whether a
+/// pushed page covers the tab's header and inner tabs or renders below them, because a
+/// route is pushed onto the navigator of the branch it belongs to.
 class Routes {
   const Routes._();
 
   static const String login = '/login';
 
-  /// Tab 0. Also the shell's landing location.
-  static const String base = '/base';
-  static const String baseProductDetail = 'product';
-  static const String baseWarehouseInventory = 'warehouse';
+  // ---- Tab 0: 基础管理 — inner tabs 商品管理 / 仓库管理 -----------------------------
+  static const String baseProducts = '/base/products';
+  static const String baseWarehouses = '/base/warehouses';
 
-  /// Tab 1.
-  static const String transport = '/transport';
-  static const String transportDistributionStatus = 'status';
-  static const String transportDistributionApply = 'apply';
+  /// Relative to [baseProducts]; renders inside the 商品管理 tab.
+  static const String segmentProductDetail = 'detail';
 
-  /// Tab 2.
+  /// Relative to [baseWarehouses]; renders inside the 仓库管理 tab.
+  static const String segmentWarehouseInventory = ':id';
+
+  // ---- Tab 1: 运输管理 — inner tabs 配送 / 车辆 / 驾驶员 ---------------------------
+  static const String transportDistribution = '/transport/distribution';
+  static const String transportVehicles = '/transport/vehicles';
+  static const String transportDrivers = '/transport/drivers';
+
+  /// Relative to [transportDistribution]; renders inside the 配送管理 tab.
+  static const String segmentDistributionApply = 'apply';
+
+  /// A sibling of the inner tab bar rather than a child of one, so it covers the whole
+  /// transport tab the way it always did — it paints its own scrim, and dimming only the
+  /// content area while the header stayed bright would look like a mistake.
+  static const String distributionStatus = '/transport/status';
+
+  // ---- Tab 2 / Tab 3 -------------------------------------------------------------
   static const String chart = '/chart';
-
-  /// Tab 3.
   static const String settings = '/settings';
-  static const String settingsOperationLog = 'operation-log';
-  static const String settingsLoginLog = 'login-log';
 
-  // Absolute forms, for callers that push rather than declare.
-  static const String productDetail = '$base/$baseProductDetail';
-  static const String warehouseInventory = '$base/$baseWarehouseInventory';
-  static const String distributionStatus = '$transport/$transportDistributionStatus';
-  static const String distributionApply = '$transport/$transportDistributionApply';
-  static const String operationLog = '$settings/$settingsOperationLog';
-  static const String loginLog = '$settings/$settingsLoginLog';
+  /// Relative to [settings]. These cover the whole settings tab, which is what they did
+  /// before: their navigator was the tab itself, not a region inside it.
+  static const String segmentOperationLog = 'operation-log';
+  static const String segmentLoginLog = 'login-log';
+
+  // ---- Absolute forms, for callers that push ---------------------------------------
+  static const String productDetail = '$baseProducts/$segmentProductDetail';
+  static const String warehouseInventory = baseWarehouses;
+  static const String distributionApply =
+      '$transportDistribution/$segmentDistributionApply';
+  static const String operationLog = '$settings/$segmentOperationLog';
+  static const String loginLog = '$settings/$segmentLoginLog';
 }

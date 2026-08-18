@@ -12,9 +12,11 @@ import '../modules/chart/view.dart';
 import '../modules/distribution_apply/bindings.dart';
 import '../modules/distribution_apply/view.dart';
 import '../modules/distribution_list/bindings.dart';
+import '../modules/distribution_list/view.dart';
 import '../modules/distribution_status/bindings.dart';
 import '../modules/distribution_status/view.dart';
 import '../modules/driver_list/bindings.dart';
+import '../modules/driver_list/view.dart';
 import '../modules/login/bindings.dart';
 import '../modules/login/view.dart';
 import '../modules/login_log/bindings.dart';
@@ -24,31 +26,41 @@ import '../modules/operate_log/view.dart';
 import '../modules/ProductDetailMin/bindings.dart';
 import '../modules/ProductDetailMin/view.dart';
 import '../modules/ProductTableMinPage/bindings.dart';
+import '../modules/ProductTableMinPage/view.dart';
 import '../modules/system_setting/bindings.dart';
 import '../modules/system_setting/view.dart';
 import '../modules/transport_management_page/bindings.dart';
 import '../modules/transport_management_page/view.dart';
 import '../modules/vehicle_list/bindings.dart';
+import '../modules/vehicle_list/view.dart';
 import '../modules/WarehouseInventory/bindings.dart';
 import '../modules/WarehouseInventory/view.dart';
 import '../modules/WarehouseListMin/bindings.dart';
+import '../modules/WarehouseListMin/view.dart';
 import 'routes.dart';
 import 'shell_scaffold.dart';
 
 final _rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+
+// Outer: one per bottom tab.
 final _baseKey = GlobalKey<NavigatorState>(debugLabel: 'base');
 final _transportKey = GlobalKey<NavigatorState>(debugLabel: 'transport');
 final _chartKey = GlobalKey<NavigatorState>(debugLabel: 'chart');
 final _settingsKey = GlobalKey<NavigatorState>(debugLabel: 'settings');
+
+// Inner: one per tab-inside-a-tab. These are the navigators that used to be written by
+// hand as `Navigator(key: Get.nestedKey(4))` and so on.
+final _productsKey = GlobalKey<NavigatorState>(debugLabel: 'products');
+final _warehousesKey = GlobalKey<NavigatorState>(debugLabel: 'warehouses');
+final _distributionKey = GlobalKey<NavigatorState>(debugLabel: 'distribution');
+final _vehiclesKey = GlobalKey<NavigatorState>(debugLabel: 'vehicles');
+final _driversKey = GlobalKey<NavigatorState>(debugLabel: 'drivers');
 
 /// Registers a screen's dependencies before building it.
 ///
 /// The screens are still `GetView<SomeController>` and still resolve their controller
 /// through `Get.find`, so something has to have run the binding. `GetPage(binding:)` used
 /// to; go_router has no equivalent, because it does not own a DI container.
-///
-/// A list rather than one binding, because a screen that hosts inner tabs owns their
-/// dependencies too — see the `/base` and `/transport` routes below.
 ///
 /// This is the seam between the two systems, and it is why navigation could be replaced
 /// without also rewriting thirty-seven controllers: the screens do not know the difference.
@@ -62,18 +74,29 @@ Widget _withBindings(List<Bindings> bindings, Widget Function() page) {
 
 /// The router.
 ///
-/// Replaces `app_pages.dart` plus three hand-written `onGenerateRoute` switches. A route
-/// used to exist in two places — the flat `AppPages.routes` list and whichever tab's switch
-/// actually reached it — and only the switch knew which tab it belonged to. Here the tree
-/// says it: a path's position is its place in the UI.
+/// Replaces `app_pages.dart` plus five hand-written `onGenerateRoute` switches keyed by
+/// `Get.nestedKey(4)`, `(5)`, `(6)`, `(69)` and `(70)`. A route used to exist in two
+/// places — the flat `AppPages.routes` list and whichever switch actually reached it — and
+/// only the switch knew which navigator it belonged to.
 ///
-/// It also removes the placeholder arguments that flat list needed to satisfy constructors.
-/// `AppPages` contained `DistributionStatusPage(argument: Distribution())`,
+/// **The nesting is not cosmetic.** Which navigator a page is pushed onto decides how much
+/// of the screen it covers, and the five old navigators were not all at the same depth:
+///
+/// * `(4)`, `(5)`, `(6)` sat in the `Expanded` *below* a page's header and inner tab bar,
+///   so 商品详情, 仓库库存 and 配送申请 rendered in the content area with the chrome above
+///   them still visible.
+/// * `(69)`, `(70)` *were* the tab's whole content, so 配送详情 and the two log screens
+///   covered everything, header included.
+///
+/// A first attempt flattened all of them into children of the four outer branches. The
+/// three in the first group came up with no header, no tabs, and their first row jammed
+/// against the status bar. Two shells, nested the way the old navigators were, is what
+/// keeps that distinction.
+///
+/// It also removes the placeholder arguments the flat list needed to satisfy constructors:
+/// `DistributionStatusPage(argument: Distribution())`,
 /// `WarehouseinventoryPage(warehouseId: '')` and `ProductdetailminPage(arguments: {})` —
-/// entries that compiled, were reachable by name, and would have rendered an empty screen,
-/// because the real values only ever arrived through `Get.toNamed(arguments:)` from the
-/// nested navigators. Path parameters and `extra` carry them now, and a route with no
-/// argument does not build.
+/// entries that compiled, were reachable by name, and would have rendered an empty screen.
 final routerProvider = Provider<GoRouter>((ref) {
   // GoRouter listens to this rather than to Riverpod, so a sign-in or a 401 re-runs
   // `redirect` immediately instead of at the next navigation.
@@ -83,7 +106,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     navigatorKey: _rootKey,
-    initialLocation: Routes.base,
+    initialLocation: Routes.baseProducts,
     refreshListenable: refresh,
     redirect: (context, state) {
       final auth = ref.read(authProvider);
@@ -99,7 +122,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (!auth.isSignedIn) {
         return atLogin ? null : Routes.login;
       }
-      return atLogin ? Routes.base : null;
+      return atLogin ? Routes.baseProducts : null;
     },
     routes: [
       GoRoute(
@@ -109,86 +132,132 @@ final routerProvider = Provider<GoRouter>((ref) {
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => HomeShellScaffold(shell: shell),
         branches: [
+          // ---- Tab 0: 基础管理 --------------------------------------------------
           StatefulShellBranch(
             navigatorKey: _baseKey,
             routes: [
-              GoRoute(
-                path: Routes.base,
-                // The inner tabs are part of this screen, not routes of their own, so their
-                // controllers are this route's to register. They used to be registered by
-                // the `GetPageRoute(binding:)` of the hand-written nested Navigator that
-                // hosted them; removing the Navigator removed that too, and the tab rendered
-                // a red "controller not found" box. Found on the device — neither the
-                // analyzer nor a unit test can see a dependency resolved by type at runtime.
-                builder: (_, _) => _withBindings(
-                  [
-                    BaseManagementPageBinding(),
-                    ProducttableminpageBinding(),
-                    WarehouselistminBinding(),
-                  ],
-                  () => BaseManagementPageView(),
+              StatefulShellRoute.indexedStack(
+                // This builder supplies the header and the 商品/仓库 tab bar; `inner` goes
+                // where the old IndexedStack of two Navigators used to sit.
+                builder: (_, _, inner) => _withBindings(
+                  [BaseManagementPageBinding()],
+                  () => BaseManagementPageView(shell: inner),
                 ),
-                routes: [
-                  GoRoute(
-                    path: Routes.baseProductDetail,
-                    builder: (_, state) => _withBindings(
-                      [ProductdetailminBinding()],
-                      () => ProductdetailminPage(
-                          arguments: state.extra as Map<String, dynamic>),
-                    ),
+                branches: [
+                  StatefulShellBranch(
+                    navigatorKey: _productsKey,
+                    routes: [
+                      GoRoute(
+                        path: Routes.baseProducts,
+                        builder: (_, _) => _withBindings(
+                            [ProducttableminpageBinding()],
+                            () => const ProducttableminpagePage()),
+                        routes: [
+                          GoRoute(
+                            path: Routes.segmentProductDetail,
+                            builder: (_, state) => _withBindings(
+                              [ProductdetailminBinding()],
+                              () => ProductdetailminPage(
+                                  arguments: state.extra as Map<String, dynamic>),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  GoRoute(
-                    // A path parameter, not `extra`: a warehouse id is part of the address
-                    // of what is being shown, so this location survives a restart and can
-                    // be linked to. `extra` cannot — it is dropped on a cold start.
-                    path: '${Routes.baseWarehouseInventory}/:id',
-                    builder: (_, state) => _withBindings(
-                      [WarehouseinventoryBinding()],
-                      () => WarehouseinventoryPage(
-                          warehouseId: state.pathParameters['id']!),
-                    ),
+                  StatefulShellBranch(
+                    navigatorKey: _warehousesKey,
+                    routes: [
+                      GoRoute(
+                        path: Routes.baseWarehouses,
+                        builder: (_, _) => _withBindings(
+                            [WarehouselistminBinding()],
+                            () => WarehouselistminPage()),
+                        routes: [
+                          GoRoute(
+                            // A path parameter, not `extra`: a warehouse id is part of the
+                            // address of what is being shown, so this location survives a
+                            // cold start. `extra` does not.
+                            path: Routes.segmentWarehouseInventory,
+                            builder: (_, state) => _withBindings(
+                              [WarehouseinventoryBinding()],
+                              () => WarehouseinventoryPage(
+                                  warehouseId: state.pathParameters['id']!),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
             ],
           ),
+          // ---- Tab 1: 运输管理 --------------------------------------------------
           StatefulShellBranch(
             navigatorKey: _transportKey,
+            initialLocation: Routes.transportDistribution,
             routes: [
-              GoRoute(
-                path: Routes.transport,
-                builder: (_, _) => _withBindings(
-                  [
-                    TransportManagementPageBinding(),
-                    DistributionListBinding(),
-                    VehicleListBinding(),
-                    DriverListBinding(),
-                  ],
-                  () => TransportManagementPagePage(),
+              StatefulShellRoute.indexedStack(
+                builder: (_, _, inner) => _withBindings(
+                  [TransportManagementPageBinding()],
+                  () => TransportManagementPagePage(shell: inner),
                 ),
-                routes: [
-                  GoRoute(
-                    // `extra`, because this screen needs a whole Distribution the caller
-                    // already holds, and re-fetching it by id would be a second request for
-                    // data that is already on screen.
-                    path: Routes.transportDistributionStatus,
-                    builder: (_, state) => _withBindings(
-                      [DistributionStatusBinding()],
-                      () => DistributionStatusPage(
-                          argument: state.extra as Distribution),
-                    ),
+                branches: [
+                  StatefulShellBranch(
+                    navigatorKey: _distributionKey,
+                    routes: [
+                      GoRoute(
+                        path: Routes.transportDistribution,
+                        builder: (_, _) => _withBindings(
+                            [DistributionListBinding()], () => DistributionListPage()),
+                        routes: [
+                          GoRoute(
+                            path: Routes.segmentDistributionApply,
+                            builder: (_, _) => _withBindings(
+                                [DistributionApplyBinding()],
+                                () => DistributionApplyPage()),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  GoRoute(
-                    path: Routes.transportDistributionApply,
-                    builder: (_, _) => _withBindings(
-                      [DistributionApplyBinding()],
-                      () => DistributionApplyPage(),
-                    ),
+                  StatefulShellBranch(
+                    navigatorKey: _vehiclesKey,
+                    routes: [
+                      GoRoute(
+                        path: Routes.transportVehicles,
+                        builder: (_, _) => _withBindings(
+                            [VehicleListBinding()], () => VehicleListPage()),
+                      ),
+                    ],
+                  ),
+                  StatefulShellBranch(
+                    navigatorKey: _driversKey,
+                    routes: [
+                      GoRoute(
+                        path: Routes.transportDrivers,
+                        builder: (_, _) => _withBindings(
+                            [DriverListBinding()], () => DriverListPage()),
+                      ),
+                    ],
                   ),
                 ],
               ),
+              // A sibling of the inner shell, not a child of one: this page paints its own
+              // scrim over the whole tab, which is what it did when it was pushed onto
+              // Get.nestedKey(70). Dimming only the content area would leave a bright
+              // header above a modal.
+              GoRoute(
+                path: Routes.distributionStatus,
+                builder: (_, state) => _withBindings(
+                  [DistributionStatusBinding()],
+                  () => DistributionStatusPage(argument: state.extra as Distribution),
+                ),
+              ),
             ],
           ),
+          // ---- Tab 2: 图表分析 --------------------------------------------------
           StatefulShellBranch(
             navigatorKey: _chartKey,
             routes: [
@@ -199,6 +268,7 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
+          // ---- Tab 3: 系统设置 --------------------------------------------------
           StatefulShellBranch(
             navigatorKey: _settingsKey,
             routes: [
@@ -208,12 +278,12 @@ final routerProvider = Provider<GoRouter>((ref) {
                     [SystemSettingBinding()], () => SystemSettingPage()),
                 routes: [
                   GoRoute(
-                    path: Routes.settingsOperationLog,
+                    path: Routes.segmentOperationLog,
                     builder: (_, _) => _withBindings(
                         [OperateLogBinding()], () => OperateLogPage()),
                   ),
                   GoRoute(
-                    path: Routes.settingsLoginLog,
+                    path: Routes.segmentLoginLog,
                     builder: (_, _) => _withBindings(
                         [LoginLogBinding()], () => LoginLogPage()),
                   ),
