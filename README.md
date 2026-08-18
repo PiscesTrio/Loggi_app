@@ -2,8 +2,6 @@
 
 Loggi App is the cross-platform Flutter frontend for the logistics management system. It consumes the Loggi Server REST API to provide mobile and desktop access to warehouse management, distribution tracking, fleet operations, and analytics.
 
-> **Personal Graduation Project (2023) — Frontend**
->
 > Backend repository: https://github.com/PiscesTrio/Loggi_server
 
 ## Tech Stack
