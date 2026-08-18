@@ -32,8 +32,12 @@ void main() {
     expect(list.first.name, 'a');
   });
 
-  test('code!=200 throws NetException and passes code/message through (pins current behavior)', () {
-    final r = resp({'code': 400, 'errorMsg': '出错了'});
+  // These two were written as characterization tests, and the second said in its own comment
+  // that it would go red once the contract was aligned. It did — at S06 rather than S18,
+  // because the decoder fix came with the backend's real status codes. Both now describe the
+  // behaviour instead of the defect.
+  test('code!=200 delivers the backend message from `msg`', () {
+    final r = resp({'code': 400, 'status': false, 'msg': '出错了'});
     expect(
       () => decoder.decode<_FakeModel, _FakeModel>(
           response: r, decodeType: _FakeModel()),
@@ -43,19 +47,46 @@ void main() {
     );
   });
 
-  // Characterization test for a cross-stack contract drift (x-contract critical item): the backend
-  // ResponseResult field is `msg` (grep for `errorMsg` across Loggi_server: 0 hits), but the decoder
-  // reads only `errorMsg`, so the backend error text is always lost and the user only ever sees the
-  // decoder's hardcoded fallback string (the exact literal is asserted below). This is the real
-  // current behavior, not something this slice fixes — the test goes red once S18 aligns the contract.
-  test('a real backend error body uses msg, not errorMsg, so its text is discarded (pins a known bug)', () {
+  test('a real backend error body reaches the user with its own text', () {
+    // The inverted version of the bug this used to pin: the decoder read
+    // `response.data['errorMsg']`, a key the backend has never sent — the envelope field is
+    // `msg` — so every error message the server wrote was replaced by NetException's generic
+    // fallback, one key name away from the user.
     final r = resp({'code': 403, 'status': false, 'msg': '你没有访问权限'});
     expect(
       () => decoder.decode<_FakeModel, _FakeModel>(
           response: r, decodeType: _FakeModel()),
       throwsA(isA<NetException>()
           .having((e) => e.code, 'code', 403)
+          .having((e) => e.message, 'message', '你没有访问权限')),
+    );
+  });
+
+  test('a body without a msg field still fails, with the generic fallback', () {
+    // Spring answers an unmapped path with its own error shape, which carries no `msg`.
+    final r = resp({'code': 404, 'status': false});
+    expect(
+      () => decoder.decode<_FakeModel, _FakeModel>(
+          response: r, decodeType: _FakeModel()),
+      throwsA(isA<NetException>()
+          .having((e) => e.code, 'code', 404)
           .having((e) => e.message, 'message', '请求出错')),
+    );
+  });
+
+  test('a non-Map body is refused rather than subscripted', () {
+    // Now that non-2xx responses are decoded instead of becoming DioExceptions, an HTML
+    // error page or an empty body reaches this code. `body['code']` on a String throws
+    // NoSuchMethodError, which flutter_nb_net's _execute does not catch — it would escape
+    // past every failure handler in the app.
+    final r = Response<dynamic>(
+        requestOptions: RequestOptions(path: '/x'),
+        statusCode: 502,
+        data: '<html>502 Bad Gateway</html>');
+    expect(
+      () => decoder.decode<_FakeModel, _FakeModel>(
+          response: r, decodeType: _FakeModel()),
+      throwsA(isA<NetException>().having((e) => e.code, 'code', 502)),
     );
   });
 }
