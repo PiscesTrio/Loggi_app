@@ -60,7 +60,7 @@ class VehicleMinCard extends StatelessWidget {
                               SvgString.truck,
                             ),
                             SvgPicture.string(
-                              SvgString.heavy_truck,
+                              SvgString.heavyTruck,
                             ),
                           ],
                         )),

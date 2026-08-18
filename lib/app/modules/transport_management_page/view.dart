@@ -107,13 +107,13 @@ class TransportManagementPagePage
                                           Navigator(
                                             key: Get.nestedKey(6),
                                             initialRoute:
-                                                Routes.DISTRIBUTION_LIST,
+                                                Routes.distributionList,
                                             onGenerateRoute: (settings) {
                                               switch (settings.name) {
-                                                case Routes.DISTRIBUTION_LIST:
+                                                case Routes.distributionList:
                                                   return GetPageRoute(
                                                       routeName: Routes
-                                                          .DISTRIBUTION_LIST,
+                                                          .distributionList,
                                                       page: () =>
                                                           DistributionListPage(),
                                                       transition:
@@ -122,10 +122,10 @@ class TransportManagementPagePage
                                                       maintainState: true,
                                                       binding:
                                                           DistributionListBinding());
-                                                case Routes.DISTRIBUTION_APPLY:
+                                                case Routes.distributionApply:
                                                   return GetPageRoute(
                                                       routeName: Routes
-                                                          .DISTRIBUTION_APPLY,
+                                                          .distributionApply,
                                                       page: () =>
                                                           DistributionApplyPage(),
                                                       transition:

@@ -16,7 +16,7 @@ class ProducttableminpagePage extends GetView<ProducttableminpageController> {
         final cells = [product.name, product.price, product.count];
         return DataRow(
             onSelectChanged: (value) async {
-              await Get.toNamed(Routes.PRODUCT_TABLE_DETAL,
+              await Get.toNamed(Routes.productTableDetail,
                   arguments: {"product":product}, id: 4);
             },
             cells: getCells(cells));

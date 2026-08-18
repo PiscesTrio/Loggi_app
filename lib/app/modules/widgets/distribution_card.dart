@@ -55,7 +55,7 @@ class DistributionCard extends GetView<DistributionListController> {
                                         ElevatedButton(
                                         onPressed:(){
                                           Navigator.pop(context);
-                                          Get.toNamed(Routes.DISTRIBUTION_STATUS,arguments: distribution,id: 70);},
+                                          Get.toNamed(Routes.distributionStatus,arguments: distribution,id: 70);},
                                         child: const Text("查看配送进度")),
                                     ElevatedButton(
                                         onPressed: details.onStepContinue,

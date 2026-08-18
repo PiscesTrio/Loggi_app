@@ -19,7 +19,7 @@ class DistributionListPage extends GetView<DistributionListController> {
             ),
             child: FloatingActionButton(
               onPressed: () {
-               Get.toNamed(Routes.DISTRIBUTION_APPLY,id: 6);
+               Get.toNamed(Routes.distributionApply,id: 6);
               },
               splashColor: ColorPalette.bondyBlue,
               backgroundColor: ColorPalette.pacificBlue,

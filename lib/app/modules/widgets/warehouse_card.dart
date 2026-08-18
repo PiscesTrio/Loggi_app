@@ -18,7 +18,7 @@ class WarehouseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        Get.toNamed(Routes.WAREHOUSE_INVENTORY,arguments: warehouse!.id,id: 5);
+        Get.toNamed(Routes.warehouseInventory,arguments: warehouse!.id,id: 5);
             },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),

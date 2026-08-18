@@ -19,7 +19,7 @@ class LoginPage extends GetView<LoginController> {
      
     box.listenKey("token", (value) {
     if(value!="not logged in"&&value!=null){
-      Get.offAndToNamed(Routes.HOME);
+      Get.offAndToNamed(Routes.home);
     }
    });
     return GetBuilder<LoginController>(

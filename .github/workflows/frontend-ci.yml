@@ -18,11 +18,11 @@ jobs:
       # This workflow lives inside the Loggi_app repo, so the checkout root is the frontend project root.
       - run: flutter pub get
       - name: Analyze
-        # S00 gate: "no error, warnings acceptable". Unlike `dart analyze`, `flutter analyze`
-        # defaults to fatal-infos/fatal-warnings=true, and this repo still has infos (0 error,
-        # 0 warning), so a bare run always exits 1. With both flags passed, error-level issues
-        # still exit 1 — exactly the gate. Zeroing the infos is the lint-tightening step.
-        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+        # The escape hatches are gone. S00 could only gate on errors because the repo carried
+        # 481 infos; a bare `flutter analyze` defaults to fatal-infos and fatal-warnings, so it
+        # would have failed on day one. The count is now zero, so the default IS the gate, and
+        # the first new info fails the build instead of joining a pile nobody reads.
+        run: flutter analyze
       - name: Test with coverage
         run: flutter test --coverage
       # S00 deliberately omits `dart format --set-exit-if-changed`: existing code is unformatted,

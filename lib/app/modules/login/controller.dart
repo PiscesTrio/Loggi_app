@@ -2,7 +2,7 @@ import 'package:loggi_app/app/data/models/index.dart';
 import 'package:loggi_app/app/data/network/api.dart';
 import 'package:loggi_app/app/data/network/options.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
-import 'package:loggi_app/app/utils/TokenStorage.dart';
+import 'package:loggi_app/app/utils/token_storage.dart';
 import 'package:get/get.dart';
 
 

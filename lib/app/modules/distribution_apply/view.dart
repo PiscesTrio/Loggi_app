@@ -7,7 +7,7 @@ import '../../theme/color_palette.dart';
 import '../widgets/toast.dart';
 import 'index.dart';
 import 'package:intl/intl.dart';
-import '../../utils/DateTimeExtension.dart';
+import '../../utils/date_time_extension.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class DistributionApplyPage extends GetView<DistributionApplyController> {
