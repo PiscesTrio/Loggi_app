@@ -36,5 +36,9 @@ void main()async {
         .enableLogger(false)
         .addInterceptor(RequestLogInterceptor())
         .create();
+  // Non-2xx bodies go to MyHttpDecoder rather than becoming a DioException whose
+  // message is Dio's English boilerplate. See ApiOptions._acceptAllStatuses for
+  // why this is set after create() instead of through the builder.
+  NetOptions.instance.dio.options.validateStatus = (status) => status != null;
   runApp(const MyApp());
 }
