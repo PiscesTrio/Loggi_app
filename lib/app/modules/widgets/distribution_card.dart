@@ -1,236 +1,27 @@
-import 'package:loggi_app/app/data/models/distribution.dart';
 import 'package:flutter/material.dart';
-
-import 'package:loggi_app/app/theme/color_palette.dart';
-import 'package:get/get.dart';
-import '../distribution_list/controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loggi_app/app/data/models/distribution.dart';
 import 'package:loggi_app/app/router/routes.dart';
+import 'package:loggi_app/app/theme/color_palette.dart';
 
-class DistributionCard extends GetView<DistributionListController> {
+import '../distribution_list/providers.dart';
+
+/// One delivery order in the list.
+class DistributionCard extends StatelessWidget {
+  const DistributionCard({super.key, this.distribution, this.docID});
+
   final Distribution? distribution;
   final String? docID;
-  DistributionCard({super.key, this.distribution, this.docID});
-  final RxInt status = 0.obs;
-  
-  
 
   @override
   Widget build(BuildContext context) {
-    status(distribution!.status);
     return GestureDetector(
-        onTap: () async {
-          showDialog(
+        onTap: () => showDialog<void>(
               context: context,
-              builder: (BuildContext context) {
-                return UnconstrainedBox(
-                  constrainedAxis: Axis.horizontal,
-                  child: SizedBox(
-                    // width: 300,
-                    height: 500,
-                    child: Dialog(
-                      insetPadding: EdgeInsets.zero,
-                      child: Obx(() => Stepper(
-                          controlsBuilder: (context, details) {
-                            return IndexedStack(
-                              index: status.value,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    OutlinedButton(
-                                        onPressed: details.onStepCancel,
-                                        child: const Text("返回")),
-                                    ElevatedButton(
-                                        onPressed: details.onStepContinue,
-                                        child: const Text("通过")),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    OutlinedButton(
-                                        onPressed: details.onStepCancel,
-                                        child: const Text("返回")),
-                                        ElevatedButton(
-                                        onPressed:(){
-                                          Navigator.pop(context);
-                                          context.push(Routes.distributionStatus, extra: distribution);},
-                                        child: const Text("查看配送进度")),
-                                    ElevatedButton(
-                                        onPressed: details.onStepContinue,
-                                        child: const Text("确认已送达")),
-                                        
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    OutlinedButton(
-                                        onPressed: details.onStepCancel,
-                                        child: const Text("返回"))
-                                  ],
-                                )
-                              ],
-                            );
-                          },
-                          onStepCancel: () {
-                            Navigator.pop(context);
-                          },
-                          onStepContinue: () {
-                            // .value, not the Rx itself: GetX overrides == to unwrap,
-                            // so both compile and behave identically, but only one of
-                            // them says so without knowing that.
-                            if (status.value != 2) {
-                              status(status.value + 1);
-                              // Distribution is immutable now, so the advanced order is
-                              // a new value rather than an edit to the one the list is
-                              // still rendering. The list refreshes from the server
-                              // response, which is the only copy that was ever right.
-                              controller.updateStatus(
-                                  distribution!.copyWith(status: status.value));
-                            } else {
-                              Navigator.pop(context);
-                            }
-                          },
-                          type: StepperType.horizontal,
-                          steps: [
-                            Step(
-                              isActive: status.value >= 0,
-                              title: const Text("审核"),
-                              content: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Text("驾驶员："),
-                                      Text(distribution!.driver ?? "-")
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text("车牌号码："),
-                                      Text(distribution!.number ?? "-")
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text("加急处理："),
-                                      Text(distribution!.urgent! ? "是" : "否")
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text("注意事项："),
-                                      Expanded(
-                                          child: Text(distribution!.care ?? "-",
-                                              maxLines: 5))
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text("客户电话："),
-                                      Expanded(
-                                          child: Text(
-                                        distribution!.phone ?? "-",
-                                        maxLines: 5,
-                                      ))
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                   
-                                    children: [
-                                      const Text("客户地址："),
-                                      Expanded(
-                                          child: Text(
-                                              distribution!.address ?? "-",
-                                              maxLines: 5))
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text("预计送达："),
-                                      Text(distribution!.time ?? "-")
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Step(
-                              isActive: status.value >= 1,
-                              title: const Text("配送中"),
-                              content: Center(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: const [
-                                      Icon(
-                                        Icons.warehouse_rounded,
-                                        size: 100,
-                                        color: Color.fromARGB(235, 17, 91, 210),
-                                      ),
-                                      Icon(
-                                        Icons.arrow_forward_rounded,
-                                        size: 100,
-                                        color: Color.fromARGB(235, 17, 91, 210),
-                                      ),
-                                      Icon(
-                                        Icons.location_on_rounded,
-                                        size: 100,
-                                        color: Color.fromARGB(235, 17, 91, 210),
-                                      )
-                                      
-                                    ]),
-                                    const Text("配送中")
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Step(
-                              isActive: status.value >= 2,
-                              title: const Text("配送完成"),
-                              content: Center(
-                                child: Column(
-                                  children: const [
-                                    Icon(
-                                      Icons.check_circle_rounded,
-                                      size: 160,
-                                      color: Color.fromARGB(236, 28, 227, 48),
-                                    ),
-                                    Text("配送已完成")
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                          currentStep: status.value)),
-                    ),
-                  ),
-                );
-              });
-        },
-        child: Stack(
+              builder: (_) => _StatusStepperDialog(distribution: distribution),
+            ),
+                child: Stack(
           // clipBehavior: Clip.antiAliasWithSaveLayer,
           children: [
             Container(
@@ -490,5 +281,238 @@ class DistributionCard extends GetView<DistributionListController> {
                 ))
           ],
         ));
+  }
+}
+
+
+/// The approve / deliver / complete stepper.
+///
+/// Its own widget, holding its own step index. The index used to be an `RxInt` **field on
+/// the card widget**, re-seeded from the order at the top of every `build` and read from
+/// inside `showDialog`'s builder — which runs in a different element tree, so nothing
+/// short of an observable could have connected them. That is why the `Obx` was there.
+/// State that belongs to a dialog lives in the dialog.
+class _StatusStepperDialog extends ConsumerStatefulWidget {
+  const _StatusStepperDialog({this.distribution});
+
+  final Distribution? distribution;
+
+  @override
+  ConsumerState<_StatusStepperDialog> createState() => _StatusStepperDialogState();
+}
+
+class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
+  late int _step = widget.distribution?.status ?? 0;
+
+  @override
+  Widget build(BuildContext context) {
+                    return UnconstrainedBox(
+                  constrainedAxis: Axis.horizontal,
+                  child: SizedBox(
+                    // width: 300,
+                    height: 500,
+                    child: Dialog(
+                      insetPadding: EdgeInsets.zero,
+                      child: Stepper(
+                          controlsBuilder: (context, details) {
+                            return IndexedStack(
+                              index: _step,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    OutlinedButton(
+                                        onPressed: details.onStepCancel,
+                                        child: const Text("返回")),
+                                    ElevatedButton(
+                                        onPressed: details.onStepContinue,
+                                        child: const Text("通过")),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    OutlinedButton(
+                                        onPressed: details.onStepCancel,
+                                        child: const Text("返回")),
+                                        ElevatedButton(
+                                        onPressed:(){
+                                          Navigator.pop(context);
+                                          context.push(Routes.distributionStatus, extra: widget.distribution);},
+                                        child: const Text("查看配送进度")),
+                                    ElevatedButton(
+                                        onPressed: details.onStepContinue,
+                                        child: const Text("确认已送达")),
+                                        
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    OutlinedButton(
+                                        onPressed: details.onStepCancel,
+                                        child: const Text("返回"))
+                                  ],
+                                )
+                              ],
+                            );
+                          },
+                          onStepCancel: () {
+                            Navigator.pop(context);
+                          },
+                          onStepContinue: () {
+                            // .value, not the Rx itself: GetX overrides == to unwrap,
+                            // so both compile and behave identically, but only one of
+                            // them says so without knowing that.
+                            if (_step != 2) {
+                              final next = _step + 1;
+                              setState(() => _step = next);
+                              // Distribution is immutable now, so the advanced order is
+                              // a new value rather than an edit to the one the list is
+                              // still rendering. The list refreshes from the server
+                              // response, which is the only copy that was ever right.
+                              ref
+                                  .read(distributionListProvider.notifier)
+                                  .advance(widget.distribution!
+                                      .copyWith(status: next));
+                            } else {
+                              Navigator.pop(context);
+                            }
+                          },
+                          type: StepperType.horizontal,
+                          steps: [
+                            Step(
+                              isActive: _step >= 0,
+                              title: const Text("审核"),
+                              content: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Text("驾驶员："),
+                                      Text(widget.distribution!.driver ?? "-")
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text("车牌号码："),
+                                      Text(widget.distribution!.number ?? "-")
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text("加急处理："),
+                                      Text(widget.distribution!.urgent! ? "是" : "否")
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text("注意事项："),
+                                      Expanded(
+                                          child: Text(widget.distribution!.care ?? "-",
+                                              maxLines: 5))
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text("客户电话："),
+                                      Expanded(
+                                          child: Text(
+                                        widget.distribution!.phone ?? "-",
+                                        maxLines: 5,
+                                      ))
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                   
+                                    children: [
+                                      const Text("客户地址："),
+                                      Expanded(
+                                          child: Text(
+                                              widget.distribution!.address ?? "-",
+                                              maxLines: 5))
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text("预计送达："),
+                                      Text(widget.distribution!.time ?? "-")
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Step(
+                              isActive: _step >= 1,
+                              title: const Text("配送中"),
+                              content: Center(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: const [
+                                      Icon(
+                                        Icons.warehouse_rounded,
+                                        size: 100,
+                                        color: Color.fromARGB(235, 17, 91, 210),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_rounded,
+                                        size: 100,
+                                        color: Color.fromARGB(235, 17, 91, 210),
+                                      ),
+                                      Icon(
+                                        Icons.location_on_rounded,
+                                        size: 100,
+                                        color: Color.fromARGB(235, 17, 91, 210),
+                                      )
+                                      
+                                    ]),
+                                    const Text("配送中")
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Step(
+                              isActive: _step >= 2,
+                              title: const Text("配送完成"),
+                              content: Center(
+                                child: Column(
+                                  children: const [
+                                    Icon(
+                                      Icons.check_circle_rounded,
+                                      size: 160,
+                                      color: Color.fromARGB(236, 28, 227, 48),
+                                    ),
+                                    Text("配送已完成")
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                          currentStep: _step),
+                    ),
+                  ),
+                );
   }
 }
