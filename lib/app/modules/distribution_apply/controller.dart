@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../data/delivery_points.dart';
 import '../../data/network/api.dart';
 import 'package:intl/intl.dart';
-import 'package:loggi_app/app/data/network/legacy_bridge.dart';
+import 'package:loggi_app/app/data/network/container_access.dart';
 import 'package:loggi_app/app/router/app_router.dart';
 
 class DistributionApplyController extends GetxController

@@ -1,7 +1,6 @@
 import 'package:loggi_app/app/data/models/admin.dart';
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class LoginResp extends BaseNetModel{
+class LoginResp{
   Admin? admin;
   String? token;
     LoginResp({
@@ -10,13 +9,8 @@ class LoginResp extends BaseNetModel{
   });
 
   LoginResp.fromJson(Map<String,dynamic> json){
-    admin = Admin().fromJson(json["admin"]);
+    admin = Admin.fromJson(json["admin"] as Map<String,dynamic>);
     token = json['token'];
-  }
-  
-  @override
-  fromJson(Map<String, dynamic> json) {
-    return LoginResp.fromJson(json);
   }
 
 }

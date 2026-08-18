@@ -1,6 +1,5 @@
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class Product extends BaseNetModel {
+class Product {
   String? id;
   String? name;
   double? price;
@@ -38,11 +37,6 @@ class Product extends BaseNetModel {
     data['createAt'] = createAt;
     data['updateAt'] = updateAt;
     return data;
-  }
-
-  @override
-  fromJson(Map<String, dynamic> json) {
-    return Product.fromJson(json);
   }
 
   Product copyWith({

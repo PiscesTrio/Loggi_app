@@ -1,6 +1,5 @@
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class Vehicle extends BaseNetModel {
+class Vehicle {
   String? id;
   String? number;
   String? type;
@@ -25,10 +24,5 @@ class Vehicle extends BaseNetModel {
     data['driving'] = driving;
     data['createAt'] = createAt;
     return data;
-  }
-
-  @override
-  fromJson(Map<String, dynamic> json) {
-    return Vehicle.fromJson(json);
   }
 }

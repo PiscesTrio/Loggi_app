@@ -1,6 +1,5 @@
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class CommdityVo extends BaseNetModel{
+class CommdityVo{
   int? value;
   String? name;
 
@@ -16,10 +15,5 @@ class CommdityVo extends BaseNetModel{
     data['value'] = value;
     data['name'] = name;
     return data;
-  }
-  
-  @override
-  fromJson(Map<String, dynamic> json) {
-    return CommdityVo.fromJson(json);
   }
 }

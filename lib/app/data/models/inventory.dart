@@ -1,6 +1,5 @@
-import 'package:flutter_nb_net/flutter_net.dart';
 
-class Inventory extends BaseNetModel{
+class Inventory{
   String? id;
   String? wid;
   String? cid;
@@ -29,10 +28,5 @@ class Inventory extends BaseNetModel{
     data['location'] = location;
     data['count'] = count;
     return data;
-  }
-  
-  @override
-  fromJson(Map<String, dynamic> json) {
-    return Inventory.fromJson(json);
   }
 }

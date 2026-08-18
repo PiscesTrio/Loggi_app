@@ -1,6 +1,6 @@
 import 'package:loggi_app/app/data/models/index.dart';
 import 'package:loggi_app/app/data/network/api.dart';
-import 'package:loggi_app/app/data/network/legacy_bridge.dart';
+import 'package:loggi_app/app/data/network/container_access.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
 import 'package:get/get.dart';
 import 'package:loggi_app/app/auth/auth_provider.dart';

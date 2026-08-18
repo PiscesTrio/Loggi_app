@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/network/legacy_bridge.dart';
 import '../data/network/network_providers.dart';
 
 /// Whether anyone is signed in, and whether we know yet.
@@ -40,13 +39,13 @@ class AuthNotifier extends Notifier<AuthState> {
   /// Reads the stored credential once, at startup.
   Future<void> restore() async {
     final token = await ref.read(tokenStorageProvider).read();
-    // The legacy stack still serves most screens and holds the header itself.
-    setLegacyToken(token);
     state = AuthState(token == null ? AuthStatus.signedOut : AuthStatus.signedIn);
   }
 
   Future<void> signIn(String token) async {
-    await saveToken(token);
+    // One client now, so one write. This used to also push the credential onto
+    // flutter_nb_net's global Dio, and the two could disagree.
+    await ref.read(tokenStorageProvider).write(token);
     state = const AuthState(AuthStatus.signedIn);
   }
 
@@ -56,7 +55,7 @@ class AuthNotifier extends Notifier<AuthState> {
   /// an expired session behaves exactly like a deliberate logout instead of leaving the app
   /// in a signed-in state that fails every request.
   Future<void> signOut() async {
-    await clearToken();
+    await ref.read(tokenStorageProvider).clear();
     state = const AuthState(AuthStatus.signedOut);
   }
 }
