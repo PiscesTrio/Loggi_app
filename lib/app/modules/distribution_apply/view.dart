@@ -1,5 +1,4 @@
 import 'package:loggi_app/app/data/delivery_points.dart';
-import 'package:loggi_app/app/modules/distribution_list/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +9,8 @@ import 'package:intl/intl.dart';
 import '../../utils/date_time_extension.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loggi_app/app/data/network/container_access.dart';
+import 'package:loggi_app/app/modules/distribution_list/providers.dart';
 
 class DistributionApplyPage extends GetView<DistributionApplyController> {
   DistributionApplyPage({super.key});
@@ -628,7 +629,16 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                   if (value) {
                                                     _isLoading(false);
                                                     showTextToast("提交成功");
-                                                    DistributionListController.to.updateData();
+                                                    // Through the container, because
+                                                    // this screen is still a GetView with
+                                                    // no ref. `.to` was Get.find() — it
+                                                    // needed the list controller to have
+                                                    // been constructed already; a provider
+                                                    // does not.
+                                                    appContainer
+                                                        .read(distributionListProvider
+                                                            .notifier)
+                                                        .refresh();
                                                     // The await above may outlive this widget; popping a dead context throws.
                                                     if (!context.mounted) return;
                                                     Navigator.pop(context);

@@ -11,11 +11,8 @@ import '../modules/chart/bindings.dart';
 import '../modules/chart/view.dart';
 import '../modules/distribution_apply/bindings.dart';
 import '../modules/distribution_apply/view.dart';
-import '../modules/distribution_list/bindings.dart';
 import '../modules/distribution_list/view.dart';
-import '../modules/distribution_status/bindings.dart';
 import '../modules/distribution_status/view.dart';
-import '../modules/driver_list/bindings.dart';
 import '../modules/driver_list/view.dart';
 import '../modules/login/bindings.dart';
 import '../modules/login/view.dart';
@@ -31,7 +28,6 @@ import '../modules/system_setting/bindings.dart';
 import '../modules/system_setting/view.dart';
 import '../modules/transport_management_page/bindings.dart';
 import '../modules/transport_management_page/view.dart';
-import '../modules/vehicle_list/bindings.dart';
 import '../modules/vehicle_list/view.dart';
 import '../modules/WarehouseInventory/bindings.dart';
 import '../modules/WarehouseInventory/view.dart';
@@ -209,8 +205,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                     routes: [
                       GoRoute(
                         path: Routes.transportDistribution,
-                        builder: (_, _) => _withBindings(
-                            [DistributionListBinding()], () => DistributionListPage()),
+                        // No binding: this screen and the two beside it read
+                        // their state from providers now, so there is nothing to
+                        // register before building them.
+                        builder: (_, _) => const DistributionListPage(),
                         routes: [
                           GoRoute(
                             path: Routes.segmentDistributionApply,
@@ -227,8 +225,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                     routes: [
                       GoRoute(
                         path: Routes.transportVehicles,
-                        builder: (_, _) => _withBindings(
-                            [VehicleListBinding()], () => VehicleListPage()),
+                        builder: (_, _) => const VehicleListPage(),
                       ),
                     ],
                   ),
@@ -237,8 +234,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                     routes: [
                       GoRoute(
                         path: Routes.transportDrivers,
-                        builder: (_, _) => _withBindings(
-                            [DriverListBinding()], () => DriverListPage()),
+                        builder: (_, _) => const DriverListPage(),
                       ),
                     ],
                   ),
@@ -250,10 +246,8 @@ final routerProvider = Provider<GoRouter>((ref) {
               // header above a modal.
               GoRoute(
                 path: Routes.distributionStatus,
-                builder: (_, state) => _withBindings(
-                  [DistributionStatusBinding()],
-                  () => DistributionStatusPage(argument: state.extra as Distribution),
-                ),
+                builder: (_, state) =>
+                    DistributionStatusPage(argument: state.extra as Distribution),
               ),
             ],
           ),

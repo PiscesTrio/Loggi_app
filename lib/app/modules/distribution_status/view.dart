@@ -1,31 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:loggi_app/app/data/models/index.dart';
 import 'package:loggi_app/app/modules/widgets/distribution_status_item.dart';
 
 import '../../theme/color_palette.dart';
+import '../widgets/async_view.dart';
 import '../widgets/route_map.dart';
 import '../widgets/route_map_fullscreen.dart';
-import 'index.dart';
-import 'package:go_router/go_router.dart';
+import 'providers.dart';
 
-class DistributionStatusPage extends GetView<DistributionStatusController> {
-  final Distribution argument;
-
+class DistributionStatusPage extends ConsumerWidget {
   const DistributionStatusPage({super.key, required this.argument});
 
+  final Distribution argument;
+
   final String? name = '配送状況';
+
   @override
-  Widget build(BuildContext context) {
-    controller.distribution(argument);
+  Widget build(BuildContext context, WidgetRef ref) {
+    // The timeline is asked for by id. The old screen assigned the order onto the
+    // controller from inside build() and the controller fetched in onReady, one frame
+    // later — an ordering that held by luck and dereferenced `id!` if it ever did not.
+    final statuses = ref.watch(distributionStatusProvider(argument.id ?? ''));
 
     // A second AMapWidget used to be built here on every frame and then thrown
     // away — it was never inserted into the widget tree, yet it asserted non-null
     // on four coordinates while being constructed, so a distribution with any
     // missing coordinate crashed this screen on behalf of something invisible.
 
-    return GetBuilder<DistributionStatusController>(
+    return Builder(
       builder: (_) {
         return Scaffold(
           body: Container(
@@ -85,24 +89,25 @@ class DistributionStatusPage extends GetView<DistributionStatusController> {
                         padding: const EdgeInsets.symmetric(horizontal: 0),
                         child: SizedBox(
                             child: RefreshIndicator(
-                                onRefresh: () {
-                                  return Future(() {
-                                    controller.updateData();
-                                  });
-                                },
+                                onRefresh: () async => ref.invalidate(
+                                    distributionStatusProvider(
+                                        argument.id ?? '')),
                                 child: ListView(
                                   children: [
                                     // No InteractiveViewer: RouteMap runs its own
                                     // gesture handling, and wrapping it would put
                                     // the two in competition.
-                                    controller.obx((data) {
+                                    AsyncView(
+                                        value: statuses,
+                                        onRetry: () => ref.invalidate(
+                                            distributionStatusProvider(
+                                                argument.id ?? '')),
+                                        builder: (data) {
                                       // data![0] used to be read three times; an
                                       // empty status list threw RangeError before
                                       // the map could render.
                                       final latest =
-                                          (data != null && data.isNotEmpty)
-                                              ? data.first
-                                              : null;
+                                          data.isNotEmpty ? data.first : null;
                                       final points = <RoutePoint>[
                                         RoutePoint(argument.fromLat,
                                             argument.fromLng, kIconStart),
@@ -126,16 +131,17 @@ class DistributionStatusPage extends GetView<DistributionStatusController> {
                                                         points: points))),
                                       );
                                     }),
-                                    controller.obx(
-                                      (data) => ListView.builder(
+                                    AsyncView(
+                                      value: statuses,
+                                      emptyMessage: '暂无配送记录',
+                                      builder: (data) => ListView.builder(
                                           shrinkWrap: true,
                                           physics:
                                               NeverScrollableScrollPhysics(),
-                                          itemCount: data!.length,
+                                          itemCount: data.length,
                                           itemBuilder: (context, index) {
                                             return DistributionStatusItem(
-                                              distribution:
-                                                  controller.distribution.value,
+                                              distribution: argument,
                                               distributionStatus: data[index],
                                               isTop: index == 0,
                                               isBottom:
