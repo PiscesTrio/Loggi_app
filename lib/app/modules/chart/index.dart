@@ -1,4 +1,4 @@
-library chart;
+library;
 
 
 export './controller.dart';

@@ -41,18 +41,18 @@ class Driver extends BaseNetModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['gender'] = this.gender;
-    data['phone'] = this.phone;
-    data['address'] = this.address;
-    data['idCard'] = this.idCard;
-    data['license'] = this.license;
-    data['score'] = this.score;
-    data['driving'] = this.driving;
-    data['createAt'] = this.createAt;
-    data['updateAt'] = this.updateAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['gender'] = gender;
+    data['phone'] = phone;
+    data['address'] = address;
+    data['idCard'] = idCard;
+    data['license'] = license;
+    data['score'] = score;
+    data['driving'] = driving;
+    data['createAt'] = createAt;
+    data['updateAt'] = updateAt;
     return data;
   }
 

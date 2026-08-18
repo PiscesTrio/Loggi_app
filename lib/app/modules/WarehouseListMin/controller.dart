@@ -28,15 +28,11 @@ class WarehouselistminController extends GetxController  with StateMixin<List<Wa
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {}
 
-  updateData(){
+  void updateData(){
     change(null, status: RxStatus.loading());
     NbRequest().requestGet4().then((result) => change(result, status: RxStatus.success()))
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));

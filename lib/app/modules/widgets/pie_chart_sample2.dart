@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class PieChartSample2 extends StatelessWidget {
   final List<CommdityVo> data;
-  PieChartSample2({Key? key, required this.data}):super(key:key);
+  PieChartSample2({super.key, required this.data});
      final List<Color> color = [
     ColorPalette.contentColorBlue,
     ColorPalette.contentColorYellow,

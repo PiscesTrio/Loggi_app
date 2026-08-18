@@ -7,7 +7,7 @@ import '../widgets/distribution_card.dart';
 import 'index.dart';
 
 class DistributionListPage extends GetView<DistributionListController> {
-  const DistributionListPage({Key? key}) : super(key: key);
+  const DistributionListPage({super.key});
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DistributionListController>(builder: (_) {

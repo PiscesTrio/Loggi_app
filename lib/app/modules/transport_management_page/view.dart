@@ -12,7 +12,7 @@ import 'index.dart';
 
 class TransportManagementPagePage
     extends GetView<TransportManagementPageController> {
-  const TransportManagementPagePage({Key? key}) : super(key: key);
+  const TransportManagementPagePage({super.key});
 
   final String? name = '运输管理';
   @override

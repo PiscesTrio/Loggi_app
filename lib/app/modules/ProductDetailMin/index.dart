@@ -1,4 +1,4 @@
-library productdetailmin;
+library;
 
 
 export './controller.dart';

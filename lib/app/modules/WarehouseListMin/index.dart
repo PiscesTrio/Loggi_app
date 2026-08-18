@@ -1,4 +1,4 @@
-library warehouselistmin;
+library;
 
 
 export './controller.dart';

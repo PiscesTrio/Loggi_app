@@ -8,7 +8,7 @@ import '../../theme/color_palette.dart';
 class VehicleMinCard extends StatelessWidget {
   final Vehicle? vehicle;
 
-  const VehicleMinCard({Key? key, this.vehicle}) : super(key: key);
+  const VehicleMinCard({super.key, this.vehicle});
 
   int _type(String type) {
     switch (type) {
@@ -41,7 +41,7 @@ class VehicleMinCard extends StatelessWidget {
                     BoxShadow(
                       offset: const Offset(0, 5),
                       blurRadius: 6,
-                      color: const Color(0xff000000).withOpacity(0.16),
+                      color: const Color(0xff000000).withValues(alpha: 0.16),
                     ),
                   ],
                 ),

@@ -85,8 +85,7 @@ class SysMain extends StatelessWidget {
         SizedBox(
           height: 50,
         ),
-        Container(
-          child: OutlinedButton(
+        OutlinedButton(
             onPressed: () {
               showDialog(
                   context: context,
@@ -118,6 +117,12 @@ class SysMain extends StatelessWidget {
                     );
                   });
             },
+            style: const ButtonStyle(
+              backgroundColor:
+                  WidgetStatePropertyAll(Color.fromARGB(255, 221, 159, 159)),
+              foregroundColor:
+                  WidgetStatePropertyAll(Color.fromARGB(255, 230, 13, 13)),
+            ),
             child: Text(
               "退出登录",
               style: TextStyle(
@@ -125,14 +130,7 @@ class SysMain extends StatelessWidget {
                   fontSize: 20,
                   color: ColorPalette.contentColorRed),
             ),
-            style: const ButtonStyle(
-              backgroundColor:
-                  MaterialStatePropertyAll(Color.fromARGB(255, 221, 159, 159)),
-              foregroundColor:
-                  MaterialStatePropertyAll(Color.fromARGB(255, 230, 13, 13)),
-            ),
-          ),
-        )
+          )
       ],
     );
   }

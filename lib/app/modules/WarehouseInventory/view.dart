@@ -7,8 +7,7 @@ import '../widgets/toast.dart';
 import 'index.dart';
 
 class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
-  WarehouseinventoryPage({Key? key, required this.warehouseId})
-      : super(key: key);
+  WarehouseinventoryPage({super.key, required this.warehouseId});
   final String warehouseId;
   List<DataRow> getRows(List<Inventory>? inventorys) =>
       inventorys!.map((Inventory inventory) {
@@ -142,7 +141,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                     child: Dialog(
                                                       insetPadding:
                                                           EdgeInsets.zero,
-                                                      child: Container(
+                                                      child: SizedBox(
                                                         height: 400,
                                                         child: Column(
                                                           children: [
@@ -191,7 +190,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                               6,
                                                                           color: ColorPalette
                                                                               .nileBlue
-                                                                              .withOpacity(0.1),
+                                                                              .withValues(alpha: 0.1),
                                                                         ),
                                                                       ],
                                                                     ),
@@ -222,7 +221,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                                     style: TextStyle(
                                                                                       fontFamily: "Nunito",
                                                                                       fontSize: 16,
-                                                                                      color: ColorPalette.nileBlue.withOpacity(0.58),
+                                                                                      color: ColorPalette.nileBlue.withValues(alpha: 0.58),
                                                                                     ),
                                                                                   ),
                                                                                 );
@@ -259,8 +258,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                         6,
                                                                     color: ColorPalette
                                                                         .nileBlue
-                                                                        .withOpacity(
-                                                                            0.1),
+                                                                        .withValues(
+                                                                            alpha: 0.1),
                                                                   ),
                                                                 ],
                                                               ),
@@ -310,8 +309,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                         16,
                                                                     color: ColorPalette
                                                                         .nileBlue
-                                                                        .withOpacity(
-                                                                            0.58),
+                                                                        .withValues(
+                                                                            alpha: 0.58),
                                                                   ),
                                                                 ),
                                                                 cursorColor:
@@ -346,8 +345,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                         6,
                                                                     color: ColorPalette
                                                                         .nileBlue
-                                                                        .withOpacity(
-                                                                            0.1),
+                                                                        .withValues(
+                                                                            alpha: 0.1),
                                                                   ),
                                                                 ],
                                                               ),
@@ -399,8 +398,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                         16,
                                                                     color: ColorPalette
                                                                         .nileBlue
-                                                                        .withOpacity(
-                                                                            0.58),
+                                                                        .withValues(
+                                                                            alpha: 0.58),
                                                                   ),
                                                                 ),
                                                                 cursorColor:
@@ -418,7 +417,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                 ),
                                                                 Expanded(
                                                                   child:
-                                                                      Container(
+                                                                      SizedBox(
                                                                     height: 50,
                                                                     child:
                                                                         OutlinedButton(
@@ -436,7 +435,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                   width: 20,
                                                                 ),
                                                                 Expanded(
-                                                                  child: Container(
+                                                                  child: SizedBox(
                                                                       height: 50,
                                                                       child: Obx(() => ElevatedButton(
                                                                             child: _isLoading.value
@@ -523,7 +522,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                     child: Dialog(
                                                       insetPadding:
                                                           EdgeInsets.zero,
-                                                      child: Container(
+                                                      child: SizedBox(
                                                         height: 400,
                                                         child: Column(
                                                           children: [
@@ -572,7 +571,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                               6,
                                                                           color: ColorPalette
                                                                               .nileBlue
-                                                                              .withOpacity(0.1),
+                                                                              .withValues(alpha: 0.1),
                                                                         ),
                                                                       ],
                                                                     ),
@@ -603,7 +602,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                                     style: TextStyle(
                                                                                       fontFamily: "Nunito",
                                                                                       fontSize: 16,
-                                                                                      color: ColorPalette.nileBlue.withOpacity(0.58),
+                                                                                      color: ColorPalette.nileBlue.withValues(alpha: 0.58),
                                                                                     ),
                                                                                   ),
                                                                                 );
@@ -640,8 +639,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                         6,
                                                                     color: ColorPalette
                                                                         .nileBlue
-                                                                        .withOpacity(
-                                                                            0.1),
+                                                                        .withValues(
+                                                                            alpha: 0.1),
                                                                   ),
                                                                 ],
                                                               ),
@@ -691,8 +690,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                         16,
                                                                     color: ColorPalette
                                                                         .nileBlue
-                                                                        .withOpacity(
-                                                                            0.58),
+                                                                        .withValues(
+                                                                            alpha: 0.58),
                                                                   ),
                                                                 ),
                                                                 cursorColor:
@@ -727,8 +726,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                         6,
                                                                     color: ColorPalette
                                                                         .nileBlue
-                                                                        .withOpacity(
-                                                                            0.1),
+                                                                        .withValues(
+                                                                            alpha: 0.1),
                                                                   ),
                                                                 ],
                                                               ),
@@ -780,8 +779,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                         16,
                                                                     color: ColorPalette
                                                                         .nileBlue
-                                                                        .withOpacity(
-                                                                            0.58),
+                                                                        .withValues(
+                                                                            alpha: 0.58),
                                                                   ),
                                                                 ),
                                                                 cursorColor:
@@ -799,7 +798,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                 ),
                                                                 Expanded(
                                                                   child:
-                                                                      Container(
+                                                                      SizedBox(
                                                                     height: 50,
                                                                     child:
                                                                         OutlinedButton(
@@ -817,7 +816,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                   width: 20,
                                                                 ),
                                                                 Expanded(
-                                                                  child: Container(
+                                                                  child: SizedBox(
                                                                       height: 50,
                                                                       child: Obx(() => ElevatedButton(
                                                                             child: _isLoading.value

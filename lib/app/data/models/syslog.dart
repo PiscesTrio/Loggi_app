@@ -29,14 +29,14 @@ class SysLog extends BaseNetModel{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['account'] = this.account;
-    data['module'] = this.module;
-    data['busincessType'] = this.busincessType;
-    data['ip'] = this.ip;
-    data['method'] = this.method;
-    data['time'] = this.time;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['account'] = account;
+    data['module'] = module;
+    data['busincessType'] = busincessType;
+    data['ip'] = ip;
+    data['method'] = method;
+    data['time'] = time;
     return data;
   }
   

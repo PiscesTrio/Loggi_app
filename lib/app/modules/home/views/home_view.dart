@@ -18,6 +18,8 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   final GetStorage box = GetStorage();
 
+  HomeView({super.key});
+
   @override
   Widget build(BuildContext context) {
     box.listenKey("token", (value) {

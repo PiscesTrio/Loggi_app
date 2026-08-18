@@ -15,9 +15,9 @@ import '../WarehouseListMin/view.dart';
 class BaseManagementPageView extends GetView<BaseManagementPageController> {
   final String? name = '基础管理';
   const BaseManagementPageView({
-    Key? key,
+    super.key,
     /* this.name*/
-  }) : super(key: key);
+  });
 
   // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'index.dart';
 
 class TransportManagementPageController extends GetxController with GetTickerProviderStateMixin{
   TransportManagementPageController();
 
-  final state = TransportManagementPageState();
 
   late TabController tabController;
   final tabIndex = 0.obs;
@@ -20,10 +18,6 @@ class TransportManagementPageController extends GetxController with GetTickerPro
     });
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {}

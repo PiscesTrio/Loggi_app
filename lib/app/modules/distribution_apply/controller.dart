@@ -59,7 +59,7 @@ class DistributionApplyController extends GetxController
     updateTime();
   }
 
-  updateTime() {
+  void updateTime() {
     distribution.update((val) {
       val!.time = DateFormat("yyyy-MM-dd kk:mm:ss").format(dateTime.value);
     });
@@ -91,7 +91,7 @@ class DistributionApplyController extends GetxController
     ));
   }
 
-  generateCares() {
+  void generateCares() {
     String temp = "";
     for (var element in selectedCares) {
       temp = "$temp$element,";

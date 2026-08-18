@@ -1,4 +1,4 @@
-library distribution_list;
+library;
 
 
 export './controller.dart';

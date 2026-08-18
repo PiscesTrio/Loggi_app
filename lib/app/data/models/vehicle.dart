@@ -18,12 +18,12 @@ class Vehicle extends BaseNetModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['number'] = this.number;
-    data['type'] = this.type;
-    data['driving'] = this.driving;
-    data['createAt'] = this.createAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['number'] = number;
+    data['type'] = type;
+    data['driving'] = driving;
+    data['createAt'] = createAt;
     return data;
   }
 

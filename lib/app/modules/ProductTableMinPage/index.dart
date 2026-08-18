@@ -1,4 +1,4 @@
-library producttableminpage;
+library;
 
 export './controller.dart';
 export './bindings.dart';

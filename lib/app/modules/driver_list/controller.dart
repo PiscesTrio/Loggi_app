@@ -19,7 +19,7 @@ class DriverListController extends GetxController with StateMixin<List<Driver>> 
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }
 
-   updateData() {
+   void updateData() {
     change(null, status: RxStatus.loading());
     NbRequest()
         .getDrivers()

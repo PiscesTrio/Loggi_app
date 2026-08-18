@@ -9,7 +9,7 @@ import '../../routes/app_pages.dart';
 import 'index.dart';
 
 class ProducttableminpagePage extends GetView<ProducttableminpageController> {
-  const ProducttableminpagePage({Key? key}) : super(key: key);
+  const ProducttableminpagePage({super.key});
 
   List<DataRow> getRows(List<Product>? products) =>
       products!.map((Product product) {

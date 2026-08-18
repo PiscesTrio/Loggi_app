@@ -8,7 +8,7 @@ import '../widgets/warehouse_card.dart';
 import 'index.dart';
 
 class WarehouselistminPage extends GetView<WarehouselistminController> {
-  const WarehouselistminPage({Key? key}) : super(key: key);
+  const WarehouselistminPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,7 @@ class WarehouselistminPage extends GetView<WarehouselistminController> {
                                     offset: const Offset(0, 3),
                                     blurRadius: 6,
                                     color: const Color(0xff000000)
-                                        .withOpacity(0.16),
+                                        .withValues(alpha: 0.16),
                                   ),
                                 ],
                               ),

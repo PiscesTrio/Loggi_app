@@ -6,7 +6,7 @@ import '../../theme/color_palette.dart';
 import 'index.dart';
 
 class LoginLogPage extends GetView<LoginLogController> {
-  const LoginLogPage({Key? key}) : super(key: key);
+  const LoginLogPage({super.key});
 
   final String? name = "登录日志";
   @override

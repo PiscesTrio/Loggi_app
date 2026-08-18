@@ -11,7 +11,7 @@ import '../../utils/DateTimeExtension.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class DistributionApplyPage extends GetView<DistributionApplyController> {
-  DistributionApplyPage({Key? key}) : super(key: key);
+  DistributionApplyPage({super.key});
   final RxBool _isLoading = false.obs;
 
   static final List<String> _care = [
@@ -86,7 +86,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                             offset: const Offset(0, 3),
                                             blurRadius: 6,
                                             color: ColorPalette.nileBlue
-                                                .withOpacity(0.1),
+                                                .withValues(alpha: 0.1),
                                           ),
                                         ],
                                       ),
@@ -119,7 +119,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                         fontSize: 16,
                                                         color: ColorPalette
                                                             .nileBlue
-                                                            .withOpacity(0.58),
+                                                            .withValues(alpha: 0.58),
                                                       ),
                                                     ),
                                                   );
@@ -158,7 +158,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                             offset: const Offset(0, 3),
                                             blurRadius: 6,
                                             color: ColorPalette.nileBlue
-                                                .withOpacity(0.1),
+                                                .withValues(alpha: 0.1),
                                           ),
                                         ],
                                       ),
@@ -191,7 +191,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                         fontSize: 16,
                                                         color: ColorPalette
                                                             .nileBlue
-                                                            .withOpacity(0.58),
+                                                            .withValues(alpha: 0.58),
                                                       ),
                                                     ),
                                                   );
@@ -230,7 +230,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                             offset: const Offset(0, 3),
                                             blurRadius: 6,
                                             color: ColorPalette.nileBlue
-                                                .withOpacity(0.1),
+                                                .withValues(alpha: 0.1),
                                           ),
                                         ],
                                       ),
@@ -265,7 +265,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                         fontSize: 16,
                                                         color: ColorPalette
                                                             .nileBlue
-                                                            .withOpacity(0.58),
+                                                            .withValues(alpha: 0.58),
                                                       ),
                                                     ),
                                                   );
@@ -310,7 +310,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                               offset: const Offset(0, 3),
                                               blurRadius: 6,
                                               color: ColorPalette.nileBlue
-                                                  .withOpacity(0.1),
+                                                  .withValues(alpha: 0.1),
                                             ),
                                           ],
                                         ),
@@ -366,7 +366,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                               offset: const Offset(0, 3),
                                               blurRadius: 6,
                                               color: ColorPalette.nileBlue
-                                                  .withOpacity(0.1),
+                                                  .withValues(alpha: 0.1),
                                             ),
                                           ],
                                         ),
@@ -477,7 +477,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                       offset: const Offset(0, 3),
                                       blurRadius: 6,
                                       color: ColorPalette.nileBlue
-                                          .withOpacity(0.1),
+                                          .withValues(alpha: 0.1),
                                     ),
                                   ],
                                 ),
@@ -505,7 +505,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                       fontFamily: "Nunito",
                                       fontSize: 16,
                                       color: ColorPalette.nileBlue
-                                          .withOpacity(0.58),
+                                          .withValues(alpha: 0.58),
                                     ),
                                   ),
                                   cursorColor: ColorPalette.timberGreen,
@@ -523,7 +523,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                       offset: const Offset(0, 3),
                                       blurRadius: 6,
                                       color: ColorPalette.nileBlue
-                                          .withOpacity(0.1),
+                                          .withValues(alpha: 0.1),
                                     ),
                                   ],
                                 ),
@@ -546,7 +546,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                           fontFamily: "Nunito",
                                           fontSize: 16,
                                           color: ColorPalette.nileBlue
-                                              .withOpacity(0.58),
+                                              .withValues(alpha: 0.58),
                                         ),
                                       ),
                                       onChanged: controller.selectDeliveryPoint,
@@ -560,7 +560,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                               fontFamily: "Nunito",
                                               fontSize: 16,
                                               color: ColorPalette.nileBlue
-                                                  .withOpacity(0.58),
+                                                  .withValues(alpha: 0.58),
                                             ),
                                           ),
                                         );
@@ -573,7 +573,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: Container(
+                                    child: SizedBox(
                                       height: 50,
                                       child: OutlinedButton(
                                         onPressed: () {
@@ -587,7 +587,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                     width: 20,
                                   ),
                                   Expanded(
-                                    child: Container(
+                                    child: SizedBox(
                                         height: 50,
                                         child: Obx(() => ElevatedButton(
                                               child: _isLoading.value

@@ -29,14 +29,14 @@ class DistributionStatus extends BaseNetModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['disId'] = this.disId;
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
-    data['location'] = this.location;
-    data['time'] = this.time;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['disId'] = disId;
+    data['lat'] = lat;
+    data['lng'] = lng;
+    data['location'] = location;
+    data['time'] = time;
+    data['status'] = status;
     return data;
   }
   

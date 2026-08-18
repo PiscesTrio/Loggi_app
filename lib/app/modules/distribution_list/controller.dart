@@ -20,7 +20,7 @@ class DistributionListController extends GetxController
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }
 
-  updateStatus(Distribution data) {
+  void updateStatus(Distribution data) {
     NbRequest().updateDistribution(data).then((value) {
       change(null, status: RxStatus.loading());
       NbRequest().getDistribution().then((result) {
@@ -33,15 +33,11 @@ class DistributionListController extends GetxController
     });
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {}
 
-  updateData() {
+  void updateData() {
     change(null, status: RxStatus.loading());
     NbRequest()
         .getDistribution()

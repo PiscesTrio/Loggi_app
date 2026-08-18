@@ -7,7 +7,7 @@ import 'index.dart';
 
 
 class DriverListPage extends GetView<DriverListController> {
-  const DriverListPage({Key? key}) : super(key: key);
+  const DriverListPage({super.key});
 
 
   @override

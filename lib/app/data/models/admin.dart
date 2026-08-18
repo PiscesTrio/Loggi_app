@@ -26,12 +26,12 @@ class Admin extends BaseNetModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['roles'] = this.roles;
-    data['createAt'] = this.createAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['email'] = email;
+    data['password'] = password;
+    data['roles'] = roles;
+    data['createAt'] = createAt;
     return data;
   }
   

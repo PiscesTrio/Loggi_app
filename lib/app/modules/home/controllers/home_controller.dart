@@ -16,10 +16,6 @@ class HomeController extends GetxController {
     ApiOptions().setToken(token: TokenStorage().getToken());
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {}

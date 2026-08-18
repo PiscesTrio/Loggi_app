@@ -32,15 +32,15 @@ class InventoryRecord extends BaseNetModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['wid'] = this.wid;
-    data['cid'] = this.cid;
-    data['count'] = this.count;
-    data['type'] = this.type;
-    data['description'] = this.description;
-    data['createAt'] = this.createAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['wid'] = wid;
+    data['cid'] = cid;
+    data['count'] = count;
+    data['type'] = type;
+    data['description'] = description;
+    data['createAt'] = createAt;
     return data;
   }
   

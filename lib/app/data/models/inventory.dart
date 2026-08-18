@@ -21,13 +21,13 @@ class Inventory extends BaseNetModel{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['wid'] = this.wid;
-    data['cid'] = this.cid;
-    data['name'] = this.name;
-    data['location'] = this.location;
-    data['count'] = this.count;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['wid'] = wid;
+    data['cid'] = cid;
+    data['name'] = name;
+    data['location'] = location;
+    data['count'] = count;
     return data;
   }
   

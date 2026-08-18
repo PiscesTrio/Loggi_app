@@ -1,4 +1,4 @@
-library models;
+library;
 
 export 'available.dart';
 export 'commodity.dart';

@@ -6,7 +6,7 @@ import '../../theme/color_palette.dart';
 import 'index.dart';
 
 class SystemSettingPage extends GetView<SystemSettingController> {
-  const SystemSettingPage({Key? key}) : super(key: key);
+  const SystemSettingPage({super.key});
 
   final String? name = "系统设置";
   @override
