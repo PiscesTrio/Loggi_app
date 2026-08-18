@@ -101,8 +101,19 @@ class RouteMap extends StatelessWidget {
                   maxZoom: 15,
                 ),
                 maxZoom: source.maxZoom,
-                interactionOptions:
-                    const InteractionOptions(flags: InteractiveFlag.none),
+                interactionOptions: InteractionOptions(
+                  flags: InteractiveFlag.none,
+                  // `flags` does not gate everything. flutter_map 8 added two
+                  // interaction paths that ignore it entirely, and both were
+                  // therefore live on a map documented as non-interactive:
+                  // Ctrl+click/drag rotated it, and the arrow keys panned it —
+                  // while also swallowing those keys from the list around it.
+                  // Neither existed in flutter_map 4, so the 4->8 migration
+                  // introduced them by doing nothing.
+                  cursorKeyboardRotationOptions:
+                      CursorKeyboardRotationOptions.disabled(),
+                  keyboardOptions: const KeyboardOptions.disabled(),
+                ),
               ),
               children: [
                 TileLayer(

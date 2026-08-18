@@ -19,13 +19,23 @@ class ApiOptions {
         .create();
   }
 
+  /// Sets the credential on the live client.
+  ///
+  /// "Bearer " is the standard scheme, and the server requires it: it strips exactly
+  /// this prefix and verifies what remains. Previously the token was sent bare and
+  /// carried its own "logistics:" prefix, which the server treated as evidence the
+  /// token was genuine — a transport convention standing in for a signature check.
+  ///
+  /// Writes the header straight onto the Dio instance rather than going through
+  /// addHeaders().create(). NetOptions.create() re-applies the whole builder,
+  /// including `_dio.interceptors.addAll(...)`, so each call appended ANOTHER copy of
+  /// every interceptor. main() plus the two setToken callers (login and home) left
+  /// three copies on the chain, and every request was then logged three times.
+  ///
+  /// That is not a cosmetic bug: it made one POST look like three in the log, and it
+  /// was reported as such before the duplication was found. A logger that multiplies
+  /// what it reports is worse than no logger.
   setToken({required String token}) {
-    // "Bearer " is the standard scheme, and the server now requires it: it strips exactly this
-    // prefix and verifies what remains. Previously the token was sent bare and carried its own
-    // "logistics:" prefix, which the server treated as evidence the token was genuine — a
-    // transport convention standing in for a signature check.
-    NetOptions.instance
-    .addHeaders({"Authorization": "Bearer $token"})
-    .create();
+    NetOptions.instance.dio.options.headers["Authorization"] = "Bearer $token";
   }
 }

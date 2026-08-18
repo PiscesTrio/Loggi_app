@@ -40,7 +40,14 @@ subprojects {
             }
         }
     }
+}
 
+// Separate loop on purpose. evaluationDependsOn evaluates the target immediately, so
+// running it inside the loop above evaluates :app while that loop is still visiting
+// projects — and afterEvaluate on an already-evaluated project throws. It happened to
+// work only because ":app" sorts before every plugin module; a plugin named
+// "androidx_*" would have broken the build.
+subprojects {
     project.evaluationDependsOn(":app")
 }
 
