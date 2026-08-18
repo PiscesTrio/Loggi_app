@@ -70,6 +70,13 @@ dependencies:
   # when its parent's constraints change, and nothing warns you until it does.
   intl: any
   url_launcher: ^6.3.2
+  # Runtime dependency, not a dev one: lib/main.dart imports driver_extension
+  # so an agent can drive the app on a real device, and code under lib/ cannot
+  # import a dev_dependency. The call site sits behind a
+  # const bool.fromEnvironment guard, so any build that does not pass
+  # --dart-define=ENABLE_FLUTTER_DRIVER=true compiles the branch away.
+  flutter_driver:
+    sdk: flutter
 
 
 dev_dependencies:

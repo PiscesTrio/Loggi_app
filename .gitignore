@@ -70,3 +70,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Real-device regression captures (screenshots / widget trees). Local evidence,
+# not source: they are large, machine-specific, and meaningless outside the run
+# that produced them.
+.regression/

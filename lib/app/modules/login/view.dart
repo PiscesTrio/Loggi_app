@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../routes/app_pages.dart';
 import '../../theme/color_palette.dart';
 import 'index.dart';
 
@@ -17,11 +16,6 @@ class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
      
-    box.listenKey("token", (value) {
-    if(value!="not logged in"&&value!=null){
-      Get.offAndToNamed(Routes.home);
-    }
-   });
     return GetBuilder<LoginController>(
       builder: (_) {
         return Obx(()=>Scaffold(
@@ -77,7 +71,12 @@ class LoginPage extends GetView<LoginController> {
                 height: 50,
                 child: TextField(
                   textInputAction: TextInputAction.next,
-                  key: UniqueKey(),
+                  // A stable key, not UniqueKey(). UniqueKey() produces a new
+                  // identity on every rebuild, which defeats the only thing a key
+                  // is for here — flutter_driver's ByValueKey — and leaves an
+                  // automated login reduced to tapping coordinates. It also tells
+                  // Flutter the field is a different widget after each rebuild.
+                  key: const ValueKey('login_email_field'),
                   onChanged: (value) => controller.loginData.update((val) {
                     val!.email = value;
                   }),
@@ -121,7 +120,7 @@ class LoginPage extends GetView<LoginController> {
                   children: [
                     Expanded(
                       child: TextField(
-                        key: UniqueKey(),
+                        key: const ValueKey('login_password_field'),
                         obscureText: !controller.isVisible.value,
                         onChanged: (value) => controller.loginData.update((val) {
                           val!.password = value;

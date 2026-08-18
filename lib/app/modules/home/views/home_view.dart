@@ -4,7 +4,6 @@ import 'package:loggi_app/app/modules/login_log/bindings.dart';
 import 'package:loggi_app/app/modules/operate_log/bindings.dart';
 import 'package:loggi_app/app/modules/system_setting/index.dart';
 import 'package:loggi_app/app/modules/transport_management_page/index.dart';
-import 'package:loggi_app/app/modules/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggi_app/app/routes/app_pages.dart';
@@ -22,13 +21,6 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    box.listenKey("token", (value) {
-      if (value == "not logged in") {
-        Get.offAndToNamed(Routes.login);
-        showTextToast("已退出登录");
-      }
-    });
-
     return Scaffold(
       body: Obx(
         () => IndexedStack(

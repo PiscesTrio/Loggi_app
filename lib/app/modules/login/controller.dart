@@ -4,6 +4,7 @@ import 'package:loggi_app/app/data/network/options.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
 import 'package:loggi_app/app/utils/token_storage.dart';
 import 'package:get/get.dart';
+import 'package:loggi_app/app/routes/app_pages.dart';
 
 
 class LoginController extends GetxController {
@@ -18,7 +19,12 @@ class LoginController extends GetxController {
       await NbRequest().login(loginData.value).then(
         (value) {TokenStorage().setToken(tokenString: value!.token!);
         showTextToast("登录成功");
-        ApiOptions().setToken(token: value.token!);});
+        ApiOptions().setToken(token: value.token!);
+        // Navigating here rather than from a GetStorage listener inside build().
+        // Two such listeners existed, one per screen, neither ever disposed, so
+        // every rebuild added another and one token write fired several
+        // navigations. offAllNamed also guarantees a single home shell.
+        Get.offAllNamed(Routes.home);});
         
     } catch (e) {
       failed(true);

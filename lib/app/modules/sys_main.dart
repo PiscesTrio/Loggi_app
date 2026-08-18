@@ -2,6 +2,7 @@ import 'package:loggi_app/app/data/network/api.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
 import 'package:loggi_app/app/utils/token_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:loggi_app/app/modules/widgets/toast.dart';
 import 'package:get/get.dart';
 
 import '../routes/app_pages.dart';
@@ -104,6 +105,16 @@ class SysMain extends StatelessWidget {
                                 onPressed: () {
                                   TokenStorage()
                                       .setToken(tokenString: "not logged in");
+                                  showTextToast("已退出登录");
+                                  // offAllNamed, not offAndToNamed: the latter
+                                  // replaces only the top route, and the home
+                                  // shell it leaves behind keeps its GetX
+                                  // controllers alive. Logging back in then
+                                  // pushed a SECOND shell whose controllers had
+                                  // already run onInit, so nothing fetched and
+                                  // the screen came up empty. Clearing the whole
+                                  // stack disposes the bindings with it.
+                                  Get.offAllNamed(Routes.login);
                                 },
                                 child: Text("确认")),
                             OutlinedButton(
