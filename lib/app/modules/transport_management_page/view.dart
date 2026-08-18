@@ -1,10 +1,6 @@
-import 'package:loggi_app/app/modules/distribution_apply/bindings.dart';
-import 'package:loggi_app/app/modules/distribution_apply/view.dart';
 import 'package:loggi_app/app/modules/distribution_list/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../routes/app_pages.dart';
 import '../../theme/color_palette.dart';
 import '../driver_list/view.dart';
 import '../vehicle_list/view.dart';
@@ -104,40 +100,7 @@ class TransportManagementPagePage
                                   child: Obx(() => IndexedStack(
                                         index: controller.tabIndex.value,
                                         children: [
-                                          Navigator(
-                                            key: Get.nestedKey(6),
-                                            initialRoute:
-                                                Routes.distributionList,
-                                            onGenerateRoute: (settings) {
-                                              switch (settings.name) {
-                                                case Routes.distributionList:
-                                                  return GetPageRoute(
-                                                      routeName: Routes
-                                                          .distributionList,
-                                                      page: () =>
-                                                          DistributionListPage(),
-                                                      transition:
-                                                          Transition.upToDown,
-                                                      popGesture: true,
-                                                      maintainState: true,
-                                                      binding:
-                                                          DistributionListBinding());
-                                                case Routes.distributionApply:
-                                                  return GetPageRoute(
-                                                      routeName: Routes
-                                                          .distributionApply,
-                                                      page: () =>
-                                                          DistributionApplyPage(),
-                                                      transition:
-                                                          Transition.downToUp,
-                                        
-                                                      binding:
-                                                          DistributionApplyBinding());
-                                             
-                                              }
-                                              return null;
-                                            },
-                                          ),
+                                          DistributionListPage(),
                                           VehicleListPage(),
                                           DriverListPage()
                                         ],

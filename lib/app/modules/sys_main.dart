@@ -3,9 +3,9 @@ import 'package:loggi_app/app/theme/color_palette.dart';
 import 'package:loggi_app/app/data/network/legacy_bridge.dart';
 import 'package:flutter/material.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
-import 'package:get/get.dart';
-
-import '../routes/app_pages.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loggi_app/app/router/routes.dart';
+import 'package:loggi_app/app/auth/auth_provider.dart';
 
 class SysMain extends StatelessWidget {
   const SysMain({super.key});
@@ -62,7 +62,7 @@ class SysMain extends StatelessWidget {
             children: [
               ListTile(
                 onTap: () {
-                  Get.toNamed(Routes.loginLog, id: 69);
+                  context.push(Routes.loginLog);
                 },
                 title: Text("登录日志"),
               ),
@@ -72,7 +72,7 @@ class SysMain extends StatelessWidget {
               ),
               ListTile(
                 onTap: () {
-                  Get.toNamed(Routes.opLog, id: 69);
+                  context.push(Routes.operationLog);
                 },
                 title: Text("操作日志"),
               ),
@@ -107,7 +107,9 @@ class SysMain extends StatelessWidget {
                                   // the string "not logged in" — which stayed on the client
                                   // as a header, so the next request went out as
                                   // `Authorization: Bearer not logged in`.
-                                  await clearToken();
+                                  await appContainer
+                                      .read(authProvider.notifier)
+                                      .signOut();
                                   showTextToast("已退出登录");
                                   // offAllNamed, not offAndToNamed: the latter
                                   // replaces only the top route, and the home
@@ -117,7 +119,7 @@ class SysMain extends StatelessWidget {
                                   // already run onInit, so nothing fetched and
                                   // the screen came up empty. Clearing the whole
                                   // stack disposes the bindings with it.
-                                  Get.offAllNamed(Routes.login);
+                                  // Redirect takes it from here.
                                 },
                                 child: Text("确认")),
                             OutlinedButton(

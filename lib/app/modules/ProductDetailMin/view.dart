@@ -7,6 +7,7 @@ import '../../data/models/commodity.dart';
 import '../../theme/color_palette.dart';
 import '../ProductTableMinPage/controller.dart';
 import 'index.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductdetailminPage extends GetView<ProductdetailminController> {
   final Map<String,dynamic> arguments;
@@ -300,7 +301,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                     ),
                                     height: 50,
                                     child: OutlinedButton(
-                                      onPressed: () {Get.back(id: 4);},
+                                      onPressed: () {context.pop();},
                                       child: Text("取消"),
                                     ),
                                     // child: TextFormField(
@@ -359,12 +360,18 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                       height: 50,
                                       child: ElevatedButton(
                                         child: Text("确认"),
-                                        onPressed: () {
-                                          NbRequest().updateProduct(product).then((value) {
-                                            showTextToast("提交成功");
-                                            ProducttableminpageController.to.updateData();
-                                            Get.back(id:4);
-                                          });
+                                        onPressed: () async {
+                                          await NbRequest().updateProduct(product);
+                                          showTextToast("提交成功");
+                                          ProducttableminpageController.to.updateData();
+                                          // The context is only used if this screen is
+                                          // still mounted. Popping a route whose element
+                                          // is already gone throws, and the request that
+                                          // precedes it is exactly the gap during which
+                                          // the user can leave.
+                                          if (context.mounted) {
+                                            context.pop();
+                                          }
                                         },
                                       )
                                       // child: TextFormField(

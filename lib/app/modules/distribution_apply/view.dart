@@ -9,6 +9,7 @@ import 'index.dart';
 import 'package:intl/intl.dart';
 import '../../utils/date_time_extension.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class DistributionApplyPage extends GetView<DistributionApplyController> {
   DistributionApplyPage({super.key});
@@ -577,7 +578,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                       height: 50,
                                       child: OutlinedButton(
                                         onPressed: () {
-                                          Get.back(id: 6);
+                                          context.pop();
                                         },
                                         child: Text("取消"),
                                       ),

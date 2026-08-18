@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:loggi_app/app/theme/color_palette.dart';
 import 'package:get/get.dart';
-
-import '../../routes/app_pages.dart';
 import '../distribution_list/controller.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loggi_app/app/router/routes.dart';
 
 class DistributionCard extends GetView<DistributionListController> {
   final Distribution? distribution;
@@ -55,7 +55,7 @@ class DistributionCard extends GetView<DistributionListController> {
                                         ElevatedButton(
                                         onPressed:(){
                                           Navigator.pop(context);
-                                          Get.toNamed(Routes.distributionStatus,arguments: distribution,id: 70);},
+                                          context.push(Routes.distributionStatus, extra: distribution);},
                                         child: const Text("查看配送进度")),
                                     ElevatedButton(
                                         onPressed: details.onStepContinue,
