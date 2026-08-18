@@ -1,5 +1,6 @@
 import 'package:loggi_app/my_app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_driver/driver_extension.dart';
 import 'package:flutter_nb_net/flutter_net.dart';
 
 import 'package:get_storage/get_storage.dart';
@@ -9,6 +10,18 @@ import 'app/data/network/request_log_interceptor.dart';
 
 
 void main()async {
+  // Real-device automation channel, off by default: only a build passing
+  // --dart-define=ENABLE_FLUTTER_DRIVER=true opens it, so release builds never
+  // do. Must run before runApp.
+  //
+  // Trade-off to know before using it: with the extension enabled, the driver
+  // swallows real keyboard input, so typing on the device by hand stops
+  // working. That is what makes the driver's own enterText work; to type by
+  // hand instead, inject through adb rather than turning text-entry emulation
+  // off, which would break enterText in the other direction.
+  if (const bool.fromEnvironment('ENABLE_FLUTTER_DRIVER')) {
+    enableFlutterDriverExtension();
+  }
   await GetStorage.init();
   // ApiOptions().init();
    NetOptions.instance
