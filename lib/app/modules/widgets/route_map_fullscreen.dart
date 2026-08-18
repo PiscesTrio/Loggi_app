@@ -50,8 +50,16 @@ class RouteMapFullscreen extends StatelessWidget {
                       maxZoom: 15,
                     ),
                     maxZoom: source.maxZoom,
-                    interactionOptions: const InteractionOptions(
+                    interactionOptions: InteractionOptions(
                       flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+                      // Clearing the flag only removes the two-finger twist.
+                      // Cursor/keyboard rotation is a separate path that `flags`
+                      // does not reach, so Ctrl+click alone would snap the map to
+                      // an arbitrary heading — the north-broken state the comment
+                      // above says cannot be reached. Arrow-key panning stays on;
+                      // it is useful here and rotates nothing.
+                      cursorKeyboardRotationOptions:
+                          CursorKeyboardRotationOptions.disabled(),
                     ),
                   ),
                   children: [

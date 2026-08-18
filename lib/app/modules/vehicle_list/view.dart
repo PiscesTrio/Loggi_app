@@ -103,6 +103,8 @@ class VehicleListPage extends GetView<VehicleListController> {
                                     _isLoading(false);
                                     showTextToast("提交成功");
                                     controller.updateData();
+                                    // The await above may outlive this widget; popping a dead context throws.
+                                    if (!context.mounted) return;
                                     Navigator.pop(context);
                                   } else {
                                     _isLoading(false);

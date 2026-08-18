@@ -17,10 +17,6 @@ class TokenStorage {
     
   }
 
-  void printToken(){
-    
-    print(box.read("token"));
-  }
   String getToken(){
     return  box.read("token");
   }

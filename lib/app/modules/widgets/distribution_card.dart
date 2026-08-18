@@ -78,7 +78,10 @@ class DistributionCard extends GetView<DistributionListController> {
                             Navigator.pop(context);
                           },
                           onStepContinue: () {
-                            if (status != 2) {
+                            // .value, not the Rx itself: GetX overrides == to unwrap,
+                            // so both compile and behave identically, but only one of
+                            // them says so without knowing that.
+                            if (status.value != 2) {
                               status(status.value + 1);
                               distribution?.status = status.value;
                               controller.updateStatus(distribution!);

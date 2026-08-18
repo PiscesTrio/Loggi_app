@@ -142,7 +142,6 @@ class WarehouseListPage extends GetView<WarehouseListPageController> {
                               color: ColorPalette.timberGreen,
                             ),
                             onPressed: () {
-                              print("search");
                               // Navigator.of(context).push(
                               //   MaterialPageRoute(
                               //     builder: (context) =>

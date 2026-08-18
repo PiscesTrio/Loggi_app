@@ -253,7 +253,6 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                     self.fromLng = newValue.lng;
                                                   
                                                   });
-                                                  print(controller.distribution.value.fromLat);
                                                 },
                                                 items: controller.wareHouseList
                                                     .map((process) {
@@ -624,6 +623,8 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                     _isLoading(false);
                                                     showTextToast("提交成功");
                                                     DistributionListController.to.updateData();
+                                                    // The await above may outlive this widget; popping a dead context throws.
+                                                    if (!context.mounted) return;
                                                     Navigator.pop(context);
                                                   } else {
                                                     _isLoading(false);

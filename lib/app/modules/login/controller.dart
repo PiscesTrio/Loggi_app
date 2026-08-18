@@ -18,8 +18,6 @@ class LoginController extends GetxController {
       await NbRequest().login(loginData.value).then(
         (value) {TokenStorage().setToken(tokenString: value!.token!);
         showTextToast("登录成功");
-        print(value.admin!.email);
-        print(TokenStorage().getToken());
         ApiOptions().setToken(token: value.token!);});
         
     } catch (e) {

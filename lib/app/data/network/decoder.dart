@@ -29,7 +29,6 @@ class MyHttpDecoder extends NetDecoder {
         return dataList;
 
       } else {
-        print("not");
         var model = decodeType.fromJson(data) as K;
         return model;
         
