@@ -1,44 +1,62 @@
-import 'package:loggi_app/my_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_driver/driver_extension.dart';
-import 'package:flutter_nb_net/flutter_net.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:loggi_app/my_app.dart';
 
-import 'app/data/network/decoder.dart';
-import 'app/data/network/request_log_interceptor.dart';
+import 'app/config/app_config.dart';
+import 'app/data/network/legacy_bridge.dart';
+import 'app/data/network/network_providers.dart';
 
-
-void main()async {
+/// Starts the app.
+///
+/// Networking used to be configured here, inline, as a second copy of the block in
+/// `ApiOptions.init()` — which was commented out at the call site and therefore dead. One
+/// of the two had the base URL, the timeout and the interceptor list; the other had the
+/// same three, slightly differently. Both are gone: `AppConfig` holds the values and
+/// `network_providers.dart` assembles the client.
+Future<void> main() async {
   // Real-device automation channel, off by default: only a build passing
-  // --dart-define=ENABLE_FLUTTER_DRIVER=true opens it, so release builds never
-  // do. Must run before runApp.
+  // --dart-define=ENABLE_FLUTTER_DRIVER=true opens it, so release builds never do.
   //
-  // Trade-off to know before using it: with the extension enabled, the driver
-  // swallows real keyboard input, so typing on the device by hand stops
-  // working. That is what makes the driver's own enterText work; to type by
-  // hand instead, inject through adb rather than turning text-entry emulation
-  // off, which would break enterText in the other direction.
+  // Either branch initialises the binding, and only one of them may: a binding can be
+  // installed once per isolate, and enableFlutterDriverExtension installs its own
+  // (_DriverBinding). Calling ensureInitialized() first — which is the obvious way to
+  // write this, since main() is now async and needs a binding before awaiting anything —
+  // makes the driver build die on `_debugInitializedType == null` before reaching runApp,
+  // leaving the app on its splash screen with the failure only in logcat. Found on the
+  // device; no test builds with the driver extension, so nothing else could have found it.
+  //
+  // Trade-off to know before using the driver: with the extension enabled it swallows real
+  // keyboard input, so typing on the device by hand stops working. That is what makes the
+  // driver's own enterText work; to type by hand instead, inject through adb rather than
+  // turning text-entry emulation off, which would break enterText in the other direction.
   if (const bool.fromEnvironment('ENABLE_FLUTTER_DRIVER')) {
     enableFlutterDriverExtension();
+  } else {
+    WidgetsFlutterBinding.ensureInitialized();
   }
-  await GetStorage.init();
-  // ApiOptions().init();
-   NetOptions.instance
 
-        // baseUrl
-        .setBaseUrl("http://YOUR_API_HOST:8088/api") // replace with the real backend address
-        .setHttpDecoder(MyHttpDecoder.getInstance())
-        //  timeout
-        .setConnectTimeout(const Duration(milliseconds: 3000))
-        // Off, and replaced by RequestLogInterceptor: this logger hard-codes
-        // requestHeader/requestBody and wrote the Bearer token into logcat.
-        .enableLogger(false)
-        .addInterceptor(RequestLogInterceptor())
-        .create();
-  // Non-2xx bodies go to MyHttpDecoder rather than becoming a DioException whose
-  // message is Dio's English boilerplate. See ApiOptions._acceptAllStatuses for
-  // why this is set after create() instead of through the builder.
-  NetOptions.instance.dio.options.validateStatus = (status) => status != null;
-  runApp(const MyApp());
+  AppConfig.assertValid();
+  // Still needed: the legacy token lives here until it is migrated, and other GetX code
+  // uses it.
+  await GetStorage.init();
+
+  final container = ProviderContainer();
+  appContainer = container;
+
+  // Read once, before the first frame. The old code decided which screen to show from a
+  // synchronous `TokenStorage().isLoggedIn()`; secure storage is asynchronous, and doing
+  // that read here means the first frame is already correct rather than flashing login and
+  // then replacing it. It also runs the migration off the old plaintext store exactly once.
+  final token = await container.read(tokenStorageProvider).read();
+
+  configureLegacyNetworking(token);
+
+  runApp(
+    UncontrolledProviderScope(
+      container: container,
+      child: MyApp(isLoggedIn: token != null),
+    ),
+  );
 }

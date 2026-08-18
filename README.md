@@ -35,12 +35,14 @@ Loggi App is the cross-platform Flutter frontend for the logistics management sy
 
 ### Configuration
 
-Update the backend base URL in both:
+The backend address is injected at build time — there is no address to edit in the source,
+and no second copy to keep in sync. `lib/app/config/app_config.dart` is the only place that
+reads it.
 
-- `lib/main.dart`
-- `lib/app/data/network/options.dart`
-
-Change `http://YOUR_API_HOST:8088/api` to your actual server address.
+| variable | default | meaning |
+|---|---|---|
+| `API_BASE_URL` | `http://10.0.2.2:8088/api` | API root. `10.0.2.2` is the Android emulator's alias for the host machine. |
+| `ENFORCE_HTTPS` | `false` | Refuses to start against a plaintext endpoint. Pass it for release builds. |
 
 ### Install Dependencies
 
@@ -51,7 +53,14 @@ flutter pub get
 ### Run
 
 ```bash
-flutter run
+# Android emulator against a backend on this machine
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8088/api
+
+# Physical device, backend reached over adb reverse (run `adb reverse tcp:8088 tcp:8088` first)
+flutter run --dart-define=API_BASE_URL=http://127.0.0.1:8088/api
+
+# Release
+flutter build apk --dart-define=API_BASE_URL=https://api.example.com/api --dart-define=ENFORCE_HTTPS=true
 ```
 
 ### Analyze & Lint

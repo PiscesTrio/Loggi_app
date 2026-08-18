@@ -1,8 +1,7 @@
 import 'package:loggi_app/app/data/models/index.dart';
 import 'package:loggi_app/app/data/network/api.dart';
-import 'package:loggi_app/app/data/network/options.dart';
+import 'package:loggi_app/app/data/network/legacy_bridge.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
-import 'package:loggi_app/app/utils/token_storage.dart';
 import 'package:get/get.dart';
 import 'package:loggi_app/app/routes/app_pages.dart';
 
@@ -17,9 +16,13 @@ class LoginController extends GetxController {
     loading(true);
     try {
       await NbRequest().login(loginData.value).then(
-        (value) {TokenStorage().setToken(tokenString: value!.token!);
+        (value) async {
+        // One write reaches both stacks: secure storage for the new client, and the legacy
+        // Dio's header until the last NbRequest caller is gone. Previously this wrote the
+        // token to an unencrypted GetStorage file and separately pushed it onto a global
+        // singleton, and the two could disagree.
+        await saveToken(value!.token!);
         showTextToast("登录成功");
-        ApiOptions().setToken(token: value.token!);
         // Navigating here rather than from a GetStorage listener inside build().
         // Two such listeners existed, one per screen, neither ever disposed, so
         // every rebuild added another and one token write fired several
