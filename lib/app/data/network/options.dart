@@ -17,6 +17,26 @@ class ApiOptions {
         .enableLogger(false)
         .addInterceptor(RequestLogInterceptor())
         .create();
+    _acceptAllStatuses();
+  }
+
+  /// Lets a non-2xx response reach [MyHttpDecoder] instead of becoming a DioException.
+  ///
+  /// Dio's default validateStatus accepts only 2xx, so every error the backend now
+  /// reports with a real status was turned into a DioException before the decoder
+  /// ran. flutter_nb_net maps that to `Result.failure(msg: dioError.message)`, and
+  /// DioException.message for a bad status is Dio's own English boilerplate - "The
+  /// request returned an invalid status code of 409." - shown to the user in place
+  /// of 「库存数量不足」.
+  ///
+  /// The envelope is the same shape on success and failure, so the decoder can read
+  /// either. Widening this hands it the body and lets it raise a NetException
+  /// carrying the backend's own code and message.
+  ///
+  /// Set directly on the live Dio, after create(): NetOptions has no builder method
+  /// for it, and create() assigns a whole new BaseOptions, which would drop it.
+  static void _acceptAllStatuses() {
+    NetOptions.instance.dio.options.validateStatus = (status) => status != null;
   }
 
   /// Sets the credential on the live client.
