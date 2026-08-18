@@ -1,6 +1,6 @@
 import 'package:loggi_app/app/data/network/api.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
-import 'package:loggi_app/app/utils/token_storage.dart';
+import 'package:loggi_app/app/data/network/legacy_bridge.dart';
 import 'package:flutter/material.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
 import 'package:get/get.dart';
@@ -102,9 +102,12 @@ class SysMain extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             ElevatedButton(
-                                onPressed: () {
-                                  TokenStorage()
-                                      .setToken(tokenString: "not logged in");
+                                onPressed: () async {
+                                  // Clears the credential, rather than overwriting it with
+                                  // the string "not logged in" — which stayed on the client
+                                  // as a header, so the next request went out as
+                                  // `Authorization: Bearer not logged in`.
+                                  await clearToken();
                                   showTextToast("已退出登录");
                                   // offAllNamed, not offAndToNamed: the latter
                                   // replaces only the top route, and the home
