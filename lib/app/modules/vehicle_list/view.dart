@@ -35,10 +35,12 @@ class VehicleListPage extends GetView<VehicleListController> {
                             child: Column(
                               children: <Widget>[
                                 TextFormField(
-                                  onChanged: (value) =>
-                                      controller.vehicle.update((val) {
-                                    val!.number = value;
-                                  }),
+                                  // copyWith, not in-place mutation: Vehicle is immutable
+                                  // now, and `update` on an Rx only notifies — it never
+                                  // guaranteed the object was replaced, so two listeners
+                                  // could disagree about what they were holding.
+                                  onChanged: (value) => controller.vehicle.value =
+                                      controller.vehicle.value.copyWith(number: value),
                                   decoration: const InputDecoration(
                                     labelText: '车牌号',
                                     icon: Icon(Icons.add_circle_rounded),
@@ -63,9 +65,8 @@ class VehicleListPage extends GetView<VehicleListController> {
                                   underline: const SizedBox(),
                                   value: controller.vehicle.value.type,
                                   onChanged: (dynamic value) =>
-                                      controller.vehicle.update((val) {
-                                    val!.type = value;
-                                  }),
+                                      controller.vehicle.value = controller.vehicle.value
+                                          .copyWith(type: value as String?),
                                 )
                                   ],
                                 )

@@ -1,28 +1,17 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Vehicle {
-  String? id;
-  String? number;
-  String? type;
-  bool? driving;
-  String? createAt;
+part 'vehicle.freezed.dart';
+part 'vehicle.g.dart';
 
-  Vehicle({this.id, this.number, this.type, this.driving, this.createAt});
+@freezed
+abstract class Vehicle with _$Vehicle {
+  const factory Vehicle({
+    String? id,
+    String? number,
+    String? type,
+    bool? driving,
+    String? createAt,
+  }) = _Vehicle;
 
-  Vehicle.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    number = json['number'];
-    type = json['type'];
-    driving = json['driving'];
-    createAt = json['createAt'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['number'] = number;
-    data['type'] = type;
-    data['driving'] = driving;
-    data['createAt'] = createAt;
-    return data;
-  }
+  factory Vehicle.fromJson(Map<String, dynamic> json) => _$VehicleFromJson(json);
 }

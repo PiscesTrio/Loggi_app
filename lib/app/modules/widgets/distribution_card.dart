@@ -83,9 +83,12 @@ class DistributionCard extends GetView<DistributionListController> {
                             // them says so without knowing that.
                             if (status.value != 2) {
                               status(status.value + 1);
-                              distribution?.status = status.value;
-                              controller.updateStatus(distribution!);
-                              
+                              // Distribution is immutable now, so the advanced order is
+                              // a new value rather than an edit to the one the list is
+                              // still rendering. The list refreshes from the server
+                              // response, which is the only copy that was ever right.
+                              controller.updateStatus(
+                                  distribution!.copyWith(status: status.value));
                             } else {
                               Navigator.pop(context);
                             }

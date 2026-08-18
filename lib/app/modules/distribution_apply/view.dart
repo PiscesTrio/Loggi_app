@@ -103,11 +103,12 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                   controller
                                                       .selectedDriver(newValue);
                                                   controller.distribution
-                                                      .update((self) {
-                                                    self!.driver =
-                                                        newValue.name;
-                                                    self.did = newValue.id;
-                                                  });
+                                                          .value =
+                                                      controller
+                                                          .distribution.value
+                                                          .copyWith(
+                                                          driver: newValue.name,
+                                                          did: newValue.id);
                                                 },
                                                 items: data!.drivers!
                                                     .map((process) {
@@ -175,11 +176,13 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                   controller.selectedVehicle(
                                                       newValue);
                                                   controller.distribution
-                                                      .update((self) {
-                                                    self!.number =
-                                                        newValue.number;
-                                                    self.vid = newValue.id;
-                                                  });
+                                                          .value =
+                                                      controller
+                                                          .distribution.value
+                                                          .copyWith(
+                                                          number:
+                                                              newValue.number,
+                                                          vid: newValue.id);
                                                 },
                                                 items: data!.vehicles!
                                                     .map((process) {
@@ -247,13 +250,15 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                   controller.selectedWarehouse(
                                                       newValue);
                                                   controller.distribution
-                                                      .update((self) {
-                                                    self!.wid = newValue.name;
-                                                  
-                                                    self.fromLat = newValue.lat;
-                                                    self.fromLng = newValue.lng;
-                                                  
-                                                  });
+                                                          .value =
+                                                      controller
+                                                          .distribution.value
+                                                          .copyWith(
+                                                          wid: newValue.name,
+                                                          fromLat:
+                                                              newValue.lat,
+                                                          fromLng:
+                                                              newValue.lng);
                                                 },
                                                 items: controller.wareHouseList
                                                     .map((process) {
@@ -452,9 +457,9 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                       value:
                                           controller.distribution.value.urgent!,
                                       onChanged: (value) {
-                                        controller.distribution.update((val) {
-                                          val!.urgent = value;
-                                        });
+                                        controller.distribution.value =
+                                            controller.distribution.value
+                                                .copyWith(urgent: value);
                                       }))
                                 ],
                               ),
@@ -485,9 +490,9 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                 height: 50,
                                 child: TextFormField(
                                   onChanged: (value) {
-                                    controller.distribution.update((val) {
-                                      val!.phone = value;
-                                    });
+                                    controller.distribution.value = controller
+                                        .distribution.value
+                                        .copyWith(phone: value);
                                   },
                                   // textInputAction: TextInputAction.next,
                                   key: UniqueKey(),

@@ -1,24 +1,23 @@
-
-import 'package:loggi_app/app/data/models/vehicle.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'driver.dart';
+import 'vehicle.dart';
 
-class Available{
-  List<Driver>? drivers;
-  List<Vehicle>? vehicles;
+part 'available.freezed.dart';
+part 'available.g.dart';
 
+/// Who and what is free to be dispatched.
+///
+/// The hand-written version did `json['drivers'].map(...)` with no null check, so a
+/// response missing either key threw a NoSuchMethodError on null from inside the decode.
+/// The generated reader treats an absent list as null, which is what the callers already
+/// test for.
+@freezed
+abstract class Available with _$Available {
+  const factory Available({
+    List<Driver>? drivers,
+    List<Vehicle>? vehicles,
+  }) = _Available;
 
-  Available({
-    this.drivers,
-    this.vehicles
-  });
-
-  Available.fromJson(Map<String,dynamic> json){
-    drivers = List<Driver>.from(
-      json['drivers'].map((item)=>Driver.fromJson(item as Map<String,dynamic>)).toList());
-    vehicles = List<Vehicle>.from(
-      json['vehicles'].map((item)=>Vehicle.fromJson(item as Map<String,dynamic>)).toList());
-  }
-
-
- }
+  factory Available.fromJson(Map<String, dynamic> json) => _$AvailableFromJson(json);
+}
