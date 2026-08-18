@@ -8,37 +8,36 @@ class ChartController extends GetxController
   RxMap<String, List<CommdityVo>>tempData =
       <String, List<CommdityVo>>{}.obs;
 
+  /// The two series, empty until the corresponding request answers.
+  ///
+  /// The chart renders from the first frame — nothing in the view consults the
+  /// StateMixin status this controller maintains — so these keys are simply
+  /// absent for the first few frames. The view used to reach into the map and
+  /// unwrap with `!`, which threw on every frame until the data arrived. That
+  /// error never reached logcat and was gone before any screenshot, which is
+  /// how it survived unnoticed.
+  List<CommdityVo> get inSeries => tempData["in"] ?? const [];
+  List<CommdityVo> get outSeries => tempData["out"] ?? const [];
+
   /// Called immediately after the widget is allocated in memory.
   @override
   void onInit() {
     super.onInit();
-    change(null, status: RxStatus.loading());
-    NbRequest().getChartData(true).then((result) {
-      tempData.addAll({"in": result!});
-    }).then((data) {
-      NbRequest().getChartData(false).then((result) {
-        tempData.addAll({"out": result!});
-      });
-    }).then((value) {
-      change(tempData, status: RxStatus.success());
-    }).onError((error, stackTrace) {
-      change(null, status: RxStatus.error());
-    });
+    updateData();
   }
 
   void updateData(){
      change(null, status: RxStatus.loading());
-    NbRequest().getChartData(true).then((result) {
-      tempData.addAll({"in": result!});
-    }).then((data) {
-      NbRequest().getChartData(false).then((result) {
-        tempData.addAll({"out": result!});
-      });
-    }).then((value) {
-      change(tempData, status: RxStatus.success());
-    }).onError((error, stackTrace) {
-      change(null, status: RxStatus.error());
-    });
+    // The inner future used to be created but not returned, so the chain moved
+    // on and reported success while the "out" request was still in flight.
+    NbRequest()
+        .getChartData(true)
+        .then((result) => tempData.addAll({"in": result!}))
+        .then((_) => NbRequest().getChartData(false))
+        .then((result) => tempData.addAll({"out": result!}))
+        .then((_) => change(tempData, status: RxStatus.success()))
+        .onError((error, stackTrace) =>
+            change(null, status: RxStatus.error()));
   }
 
   /// Called 1 frame after onInit(). The ideal place for entry logic.

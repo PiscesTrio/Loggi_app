@@ -98,21 +98,21 @@ class ChartPage extends GetView<ChartController> {
                                     child:Text("入库",style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),),
                                   ),
                                   Obx(() => PieChartSample2(
-                                      data: controller.tempData["in"]!)),
+                                      data: controller.inSeries)),
                                   Obx(() {
                                     return ListView.builder(
                                         shrinkWrap: true,
                                         physics: const NeverScrollableScrollPhysics(),
                                         itemCount:
-                                            controller.tempData["in"]!.length,
+                                            controller.inSeries.length,
                                         itemBuilder: (context, index) {
                                           return Indicator(
                                               value: controller
-                                                  .tempData["in"]![index]
+                                                  .inSeries[index]
                                                   .value!,
                                               color: color[index % 8],
                                               text: controller
-                                                  .tempData["in"]![index].name!,
+                                                  .inSeries[index].name!,
                                               isSquare: true);
                                         });
                                   }),
@@ -123,21 +123,21 @@ class ChartPage extends GetView<ChartController> {
                                     child:Text("出库",style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),),
                                   ),
                                   Obx(() => PieChartSample2(
-                                      data: controller.tempData["out"]!)),
+                                      data: controller.outSeries)),
                                   Obx(() {
                                     return ListView.builder(
                                         shrinkWrap: true,
                                         physics: const NeverScrollableScrollPhysics(),
                                         itemCount:
-                                            controller.tempData["out"]!.length,
+                                            controller.outSeries.length,
                                         itemBuilder: (context, index) {
                                           return Indicator(
                                               value: controller
-                                                  .tempData["out"]![index]
+                                                  .outSeries[index]
                                                   .value!,
                                               color: color[index % 8],
                                               text: controller
-                                                  .tempData["out"]![index]
+                                                  .outSeries[index]
                                                   .name!,
                                               isSquare: true);
                                         });
