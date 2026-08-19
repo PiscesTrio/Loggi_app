@@ -11,14 +11,19 @@ class WarehouselistminController extends GetxController  with StateMixin<List<Wa
 
 
 
-  Future<bool> saveWarehouse(WarehouseRequest data) async{
+  Future<bool> saveWarehouse(WarehouseRequest data) async {
     saveWarehouseLoading(true);
-    return await  NbRequest().saveWarehouse(data).then((value) {
+    return await NbRequest().saveWarehouse(data).then((value) {
       saveWarehouseLoading(false);
-    return value;
+      // Reload on success. The list was only ever fetched in onInit, so a warehouse saved
+      // here showed 保存成功 over a list that did not contain it — the row was on the
+      // server and the screen disagreed until something else rebuilt it. The commodity
+      // dialog already did this; this one was simply missing it.
+      if (value) updateData();
+      return value;
     });
-    
   }
+
 
   
   @override

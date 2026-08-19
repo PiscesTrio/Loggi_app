@@ -50,6 +50,13 @@ class WarehouselistminPage extends GetView<WarehouselistminController> {
                                     icon: Icon(Icons.account_circle),
                                   ),
                                 ),
+                                TextFormField(
+                                  controller: locationController,
+                                  decoration: const InputDecoration(
+                                    labelText: '地址',
+                                    icon: Icon(Icons.place),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -112,7 +119,7 @@ class WarehouselistminPage extends GetView<WarehouselistminController> {
                                             ),
                                           )
                                         : const Text(
-                                            "Login",
+                                            "确认",
                                             style: TextStyle(
                                               fontSize: 15,
                                               fontFamily: "Nunito",
@@ -122,15 +129,6 @@ class WarehouselistminPage extends GetView<WarehouselistminController> {
                                   )),
                             ),
                           ),
-                          // ElevatedButton(
-                          //     child: const Text("确认"),
-                          //     onPressed: () {
-                          //       NbRequest().saveWarehouse(WarehouseRequest(
-                          //         "name": warehouseNameController.text,
-                          //         "principle": principleController.text
-                          //       }));
-                          //     }
-                          //     )
                         ],
                       );
                     });

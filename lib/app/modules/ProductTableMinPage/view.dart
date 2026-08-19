@@ -14,8 +14,14 @@ class ProducttableminpagePage extends GetView<ProducttableminpageController> {
   const ProducttableminpagePage({super.key});
 
   // Takes the context: navigation needs one, and this helper is called from build().
+  //
+  // No `!` on products. GetX's obx hands the success builder a nullable value, and after a
+  // logout-login it is null on the first frame — the shell rebuilds before the fetch
+  // resolves. Asserting there threw inside build(), and a build-time throw replaces the
+  // subtree with an ErrorWidget permanently: the data arrived a moment later and the screen
+  // stayed red. Nothing to show yet is a state this screen has, not an impossible one.
   List<DataRow> getRows(BuildContext context, List<CommodityVo>? products) =>
-      products!.map((CommodityVo product) {
+      (products ?? const <CommodityVo>[]).map((CommodityVo product) {
         final cells = [product.name, product.price, product.count];
         return DataRow(
             onSelectChanged: (value) async {
@@ -120,10 +126,19 @@ class ProducttableminpagePage extends GetView<ProducttableminpageController> {
     controller.onSort(columnIndex, ascending);
   }
 
+  // Every field on a generated model is nullable, so one commodity without a price used to
+  // be enough to throw out of a tap on the column header. Missing values sort last.
   int compareString(bool ascending, String? value1, String? value2) =>
-      ascending ? value1!.compareTo(value2!) : value2!.compareTo(value1!);
+      _compare(ascending, value1, value2);
   int compareNum(bool ascending, num? value1, num? value2) =>
-      ascending ? value1!.compareTo(value2!) : value2!.compareTo(value1!);
+      _compare(ascending, value1, value2);
+
+  int _compare<T extends Comparable<Object>>(bool ascending, T? a, T? b) {
+    if (a == null && b == null) return 0;
+    if (a == null) return 1;
+    if (b == null) return -1;
+    return ascending ? a.compareTo(b) : b.compareTo(a);
+  }
 
   @override
   Widget build(BuildContext context) {
