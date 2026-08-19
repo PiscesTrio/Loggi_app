@@ -27,20 +27,23 @@ class HomeShellScaffold extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: shell.currentIndex,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.warehouse_rounded),
-            label: '基础管理',
+            icon: const Icon(Icons.warehouse_rounded),
+            label: context.l10n.navBase,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_shipping_rounded),
-            label: '运输管理',
+            icon: const Icon(Icons.local_shipping_rounded),
+            label: context.l10n.navTransport,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.pie_chart_sharp),
-            label: '图表分析',
+            icon: const Icon(Icons.pie_chart_sharp),
+            label: context.l10n.navChart,
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: '系统设置'),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.settings),
+            label: context.l10n.navSettings,
+          ),
         ],
         onTap: (index) => shell.goBranch(
           index,

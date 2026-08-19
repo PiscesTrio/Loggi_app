@@ -93,6 +93,9 @@ class SysMain extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: () async {
+                            // Read before the await: a BuildContext used after one may belong to an
+                            // element that is already gone.
+                            final signedOut = context.l10n.settingsSignedOut;
                             // Clears the credential, rather than overwriting it with
                             // the string "not logged in" — which stayed on the client
                             // as a header, so the next request went out as
@@ -100,7 +103,7 @@ class SysMain extends StatelessWidget {
                             await appContainer
                                 .read(authProvider.notifier)
                                 .signOut();
-                            showTextToast(context.l10n.settingsSignedOut);
+                            showTextToast(signedOut);
                             // offAllNamed, not offAndToNamed: the latter
                             // replaces only the top route, and the home
                             // shell it leaves behind keeps its GetX
