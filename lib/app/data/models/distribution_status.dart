@@ -1,41 +1,26 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class DistributionStatus {
-  String? id;
-  String? disId;
-  double? lat;
-  double? lng;
-  String? location;
-  String? time;
-  int? status;
+part 'distribution_status.freezed.dart';
+part 'distribution_status.g.dart';
 
-  DistributionStatus(
-      {this.id,
-      this.disId,
-      this.lat,
-      this.lng,
-      this.location,
-      this.time,
-      this.status});
+/// One recorded position along a delivery.
+///
+/// `lat`/`lng` are the reason this conversion matters beyond tidiness: the hand-written
+/// `fromJson` assigned `json['lat']` straight into a `double?`, which throws if the server
+/// ever sends a whole number as an int. The generated code reads
+/// `(json['lat'] as num?)?.toDouble()` and accepts both.
+@freezed
+abstract class DistributionStatus with _$DistributionStatus {
+  const factory DistributionStatus({
+    String? id,
+    String? disId,
+    double? lat,
+    double? lng,
+    String? location,
+    String? time,
+    int? status,
+  }) = _DistributionStatus;
 
-  DistributionStatus.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    disId = json['disId'];
-    lat = json['lat'];
-    lng = json['lng'];
-    location = json['location'];
-    time = json['time'];
-    status = json['status'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['disId'] = disId;
-    data['lat'] = lat;
-    data['lng'] = lng;
-    data['location'] = location;
-    data['time'] = time;
-    data['status'] = status;
-    return data;
-  }
+  factory DistributionStatus.fromJson(Map<String, dynamic> json) =>
+      _$DistributionStatusFromJson(json);
 }

@@ -12,7 +12,14 @@ class DistributionApplyController extends GetxController
     with StateMixin<Available> {
   DistributionApplyController();
   Rx<Distribution> distribution =
-      Distribution(id: "", urgent: false, status: 0).obs;
+      // No id. A new order does not have one — the server generates it
+      // (@GeneratedValue on Distribution.id). Sending the empty string made Hibernate
+      // treat the payload as an existing row to update, look for id '', find nothing, and
+      // throw StaleObjectStateException; the client saw a failed request and, because
+      // NbRequest folds failures into null, showed nothing at all. Creating a delivery
+      // order has been broken this whole time, on both sides of this slice — verified by
+      // submitting the same form on the previous build.
+      Distribution(urgent: false, status: 0).obs;
   Rx<Driver> selectedDriver = Driver().obs;
   Rx<Vehicle> selectedVehicle = Vehicle().obs;
   Rx<Warehouse> selectedWarehouse = Warehouse().obs;
@@ -31,10 +38,18 @@ class DistributionApplyController extends GetxController
       NbRequest().requestGet4().then((value) {
         wareHouseList(value);
         selectedWarehouse(wareHouseList[0]);
-        // The dropdown opens on the first warehouse but only writes wid when the
-        // user *changes* the selection, so a form submitted without touching it
-        // used to send wid == null.
-        distribution.update((val) => val!.wid = wareHouseList[0].name);
+        // The dropdown opens on the first warehouse but only writes to the order when
+        // the user *changes* the selection, so a form submitted without touching it
+        // carries whatever the initial value had. `wid` was fixed here once; the two
+        // coordinates were left behind, and an order created without touching the
+        // dropdown was stored with from_lat/from_lng = 0 — the Gulf of Guinea, which the
+        // route view would happily draw a line from. Invisible until now only because
+        // creating an order failed outright.
+        distribution.value = distribution.value.copyWith(
+          wid: wareHouseList[0].name,
+          fromLat: wareHouseList[0].lat,
+          fromLng: wareHouseList[0].lng,
+        );
       });
       if (result == null ||
           result.drivers!.isEmpty ||
@@ -48,12 +63,15 @@ class DistributionApplyController extends GetxController
       } else {
         selectedDriver(result.drivers![0]);
         selectedVehicle(result.vehicles![0]);
-        distribution.update((val) {
-          val!.driver = result.drivers![0].name;
-          val.did = result.drivers![0].id;
-          val.vid = result.vehicles![0].id;
-          val.number = result.vehicles![0].number;
-        });
+        // One replacement instead of four in-place writes. `Rx.update` mutated the
+        // object every listener was already holding, so "the value changed" and "the
+        // listeners were told" were separate events that could interleave.
+        distribution.value = distribution.value.copyWith(
+          driver: result.drivers![0].name,
+          did: result.drivers![0].id,
+          vid: result.vehicles![0].id,
+          number: result.vehicles![0].number,
+        );
 
         change(result, status: RxStatus.success());
       }
@@ -65,20 +83,20 @@ class DistributionApplyController extends GetxController
   }
 
   void updateTime() {
-    distribution.update((val) {
-      val!.time = DateFormat("yyyy-MM-dd kk:mm:ss").format(dateTime.value);
-    });
+    distribution.value = distribution.value.copyWith(
+      time: DateFormat("yyyy-MM-dd kk:mm:ss").format(dateTime.value),
+    );
   }
 
   /// Destination is chosen from [kDeliveryPoints], so its coordinates are known
   /// up front and no geocoding round-trip is needed.
   void selectDeliveryPoint(DeliveryPoint? point) {
     selectedDeliveryPoint(point);
-    distribution.update((val) {
-      val!.address = point?.address;
-      val.toLat = point?.lat;
-      val.toLng = point?.lng;
-    });
+    distribution.value = distribution.value.copyWith(
+      address: point?.address,
+      toLat: point?.lat,
+      toLng: point?.lng,
+    );
   }
 
   Future<bool> submitDis() async {
@@ -101,9 +119,7 @@ class DistributionApplyController extends GetxController
     for (var element in selectedCares) {
       temp = "$temp$element,";
     }
-    distribution.update((val) {
-      val!.care = temp;
-    });
+    distribution.value = distribution.value.copyWith(care: temp);
   }
 
   /// Called 1 frame after onInit(). The ideal place to enter navigation events.
