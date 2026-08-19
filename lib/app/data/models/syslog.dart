@@ -1,9 +1,16 @@
 
+/// One row of the operation log, as `/api/systemlog` sends it.
+///
+/// `businessType` was `busincessType` on both sides until S07: the backend serialises the
+/// SystemLog entity directly, so the misspelled Java field was the wire name too. The two
+/// have to be renamed together — this model reads the key by hand, and a name that no
+/// longer arrives leaves the field null, which the log row renders as "-". Nothing would
+/// have failed; the column would just have gone quietly blank.
 class SysLog{
   String? id;
   String? account;
   String? module;
-  String? busincessType;
+  String? businessType;
   String? ip;
   String? method;
   String? time;
@@ -12,7 +19,7 @@ class SysLog{
       {this.id,
       this.account,
       this.module,
-      this.busincessType,
+      this.businessType,
       this.ip,
       this.method,
       this.time});
@@ -21,7 +28,7 @@ class SysLog{
     id = json['id'];
     account = json['account'];
     module = json['module'];
-    busincessType = json['busincessType'];
+    businessType = json['businessType'];
     ip = json['ip'];
     method = json['method'];
     time = json['time'];
@@ -32,7 +39,7 @@ class SysLog{
     data['id'] = id;
     data['account'] = account;
     data['module'] = module;
-    data['busincessType'] = busincessType;
+    data['businessType'] = businessType;
     data['ip'] = ip;
     data['method'] = method;
     data['time'] = time;
