@@ -25,7 +25,7 @@ class OpLogsItem extends StatelessWidget{
         Row(children: [
           Text(sysLog.module??"-"),
           SizedBox(width: 20,),
-          Text(sysLog.busincessType??"-"),
+          Text(sysLog.businessType??"-"),
 
         ],),
         Text("IP地址：${sysLog.ip??"-"}"),
