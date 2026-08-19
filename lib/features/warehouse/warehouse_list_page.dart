@@ -30,6 +30,7 @@ class WarehouseListPage extends ConsumerWidget {
         ),
         splashColor: ColorPalette.bondyBlue,
         backgroundColor: ColorPalette.pacificBlue,
+        tooltip: context.l10n.addWarehouseTitle,
         child: const Icon(Icons.add, color: ColorPalette.white),
       ),
       body: RefreshIndicator(

@@ -1,3 +1,4 @@
+import '../../theme/status_colors.dart';
 import '../../../l10n/l10n.dart';
 
 import 'package:flutter/material.dart';
@@ -210,7 +211,7 @@ class DistributionCard extends StatelessWidget {
                   height: 30,
                   width: 70,
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(255, 0, 0, 1),
+                    color: StatusColors.busy,
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Center(
@@ -236,7 +237,7 @@ class DistributionCard extends StatelessWidget {
                   height: 30,
                   width: 70,
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(0, 132, 255, 1),
+                    color: StatusColors.inTransit,
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Center(
@@ -266,7 +267,7 @@ class DistributionCard extends StatelessWidget {
                   height: 30,
                   width: 70,
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(4, 202, 4, 1),
+                    color: StatusColors.idle,
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Center(

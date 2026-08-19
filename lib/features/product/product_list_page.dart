@@ -1,3 +1,4 @@
+import '../../app/theme/status_colors.dart';
 import '../../l10n/l10n.dart';
 
 import 'package:flutter/material.dart';
@@ -64,6 +65,7 @@ class ProductListPage extends ConsumerWidget {
         ),
         splashColor: ColorPalette.bondyBlue,
         backgroundColor: ColorPalette.pacificBlue,
+        tooltip: context.l10n.addProductTitle,
         child: const Icon(Icons.add, color: ColorPalette.white),
       ),
       body: AsyncView(
@@ -133,9 +135,7 @@ class _Chip extends StatelessWidget {
       // used — the chip is as wide as its number and no wider.
       padding: const EdgeInsets.symmetric(horizontal: 2),
       decoration: BoxDecoration(
-        color: accent
-            ? const Color.fromRGBO(32, 108, 190, 1)
-            : const Color.fromRGBO(4, 173, 182, 1),
+        color: accent ? StatusColors.stockBadge : StatusColors.priceBadge,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(

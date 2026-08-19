@@ -1,3 +1,4 @@
+import '../../theme/status_colors.dart';
 import '../../../l10n/l10n.dart';
 
 import 'package:flutter/material.dart';
@@ -29,8 +30,8 @@ class LoginLogsTtem extends StatelessWidget {
                 width: 50,
                 decoration: BoxDecoration(
                   color: loginLog.status == 0
-                      ? Color.fromRGBO(255, 0, 0, 1)
-                      : Color.fromRGBO(4, 202, 4, 1),
+                      ? StatusColors.busy
+                      : StatusColors.idle,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Center(

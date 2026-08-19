@@ -139,7 +139,7 @@ class SysMain extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.w100,
               fontSize: 20,
-              color: ColorPalette.contentColorRed,
+              color: ChartPalette.slices[6],
             ),
           ),
         ),

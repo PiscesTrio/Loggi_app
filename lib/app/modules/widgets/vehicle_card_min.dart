@@ -1,3 +1,5 @@
+import '../../theme/status_colors.dart';
+
 import 'package:loggi_app/assets/svg/svg_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -99,8 +101,8 @@ class VehicleMinCard extends StatelessWidget {
                 width: 40,
                 decoration: BoxDecoration(
                   color: vehicle!.driving!
-                      ? Color.fromRGBO(255, 0, 0, 1)
-                      : Color.fromRGBO(4, 202, 4, 1),
+                      ? StatusColors.busy
+                      : StatusColors.idle,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Center(

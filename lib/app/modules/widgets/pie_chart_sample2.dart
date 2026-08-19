@@ -10,14 +10,14 @@ class PieChartSample2 extends StatelessWidget {
   final List<CommodityChartVo> data;
   PieChartSample2({super.key, required this.data});
   final List<Color> color = [
-    ColorPalette.contentColorBlue,
-    ColorPalette.contentColorYellow,
-    ColorPalette.contentColorOrange,
-    ColorPalette.contentColorGreen,
-    ColorPalette.contentColorPurple,
-    ColorPalette.contentColorPink,
-    ColorPalette.contentColorRed,
-    ColorPalette.contentColorCyan,
+    ChartPalette.slices[0],
+    ChartPalette.slices[1],
+    ChartPalette.slices[2],
+    ChartPalette.slices[3],
+    ChartPalette.slices[4],
+    ChartPalette.slices[5],
+    ChartPalette.slices[6],
+    ChartPalette.slices[7],
   ];
 
   @override

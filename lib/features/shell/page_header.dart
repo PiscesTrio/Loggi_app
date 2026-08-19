@@ -37,6 +37,7 @@ class PageHeader extends StatelessWidget {
         children: [
           if (onBack != null)
             IconButton(
+              tooltip: MaterialLocalizations.of(context).backButtonTooltip,
               icon: const Icon(Icons.chevron_left_rounded, size: 35),
               onPressed: onBack,
             ),

@@ -1,3 +1,4 @@
+import '../../theme/status_colors.dart';
 import '../../../l10n/l10n.dart';
 
 import 'package:flutter/material.dart';
@@ -223,9 +224,7 @@ class DriverCard extends StatelessWidget {
               height: 25,
               width: 50,
               decoration: BoxDecoration(
-                color: driver.driving!
-                    ? Color.fromRGBO(255, 0, 0, 1)
-                    : Color.fromRGBO(4, 202, 4, 1),
+                color: driver.driving! ? StatusColors.busy : StatusColors.idle,
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Center(

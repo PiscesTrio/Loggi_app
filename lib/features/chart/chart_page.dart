@@ -10,17 +10,6 @@ import '../../l10n/l10n.dart';
 import '../shell/page_header.dart';
 import 'providers.dart';
 
-const _sliceColours = [
-  ColorPalette.contentColorBlue,
-  ColorPalette.contentColorYellow,
-  ColorPalette.contentColorOrange,
-  ColorPalette.contentColorGreen,
-  ColorPalette.contentColorPurple,
-  ColorPalette.contentColorPink,
-  ColorPalette.contentColorRed,
-  ColorPalette.contentColorCyan,
-];
-
 /// What moved in and what moved out.
 class ChartPage extends ConsumerWidget {
   const ChartPage({super.key});
@@ -101,7 +90,7 @@ class _Section extends StatelessWidget {
             // record without a name replaced the whole legend with an ErrorWidget while the
             // pie above it drew fine.
             value: row.value ?? 0,
-            color: _sliceColours[index % _sliceColours.length],
+            color: ChartPalette.slices[index % ChartPalette.slices.length],
             text: row.name ?? '未命名',
             isSquare: true,
           ),

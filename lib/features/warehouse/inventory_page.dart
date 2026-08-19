@@ -1,3 +1,4 @@
+import '../../app/theme/status_colors.dart';
 import '../../l10n/l10n.dart';
 
 import 'package:flutter/material.dart';
@@ -71,6 +72,7 @@ class InventoryPage extends ConsumerWidget {
         onPressed: () => context.pop(),
         splashColor: ColorPalette.bondyBlue,
         backgroundColor: ColorPalette.pacificBlue,
+        tooltip: MaterialLocalizations.of(context).backButtonTooltip,
         child: const Icon(Icons.arrow_back, color: ColorPalette.white),
       ),
       body: Column(
@@ -206,7 +208,7 @@ class _CountChip extends StatelessWidget {
       height: 25,
       width: 50,
       decoration: BoxDecoration(
-        color: const Color.fromRGBO(32, 108, 190, 1),
+        color: StatusColors.stockBadge,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Center(
