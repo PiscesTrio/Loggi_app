@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../features/warehouse/inventory_page.dart';
 import '../data/api/distribution_vo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -28,8 +29,6 @@ import '../modules/system_setting/view.dart';
 import '../modules/transport_management_page/bindings.dart';
 import '../modules/transport_management_page/view.dart';
 import '../modules/vehicle_list/view.dart';
-import '../modules/WarehouseInventory/bindings.dart';
-import '../modules/WarehouseInventory/view.dart';
 import '../modules/WarehouseListMin/bindings.dart';
 import '../modules/WarehouseListMin/view.dart';
 import 'routes.dart';
@@ -174,11 +173,8 @@ final routerProvider = Provider<GoRouter>((ref) {
                             // address of what is being shown, so this location survives a
                             // cold start. `extra` does not.
                             path: Routes.segmentWarehouseInventory,
-                            builder: (_, state) => _withBindings(
-                              [WarehouseinventoryBinding()],
-                              () => WarehouseinventoryPage(
-                                  warehouseId: state.pathParameters['id']!),
-                            ),
+                            builder: (_, state) => InventoryPage(
+                                warehouseId: state.pathParameters['id']!),
                           ),
                         ],
                       ),
