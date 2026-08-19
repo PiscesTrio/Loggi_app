@@ -78,3 +78,7 @@ Thumbs.db
 
 # Delegated-agent reports: scratch output, not source.
 .claude/
+
+# openapi-generator scratch output; the models it produces are copied into
+# lib/app/data/api/ and committed, the rest is not.
+build/openapi-gen/

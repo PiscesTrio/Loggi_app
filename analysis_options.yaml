@@ -10,6 +10,11 @@
 analyzer:
   exclude:
     - build/**
+    # Generated from the backend's OpenAPI document. Its style is the generator's
+    # business, not this project's - the enum constants it emits are SCREAMING_CASE
+    # because that is what the schema names them, and editing the files to satisfy a
+    # lint would be undone by the next regeneration.
+    - lib/app/data/api/**
     - android/**
     - ios/**
     - web/**
