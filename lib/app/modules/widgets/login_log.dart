@@ -1,3 +1,5 @@
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../utils/date_display.dart';
@@ -33,7 +35,9 @@ class LoginLogsTtem extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    loginLog.status == 0 ? "失败" : "成功",
+                    loginLog.status == 0
+                        ? context.l10n.logSignInFailed
+                        : context.l10n.logSignInSucceeded,
                     maxLines: 1,
                     style: const TextStyle(
                       fontFamily: "Nunito",

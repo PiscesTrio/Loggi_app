@@ -1,3 +1,5 @@
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../data/api/driver_vo.dart';
@@ -112,13 +114,13 @@ class DriverCard extends StatelessWidget {
                                           );
                                           Navigator.pop(context);
                                         },
-                                        child: Text("确认"),
+                                        child: Text(context.l10n.actionConfirm),
                                       ),
                                       OutlinedButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: Text("取消"),
+                                        child: Text(context.l10n.actionCancel),
                                       ),
                                     ],
                                   ),
@@ -156,7 +158,7 @@ class DriverCard extends StatelessWidget {
                         children: [
                           Text(
                             // driver!.group ?? '-',
-                            '驾驶执照：',
+                            context.l10n.driverLicence,
                             maxLines: 1,
                             style: TextStyle(
                               fontFamily: "Nunito",
@@ -228,7 +230,9 @@ class DriverCard extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  driver.driving! ? "配送中" : "空闲",
+                  driver.driving!
+                      ? context.l10n.driverBusy
+                      : context.l10n.driverIdle,
                   maxLines: 1,
                   style: const TextStyle(
                     fontFamily: "Nunito",

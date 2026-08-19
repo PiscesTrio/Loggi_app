@@ -1,3 +1,6 @@
+import '../../../features/distribution/care_tags.dart';
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,20 +17,6 @@ import 'providers.dart';
 
 class DistributionApplyPage extends ConsumerStatefulWidget {
   const DistributionApplyPage({super.key});
-
-  static final List<String> _care = [
-    "易碎",
-    "防潮",
-    "防晒",
-    "防高温",
-    "禁止翻滚",
-    "禁止堆码",
-    "冷藏",
-    "易燃",
-  ];
-  static final _items = _care
-      .map((care) => MultiSelectItem<String>(care, care))
-      .toList();
 
   @override
   ConsumerState<DistributionApplyPage> createState() =>
@@ -48,11 +37,11 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
   Future<void> _submit() async {
     final draft = ref.read(applyFormProvider).valueOrNull?.draft;
     if (draft == null || draft.phone.isEmpty) {
-      showTextToast("请填写客户电话");
+      showTextToast(context.l10n.applyPhoneRequired);
       return;
     }
     if (draft.address.isEmpty) {
-      showTextToast("请填写客户地址");
+      showTextToast(context.l10n.applyAddressRequired);
       return;
     }
 
@@ -60,7 +49,7 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
     try {
       await _form.submit();
       if (!mounted) return;
-      showTextToast("提交成功");
+      showTextToast(context.l10n.submittedOk);
       context.pop();
     } on ApiException catch (e) {
       if (!mounted) return;
@@ -104,13 +93,13 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                             children: [
                               Row(
                                 children: [
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
                                       left: 8,
                                       bottom: 5,
                                     ),
                                     child: Text(
-                                      "驾驶员",
+                                      context.l10n.applyDriver,
                                       style: TextStyle(
                                         fontFamily: "Nunito",
                                         fontSize: 20,
@@ -166,13 +155,13 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                               const SizedBox(height: 20),
                               Row(
                                 children: [
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
                                       left: 8,
                                       bottom: 5,
                                     ),
                                     child: Text(
-                                      "车辆",
+                                      context.l10n.applyVehicle,
                                       style: TextStyle(
                                         fontFamily: "Nunito",
                                         fontSize: 20,
@@ -228,13 +217,13 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                               const SizedBox(height: 20),
                               Row(
                                 children: [
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
                                       left: 8,
                                       bottom: 5,
                                     ),
                                     child: Text(
-                                      "仓库",
+                                      context.l10n.applyWarehouse,
                                       style: TextStyle(
                                         fontFamily: "Nunito",
                                         fontSize: 20,
@@ -352,9 +341,9 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                       final value = await showTimePicker(
                                         context: context,
                                         initialTime: TimeOfDay.now(),
-                                        cancelText: "取消",
-                                        helpText: "时间选择",
-                                        confirmText: "确认",
+                                        cancelText: context.l10n.actionCancel,
+                                        helpText: context.l10n.applyTimePicker,
+                                        confirmText: context.l10n.actionConfirm,
                                       );
                                       // Same as the date picker above: `value!.hour`
                                       // threw when the user cancelled.
@@ -406,13 +395,13 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                               const SizedBox(height: 10),
                               Row(
                                 children: [
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
                                       left: 8,
                                       bottom: 5,
                                     ),
                                     child: Text(
-                                      "注意事项",
+                                      context.l10n.applyCares,
                                       style: TextStyle(
                                         fontFamily: "Nunito",
                                         fontSize: 20,
@@ -427,7 +416,17 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                         builder: (context) {
                                           return MultiSelectDialog(
                                             initialValue: form.cares,
-                                            items: DistributionApplyPage._items,
+                                            items: [
+                                              for (final tag
+                                                  in CareTags.wireValues)
+                                                MultiSelectItem<String>(
+                                                  tag,
+                                                  CareTags.labelOf(
+                                                    context,
+                                                    tag,
+                                                  ),
+                                                ),
+                                            ],
                                             listType: MultiSelectListType.CHIP,
                                             onConfirm: _form.setCares,
                                           );
@@ -439,13 +438,13 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                     ),
                                   ),
                                   SizedBox(width: 50),
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
                                       left: 8,
                                       bottom: 5,
                                     ),
                                     child: Text(
-                                      "加急",
+                                      context.l10n.applyUrgent,
                                       style: TextStyle(
                                         fontFamily: "Nunito",
                                         fontSize: 20,
@@ -466,8 +465,10 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                               MultiSelectChipDisplay(
                                 items: form.cares
                                     .map(
-                                      (element) =>
-                                          MultiSelectItem(element, element),
+                                      (element) => MultiSelectItem(
+                                        element,
+                                        CareTags.labelOf(context, element),
+                                      ),
                                     )
                                     .toList(),
                                 onTap: (p0) => _form.setCares(
@@ -500,7 +501,7 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                   ),
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "客户电话",
+                                    hintText: context.l10n.applyPhone,
                                     filled: true,
                                     fillColor: Colors.transparent,
                                     hintStyle: TextStyle(
@@ -544,7 +545,7 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                   underline: const SizedBox(),
                                   value: form.selectedDeliveryPoint,
                                   hint: Text(
-                                    "客户地址",
+                                    context.l10n.applyAddress,
                                     style: TextStyle(
                                       fontFamily: "Nunito",
                                       fontSize: 16,
@@ -581,7 +582,7 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                         onPressed: () {
                                           context.pop();
                                         },
-                                        child: Text("取消"),
+                                        child: Text(context.l10n.actionCancel),
                                       ),
                                     ),
                                   ),
@@ -600,8 +601,8 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                                       strokeWidth: 2,
                                                     ),
                                               )
-                                            : const Text(
-                                                "确认",
+                                            : Text(
+                                                context.l10n.actionConfirm,
                                                 style: TextStyle(
                                                   fontSize: 15,
                                                   fontFamily: "Nunito",

@@ -143,5 +143,43 @@
   "emptyWarehouses": "No warehouses yet",
   "emptyCommodities": "No commodities yet",
   "emptyLogs": "Nothing recorded yet",
-  "errorGeneric": "Something went wrong — try again"
+  "errorGeneric": "Something went wrong — try again",
+  "driverLicence": "Licence: ",
+  "driverBusy": "On a run",
+  "driverIdle": "Available",
+  "driverCallConfirm": "Call {phone}?",
+  "@driverCallConfirm": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "trackAssigned": "Assigned",
+  "trackPickedUp": "Picked up — at {location}",
+  "@trackPickedUp": {
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
+  "trackInTransit": "In transit — at {location}",
+  "@trackInTransit": {
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
+  "trackDelivered": "Delivered",
+  "trackAt": "At {at}",
+  "@trackAt": {
+    "placeholders": {
+      "at": {
+        "type": "String"
+      }
+    }
+  },
+  "logSignInSucceeded": "Succeeded"
 }

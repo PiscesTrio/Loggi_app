@@ -148,5 +148,46 @@
   "emptyWarehouses": "还没有仓库",
   "emptyCommodities": "还没有商品",
   "emptyLogs": "还没有记录",
-  "errorGeneric": "出错了，请稍后重试"
+  "errorGeneric": "出错了，请稍后重试",
+  "driverLicence": "驾驶执照：",
+  "driverBusy": "配送中",
+  "driverIdle": "空闲",
+  "driverCallConfirm": "确认拨打以下号码？\\n {phone}",
+  "@driverCallConfirm": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "trackAssigned": "配送指示済み",
+  "@trackAssigned": {
+    "description": "The tracking timeline is in Japanese where the rest of the app is in Chinese. That is how the screen has always read; the zh resource keeps it rather than changing the app silently."
+  },
+  "trackPickedUp": "集荷完了・現在地：{location}",
+  "@trackPickedUp": {
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
+  "trackInTransit": "輸送中・現在地：{location}",
+  "@trackInTransit": {
+    "placeholders": {
+      "location": {
+        "type": "String"
+      }
+    }
+  },
+  "trackDelivered": "配送完了",
+  "trackAt": "日時：{at}",
+  "@trackAt": {
+    "placeholders": {
+      "at": {
+        "type": "String"
+      }
+    }
+  },
+  "logSignInSucceeded": "成功"
 }

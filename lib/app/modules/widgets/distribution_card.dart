@@ -1,3 +1,5 @@
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../utils/date_display.dart';
@@ -140,7 +142,7 @@ class DistributionCard extends StatelessWidget {
                         children: [
                           Text(
                             // distribution!.group ?? '-',
-                            '驾驶员：',
+                            context.l10n.deliveryDriver,
                             maxLines: 1,
                             style: TextStyle(
                               fontFamily: "Nunito",
@@ -213,12 +215,12 @@ class DistributionCard extends StatelessWidget {
                   ),
                   child: Center(
                     child: Row(
-                      children: const [
+                      children: [
                         SizedBox(width: 3),
                         Icon(Icons.search, size: 14, color: ColorPalette.white),
                         Text(
                           // distribution!.location ?? '-',
-                          '等待审核',
+                          context.l10n.deliveryStatusReviewing,
                           maxLines: 1,
                           style: TextStyle(
                             fontFamily: "Nunito",
@@ -239,7 +241,7 @@ class DistributionCard extends StatelessWidget {
                   ),
                   child: Center(
                     child: Row(
-                      children: const [
+                      children: [
                         SizedBox(width: 7),
                         Icon(
                           Icons.fire_truck,
@@ -248,7 +250,7 @@ class DistributionCard extends StatelessWidget {
                         ),
                         Text(
                           // distribution!.location ?? '-',
-                          '配送中',
+                          context.l10n.deliveryStatusInTransit,
                           maxLines: 1,
                           style: TextStyle(
                             fontFamily: "Nunito",
@@ -269,12 +271,12 @@ class DistributionCard extends StatelessWidget {
                   ),
                   child: Center(
                     child: Row(
-                      children: const [
+                      children: [
                         SizedBox(width: 3),
                         Icon(Icons.done, size: 14, color: ColorPalette.white),
                         Text(
                           // distribution!.location ?? '-',
-                          '配送完成',
+                          context.l10n.deliveryStatusDelivered,
                           maxLines: 1,
                           style: TextStyle(
                             fontFamily: "Nunito",
@@ -334,11 +336,11 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                     children: [
                       OutlinedButton(
                         onPressed: details.onStepCancel,
-                        child: const Text("返回"),
+                        child: Text(context.l10n.deliveryActionBack),
                       ),
                       ElevatedButton(
                         onPressed: details.onStepContinue,
-                        child: const Text("通过"),
+                        child: Text(context.l10n.deliveryActionApprove),
                       ),
                     ],
                   ),
@@ -347,7 +349,7 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                     children: [
                       OutlinedButton(
                         onPressed: details.onStepCancel,
-                        child: const Text("返回"),
+                        child: Text(context.l10n.deliveryActionBack),
                       ),
                       ElevatedButton(
                         onPressed: () {
@@ -357,11 +359,11 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                             extra: widget.distribution,
                           );
                         },
-                        child: const Text("查看配送进度"),
+                        child: Text(context.l10n.deliveryActionTrack),
                       ),
                       ElevatedButton(
                         onPressed: details.onStepContinue,
-                        child: const Text("确认已送达"),
+                        child: Text(context.l10n.deliveryActionMarkDelivered),
                       ),
                     ],
                   ),
@@ -370,7 +372,7 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                     children: [
                       OutlinedButton(
                         onPressed: details.onStepCancel,
-                        child: const Text("返回"),
+                        child: Text(context.l10n.deliveryActionBack),
                       ),
                     ],
                   ),
@@ -402,33 +404,37 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
             steps: [
               Step(
                 isActive: _step >= 0,
-                title: const Text("审核"),
+                title: Text(context.l10n.deliveryActionReview),
                 content: Column(
                   children: [
                     Row(
                       children: [
-                        const Text("驾驶员："),
+                        Text(context.l10n.deliveryDriver),
                         Text(widget.distribution!.driver?.name ?? "-"),
                       ],
                     ),
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Text("车牌号码："),
+                        Text(context.l10n.deliveryPlate),
                         Text(widget.distribution!.vehicle?.number ?? "-"),
                       ],
                     ),
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Text("加急处理："),
-                        Text(widget.distribution!.urgent! ? "是" : "否"),
+                        Text(context.l10n.deliveryUrgent),
+                        Text(
+                          widget.distribution!.urgent!
+                              ? context.l10n.commonYes
+                              : context.l10n.commonNo,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Text("注意事项："),
+                        Text(context.l10n.deliveryCares),
                         Expanded(
                           child: Text(
                             widget.distribution!.care ?? "-",
@@ -440,7 +446,7 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Text("客户电话："),
+                        Text(context.l10n.deliveryPhone),
                         Expanded(
                           child: Text(
                             widget.distribution!.phone ?? "-",
@@ -452,7 +458,7 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Text("客户地址："),
+                        Text(context.l10n.deliveryAddress),
                         Expanded(
                           child: Text(
                             widget.distribution!.address ?? "-",
@@ -464,7 +470,7 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Text("预计送达："),
+                        Text(context.l10n.deliveryEta),
                         Text(formatDateMinute(widget.distribution!.time)),
                       ],
                     ),
@@ -474,7 +480,7 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
               ),
               Step(
                 isActive: _step >= 1,
-                title: const Text("配送中"),
+                title: Text(context.l10n.deliveryStatusInTransit),
                 content: Center(
                   child: Column(
                     children: [
@@ -498,23 +504,23 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                           ),
                         ],
                       ),
-                      const Text("配送中"),
+                      Text(context.l10n.deliveryStatusInTransit),
                     ],
                   ),
                 ),
               ),
               Step(
                 isActive: _step >= 2,
-                title: const Text("配送完成"),
+                title: Text(context.l10n.deliveryStatusDelivered),
                 content: Center(
                   child: Column(
-                    children: const [
+                    children: [
                       Icon(
                         Icons.check_circle_rounded,
                         size: 160,
                         color: Color.fromARGB(236, 28, 227, 48),
                       ),
-                      Text("配送已完成"),
+                      Text(context.l10n.deliveryStatusDone),
                     ],
                   ),
                 ),
