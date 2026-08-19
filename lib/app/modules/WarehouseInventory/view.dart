@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../data/api/inventory_movement_request.dart';
 import '../../data/api/inventory_vo.dart';
@@ -275,9 +276,13 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                         .copyWith(count: int.tryParse(value) ?? 0);
                                                                 },
                                                                 // textInputAction: TextInputAction.next,
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .text,
+                                                                // A quantity field, so a quantity keypad. It declared TextInputType.text, which
+                                                                // opens the full text keyboard — and a Japanese IME on that keyboard hands Flutter
+                                                                // composing text and full-width digits, neither of which int.tryParse accepts. The
+                                                                // formatter is the part that guarantees it: the keyboard is a suggestion, and any
+                                                                // IME can still paste or compose something else.
+                                                                keyboardType: TextInputType.number,
+                                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                                                 style:
                                                                     const TextStyle(
                                                                   fontFamily:
@@ -641,9 +646,13 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                         .copyWith(count: int.tryParse(value) ?? 0);
                                                                 },
                                                                 // textInputAction: TextInputAction.next,
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .text,
+                                                                // A quantity field, so a quantity keypad. It declared TextInputType.text, which
+                                                                // opens the full text keyboard — and a Japanese IME on that keyboard hands Flutter
+                                                                // composing text and full-width digits, neither of which int.tryParse accepts. The
+                                                                // formatter is the part that guarantees it: the keyboard is a suggestion, and any
+                                                                // IME can still paste or compose something else.
+                                                                keyboardType: TextInputType.number,
+                                                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                                                 style:
                                                                     const TextStyle(
                                                                   fontFamily:

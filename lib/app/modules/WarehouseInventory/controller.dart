@@ -42,7 +42,8 @@ class WarehouseinventoryController extends GetxController with StateMixin<List<I
     
     NbRequest().getAllProducts().then((value) => commoList(value)).then(
       (data){
-        selectedCommo(commoList.first);}
+        if (commoList.isNotEmpty) selectedCommo(commoList.first);
+      }
     );
   
 
@@ -96,7 +97,7 @@ class WarehouseinventoryController extends GetxController with StateMixin<List<I
       change(result, status: RxStatus.success());
       
       commo(result);
-      selectedCommoOut(commo.first);
+      if (commo.isNotEmpty) selectedCommoOut(commo.first);
       
     }).onError((error, stackTrace) {
       change(null, status: RxStatus.error());
@@ -116,7 +117,7 @@ class WarehouseinventoryController extends GetxController with StateMixin<List<I
     NbRequest().getInventoryFromWarehouseId(warehouseId.value).then((result) {
       change(result, status: RxStatus.success());
       commo(result);
-      selectedCommoOut(commo.first);
+      if (commo.isNotEmpty) selectedCommoOut(commo.first);
   
     }).onError((error, stackTrace) {
       change(null, status: RxStatus.error());
