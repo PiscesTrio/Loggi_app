@@ -3,6 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/settings/system_setting_page.dart';
+import '../../features/shell/tabbed_shell_page.dart';
+import '../../features/chart/chart_page.dart';
+import '../../features/log/log_page.dart';
 import '../../features/product/product_detail_page.dart';
 import '../../features/product/product_list_page.dart';
 import '../../features/warehouse/inventory_page.dart';
@@ -10,24 +14,12 @@ import '../../features/warehouse/warehouse_list_page.dart';
 import '../auth/auth_provider.dart';
 import '../data/api/commodity_vo.dart';
 import '../data/api/distribution_vo.dart';
-import '../modules/base_mangement_page/base_mangement_page_binding.dart';
-import '../modules/base_mangement_page/base_mangement_page_view.dart';
-import '../modules/chart/bindings.dart';
-import '../modules/chart/view.dart';
 import '../modules/distribution_apply/view.dart';
 import '../modules/distribution_list/view.dart';
 import '../modules/distribution_status/view.dart';
 import '../modules/driver_list/view.dart';
 import '../modules/login/bindings.dart';
 import '../modules/login/view.dart';
-import '../modules/login_log/bindings.dart';
-import '../modules/login_log/view.dart';
-import '../modules/operate_log/bindings.dart';
-import '../modules/operate_log/view.dart';
-import '../modules/system_setting/bindings.dart';
-import '../modules/system_setting/view.dart';
-import '../modules/transport_management_page/bindings.dart';
-import '../modules/transport_management_page/view.dart';
 import '../modules/vehicle_list/view.dart';
 import 'routes.dart';
 import 'shell_scaffold.dart';
@@ -131,9 +123,11 @@ final routerProvider = Provider<GoRouter>((ref) {
               StatefulShellRoute.indexedStack(
                 // This builder supplies the header and the 商品/仓库 tab bar; `inner` goes
                 // where the old IndexedStack of two Navigators used to sit.
-                builder: (_, _, inner) => _withBindings([
-                  BaseManagementPageBinding(),
-                ], () => BaseManagementPageView(shell: inner)),
+                builder: (_, _, inner) => TabbedShellPage(
+                  title: '基础管理',
+                  tabs: const ['商品管理', '仓库管理'],
+                  shell: inner,
+                ),
                 branches: [
                   StatefulShellBranch(
                     navigatorKey: _productsKey,
@@ -182,9 +176,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             initialLocation: Routes.transportDistribution,
             routes: [
               StatefulShellRoute.indexedStack(
-                builder: (_, _, inner) => _withBindings([
-                  TransportManagementPageBinding(),
-                ], () => TransportManagementPagePage(shell: inner)),
+                builder: (_, _, inner) => TabbedShellPage(
+                  title: '运输管理',
+                  tabs: const ['配送管理', '车辆管理', '驾驶员管理'],
+                  shell: inner,
+                ),
                 branches: [
                   StatefulShellBranch(
                     navigatorKey: _distributionKey,
@@ -260,11 +256,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             navigatorKey: _chartKey,
             routes: [
-              GoRoute(
-                path: Routes.chart,
-                builder: (_, _) =>
-                    _withBindings([ChartBinding()], () => ChartPage()),
-              ),
+              GoRoute(path: Routes.chart, builder: (_, _) => const ChartPage()),
             ],
           ),
           // ---- Tab 3: 系统设置 --------------------------------------------------
@@ -273,21 +265,15 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: Routes.settings,
-                builder: (_, _) => _withBindings([
-                  SystemSettingBinding(),
-                ], () => SystemSettingPage()),
+                builder: (_, _) => const SystemSettingPage(),
                 routes: [
                   GoRoute(
                     path: Routes.segmentOperationLog,
-                    builder: (_, _) => _withBindings([
-                      OperateLogBinding(),
-                    ], () => OperateLogPage()),
+                    builder: (_, _) => const OperationLogPage(),
                   ),
                   GoRoute(
                     path: Routes.segmentLoginLog,
-                    builder: (_, _) => _withBindings([
-                      LoginLogBinding(),
-                    ], () => LoginLogPage()),
+                    builder: (_, _) => const LoginLogPage(),
                   ),
                 ],
               ),
