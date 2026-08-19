@@ -1,23 +1,147 @@
 {
   "@@locale": "en",
-
   "navBase": "Master data",
   "navTransport": "Transport",
   "navChart": "Analytics",
   "navSettings": "Settings",
-
   "tabCommodities": "Commodities",
   "tabWarehouses": "Warehouses",
   "tabDistributions": "Deliveries",
   "tabVehicles": "Vehicles",
   "tabDrivers": "Drivers",
-
   "titleLoginLog": "Sign-in log",
   "titleOperationLog": "Operation log",
-
   "actionCancel": "Cancel",
   "actionConfirm": "Confirm",
-
+  "commonYes": "Yes",
+  "commonNo": "No",
+  "unnamed": "Unnamed",
   "directionInbound": "Inbound",
-  "directionOutbound": "Outbound"
+  "directionOutbound": "Outbound",
+  "settingsSystemSection": "System",
+  "settingsAccount": "Account",
+  "settingsAccountSubtitle": "Change the address and password",
+  "settingsLogSection": "Logs",
+  "settingsSignOut": "Sign out",
+  "settingsSignOutConfirm": "Sign out of this account?",
+  "settingsSignedOut": "Signed out",
+  "operationInsert": "Created",
+  "operationUpdate": "Updated",
+  "operationDelete": "Deleted",
+  "operationQuery": "Read",
+  "operationExport": "Exported",
+  "operationForce": "Forced out",
+  "operationOther": "Other",
+  "logAccount": "Account: {account}",
+  "@logAccount": {
+    "placeholders": {
+      "account": {
+        "type": "String"
+      }
+    }
+  },
+  "logIpAddress": "IP: {ip}",
+  "@logIpAddress": {
+    "placeholders": {
+      "ip": {
+        "type": "String"
+      }
+    }
+  },
+  "logMethod": "Method: {method}",
+  "@logMethod": {
+    "placeholders": {
+      "method": {
+        "type": "String"
+      }
+    }
+  },
+  "logSignInFailed": "Failed",
+  "deliveryStatusReviewing": "Awaiting review",
+  "deliveryStatusInTransit": "In transit",
+  "deliveryStatusDelivered": "Delivered",
+  "deliveryStatusDone": "This delivery is complete",
+  "deliveryActionBack": "Back",
+  "deliveryActionApprove": "Approve",
+  "deliveryActionReview": "Review",
+  "deliveryActionTrack": "Track",
+  "deliveryActionMarkDelivered": "Mark delivered",
+  "deliveryDriver": "Driver: ",
+  "deliveryPlate": "Plate: ",
+  "deliveryUrgent": "Urgent: ",
+  "deliveryCares": "Handling: ",
+  "deliveryPhone": "Phone: ",
+  "deliveryAddress": "Address: ",
+  "deliveryEta": "Due: ",
+  "applyDriver": "Driver",
+  "applyVehicle": "Vehicle",
+  "applyWarehouse": "Warehouse",
+  "applyCares": "Handling",
+  "applyUrgent": "Urgent",
+  "applyPhone": "Customer phone",
+  "applyAddress": "Customer address",
+  "applyTimePicker": "Pick a time",
+  "applyPhoneRequired": "Enter the customer phone",
+  "applyAddressRequired": "Enter the customer address",
+  "careFragile": "Fragile",
+  "careKeepDry": "Keep dry",
+  "careNoSun": "Keep out of sun",
+  "careNoHeat": "Keep cool",
+  "careNoTumble": "Do not tumble",
+  "careNoStack": "Do not stack",
+  "careRefrigerate": "Refrigerate",
+  "careFlammable": "Flammable",
+  "fieldName": "Name",
+  "fieldPrice": "Price",
+  "fieldStock": "Stock",
+  "fieldQuantity": "Quantity",
+  "fieldNote": "Note",
+  "fieldCommodityName": "Commodity",
+  "fieldUnitPrice": "Unit price",
+  "fieldWarehouseName": "Warehouse",
+  "fieldPrinciple": "Contact",
+  "fieldLocation": "Address",
+  "fieldSelectCommodity": "Commodity",
+  "fieldDescription": "Description",
+  "addWarehouseTitle": "Add a warehouse",
+  "addProductTitle": "Add a commodity",
+  "movementTitle": "Record {direction}",
+  "@movementTitle": {
+    "placeholders": {
+      "direction": {
+        "type": "String"
+      }
+    }
+  },
+  "emptyStockForOutbound": "This warehouse holds nothing to send out",
+  "validationCommodityRequired": "Choose a commodity",
+  "validationQuantityRequired": "Enter a quantity",
+  "validationNameRequired": "Enter a name",
+  "validationWarehouseNameRequired": "Enter a warehouse name",
+  "validationLocationRequired": "Enter an address",
+  "validationCommodityNameRequired": "Enter a commodity name",
+  "savedOk": "Saved",
+  "addedOk": "Added",
+  "submittedOk": "Submitted",
+  "createdAt": "Created {at}",
+  "@createdAt": {
+    "placeholders": {
+      "at": {
+        "type": "String"
+      }
+    }
+  },
+  "updatedAt": "Updated {at}",
+  "@updatedAt": {
+    "placeholders": {
+      "at": {
+        "type": "String"
+      }
+    }
+  },
+  "productNoId": "This commodity has no id and cannot be saved",
+  "emptyWarehouses": "No warehouses yet",
+  "emptyCommodities": "No commodities yet",
+  "emptyLogs": "Nothing recorded yet",
+  "errorGeneric": "Something went wrong — try again"
 }

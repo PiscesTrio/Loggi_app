@@ -1,23 +1,152 @@
 {
   "@@locale": "zh",
-
   "navBase": "基础管理",
   "navTransport": "运输管理",
   "navChart": "图表分析",
   "navSettings": "系统设置",
-
   "tabCommodities": "商品管理",
   "tabWarehouses": "仓库管理",
   "tabDistributions": "配送管理",
   "tabVehicles": "车辆管理",
   "tabDrivers": "驾驶员管理",
-
   "titleLoginLog": "登录日志",
   "titleOperationLog": "操作日志",
-
   "actionCancel": "取消",
   "actionConfirm": "确认",
-
+  "commonYes": "是",
+  "commonNo": "否",
+  "unnamed": "未命名",
   "directionInbound": "入库",
-  "directionOutbound": "出库"
+  "directionOutbound": "出库",
+  "settingsSystemSection": "系统管理",
+  "settingsAccount": "账号管理",
+  "settingsAccountSubtitle": "修改账号和密码",
+  "settingsLogSection": "系统日志",
+  "settingsSignOut": "退出登录",
+  "settingsSignOutConfirm": "确认退出登录吗？",
+  "settingsSignedOut": "已退出登录",
+  "operationInsert": "新增",
+  "operationUpdate": "修改",
+  "operationDelete": "删除",
+  "operationQuery": "查询",
+  "operationExport": "导出",
+  "operationForce": "强退",
+  "operationOther": "其它",
+  "logAccount": "账号：{account}",
+  "@logAccount": {
+    "description": "Row heading in both log lists.",
+    "placeholders": {
+      "account": {
+        "type": "String"
+      }
+    }
+  },
+  "logIpAddress": "IP地址：{ip}",
+  "@logIpAddress": {
+    "placeholders": {
+      "ip": {
+        "type": "String"
+      }
+    }
+  },
+  "logMethod": "调用方法：{method}",
+  "@logMethod": {
+    "placeholders": {
+      "method": {
+        "type": "String"
+      }
+    }
+  },
+  "logSignInFailed": "失败",
+  "deliveryStatusReviewing": "等待审核",
+  "deliveryStatusInTransit": "配送中",
+  "deliveryStatusDelivered": "配送完成",
+  "deliveryStatusDone": "配送已完成",
+  "deliveryActionBack": "返回",
+  "deliveryActionApprove": "通过",
+  "deliveryActionReview": "审核",
+  "deliveryActionTrack": "查看配送进度",
+  "deliveryActionMarkDelivered": "确认已送达",
+  "deliveryDriver": "驾驶员：",
+  "deliveryPlate": "车牌号码：",
+  "deliveryUrgent": "加急处理：",
+  "deliveryCares": "注意事项：",
+  "deliveryPhone": "客户电话：",
+  "deliveryAddress": "客户地址：",
+  "deliveryEta": "预计送达：",
+  "applyDriver": "驾驶员",
+  "applyVehicle": "车辆",
+  "applyWarehouse": "仓库",
+  "applyCares": "注意事项",
+  "applyUrgent": "加急",
+  "applyPhone": "客户电话",
+  "applyAddress": "客户地址",
+  "applyTimePicker": "时间选择",
+  "applyPhoneRequired": "请填写客户电话",
+  "applyAddressRequired": "请填写客户地址",
+  "careFragile": "易碎",
+  "@careFragile": {
+    "description": "Display label for a care tag. The value stored in distribution.care stays the Chinese token, because the server, the seed data and the client all treat it as a wire value — translating what is sent would change what is recorded."
+  },
+  "careKeepDry": "防潮",
+  "careNoSun": "防晒",
+  "careNoHeat": "防高温",
+  "careNoTumble": "禁止翻滚",
+  "careNoStack": "禁止堆码",
+  "careRefrigerate": "冷藏",
+  "careFlammable": "易燃",
+  "fieldName": "名称",
+  "fieldPrice": "价格",
+  "fieldStock": "库存",
+  "fieldQuantity": "数量",
+  "fieldNote": "备注",
+  "fieldCommodityName": "商品名",
+  "fieldUnitPrice": "单价",
+  "fieldWarehouseName": "仓库名",
+  "fieldPrinciple": "负责人",
+  "fieldLocation": "地址",
+  "fieldSelectCommodity": "选择商品",
+  "fieldDescription": "Description",
+  "addWarehouseTitle": "添加仓库",
+  "addProductTitle": "添加商品",
+  "movementTitle": "{direction}登记",
+  "@movementTitle": {
+    "description": "direction is the localised 入库 / 出库.",
+    "placeholders": {
+      "direction": {
+        "type": "String"
+      }
+    }
+  },
+  "emptyStockForOutbound": "该仓库暂无库存可出库",
+  "validationCommodityRequired": "请选择商品",
+  "validationQuantityRequired": "请填写数量",
+  "validationNameRequired": "请填写名称",
+  "validationWarehouseNameRequired": "请填写仓库名",
+  "validationLocationRequired": "请填写地址",
+  "validationCommodityNameRequired": "请填写商品名",
+  "savedOk": "保存成功",
+  "addedOk": "添加成功",
+  "submittedOk": "提交成功",
+  "createdAt": "创建时间： {at}",
+  "@createdAt": {
+    "placeholders": {
+      "at": {
+        "type": "String"
+      }
+    }
+  },
+  "updatedAt": "上次更新时间：{at}",
+  "@updatedAt": {
+    "placeholders": {
+      "at": {
+        "type": "String"
+      }
+    }
+  },
+  "productNoId": "这条商品没有 id，无法保存",
+  "emptyWarehouses": "还没有仓库",
+  "emptyCommodities": "还没有商品",
+  "emptyLogs": "还没有记录",
+  "errorGeneric": "出错了，请稍后重试"
 }

@@ -1,3 +1,5 @@
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +32,7 @@ class _AddProductDialogState extends ConsumerState<AddProductDialog> {
 
   Future<void> _submit() async {
     if (_name.text.isEmpty) {
-      showTextToast('请填写商品名');
+      showTextToast(context.l10n.validationCommodityNameRequired);
       return;
     }
 
@@ -46,7 +48,7 @@ class _AddProductDialogState extends ConsumerState<AddProductDialog> {
           );
       ref.invalidate(commodityListProvider);
       if (!mounted) return;
-      showTextToast('添加成功');
+      showTextToast(context.l10n.addedOk);
       Navigator.of(context).pop();
     } on ApiException catch (e) {
       if (!mounted) return;
@@ -58,13 +60,15 @@ class _AddProductDialogState extends ConsumerState<AddProductDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('添加商品'),
+      title: Text(context.l10n.addProductTitle),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
             controller: _name,
-            decoration: const InputDecoration(labelText: '商品名'),
+            decoration: InputDecoration(
+              labelText: context.l10n.fieldCommodityName,
+            ),
           ),
           TextFormField(
             controller: _price,
@@ -72,14 +76,14 @@ class _AddProductDialogState extends ConsumerState<AddProductDialog> {
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
             ],
-            decoration: const InputDecoration(labelText: '单价'),
+            decoration: InputDecoration(labelText: context.l10n.fieldUnitPrice),
           ),
         ],
       ),
       actions: [
         OutlinedButton(
           onPressed: _submitting ? null : () => Navigator.of(context).pop(),
-          child: const Text('取消'),
+          child: Text(context.l10n.actionCancel),
         ),
         ElevatedButton(
           onPressed: _submitting ? null : _submit,
@@ -89,7 +93,7 @@ class _AddProductDialogState extends ConsumerState<AddProductDialog> {
                   height: 18,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('确认'),
+              : Text(context.l10n.actionConfirm),
         ),
       ],
     );

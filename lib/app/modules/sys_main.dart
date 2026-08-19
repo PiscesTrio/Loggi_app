@@ -1,3 +1,5 @@
+import '../../l10n/l10n.dart';
+
 import 'package:loggi_app/app/data/network/api.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
 import 'package:loggi_app/app/data/network/container_access.dart';
@@ -16,9 +18,9 @@ class SysMain extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const ListTile(
+        ListTile(
           title: Text(
-            "系统管理",
+            context.l10n.settingsSystemSection,
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
           ),
         ),
@@ -37,16 +39,16 @@ class SysMain extends StatelessWidget {
                     });
                   }
                 },
-                title: Text("账号管理"),
-                subtitle: Text("修改账号和密码"),
+                title: Text(context.l10n.settingsAccount),
+                subtitle: Text(context.l10n.settingsAccountSubtitle),
               ),
               Divider(height: 1, indent: 16),
             ],
           ),
         ),
-        const ListTile(
+        ListTile(
           title: Text(
-            "系统日志",
+            context.l10n.settingsLogSection,
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
           ),
         ),
@@ -61,14 +63,14 @@ class SysMain extends StatelessWidget {
                 onTap: () {
                   context.push(Routes.loginLog);
                 },
-                title: Text("登录日志"),
+                title: Text(context.l10n.titleLoginLog),
               ),
               Divider(height: 1, indent: 16),
               ListTile(
                 onTap: () {
                   context.push(Routes.operationLog);
                 },
-                title: Text("操作日志"),
+                title: Text(context.l10n.titleOperationLog),
               ),
               Divider(height: 1, indent: 16),
             ],
@@ -82,7 +84,7 @@ class SysMain extends StatelessWidget {
               builder: (BuildContext context) {
                 return AlertDialog(
                   content: Text(
-                    "确认退出登录吗？",
+                    context.l10n.settingsSignOutConfirm,
                     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
                   ),
                   actions: [
@@ -98,7 +100,7 @@ class SysMain extends StatelessWidget {
                             await appContainer
                                 .read(authProvider.notifier)
                                 .signOut();
-                            showTextToast("已退出登录");
+                            showTextToast(context.l10n.settingsSignedOut);
                             // offAllNamed, not offAndToNamed: the latter
                             // replaces only the top route, and the home
                             // shell it leaves behind keeps its GetX
@@ -109,13 +111,13 @@ class SysMain extends StatelessWidget {
                             // stack disposes the bindings with it.
                             // Redirect takes it from here.
                           },
-                          child: Text("确认"),
+                          child: Text(context.l10n.actionConfirm),
                         ),
                         OutlinedButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text("取消"),
+                          child: Text(context.l10n.actionCancel),
                         ),
                       ],
                     ),
@@ -133,7 +135,7 @@ class SysMain extends StatelessWidget {
             ),
           ),
           child: Text(
-            "退出登录",
+            context.l10n.settingsSignOut,
             style: TextStyle(
               fontWeight: FontWeight.w100,
               fontSize: 20,

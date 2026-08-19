@@ -1,3 +1,5 @@
+import '../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -53,7 +55,7 @@ class LogPage<T> extends ConsumerWidget {
                           child: AsyncView(
                             value: entries,
                             onRetry: () => onRefresh(ref),
-                            emptyMessage: '还没有记录',
+                            emptyMessage: context.l10n.emptyLogs,
                             builder: (rows) => ListView.builder(
                               itemCount: rows.length,
                               itemBuilder: (context, index) =>
@@ -81,7 +83,7 @@ class LoginLogPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LogPage(
-      title: '登录日志',
+      title: context.l10n.titleLoginLog,
       provider: loginLogProvider,
       onRefresh: (ref) => ref.read(loginLogProvider.notifier).refresh(),
       rowBuilder: (row) => LoginLogsTtem(loginLog: row),
@@ -96,7 +98,7 @@ class OperationLogPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LogPage(
-      title: '操作日志',
+      title: context.l10n.titleOperationLog,
       provider: operationLogProvider,
       onRefresh: (ref) => ref.read(operationLogProvider.notifier).refresh(),
       rowBuilder: (row) => OpLogsItem(sysLog: row),

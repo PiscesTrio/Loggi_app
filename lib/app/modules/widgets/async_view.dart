@@ -1,3 +1,5 @@
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -59,7 +61,7 @@ class _ErrorState extends StatelessWidget {
     // showing its toString to a user helps nobody.
     final message = error is ApiException
         ? (error as ApiException).message
-        : '出错了，请稍后重试';
+        : context.l10n.errorGeneric;
     return _Message(
       text: message,
       icon: Icons.error_outline,

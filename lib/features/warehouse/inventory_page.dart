@@ -1,3 +1,5 @@
+import '../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -175,8 +177,8 @@ class _InventoryTable extends ConsumerWidget {
           sortColumnIndex: order?.column,
           sortAscending: order?.ascending ?? true,
           columns: [
-            DataColumn(label: const Text('名称'), onSort: sort),
-            DataColumn(label: const Text('数量'), onSort: sort),
+            DataColumn(label: Text(context.l10n.fieldName), onSort: sort),
+            DataColumn(label: Text(context.l10n.fieldQuantity), onSort: sort),
           ],
           rows: [
             for (final row in order?.apply(rows) ?? rows)
