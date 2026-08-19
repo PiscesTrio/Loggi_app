@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import '../../features/warehouse/inventory_page.dart';
-import '../data/api/distribution_vo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/product/product_detail_page.dart';
+import '../../features/product/product_list_page.dart';
+import '../../features/warehouse/inventory_page.dart';
+import '../../features/warehouse/warehouse_list_page.dart';
 import '../auth/auth_provider.dart';
+import '../data/api/commodity_vo.dart';
+import '../data/api/distribution_vo.dart';
 import '../modules/base_mangement_page/base_mangement_page_binding.dart';
 import '../modules/base_mangement_page/base_mangement_page_view.dart';
 import '../modules/chart/bindings.dart';
@@ -20,17 +24,11 @@ import '../modules/login_log/bindings.dart';
 import '../modules/login_log/view.dart';
 import '../modules/operate_log/bindings.dart';
 import '../modules/operate_log/view.dart';
-import '../modules/ProductDetailMin/bindings.dart';
-import '../modules/ProductDetailMin/view.dart';
-import '../modules/ProductTableMinPage/bindings.dart';
-import '../modules/ProductTableMinPage/view.dart';
 import '../modules/system_setting/bindings.dart';
 import '../modules/system_setting/view.dart';
 import '../modules/transport_management_page/bindings.dart';
 import '../modules/transport_management_page/view.dart';
 import '../modules/vehicle_list/view.dart';
-import '../modules/WarehouseListMin/bindings.dart';
-import '../modules/WarehouseListMin/view.dart';
 import 'routes.dart';
 import 'shell_scaffold.dart';
 
@@ -143,17 +141,12 @@ final routerProvider = Provider<GoRouter>((ref) {
                     routes: [
                       GoRoute(
                         path: Routes.baseProducts,
-                        builder: (_, _) => _withBindings(
-                            [ProducttableminpageBinding()],
-                            () => const ProducttableminpagePage()),
+                        builder: (_, _) => const ProductListPage(),
                         routes: [
                           GoRoute(
                             path: Routes.segmentProductDetail,
-                            builder: (_, state) => _withBindings(
-                              [ProductdetailminBinding()],
-                              () => ProductdetailminPage(
-                                  arguments: state.extra as Map<String, dynamic>),
-                            ),
+                            builder: (_, state) =>
+                                ProductDetailPage(product: state.extra as CommodityVo),
                           ),
                         ],
                       ),
@@ -164,9 +157,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                     routes: [
                       GoRoute(
                         path: Routes.baseWarehouses,
-                        builder: (_, _) => _withBindings(
-                            [WarehouselistminBinding()],
-                            () => WarehouselistminPage()),
+                        builder: (_, _) => const WarehouseListPage(),
                         routes: [
                           GoRoute(
                             // A path parameter, not `extra`: a warehouse id is part of the
