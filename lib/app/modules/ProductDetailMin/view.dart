@@ -1,4 +1,5 @@
 import 'package:loggi_app/app/data/network/api.dart';
+import '../../utils/date_display.dart';
 import '../../data/api/commodity_request.dart';
 import '../../data/api/commodity_vo.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
@@ -207,7 +208,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                 bottom: 5,
                               ),
                               child: Text(
-                                "创建时间： ${product.createAt ?? ""}",
+                                "创建时间： ${formatDateTime(product.createAt)}",
                                 style: TextStyle(
                                   fontFamily: "Nunito",
                                   fontSize: 16,
@@ -221,7 +222,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                 bottom: 5,
                               ),
                               child: Text(
-                                "上次更新时间：${product.updateAt ?? "无"}",
+                                "上次更新时间：${formatDateTime(product.updateAt)}",
                                 style: TextStyle(
                                   fontFamily: "Nunito",
                                   fontSize: 16,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import '../../utils/date_display.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loggi_app/app/router/routes.dart';
@@ -454,7 +454,7 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                                   Row(
                                     children: [
                                       const Text("预计送达："),
-                                      Text(_formatTime(widget.distribution!.time))
+                                      Text(formatDateMinute(widget.distribution!.time))
                                     ],
                                   ),
                                   const SizedBox(
@@ -559,9 +559,3 @@ DistributionRequest _requestFrom(DistributionVo order, int step) {
 
 /// The delivery time, as text.
 ///
-/// It arrived as a preformatted string until S09 made the column a real datetime; the
-/// server sends a timestamp now and the screen decides how to show it, which is the right
-/// way round - a date format is a presentation decision and it was being made in the
-/// database.
-String _formatTime(DateTime? time) =>
-    time == null ? '-' : DateFormat('yyyy-MM-dd HH:mm').format(time);
