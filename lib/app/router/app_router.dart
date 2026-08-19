@@ -131,10 +131,9 @@ final routerProvider = Provider<GoRouter>((ref) {
               StatefulShellRoute.indexedStack(
                 // This builder supplies the header and the 商品/仓库 tab bar; `inner` goes
                 // where the old IndexedStack of two Navigators used to sit.
-                builder: (_, _, inner) => _withBindings(
-                  [BaseManagementPageBinding()],
-                  () => BaseManagementPageView(shell: inner),
-                ),
+                builder: (_, _, inner) => _withBindings([
+                  BaseManagementPageBinding(),
+                ], () => BaseManagementPageView(shell: inner)),
                 branches: [
                   StatefulShellBranch(
                     navigatorKey: _productsKey,
@@ -145,8 +144,9 @@ final routerProvider = Provider<GoRouter>((ref) {
                         routes: [
                           GoRoute(
                             path: Routes.segmentProductDetail,
-                            builder: (_, state) =>
-                                ProductDetailPage(product: state.extra as CommodityVo),
+                            builder: (_, state) => ProductDetailPage(
+                              product: state.extra as CommodityVo,
+                            ),
                           ),
                         ],
                       ),
@@ -165,7 +165,8 @@ final routerProvider = Provider<GoRouter>((ref) {
                             // cold start. `extra` does not.
                             path: Routes.segmentWarehouseInventory,
                             builder: (_, state) => InventoryPage(
-                                warehouseId: state.pathParameters['id']!),
+                              warehouseId: state.pathParameters['id']!,
+                            ),
                           ),
                         ],
                       ),
@@ -181,10 +182,9 @@ final routerProvider = Provider<GoRouter>((ref) {
             initialLocation: Routes.transportDistribution,
             routes: [
               StatefulShellRoute.indexedStack(
-                builder: (_, _, inner) => _withBindings(
-                  [TransportManagementPageBinding()],
-                  () => TransportManagementPagePage(shell: inner),
-                ),
+                builder: (_, _, inner) => _withBindings([
+                  TransportManagementPageBinding(),
+                ], () => TransportManagementPagePage(shell: inner)),
                 branches: [
                   StatefulShellBranch(
                     navigatorKey: _distributionKey,
@@ -198,7 +198,27 @@ final routerProvider = Provider<GoRouter>((ref) {
                         routes: [
                           GoRoute(
                             path: Routes.segmentDistributionApply,
-                            builder: (_, _) => const DistributionApplyPage(),
+                            // Slides up, as it did before S13. Filing an order is a task
+                            // begun and finished on top of the list, not a place further in
+                            // — go_router's default slide from the right says the opposite.
+                            pageBuilder: (_, state) => CustomTransitionPage(
+                              key: state.pageKey,
+                              child: const DistributionApplyPage(),
+                              transitionsBuilder: (_, animation, _, child) =>
+                                  SlideTransition(
+                                    position:
+                                        Tween<Offset>(
+                                          begin: const Offset(0, 1),
+                                          end: Offset.zero,
+                                        ).animate(
+                                          CurvedAnimation(
+                                            parent: animation,
+                                            curve: Curves.easeOutCubic,
+                                          ),
+                                        ),
+                                    child: child,
+                                  ),
+                            ),
                           ),
                         ],
                       ),
@@ -230,8 +250,9 @@ final routerProvider = Provider<GoRouter>((ref) {
               // header above a modal.
               GoRoute(
                 path: Routes.distributionStatus,
-                builder: (_, state) =>
-                    DistributionStatusPage(argument: state.extra as DistributionVo),
+                builder: (_, state) => DistributionStatusPage(
+                  argument: state.extra as DistributionVo,
+                ),
               ),
             ],
           ),
@@ -252,18 +273,21 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: Routes.settings,
-                builder: (_, _) => _withBindings(
-                    [SystemSettingBinding()], () => SystemSettingPage()),
+                builder: (_, _) => _withBindings([
+                  SystemSettingBinding(),
+                ], () => SystemSettingPage()),
                 routes: [
                   GoRoute(
                     path: Routes.segmentOperationLog,
-                    builder: (_, _) => _withBindings(
-                        [OperateLogBinding()], () => OperateLogPage()),
+                    builder: (_, _) => _withBindings([
+                      OperateLogBinding(),
+                    ], () => OperateLogPage()),
                   ),
                   GoRoute(
                     path: Routes.segmentLoginLog,
-                    builder: (_, _) => _withBindings(
-                        [LoginLogBinding()], () => LoginLogPage()),
+                    builder: (_, _) => _withBindings([
+                      LoginLogBinding(),
+                    ], () => LoginLogPage()),
                   ),
                 ],
               ),
