@@ -42,7 +42,7 @@ class PieChartSample2 extends StatelessWidget {
                     sections: List.generate(data.length, (index) {
                       return PieChartSectionData(
                         color: color[index % 8],
-                        value: data[index].value!.toDouble(),
+                        value: (data[index].value ?? 0).toDouble(),
                         title: data[index].name,
                         titlePositionPercentageOffset: 1.1,
                         radius: 100,

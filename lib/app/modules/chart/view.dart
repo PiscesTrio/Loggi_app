@@ -109,10 +109,10 @@ class ChartPage extends GetView<ChartController> {
                                           return Indicator(
                                               value: controller
                                                   .inSeries[index]
-                                                  .value!,
+                                                  .value ?? 0,
                                               color: color[index % 8],
                                               text: controller
-                                                  .inSeries[index].name!,
+                                                  .inSeries[index].name ?? '未命名',
                                               isSquare: true);
                                         });
                                   }),
@@ -134,11 +134,11 @@ class ChartPage extends GetView<ChartController> {
                                           return Indicator(
                                               value: controller
                                                   .outSeries[index]
-                                                  .value!,
+                                                  .value ?? 0,
                                               color: color[index % 8],
                                               text: controller
                                                   .outSeries[index]
-                                                  .name!,
+                                                  .name ?? '未命名',
                                               isSquare: true);
                                         });
                                   }),
