@@ -36,10 +36,14 @@ class _AddProductDialogState extends ConsumerState<AddProductDialog> {
 
     setState(() => _submitting = true);
     try {
-      await ref.read(commodityRepositoryProvider).add(CommodityRequest(
-            name: _name.text,
-            price: num.tryParse(_price.text) ?? 0,
-          ));
+      await ref
+          .read(commodityRepositoryProvider)
+          .add(
+            CommodityRequest(
+              name: _name.text,
+              price: num.tryParse(_price.text) ?? 0,
+            ),
+          );
       ref.invalidate(commodityListProvider);
       if (!mounted) return;
       showTextToast('添加成功');
@@ -65,7 +69,9 @@ class _AddProductDialogState extends ConsumerState<AddProductDialog> {
           TextFormField(
             controller: _price,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+            ],
             decoration: const InputDecoration(labelText: '单价'),
           ),
         ],
@@ -75,7 +81,7 @@ class _AddProductDialogState extends ConsumerState<AddProductDialog> {
           onPressed: _submitting ? null : () => Navigator.of(context).pop(),
           child: const Text('取消'),
         ),
-        FilledButton(
+        ElevatedButton(
           onPressed: _submitting ? null : _submit,
           child: _submitting
               ? const SizedBox(

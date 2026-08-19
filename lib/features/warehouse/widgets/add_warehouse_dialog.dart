@@ -46,11 +46,15 @@ class _AddWarehouseDialogState extends ConsumerState<AddWarehouseDialog> {
 
     setState(() => _submitting = true);
     try {
-      await ref.read(warehouseListProvider.notifier).add(WarehouseRequest(
-            name: _name.text,
-            principle: _principle.text,
-            location: _location.text,
-          ));
+      await ref
+          .read(warehouseListProvider.notifier)
+          .add(
+            WarehouseRequest(
+              name: _name.text,
+              principle: _principle.text,
+              location: _location.text,
+            ),
+          );
       if (!mounted) return;
       showTextToast('保存成功');
       Navigator.of(context).pop();
@@ -98,7 +102,7 @@ class _AddWarehouseDialogState extends ConsumerState<AddWarehouseDialog> {
           onPressed: _submitting ? null : () => Navigator.of(context).pop(),
           child: const Text('取消'),
         ),
-        FilledButton(
+        ElevatedButton(
           onPressed: _submitting ? null : _submit,
           child: _submitting
               ? const SizedBox(

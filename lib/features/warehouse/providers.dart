@@ -11,10 +11,13 @@ import '../../app/data/repositories/warehouse_repository.dart';
 /// The warehouse list.
 class WarehouseListNotifier extends AsyncNotifier<List<WarehouseVo>> {
   @override
-  Future<List<WarehouseVo>> build() => ref.read(warehouseRepositoryProvider).list();
+  Future<List<WarehouseVo>> build() =>
+      ref.read(warehouseRepositoryProvider).list();
 
   Future<void> refresh() async {
-    state = await AsyncValue.guard(() => ref.read(warehouseRepositoryProvider).list());
+    state = await AsyncValue.guard(
+      () => ref.read(warehouseRepositoryProvider).list(),
+    );
   }
 
   /// Adds a warehouse and reloads.
@@ -29,7 +32,8 @@ class WarehouseListNotifier extends AsyncNotifier<List<WarehouseVo>> {
 
 final warehouseListProvider =
     AsyncNotifierProvider<WarehouseListNotifier, List<WarehouseVo>>(
-        WarehouseListNotifier.new);
+      WarehouseListNotifier.new,
+    );
 
 /// What one warehouse currently holds.
 ///
@@ -45,7 +49,8 @@ class InventoryNotifier extends FamilyAsyncNotifier<List<InventoryVo>, String> {
 
   Future<void> refresh() async {
     state = await AsyncValue.guard(
-        () => ref.read(warehouseRepositoryProvider).inventoryOf(arg));
+      () => ref.read(warehouseRepositoryProvider).inventoryOf(arg),
+    );
   }
 
   /// Records stock arriving or leaving, then reloads.
@@ -53,15 +58,21 @@ class InventoryNotifier extends FamilyAsyncNotifier<List<InventoryVo>, String> {
   /// Throws on failure rather than returning a bool. The caller needs to know why to tell
   /// the user anything useful — the dialog this replaces cleared its spinner and left the
   /// form open with no explanation.
-  Future<void> move(InventoryMovementRequest movement, {required bool inbound}) async {
-    await ref.read(warehouseRepositoryProvider).move(movement, inbound: inbound);
+  Future<void> move(
+    InventoryMovementRequest movement, {
+    required bool inbound,
+  }) async {
+    await ref
+        .read(warehouseRepositoryProvider)
+        .move(movement, inbound: inbound);
     await refresh();
   }
 }
 
 final inventoryProvider =
     AsyncNotifierProvider.family<InventoryNotifier, List<InventoryVo>, String>(
-        InventoryNotifier.new);
+      InventoryNotifier.new,
+    );
 
 /// Every commodity, which is what an inbound movement can choose from.
 ///
@@ -69,13 +80,17 @@ final inventoryProvider =
 /// warehouse already holds, and a new warehouse holds nothing at all.
 class CommodityListNotifier extends AsyncNotifier<List<CommodityVo>> {
   @override
-  Future<List<CommodityVo>> build() => ref.read(commodityRepositoryProvider).list();
+  Future<List<CommodityVo>> build() =>
+      ref.read(commodityRepositoryProvider).list();
 
   Future<void> refresh() async {
-    state = await AsyncValue.guard(() => ref.read(commodityRepositoryProvider).list());
+    state = await AsyncValue.guard(
+      () => ref.read(commodityRepositoryProvider).list(),
+    );
   }
 }
 
 final commodityListProvider =
     AsyncNotifierProvider<CommodityListNotifier, List<CommodityVo>>(
-        CommodityListNotifier.new);
+      CommodityListNotifier.new,
+    );

@@ -60,7 +60,8 @@ class InventoryRecordDialog extends ConsumerStatefulWidget {
   final List<InventoryOption> options;
 
   @override
-  ConsumerState<InventoryRecordDialog> createState() => _InventoryRecordDialogState();
+  ConsumerState<InventoryRecordDialog> createState() =>
+      _InventoryRecordDialogState();
 }
 
 class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
@@ -91,7 +92,9 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
 
     setState(() => _submitting = true);
     try {
-      await ref.read(inventoryProvider(widget.warehouseId).notifier).move(
+      await ref
+          .read(inventoryProvider(widget.warehouseId).notifier)
+          .move(
             InventoryMovementRequest(
               warehouseId: widget.warehouseId,
               commodityId: selected.commodityId,
@@ -155,7 +158,7 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
           onPressed: _submitting ? null : () => Navigator.of(context).pop(),
           child: const Text('取消'),
         ),
-        FilledButton(
+        ElevatedButton(
           onPressed: _submitting ? null : _submit,
           child: _submitting
               ? const SizedBox(

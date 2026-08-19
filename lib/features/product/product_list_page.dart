@@ -18,11 +18,13 @@ class _Order {
 
   List<CommodityVo> apply(List<CommodityVo> rows) {
     final sorted = [...rows];
-    sorted.sort((a, b) => switch (column) {
-          1 => _compare(a.price, b.price),
-          2 => _compare(a.count, b.count),
-          _ => _compare(a.name, b.name),
-        });
+    sorted.sort(
+      (a, b) => switch (column) {
+        1 => _compare(a.price, b.price),
+        2 => _compare(a.count, b.count),
+        _ => _compare(a.name, b.name),
+      },
+    );
     return sorted;
   }
 
@@ -34,8 +36,10 @@ class _Order {
   }
 }
 
-final _orderProvider =
-    StateProvider.autoDispose<_Order>((ref) => const _Order(0, ascending: true));
+/// Null until a column header is tapped: the rows arrive in the server's order and
+/// stay in it. The screens this replaces showed a sort arrow from the first frame
+/// while having sorted nothing — the indicator described an order the list was not in.
+final _orderProvider = StateProvider.autoDispose<_Order?>((ref) => null);
 
 /// The commodities.
 class ProductListPage extends ConsumerWidget {
@@ -46,6 +50,11 @@ class ProductListPage extends ConsumerWidget {
     final commodities = ref.watch(commodityListProvider);
 
     return Scaffold(
+      // The page colour, painted across the whole page. The screens this replaces set
+      // it on a Container that sized itself to its child, so it covered the table and
+      // stopped — the rest of the area showed the shell's colour through, which is why
+      // the old screenshots have a seam down the middle of the background.
+      backgroundColor: ColorPalette.aquaHaze,
       floatingActionButton: FloatingActionButton(
         onPressed: () => showDialog<void>(
           context: context,
@@ -74,30 +83,36 @@ class _ProductTable extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final order = ref.watch(_orderProvider);
     void sort(int column, bool ascending) =>
-        ref.read(_orderProvider.notifier).state = _Order(column, ascending: ascending);
+        ref.read(_orderProvider.notifier).state = _Order(
+          column,
+          ascending: ascending,
+        );
 
     return SingleChildScrollView(
-      child: DataTable(
-        showCheckboxColumn: false,
-        sortColumnIndex: order.column,
-        sortAscending: order.ascending,
-        columns: [
-          DataColumn(label: const Text('名称'), onSort: sort),
-          DataColumn(label: const Text('价格'), onSort: sort),
-          DataColumn(label: const Text('库存'), onSort: sort),
-        ],
-        rows: [
-          for (final row in order.apply(rows))
-            DataRow(
-              onSelectChanged: (_) =>
-                  context.push(Routes.productDetail, extra: row),
-              cells: [
-                DataCell(Text(row.name ?? '-')),
-                DataCell(_Chip(text: '${row.price ?? 0}', accent: false)),
-                DataCell(_Chip(text: '${row.count ?? 0}', accent: true)),
-              ],
-            ),
-        ],
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: DataTable(
+          showCheckboxColumn: false,
+          sortColumnIndex: order?.column,
+          sortAscending: order?.ascending ?? true,
+          columns: [
+            DataColumn(label: const Text('名称'), onSort: sort),
+            DataColumn(label: const Text('价格'), onSort: sort),
+            DataColumn(label: const Text('库存'), onSort: sort),
+          ],
+          rows: [
+            for (final row in order?.apply(rows) ?? rows)
+              DataRow(
+                onSelectChanged: (_) =>
+                    context.push(Routes.productDetail, extra: row),
+                cells: [
+                  DataCell(Text(row.name ?? '-')),
+                  DataCell(_Chip(text: '${row.price ?? 0}', accent: false)),
+                  DataCell(_Chip(text: '${row.count ?? 0}', accent: true)),
+                ],
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -112,23 +127,22 @@ class _Chip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 25,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      // Two pixels either side and no fixed height, which is what the cell this replaces
+      // used — the chip is as wide as its number and no wider.
+      padding: const EdgeInsets.symmetric(horizontal: 2),
       decoration: BoxDecoration(
         color: accent
             ? const Color.fromRGBO(32, 108, 190, 1)
-            : ColorPalette.pacificBlue,
+            : const Color.fromRGBO(4, 173, 182, 1),
         borderRadius: BorderRadius.circular(6),
       ),
-      child: Center(
-        child: Text(
-          text,
-          maxLines: 1,
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 14,
-            color: ColorPalette.white,
-          ),
+      child: Text(
+        text,
+        maxLines: 1,
+        style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 14,
+          color: ColorPalette.white,
         ),
       ),
     );

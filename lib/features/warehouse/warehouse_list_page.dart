@@ -16,6 +16,11 @@ class WarehouseListPage extends ConsumerWidget {
     final warehouses = ref.watch(warehouseListProvider);
 
     return Scaffold(
+      // The page colour, painted across the whole page. The screens this replaces set
+      // it on a Container that sized itself to its child, so it covered the table and
+      // stopped — the rest of the area showed the shell's colour through, which is why
+      // the old screenshots have a seam down the middle of the background.
+      backgroundColor: ColorPalette.aquaHaze,
       floatingActionButton: FloatingActionButton(
         onPressed: () => showDialog<void>(
           context: context,

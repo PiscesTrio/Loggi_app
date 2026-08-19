@@ -24,9 +24,10 @@ class _Order {
     // A copy. The list came from the provider and sorting it in place would reorder what
     // everything else is holding.
     final sorted = [...rows];
-    sorted.sort((a, b) => column == 0
-        ? _compare(a.name, b.name)
-        : _compare(a.count, b.count));
+    sorted.sort(
+      (a, b) =>
+          column == 0 ? _compare(a.name, b.name) : _compare(a.count, b.count),
+    );
     return sorted;
   }
 
@@ -40,8 +41,10 @@ class _Order {
   }
 }
 
-final _orderProvider = StateProvider.autoDispose<_Order>(
-    (ref) => const _Order(0, ascending: true));
+/// Null until a column header is tapped: the rows arrive in the server's order and
+/// stay in it. The screens this replaces showed a sort arrow from the first frame
+/// while having sorted nothing — the indicator described an order the list was not in.
+final _orderProvider = StateProvider.autoDispose<_Order?>((ref) => null);
 
 /// What one warehouse holds, and the two ways to change it.
 class InventoryPage extends ConsumerWidget {
@@ -57,6 +60,11 @@ class InventoryPage extends ConsumerWidget {
     final inventory = ref.watch(inventoryProvider(warehouseId));
 
     return Scaffold(
+      // The page colour, painted across the whole page. The screens this replaces set
+      // it on a Container that sized itself to its child, so it covered the table and
+      // stopped — the rest of the area showed the shell's colour through, which is why
+      // the old screenshots have a seam down the middle of the background.
+      backgroundColor: ColorPalette.aquaHaze,
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.pop(),
         splashColor: ColorPalette.bondyBlue,
@@ -65,7 +73,7 @@ class InventoryPage extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -79,11 +87,12 @@ class InventoryPage extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           Expanded(
             child: AsyncView(
               value: inventory,
-              onRetry: () => ref.read(inventoryProvider(warehouseId).notifier).refresh(),
+              onRetry: () =>
+                  ref.read(inventoryProvider(warehouseId).notifier).refresh(),
               builder: (rows) => _InventoryTable(rows: rows),
             ),
           ),
@@ -101,7 +110,9 @@ class _DirectionButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return OutlinedButton(
+    // Elevated, as both of these were. An outlined button is a different affordance and
+    // these are the screen's two primary actions.
+    return ElevatedButton(
       onPressed: () => _open(context, ref),
       child: Text(direction.label),
     );
@@ -125,7 +136,10 @@ class _DirectionButton extends ConsumerWidget {
       options = [
         for (final row in stock)
           if (row.commodityId != null)
-            InventoryOption(commodityId: row.commodityId!, name: row.name ?? '-'),
+            InventoryOption(
+              commodityId: row.commodityId!,
+              name: row.name ?? '-',
+            ),
       ];
     }
     if (!context.mounted) return;
@@ -149,24 +163,31 @@ class _InventoryTable extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final order = ref.watch(_orderProvider);
     void sort(int column, bool ascending) =>
-        ref.read(_orderProvider.notifier).state =
-            _Order(column, ascending: ascending);
+        ref.read(_orderProvider.notifier).state = _Order(
+          column,
+          ascending: ascending,
+        );
 
     return SingleChildScrollView(
-      child: DataTable(
-        sortColumnIndex: order.column,
-        sortAscending: order.ascending,
-        columns: [
-          DataColumn(label: const Text('名称'), onSort: sort),
-          DataColumn(label: const Text('数量'), onSort: sort),
-        ],
-        rows: [
-          for (final row in order.apply(rows))
-            DataRow(cells: [
-              DataCell(Text(row.name ?? '-')),
-              DataCell(_CountChip(count: row.count)),
-            ]),
-        ],
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: DataTable(
+          sortColumnIndex: order?.column,
+          sortAscending: order?.ascending ?? true,
+          columns: [
+            DataColumn(label: const Text('名称'), onSort: sort),
+            DataColumn(label: const Text('数量'), onSort: sort),
+          ],
+          rows: [
+            for (final row in order?.apply(rows) ?? rows)
+              DataRow(
+                cells: [
+                  DataCell(Text(row.name ?? '-')),
+                  DataCell(_CountChip(count: row.count)),
+                ],
+              ),
+          ],
+        ),
       ),
     );
   }

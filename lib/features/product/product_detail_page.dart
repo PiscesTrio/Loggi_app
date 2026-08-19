@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import '../../app/data/api/commodity_request.dart';
 import '../../app/data/api/commodity_vo.dart';
 import '../../app/data/network/api_exception.dart';
+import '../../app/theme/color_palette.dart';
+import '../../app/theme/framed_box.dart';
 import '../../app/data/repositories/commodity_repository.dart';
 import '../../app/modules/widgets/toast.dart';
 import '../../app/utils/date_display.dart';
@@ -30,12 +32,15 @@ class ProductDetailPage extends ConsumerStatefulWidget {
 
 class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   late final _name = TextEditingController(text: widget.product.name ?? '');
-  late final _price =
-      TextEditingController(text: widget.product.price?.toString() ?? '');
-  late final _count =
-      TextEditingController(text: widget.product.count?.toString() ?? '');
-  late final _description =
-      TextEditingController(text: widget.product.description ?? '');
+  late final _price = TextEditingController(
+    text: widget.product.price?.toString() ?? '',
+  );
+  late final _count = TextEditingController(
+    text: widget.product.count?.toString() ?? '',
+  );
+  late final _description = TextEditingController(
+    text: widget.product.description ?? '',
+  );
   bool _submitting = false;
 
   @override
@@ -60,7 +65,9 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
 
     setState(() => _submitting = true);
     try {
-      await ref.read(commodityRepositoryProvider).update(
+      await ref
+          .read(commodityRepositoryProvider)
+          .update(
             id,
             CommodityRequest(
               name: _name.text,
@@ -87,70 +94,110 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // The page colour, painted across the whole page. The screens this replaces set
+      // it on a Container that sized itself to its child, so it covered the table and
+      // stopped — the rest of the area showed the shell's colour through, which is why
+      // the old screenshots have a seam down the middle of the background.
+      backgroundColor: ColorPalette.aquaHaze,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _name,
-              decoration: const InputDecoration(hintText: '名称'),
+            FramedBox(
+              child: TextField(
+                controller: _name,
+                style: framedFieldTextStyle,
+                cursorColor: ColorPalette.timberGreen,
+                textInputAction: TextInputAction.next,
+                decoration: framedFieldDecoration('名称'),
+              ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: _price,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-                    ],
-                    decoration: const InputDecoration(hintText: '价格'),
+                  child: FramedBox(
+                    child: TextField(
+                      controller: _price,
+                      style: framedFieldTextStyle,
+                      cursorColor: ColorPalette.timberGreen,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                      ],
+                      decoration: framedFieldDecoration('价格'),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 20),
                 Expanded(
-                  child: TextField(
-                    controller: _count,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    decoration: const InputDecoration(hintText: '数量'),
+                  child: FramedBox(
+                    child: TextField(
+                      controller: _count,
+                      style: framedFieldTextStyle,
+                      cursorColor: ColorPalette.timberGreen,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: framedFieldDecoration('数量'),
+                    ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            Text('创建时间： ${formatDateTime(widget.product.createAt)}'),
-            const SizedBox(height: 4),
-            Text('上次更新时间：${formatDateTime(widget.product.updateAt)}'),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _description,
-              minLines: 5,
-              maxLines: 7,
-              decoration: const InputDecoration(hintText: 'Description'),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 8, bottom: 5),
+              child: Text(
+                '创建时间： ${formatDateTime(widget.product.createAt)}',
+                style: framedFieldTextStyle,
+              ),
             ),
-            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.only(left: 8, bottom: 5),
+              child: Text(
+                '上次更新时间：${formatDateTime(widget.product.updateAt)}',
+                style: framedFieldTextStyle,
+              ),
+            ),
+            const SizedBox(height: 20),
+            FramedBox(
+              height: null,
+              child: TextField(
+                controller: _description,
+                minLines: 5,
+                maxLines: 7,
+                style: framedFieldTextStyle,
+                cursorColor: ColorPalette.timberGreen,
+                decoration: framedFieldDecoration('Description'),
+              ),
+            ),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
-                  child: OutlinedButton(
-                    onPressed: _submitting ? null : () => context.pop(),
-                    child: const Text('取消'),
+                  child: FramedBox(
+                    child: OutlinedButton(
+                      onPressed: _submitting ? null : () => context.pop(),
+                      child: const Text('取消'),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 20),
                 Expanded(
-                  child: FilledButton(
-                    onPressed: _submitting ? null : _submit,
-                    child: _submitting
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Text('确认'),
+                  child: FramedBox(
+                    child: ElevatedButton(
+                      onPressed: _submitting ? null : _submit,
+                      child: _submitting
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Text('确认'),
+                    ),
                   ),
                 ),
               ],
