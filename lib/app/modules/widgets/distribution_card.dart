@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../utils/date_display.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loggi_app/app/data/models/distribution.dart';
 import 'package:loggi_app/app/router/routes.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
+import '../../data/api/distribution_request.dart';
+import '../../data/api/distribution_vo.dart';
 
 import '../distribution_list/providers.dart';
 
@@ -11,7 +13,7 @@ import '../distribution_list/providers.dart';
 class DistributionCard extends StatelessWidget {
   const DistributionCard({super.key, this.distribution, this.docID});
 
-  final Distribution? distribution;
+  final DistributionVo? distribution;
   final String? docID;
 
   @override
@@ -47,7 +49,7 @@ class DistributionCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          distribution!.number ?? '',
+                          distribution!.vehicle?.number ?? '',
                           maxLines: 1,
                           style: const TextStyle(
                             fontFamily: "Nunito",
@@ -67,7 +69,7 @@ class DistributionCard extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: distribution!.wid ?? '-',
+                            text: distribution!.warehouse?.name ?? '-',
                             style: const TextStyle(
                               fontFamily: "Nunito",
                               fontSize: 12,
@@ -146,7 +148,7 @@ class DistributionCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              distribution!.driver ?? '-',
+                              distribution!.driver?.name ?? '-',
                               maxLines: 1,
                               style: TextStyle(
                                 fontFamily: "Nunito",
@@ -182,7 +184,7 @@ class DistributionCard extends StatelessWidget {
                 right: 30,
                 top: 20,
                 child: IndexedStack(
-                  index: distribution!.status,
+                  index: _stepOf(distribution!.status),
                   children: [
                     Container(
                       height: 30,
@@ -295,14 +297,14 @@ class DistributionCard extends StatelessWidget {
 class _StatusStepperDialog extends ConsumerStatefulWidget {
   const _StatusStepperDialog({this.distribution});
 
-  final Distribution? distribution;
+  final DistributionVo? distribution;
 
   @override
   ConsumerState<_StatusStepperDialog> createState() => _StatusStepperDialogState();
 }
 
 class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
-  late int _step = widget.distribution?.status ?? 0;
+  late int _step = _stepOf(widget.distribution?.status);
 
   @override
   Widget build(BuildContext context) {
@@ -367,14 +369,13 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                             if (_step != 2) {
                               final next = _step + 1;
                               setState(() => _step = next);
-                              // Distribution is immutable now, so the advanced order is
+                              // DistributionVo is immutable now, so the advanced order is
                               // a new value rather than an edit to the one the list is
                               // still rendering. The list refreshes from the server
                               // response, which is the only copy that was ever right.
                               ref
                                   .read(distributionListProvider.notifier)
-                                  .advance(widget.distribution!
-                                      .copyWith(status: next));
+                                  .advance(_requestFrom(widget.distribution!, next));
                             } else {
                               Navigator.pop(context);
                             }
@@ -389,7 +390,7 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                                   Row(
                                     children: [
                                       const Text("驾驶员："),
-                                      Text(widget.distribution!.driver ?? "-")
+                                      Text(widget.distribution!.driver?.name ?? "-")
                                     ],
                                   ),
                                   const SizedBox(
@@ -398,7 +399,7 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                                   Row(
                                     children: [
                                       const Text("车牌号码："),
-                                      Text(widget.distribution!.number ?? "-")
+                                      Text(widget.distribution!.vehicle?.number ?? "-")
                                     ],
                                   ),
                                   const SizedBox(
@@ -453,7 +454,7 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                                   Row(
                                     children: [
                                       const Text("预计送达："),
-                                      Text(widget.distribution!.time ?? "-")
+                                      Text(formatDateMinute(widget.distribution!.time))
                                     ],
                                   ),
                                   const SizedBox(
@@ -516,3 +517,45 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                 );
   }
 }
+
+/// The order's stage as a step index.
+///
+/// It was an int on the wire - 0, 1, 2 - and the stepper used it directly. It is the enum
+/// name now, which is what the database has held since S09, so the mapping to a screen
+/// position lives here instead of being implied by four comparisons against bare numbers.
+int _stepOf(DistributionVoStatusEnum? status) => switch (status) {
+      DistributionVoStatusEnum.REVIEW_SUCCESS => 1,
+      DistributionVoStatusEnum.END => 2,
+      _ => 0,
+    };
+
+/// The order as a request to advance it.
+///
+/// The API takes a request type rather than the order back: an order carries an id and the
+/// rows it points at, a request names them by id and has no id of its own. Sending the id
+/// back is what made writes to this endpoint fail for the life of the project.
+DistributionRequest _requestFrom(DistributionVo order, int step) {
+  const stages = [
+    DistributionRequestStatusEnum.REVIEWING,
+    DistributionRequestStatusEnum.REVIEW_SUCCESS,
+    DistributionRequestStatusEnum.END,
+  ];
+  return DistributionRequest(
+    driverId: order.driver?.id ?? '',
+    vehicleId: order.vehicle?.id ?? '',
+    warehouseId: order.warehouse?.id,
+    phone: order.phone ?? '',
+    address: order.address ?? '',
+    urgent: order.urgent ?? false,
+    care: order.care,
+    time: order.time ?? DateTime.now(),
+    status: stages[step.clamp(0, stages.length - 1)],
+    fromLat: order.fromLat ?? 0,
+    fromLng: order.fromLng ?? 0,
+    toLat: order.toLat ?? 0,
+    toLng: order.toLng ?? 0,
+  );
+}
+
+/// The delivery time, as text.
+///

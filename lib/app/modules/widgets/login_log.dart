@@ -1,10 +1,11 @@
-import 'package:loggi_app/app/data/models/login_log.dart';
 import 'package:flutter/material.dart';
+import '../../utils/date_display.dart';
+import '../../data/api/login_log_vo.dart';
 
 import '../../theme/color_palette.dart';
 
 class LoginLogsTtem extends StatelessWidget {
-  final LoginLog loginLog;
+  final LoginLogVo loginLog;
   const LoginLogsTtem({super.key, required this.loginLog});
 
   @override
@@ -54,7 +55,7 @@ class LoginLogsTtem extends StatelessWidget {
               ),
   
           Text("IP地址：${loginLog.ip ?? "-"}"),
-          Text(loginLog.date ?? "-"),
+          Text(formatDateTime(loginLog.date)),
         ],
       ),
     );

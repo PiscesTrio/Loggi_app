@@ -1,45 +1,47 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../api/available_fleet_vo.dart';
+import '../api/distribution_request.dart';
+import '../api/distribution_track_request.dart';
+import '../api/distribution_track_vo.dart';
+import '../api/distribution_vo.dart';
 
-import '../models/available.dart';
-import '../models/distribution.dart';
-import '../models/distribution_status.dart';
 import '../network/api_client.dart';
 import '../network/network_providers.dart';
 
-/// Delivery orders and their status timeline.
 class DistributionRepository {
   const DistributionRepository(this._client);
 
   final ApiClient _client;
 
-  Future<List<Distribution>> list() async {
+  Future<List<DistributionVo>> list() async {
     final data = await _client.get<dynamic>('/distribution');
-    return decodeList(data, Distribution.fromJson);
+    return decodeList(data, DistributionVo.fromJson);
   }
 
-  /// Creates or advances an order.
+  /// Files an order.
   ///
-  /// The server generates the id, so a new order must not carry one — sending `id: ""`
-  /// made Hibernate treat the payload as an existing row to update and fail with
-  /// StaleObjectStateException. See `distribution_apply/providers.dart`.
-  Future<Distribution> save(Distribution distribution) async {
-    final data = await _client.post<dynamic>('/distribution',
-        data: distribution.toJson());
-    return decodeObject(data, Distribution.fromJson);
+  /// The request names the driver, vehicle and warehouse by id and carries no id of its
+  /// own. Sending one was what made this call fail for the life of the project: the server
+  /// read a non-null id as an existing row to update and refused.
+  Future<DistributionVo> save(DistributionRequest order) async {
+    final data = await _client.post<dynamic>('/distribution', data: order.toJson());
+    return decodeObject(data, DistributionVo.fromJson);
   }
 
-  Future<Available> available() async {
+  Future<AvailableFleetVo> available() async {
     final data = await _client.get<dynamic>('/distribution/can');
-    return decodeObject(data, Available.fromJson);
+    return decodeObject(data, AvailableFleetVo.fromJson);
   }
 
-  Future<List<DistributionStatus>> statusOf(String distributionId) async {
-    final data = await _client.get<dynamic>('/distribution/status',
-        query: {'dis': distributionId});
-    return decodeList(data, DistributionStatus.fromJson);
+  Future<List<DistributionTrackVo>> statusOf(String distributionId) async {
+    final data = await _client.get<dynamic>(
+      '/distribution/status',
+      query: {'dis': distributionId},
+    );
+    return decodeList(data, DistributionTrackVo.fromJson);
   }
 
-  Future<void> submitStatus(DistributionStatus status) =>
+  Future<void> submitStatus(DistributionTrackRequest status) =>
       _client.post<dynamic>('/distribution/status', data: status.toJson());
 }
 

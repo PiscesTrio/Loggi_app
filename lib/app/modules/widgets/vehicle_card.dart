@@ -1,11 +1,12 @@
-import 'package:loggi_app/app/data/models/vehicle.dart';
 import 'package:flutter/material.dart';
+import '../../utils/date_display.dart';
+import '../../data/api/vehicle_vo.dart';
 
 import 'package:loggi_app/app/theme/color_palette.dart';
 
 
 class VehicleCard extends StatelessWidget{
-  final Vehicle? vehicle;
+  final VehicleVo? vehicle;
   final String? docID;
   const VehicleCard({super.key, this.vehicle, this.docID});
 
@@ -100,7 +101,7 @@ class VehicleCard extends StatelessWidget{
                               ),
                             ),
                             Text(
-                              vehicle!.createAt ?? '-',
+                              formatDateTime(vehicle!.createAt),
                               maxLines: 1,
                               style: TextStyle(
                                 fontFamily: "Nunito",

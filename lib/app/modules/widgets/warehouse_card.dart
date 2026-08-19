@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:loggi_app/app/data/models/warehouse.dart';
+import '../../utils/date_display.dart';
+import '../../data/api/warehouse_vo.dart';
 // import 'package:warehouse_management/screens/warehouse_details_page.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:loggi_app/app/router/routes.dart';
 
 class WarehouseCard extends StatelessWidget {
-  final Warehouse? warehouse;
+  final WarehouseVo? warehouse;
   final String? docID;
   final int iconIndex;
   const WarehouseCard({super.key, this.warehouse, this.docID, required this.iconIndex});
@@ -136,7 +137,7 @@ class WarehouseCard extends StatelessWidget {
                   SizedBox(
                     // width: 100,
                     child: Text(
-                      warehouse!.createAt ?? '-',
+                      formatDateTime(warehouse!.createAt),
                       maxLines: 3,
                       style: TextStyle(
                         fontFamily: "Nunito",

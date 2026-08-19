@@ -10,6 +10,11 @@
 analyzer:
   exclude:
     - build/**
+    # Generated from the backend's OpenAPI document. Its style is the generator's
+    # business, not this project's - the enum constants it emits are SCREAMING_CASE
+    # because that is what the schema names them, and editing the files to satisfy a
+    # lint would be undone by the next regeneration.
+    - lib/app/data/api/**
     - android/**
     - ios/**
     - web/**
@@ -31,6 +36,11 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    # S15 renamed four PascalCase module directories (WarehouseInventory/,
+    # ProductDetailMin/ and friends) and the classes inside them. This is what stops the
+    # next one appearing: the rule is only enable-able because the tree is clean now, and
+    # it fails the analyzer the moment it stops being.
+    file_names: true
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 

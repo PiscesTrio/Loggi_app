@@ -80,6 +80,26 @@ void main() {
       expect((data.first as Map)['name'], 'A仓库');
     });
 
+    test('code=201 is a success, not a failure', () async {
+      // Found on a device, not here. S10 made creating endpoints answer 201, the
+      // interceptor tested for 200 exactly, and an inventory movement the server had
+      // already recorded came back to the screen as 请求出错. The old test pinned the
+      // status code the API happened to use rather than what success means.
+      adapter.onPost('/inventory/in', (server) {
+        server.reply(201, {
+          'code': 201,
+          'status': true,
+          'msg': null,
+          'data': {'id': 'rec-1'},
+        });
+      }, data: Matchers.any);
+
+      final data = await client.post<Map<String, dynamic>>('/inventory/in',
+          data: const {'count': 5});
+
+      expect(data['id'], 'rec-1');
+    });
+
     test('a business error becomes an ApiException carrying the backend message', () async {
       adapter.onPost('/admin/login/password', (server) {
         server.reply(400, {'code': 400, 'status': false, 'msg': '邮箱或密码错误'});

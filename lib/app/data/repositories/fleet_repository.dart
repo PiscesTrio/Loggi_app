@@ -1,35 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../api/driver_vo.dart';
+import '../api/vehicle_request.dart';
+import '../api/vehicle_vo.dart';
 
-import '../models/driver.dart';
-import '../models/vehicle.dart';
 import '../network/api_client.dart';
 import '../network/network_providers.dart';
 
-/// Drivers and vehicles.
-///
-/// Calls [ApiClient] directly rather than going through `NbRequest`, and that is the
-/// point: `NbRequest` folds every failure into `null`, and the controllers then did
-/// `change(result, status: RxStatus.success())` — reporting **success with no data** for a
-/// request that failed. A list that is empty because the server refused and a list that is
-/// empty because there are no drivers rendered identically.
-///
-/// Here a failure is an [ApiException] and reaches the notifier as an error state.
 class FleetRepository {
   const FleetRepository(this._client);
 
   final ApiClient _client;
 
-  Future<List<Driver>> drivers() async {
+  Future<List<DriverVo>> drivers() async {
     final data = await _client.get<dynamic>('/driver');
-    return decodeList(data, Driver.fromJson);
+    return decodeList(data, DriverVo.fromJson);
   }
 
-  Future<List<Vehicle>> vehicles() async {
+  Future<List<VehicleVo>> vehicles() async {
     final data = await _client.get<dynamic>('/vehicle');
-    return decodeList(data, Vehicle.fromJson);
+    return decodeList(data, VehicleVo.fromJson);
   }
 
-  Future<void> addVehicle(Vehicle vehicle) =>
+  /// Adds a vehicle.
+  ///
+  /// Takes a request type rather than the vehicle itself. The API distinguishes the two
+  /// now: a [VehicleVo] has an id and timestamps the server owns, and sending them back
+  /// was how a create could be mistaken for an update.
+  Future<void> addVehicle(VehicleRequest vehicle) =>
       _client.post<dynamic>('/vehicle', data: vehicle.toJson());
 }
 

@@ -75,3 +75,10 @@ Thumbs.db
 # not source: they are large, machine-specific, and meaningless outside the run
 # that produced them.
 .regression/
+
+# Delegated-agent reports: scratch output, not source.
+.claude/
+
+# openapi-generator scratch output; the models it produces are copied into
+# lib/app/data/api/ and committed, the rest is not.
+build/openapi-gen/

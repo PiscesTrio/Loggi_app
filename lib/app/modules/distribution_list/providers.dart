@@ -1,14 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../data/api/distribution_request.dart';
+import '../../data/api/distribution_vo.dart';
 
-import '../../data/models/distribution.dart';
 import '../../data/repositories/distribution_repository.dart';
 import '../driver_list/providers.dart';
 import '../vehicle_list/providers.dart';
 
 /// The delivery orders.
-class DistributionListNotifier extends AsyncNotifier<List<Distribution>> {
+class DistributionListNotifier extends AsyncNotifier<List<DistributionVo>> {
   @override
-  Future<List<Distribution>> build() =>
+  Future<List<DistributionVo>> build() =>
       ref.read(distributionRepositoryProvider).list();
 
   Future<void> refresh() async {
@@ -31,7 +32,7 @@ class DistributionListNotifier extends AsyncNotifier<List<Distribution>> {
   /// user had not yet opened the 车辆管理 tab, no controller existed and the call threw.
   /// `ref.invalidate` needs no instance — it marks the provider stale, and it is rebuilt
   /// if and when something is watching it.
-  Future<void> advance(Distribution distribution) async {
+  Future<void> advance(DistributionRequest distribution) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.read(distributionRepositoryProvider).save(distribution);
@@ -43,5 +44,5 @@ class DistributionListNotifier extends AsyncNotifier<List<Distribution>> {
 }
 
 final distributionListProvider =
-    AsyncNotifierProvider<DistributionListNotifier, List<Distribution>>(
+    AsyncNotifierProvider<DistributionListNotifier, List<DistributionVo>>(
         DistributionListNotifier.new);

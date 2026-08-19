@@ -46,11 +46,11 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
   /// say.
   Future<void> _submit() async {
     final draft = ref.read(applyFormProvider).valueOrNull?.draft;
-    if (draft?.phone == null || draft!.phone!.isEmpty) {
+    if (draft == null || draft.phone.isEmpty) {
       showTextToast("请填写客户电话");
       return;
     }
-    if (draft.address == null) {
+    if (draft.address.isEmpty) {
       showTextToast("请填写客户地址");
       return;
     }
@@ -495,7 +495,6 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                 child: TextFormField(
                                   onChanged: _form.setPhone,
                                   // textInputAction: TextInputAction.next,
-                                  key: UniqueKey(),
                                   keyboardType: TextInputType.text,
                                   style: const TextStyle(
                                     fontFamily: "Nunito",

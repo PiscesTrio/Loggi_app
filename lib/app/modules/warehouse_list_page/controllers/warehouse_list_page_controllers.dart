@@ -1,8 +1,8 @@
-import 'package:loggi_app/app/data/models/warehouse.dart';
 import 'package:loggi_app/app/data/network/api.dart';
 import 'package:get/get.dart';
+import '../../../data/api/warehouse_vo.dart';
 class WarehouseListPageController
-    extends GetxController with StateMixin<List<Warehouse>> {
+    extends GetxController with StateMixin<List<WarehouseVo>> {
 
   @override
   void onInit() {
