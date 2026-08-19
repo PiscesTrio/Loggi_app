@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'app/theme/fade_page_transitions.dart';
+
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,11 +29,11 @@ class MyApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('zh', 'CH'),
-        Locale('en', 'US'),
-      ],
-      theme: ThemeData(useMaterial3: true),
+      supportedLocales: const [Locale('zh', 'CH'), Locale('en', 'US')],
+      theme: ThemeData(
+        useMaterial3: true,
+        pageTransitionsTheme: fadePageTransitionsTheme,
+      ),
     );
   }
 }
