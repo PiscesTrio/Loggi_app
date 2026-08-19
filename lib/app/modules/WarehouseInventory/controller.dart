@@ -56,16 +56,31 @@ class WarehouseinventoryController extends GetxController with StateMixin<List<I
     // });
   }
 
+  /// The commodity comes from the dropdown's selection, read at submit.
+  ///
+  /// It used to be copied into the draft by the dropdown's onChanged, which meant the
+  /// selection and the request held it separately — and a dropdown renders its first item
+  /// without firing onChanged, so opening the form and pressing 确认 sent an empty
+  /// commodity id under a dropdown that was plainly showing one. The server rejected it
+  /// with 商品不能为空 and the screen just sat there.
   Future<bool> submitInven() async {
     return await NbRequest()
-        .importAndExport(inventoryRecord.value,true)
+        .importAndExport(
+            inventoryRecord.value
+                .copyWith(commodityId: selectedCommo.value.id ?? ''),
+            true)
         .then((value) {
       return value;
     });
   }
+  /// Same as [submitInven]: the outbound selection is an existing stock row, and the
+  /// commodity it names is read from it rather than mirrored into the draft.
   Future<bool> submitOutven() async {
     return await NbRequest()
-        .importAndExport(inventoryRecordOut.value,false)
+        .importAndExport(
+            inventoryRecordOut.value
+                .copyWith(commodityId: selectedCommoOut.value.commodityId ?? ''),
+            false)
         .then((value) {
       return value;
     });

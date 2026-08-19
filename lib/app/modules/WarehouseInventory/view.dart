@@ -213,7 +213,6 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                                 controller.selectedCommo(newValue);
                                                                                 controller.inventoryRecord.value =
                                                                                     controller.inventoryRecord.value.copyWith(
-                                                                                  commodityId: newValue.id ?? '',
                                                                                   name: newValue.name,
                                                                                 );
                                                                               },
@@ -584,7 +583,6 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                                 controller.selectedCommoOut(newValue);
                                                                                 controller.inventoryRecordOut.value =
                                                                                     controller.inventoryRecordOut.value.copyWith(
-                                                                                  commodityId: newValue.commodityId ?? '',
                                                                                   name: newValue.name,
                                                                                 );
                                                                               },
