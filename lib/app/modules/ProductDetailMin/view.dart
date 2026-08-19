@@ -75,7 +75,6 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                   draft.name = value;
                                 },
                                 textInputAction: TextInputAction.next,
-                                key: UniqueKey(),
                                 keyboardType: TextInputType.text,
                                 style: const TextStyle(
                                   fontFamily: "Nunito",
@@ -125,7 +124,6 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                         draft.price = num.tryParse(value) ?? 0;
                                       },
                                       textInputAction: TextInputAction.next,
-                                      key: UniqueKey(),
                                       keyboardType: TextInputType.number,
                                       style: const TextStyle(
                                         fontFamily: "Nunito",
@@ -174,7 +172,6 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                         draft.count = int.tryParse(value) ?? 0;
                                       },
                                       textInputAction: TextInputAction.next,
-                                      key: UniqueKey(),
                                       keyboardType: TextInputType.number,
                                       style: const TextStyle(
                                         fontFamily: "Nunito",
@@ -255,7 +252,6 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                   draft.description = value;
                                 },
                                 textInputAction: TextInputAction.next,
-                                key: UniqueKey(),
                                 keyboardType: TextInputType.text,
                                 style: const TextStyle(
                                   fontFamily: "Nunito",

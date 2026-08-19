@@ -275,8 +275,6 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                         .copyWith(count: int.tryParse(value) ?? 0);
                                                                 },
                                                                 // textInputAction: TextInputAction.next,
-                                                                key:
-                                                                    UniqueKey(),
                                                                 keyboardType:
                                                                     TextInputType
                                                                         .text,
@@ -359,8 +357,6 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                         .copyWith(description: value);
                                                                 },
                                                                 // textInputAction: TextInputAction.next,
-                                                                key:
-                                                                    UniqueKey(),
                                                                 keyboardType:
                                                                     TextInputType
                                                                         .text,
@@ -645,8 +641,6 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                         .copyWith(count: int.tryParse(value) ?? 0);
                                                                 },
                                                                 // textInputAction: TextInputAction.next,
-                                                                key:
-                                                                    UniqueKey(),
                                                                 keyboardType:
                                                                     TextInputType
                                                                         .text,
@@ -729,8 +723,6 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                         .copyWith(description: value);
                                                                 },
                                                                 // textInputAction: TextInputAction.next,
-                                                                key:
-                                                                    UniqueKey(),
                                                                 keyboardType:
                                                                     TextInputType
                                                                         .text,

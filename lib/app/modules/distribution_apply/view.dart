@@ -495,7 +495,6 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                 child: TextFormField(
                                   onChanged: _form.setPhone,
                                   // textInputAction: TextInputAction.next,
-                                  key: UniqueKey(),
                                   keyboardType: TextInputType.text,
                                   style: const TextStyle(
                                     fontFamily: "Nunito",
