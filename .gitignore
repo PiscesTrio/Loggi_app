@@ -75,3 +75,6 @@ Thumbs.db
 # not source: they are large, machine-specific, and meaningless outside the run
 # that produced them.
 .regression/
+
+# Delegated-agent reports: scratch output, not source.
+.claude/
