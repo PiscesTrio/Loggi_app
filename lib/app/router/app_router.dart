@@ -9,7 +9,6 @@ import '../modules/base_mangement_page/base_mangement_page_binding.dart';
 import '../modules/base_mangement_page/base_mangement_page_view.dart';
 import '../modules/chart/bindings.dart';
 import '../modules/chart/view.dart';
-import '../modules/distribution_apply/bindings.dart';
 import '../modules/distribution_apply/view.dart';
 import '../modules/distribution_list/view.dart';
 import '../modules/distribution_status/view.dart';
@@ -212,9 +211,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                         routes: [
                           GoRoute(
                             path: Routes.segmentDistributionApply,
-                            builder: (_, _) => _withBindings(
-                                [DistributionApplyBinding()],
-                                () => DistributionApplyPage()),
+                            builder: (_, _) => const DistributionApplyPage(),
                           ),
                         ],
                       ),

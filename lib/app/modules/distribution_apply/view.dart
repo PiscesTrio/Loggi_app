@@ -1,20 +1,19 @@
-import 'package:loggi_app/app/data/delivery_points.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../../theme/color_palette.dart';
-import '../widgets/toast.dart';
-import 'index.dart';
-import 'package:intl/intl.dart';
-import '../../utils/date_time_extension.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loggi_app/app/data/network/container_access.dart';
-import 'package:loggi_app/app/modules/distribution_list/providers.dart';
+import 'package:intl/intl.dart';
+import 'package:loggi_app/app/data/delivery_points.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
-class DistributionApplyPage extends GetView<DistributionApplyController> {
-  DistributionApplyPage({super.key});
-  final RxBool _isLoading = false.obs;
+import '../../data/network/api_exception.dart';
+import '../../theme/color_palette.dart';
+import '../../utils/date_time_extension.dart';
+import '../widgets/async_view.dart';
+import '../widgets/toast.dart';
+import 'providers.dart';
+
+class DistributionApplyPage extends ConsumerStatefulWidget {
+  const DistributionApplyPage({super.key});
 
   static final List<String> _care = [
     "易碎",
@@ -26,13 +25,55 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
     "冷藏",
     "易燃",
   ];
-  final _items =
+  static final _items =
       _care.map((care) => MultiSelectItem<String>(care, care)).toList();
 
   @override
+  ConsumerState<DistributionApplyPage> createState() =>
+      _DistributionApplyPageState();
+}
+
+class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
+  bool _submitting = false;
+
+  ApplyFormNotifier get _form => ref.read(applyFormProvider.notifier);
+
+  /// Creates the order.
+  ///
+  /// The handler this replaces called `submitDis()`, which returned a bool, and its
+  /// failure branch was `_isLoading(false)` and nothing else — a rejected order left the
+  /// form sitting there with no explanation. `submit()` throws, so there is something to
+  /// say.
+  Future<void> _submit() async {
+    final draft = ref.read(applyFormProvider).valueOrNull?.draft;
+    if (draft?.phone == null || draft!.phone!.isEmpty) {
+      showTextToast("请填写客户电话");
+      return;
+    }
+    if (draft.address == null) {
+      showTextToast("请填写客户地址");
+      return;
+    }
+
+    setState(() => _submitting = true);
+    try {
+      await _form.submit();
+      if (!mounted) return;
+      showTextToast("提交成功");
+      context.pop();
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      setState(() => _submitting = false);
+      showTextToast(e.message);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GetBuilder<DistributionApplyController>(
-      builder: (_) {
+    return AsyncView(
+      value: ref.watch(applyFormProvider),
+      onRetry: () => ref.invalidate(applyFormProvider),
+      builder: (form) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0),
           child: SizedBox(
@@ -94,24 +135,16 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                       ),
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 2.5),
-                                      child: controller.obx(
-                                          (data) => Obx(() => DropdownButton(
+                                      child: DropdownButton(
                                                 iconSize: 30,
                                                 underline: const SizedBox(),
-                                                value: controller
-                                                    .selectedDriver.value,
-                                                onChanged: (dynamic newValue) {
-                                                  controller
-                                                      .selectedDriver(newValue);
-                                                  controller.distribution
-                                                          .value =
-                                                      controller
-                                                          .distribution.value
-                                                          .copyWith(
-                                                          driver: newValue.name,
-                                                          did: newValue.id);
+                                                value: form.selectedDriver,
+                                                onChanged: (newValue) {
+                                                  if (newValue != null) {
+                                                    _form.selectDriver(newValue);
+                                                  }
                                                 },
-                                                items: data!.drivers!
+                                                items: form.drivers
                                                     .map((process) {
                                                   return DropdownMenuItem(
                                                     value: process,
@@ -127,7 +160,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                     ),
                                                   );
                                                 }).toList(),
-                                              )))),
+                                              ),),
                                 ],
                               ),
                               const SizedBox(
@@ -167,25 +200,16 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                       ),
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 2.5),
-                                      child: controller.obx(
-                                          (data) => Obx(() => DropdownButton(
+                                      child: DropdownButton(
                                                 iconSize: 30,
                                                 underline: const SizedBox(),
-                                                value: controller
-                                                    .selectedVehicle.value,
-                                                onChanged: (dynamic newValue) {
-                                                  controller.selectedVehicle(
-                                                      newValue);
-                                                  controller.distribution
-                                                          .value =
-                                                      controller
-                                                          .distribution.value
-                                                          .copyWith(
-                                                          number:
-                                                              newValue.number,
-                                                          vid: newValue.id);
+                                                value: form.selectedVehicle,
+                                                onChanged: (newValue) {
+                                                  if (newValue != null) {
+                                                    _form.selectVehicle(newValue);
+                                                  }
                                                 },
-                                                items: data!.vehicles!
+                                                items: form.vehicles
                                                     .map((process) {
                                                   return DropdownMenuItem(
                                                     value: process,
@@ -201,7 +225,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                     ),
                                                   );
                                                 }).toList(),
-                                              )))),
+                                              ),),
                                 ],
                               ),
                               const SizedBox(
@@ -241,27 +265,16 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                       ),
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 2.5),
-                                      child: controller.obx(
-                                          (data) => Obx(() => DropdownButton(
+                                      child: DropdownButton(
                                                 iconSize: 30,
                                                 underline: const SizedBox(),
-                                                value: controller
-                                                    .selectedWarehouse.value,
-                                                onChanged: (dynamic newValue) {
-                                                  controller.selectedWarehouse(
-                                                      newValue);
-                                                  controller.distribution
-                                                          .value =
-                                                      controller
-                                                          .distribution.value
-                                                          .copyWith(
-                                                          wid: newValue.name,
-                                                          fromLat:
-                                                              newValue.lat,
-                                                          fromLng:
-                                                              newValue.lng);
+                                                value: form.selectedWarehouse,
+                                                onChanged: (newValue) {
+                                                  if (newValue != null) {
+                                                    _form.selectWarehouse(newValue);
+                                                  }
                                                 },
-                                                items: controller.wareHouseList
+                                                items: form.warehouses
                                                     .map((process) {
                                                   return DropdownMenuItem(
                                                     value: process,
@@ -277,7 +290,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                     ),
                                                   );
                                                 }).toList(),
-                                              )))),
+                                              ),),
                                 ],
                               ),
                               const SizedBox(
@@ -285,25 +298,24 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                               ),
                               Row(
                                 children: [
-                                  Obx(() => GestureDetector(
+                                  GestureDetector(
                                       onTap: () async {
-                                        await showDatePicker(
+                                        final value = await showDatePicker(
                                           context: context,
                                           initialDate: DateTime.now(),
                                           firstDate: DateTime.now(),
                                           lastDate: DateTime(2077, 10),
-                                          // textDirection: TextDirection.ltr,
                                           currentDate: DateTime.now(),
                                           locale: const Locale("zh"),
-                                        ).then((value) {
-                                          controller.dateTime(controller
-                                              .dateTime.value
-                                              .copyWith(
-                                                  year: value!.year,
-                                                  month: value.month,
-                                                  day: value.day));
-                                          controller.updateTime();
-                                        });
+                                        );
+                                        // The old code did `value!.year` inside a `then`:
+                                        // dismissing the picker returns null, so cancelling
+                                        // threw instead of doing nothing.
+                                        if (value == null) return;
+                                        _form.setDateTime(form.dateTime.copyWith(
+                                            year: value.year,
+                                            month: value.month,
+                                            day: value.day));
                                       },
                                       child: Container(
                                         height: 50,
@@ -334,32 +346,30 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                           ),
                                           Text(
                                             DateFormat("yyyy-MM-dd").format(
-                                                controller.dateTime.value),
+                                                form.dateTime),
                                             style:
                                                 const TextStyle(fontSize: 16),
                                           )
                                         ]),
-                                      ))),
+                                      )),
                                   const SizedBox(
                                     width: 20,
                                   ),
-                                  Obx(() => GestureDetector(
+                                  GestureDetector(
                                       onTap: () async {
-                                        await showTimePicker(
-                                                context: context,
-                                                initialTime: TimeOfDay.now(),
-                                                cancelText: "取消",
-                                                helpText: "时间选择",
-                                                confirmText: "确认")
-                                            .then((value) {
-                                          controller.dateTime(controller
-                                              .dateTime.value
-                                              .copyWith(
-                                                  hour: value!.hour,
-                                                  minute: value.minute,
-                                                  second: 0));
-                                          controller.updateTime();
-                                        });
+                                        final value = await showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay.now(),
+                                            cancelText: "取消",
+                                            helpText: "时间选择",
+                                            confirmText: "确认");
+                                        // Same as the date picker above: `value!.hour`
+                                        // threw when the user cancelled.
+                                        if (value == null) return;
+                                        _form.setDateTime(form.dateTime.copyWith(
+                                            hour: value.hour,
+                                            minute: value.minute,
+                                            second: 0));
                                       },
                                       child: Container(
                                         height: 50,
@@ -390,12 +400,12 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                           ),
                                           Text(
                                             DateFormat("kk:mm:ss").format(
-                                                controller.dateTime.value),
+                                                form.dateTime),
                                             style:
                                                 const TextStyle(fontSize: 16),
                                           )
                                         ]),
-                                      )))
+                                      )),
                                 ],
                               ),
                               const SizedBox(
@@ -423,15 +433,12 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                             context: context,
                                             builder: (context) {
                                               return MultiSelectDialog(
-                                                initialValue:
-                                                    controller.selectedCares,
-                                                items: _items,
+                                                initialValue: form.cares,
+                                                items:
+                                                    DistributionApplyPage._items,
                                                 listType:
                                                     MultiSelectListType.CHIP,
-                                                onConfirm: (p0) {
-                                                  controller.selectedCares(p0);
-                                                  controller.generateCares();
-                                                },
+                                                onConfirm: _form.setCares,
                                               );
                                             });
                                       },
@@ -454,27 +461,23 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                       ),
                                     ),
                                   ),
-                                  Obx(() => Switch(
-                                      value:
-                                          controller.distribution.value.urgent!,
-                                      onChanged: (value) {
-                                        controller.distribution.value =
-                                            controller.distribution.value
-                                                .copyWith(urgent: value);
-                                      }))
+                                  Switch(
+                                      // `urgent!` — the model declares it nullable and the
+                                      // draft happens to seed it false, so the bang was
+                                      // load-bearing on an invariant nothing enforced.
+                                      value: form.draft.urgent ?? false,
+                                      onChanged: _form.setUrgent)
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Obx(() => MultiSelectChipDisplay(
-                                    items: controller.selectedCares
-                                        .map((element) =>
-                                            MultiSelectItem(element, element))
-                                        .toList(),
-                                    onTap: (p0) {
-                                      controller.selectedCares.remove(p0);
-                                      controller.generateCares();
-                                    },
-                                  )),
+                              MultiSelectChipDisplay(
+                                items: form.cares
+                                    .map((element) =>
+                                        MultiSelectItem(element, element))
+                                    .toList(),
+                                onTap: (p0) => _form.setCares(
+                                    form.cares.where((c) => c != p0).toList()),
+                              ),
                               Container(
                                 decoration: BoxDecoration(
                                   color: ColorPalette.white,
@@ -490,11 +493,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                 ),
                                 height: 50,
                                 child: TextFormField(
-                                  onChanged: (value) {
-                                    controller.distribution.value = controller
-                                        .distribution.value
-                                        .copyWith(phone: value);
-                                  },
+                                  onChanged: _form.setPhone,
                                   // textInputAction: TextInputAction.next,
                                   key: UniqueKey(),
                                   keyboardType: TextInputType.text,
@@ -541,12 +540,11 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                 // with the selection instead of from a service call
                                 // that always failed. Deliberately NOT preselected,
                                 // so the "address is empty" check below still bites.
-                                child: Obx(() => DropdownButton<DeliveryPoint>(
+                                child: DropdownButton<DeliveryPoint>(
                                       isExpanded: true,
                                       iconSize: 30,
                                       underline: const SizedBox(),
-                                      value: controller
-                                          .selectedDeliveryPoint.value,
+                                      value: form.selectedDeliveryPoint,
                                       hint: Text(
                                         "客户地址",
                                         style: TextStyle(
@@ -556,7 +554,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                               .withValues(alpha: 0.58),
                                         ),
                                       ),
-                                      onChanged: controller.selectDeliveryPoint,
+                                      onChanged: _form.selectDeliveryPoint,
                                       items: kDeliveryPoints.map((point) {
                                         return DropdownMenuItem<DeliveryPoint>(
                                           value: point,
@@ -572,7 +570,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                           ),
                                         );
                                       }).toList(),
-                                    )),
+                                    ),
                               ),
                               SizedBox(
                                 height: 10,
@@ -596,8 +594,10 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                   Expanded(
                                     child: SizedBox(
                                         height: 50,
-                                        child: Obx(() => ElevatedButton(
-                                              child: _isLoading.value
+                                        child: ElevatedButton(
+                                              onPressed:
+                                                  _submitting ? null : _submit,
+                                              child: _submitting
                                                   ? const SizedBox(
                                                       height: 15,
                                                       width: 15,
@@ -613,44 +613,7 @@ class DistributionApplyPage extends GetView<DistributionApplyController> {
                                                         fontFamily: "Nunito",
                                                       ),
                                                     ),
-                                              onPressed: () async {
-                                                if(controller.distribution.value.phone==null){
-                                                  showTextToast("请填写客户电话");
-
-                                                }else if(controller.distribution.value.address==null){
-                                                  showTextToast("请填写客户地址");
-
-                                                }else{
-                                                  
-                                                  _isLoading(true);
-                                                await controller
-                                                    .submitDis()
-                                                    .then((value) {
-                                                  if (value) {
-                                                    _isLoading(false);
-                                                    showTextToast("提交成功");
-                                                    // Through the container, because
-                                                    // this screen is still a GetView with
-                                                    // no ref. `.to` was Get.find() — it
-                                                    // needed the list controller to have
-                                                    // been constructed already; a provider
-                                                    // does not.
-                                                    appContainer
-                                                        .read(distributionListProvider
-                                                            .notifier)
-                                                        .refresh();
-                                                    // The await above may outlive this widget; popping a dead context throws.
-                                                    if (!context.mounted) return;
-                                                    Navigator.pop(context);
-                                                  } else {
-                                                    _isLoading(false);
-                                                  }
-                                                });
-                                                }
-                          
-                                                
-                                              },
-                                            ))),
+                                            )),
                                   ),
                                 ],
                               ),
