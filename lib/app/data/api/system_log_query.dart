@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'system_log_query.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -18,50 +17,26 @@ part 'system_log_query.g.dart';
 )
 class SystemLogQuery {
   /// Returns a new [SystemLogQuery] instance.
-  SystemLogQuery({
+  SystemLogQuery({this.account, this.module});
 
-     this.account,
-
-     this.module,
-  });
-
-  @JsonKey(
-    
-    name: r'account',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'account', required: false, includeIfNull: false)
   final String? account;
 
-
-
-  @JsonKey(
-    
-    name: r'module',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'module', required: false, includeIfNull: false)
   final String? module;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SystemLogQuery &&
+          other.account == account &&
+          other.module == module;
 
+  @override
+  int get hashCode => account.hashCode + module.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is SystemLogQuery &&
-      other.account == account &&
-      other.module == module;
-
-    @override
-    int get hashCode =>
-        account.hashCode +
-        module.hashCode;
-
-  factory SystemLogQuery.fromJson(Map<String, dynamic> json) => _$SystemLogQueryFromJson(json);
+  factory SystemLogQuery.fromJson(Map<String, dynamic> json) =>
+      _$SystemLogQueryFromJson(json);
 
   Map<String, dynamic> toJson() => _$SystemLogQueryToJson(this);
 
@@ -69,6 +44,4 @@ class SystemLogQuery {
   String toString() {
     return toJson().toString();
   }
-
 }
-

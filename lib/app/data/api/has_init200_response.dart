@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'has_init200_response.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -18,85 +17,38 @@ part 'has_init200_response.g.dart';
 )
 class HasInit200Response {
   /// Returns a new [HasInit200Response] instance.
-  HasInit200Response({
+  HasInit200Response({this.msg, this.status, this.data, this.code});
 
-     this.msg,
-
-     this.status,
-
-     this.data,
-
-     this.code,
-  });
-
-      /// Set on a failure.
-  @JsonKey(
-    
-    name: r'msg',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  /// Set on a failure.
+  @JsonKey(name: r'msg', required: false, includeIfNull: false)
   final String? msg;
 
-
-
-      /// False on a failure.
-  @JsonKey(
-    
-    name: r'status',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  /// False on a failure.
+  @JsonKey(name: r'status', required: false, includeIfNull: false)
   final bool? status;
 
-
-
-  @JsonKey(
-    
-    name: r'data',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'data', required: false, includeIfNull: false)
   final bool? data;
 
-
-
-      /// Repeats the HTTP status.
-  @JsonKey(
-    
-    name: r'code',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  /// Repeats the HTTP status.
+  @JsonKey(name: r'code', required: false, includeIfNull: false)
   final int? code;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is HasInit200Response &&
+          other.msg == msg &&
+          other.status == status &&
+          other.data == data &&
+          other.code == code;
 
+  @override
+  int get hashCode =>
+      msg.hashCode + status.hashCode + data.hashCode + code.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is HasInit200Response &&
-      other.msg == msg &&
-      other.status == status &&
-      other.data == data &&
-      other.code == code;
-
-    @override
-    int get hashCode =>
-        msg.hashCode +
-        status.hashCode +
-        data.hashCode +
-        code.hashCode;
-
-  factory HasInit200Response.fromJson(Map<String, dynamic> json) => _$HasInit200ResponseFromJson(json);
+  factory HasInit200Response.fromJson(Map<String, dynamic> json) =>
+      _$HasInit200ResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$HasInit200ResponseToJson(this);
 
@@ -104,6 +56,4 @@ class HasInit200Response {
   String toString() {
     return toJson().toString();
   }
-
 }
-

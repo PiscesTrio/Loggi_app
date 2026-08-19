@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'admin_vo.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -18,82 +17,35 @@ part 'admin_vo.g.dart';
 )
 class AdminVo {
   /// Returns a new [AdminVo] instance.
-  AdminVo({
+  AdminVo({this.id, this.email, this.roles, this.createAt});
 
-     this.id,
-
-     this.email,
-
-     this.roles,
-
-     this.createAt,
-  });
-
-  @JsonKey(
-    
-    name: r'id',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'id', required: false, includeIfNull: false)
   final String? id;
 
-
-
-  @JsonKey(
-    
-    name: r'email',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'email', required: false, includeIfNull: false)
   final String? email;
 
-
-
-  @JsonKey(
-    
-    name: r'roles',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'roles', required: false, includeIfNull: false)
   final List<String>? roles;
 
-
-
-  @JsonKey(
-    
-    name: r'createAt',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'createAt', required: false, includeIfNull: false)
   final DateTime? createAt;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AdminVo &&
+          other.id == id &&
+          other.email == email &&
+          other.roles == roles &&
+          other.createAt == createAt;
 
+  @override
+  int get hashCode =>
+      id.hashCode + email.hashCode + roles.hashCode + createAt.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is AdminVo &&
-      other.id == id &&
-      other.email == email &&
-      other.roles == roles &&
-      other.createAt == createAt;
-
-    @override
-    int get hashCode =>
-        id.hashCode +
-        email.hashCode +
-        roles.hashCode +
-        createAt.hashCode;
-
-  factory AdminVo.fromJson(Map<String, dynamic> json) => _$AdminVoFromJson(json);
+  factory AdminVo.fromJson(Map<String, dynamic> json) =>
+      _$AdminVoFromJson(json);
 
   Map<String, dynamic> toJson() => _$AdminVoToJson(this);
 
@@ -101,6 +53,4 @@ class AdminVo {
   String toString() {
     return toJson().toString();
   }
-
 }
-

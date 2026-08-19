@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../l10n/l10n.dart';
 import '../../features/settings/system_setting_page.dart';
 import '../../features/shell/tabbed_shell_page.dart';
 import '../../features/chart/chart_page.dart';

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../shell/page_header.dart';
 import '../../app/data/api/commodity_chart_vo.dart';
 import '../../app/modules/widgets/async_view.dart';
 import '../../app/modules/widgets/indicator.dart';
 import '../../app/modules/widgets/pie_chart_sample2.dart';
 import '../../app/theme/color_palette.dart';
+import '../../l10n/l10n.dart';
+import '../shell/page_header.dart';
 import 'providers.dart';
 
 const _sliceColours = [
@@ -35,7 +36,7 @@ class ChartPage extends ConsumerWidget {
           color: ColorPalette.aquaHaze,
           child: Column(
             children: [
-              const PageHeader(title: '图表分析'),
+              PageHeader(title: context.l10n.navChart),
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () =>

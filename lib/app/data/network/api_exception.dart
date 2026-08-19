@@ -43,8 +43,7 @@ class ApiException implements Exception {
     final message = switch (e.type) {
       DioExceptionType.connectionTimeout ||
       DioExceptionType.sendTimeout ||
-      DioExceptionType.receiveTimeout =>
-        '连接超时，请检查网络后重试',
+      DioExceptionType.receiveTimeout => '连接超时，请检查网络后重试',
       DioExceptionType.connectionError => '无法连接到服务器',
       DioExceptionType.cancel => '请求已取消',
       DioExceptionType.badCertificate => '服务器证书无效',

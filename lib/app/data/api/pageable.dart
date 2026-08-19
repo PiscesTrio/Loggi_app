@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'pageable.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -18,68 +17,32 @@ part 'pageable.g.dart';
 )
 class Pageable {
   /// Returns a new [Pageable] instance.
-  Pageable({
+  Pageable({this.page, this.size, this.sort});
 
-     this.page,
-
-     this.size,
-
-     this.sort,
-  });
-
-          // minimum: 0
-  @JsonKey(
-    
-    name: r'page',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  // minimum: 0
+  @JsonKey(name: r'page', required: false, includeIfNull: false)
   final int? page;
 
-
-
-          // minimum: 1
-  @JsonKey(
-    
-    name: r'size',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  // minimum: 1
+  @JsonKey(name: r'size', required: false, includeIfNull: false)
   final int? size;
 
-
-
-  @JsonKey(
-    
-    name: r'sort',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'sort', required: false, includeIfNull: false)
   final List<String>? sort;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Pageable &&
+          other.page == page &&
+          other.size == size &&
+          other.sort == sort;
 
+  @override
+  int get hashCode => page.hashCode + size.hashCode + sort.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is Pageable &&
-      other.page == page &&
-      other.size == size &&
-      other.sort == sort;
-
-    @override
-    int get hashCode =>
-        page.hashCode +
-        size.hashCode +
-        sort.hashCode;
-
-  factory Pageable.fromJson(Map<String, dynamic> json) => _$PageableFromJson(json);
+  factory Pageable.fromJson(Map<String, dynamic> json) =>
+      _$PageableFromJson(json);
 
   Map<String, dynamic> toJson() => _$PageableToJson(this);
 
@@ -87,6 +50,4 @@ class Pageable {
   String toString() {
     return toJson().toString();
   }
-
 }
-

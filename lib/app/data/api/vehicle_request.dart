@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'vehicle_request.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -18,50 +17,24 @@ part 'vehicle_request.g.dart';
 )
 class VehicleRequest {
   /// Returns a new [VehicleRequest] instance.
-  VehicleRequest({
+  VehicleRequest({required this.number, required this.type});
 
-    required  this.number,
-
-    required  this.type,
-  });
-
-  @JsonKey(
-    
-    name: r'number',
-    required: true,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'number', required: true, includeIfNull: false)
   final String number;
 
-
-
-  @JsonKey(
-    
-    name: r'type',
-    required: true,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'type', required: true, includeIfNull: false)
   final String type;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is VehicleRequest && other.number == number && other.type == type;
 
+  @override
+  int get hashCode => number.hashCode + type.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is VehicleRequest &&
-      other.number == number &&
-      other.type == type;
-
-    @override
-    int get hashCode =>
-        number.hashCode +
-        type.hashCode;
-
-  factory VehicleRequest.fromJson(Map<String, dynamic> json) => _$VehicleRequestFromJson(json);
+  factory VehicleRequest.fromJson(Map<String, dynamic> json) =>
+      _$VehicleRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$VehicleRequestToJson(this);
 
@@ -69,6 +42,4 @@ class VehicleRequest {
   String toString() {
     return toJson().toString();
   }
-
 }
-

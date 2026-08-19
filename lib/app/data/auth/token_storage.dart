@@ -42,7 +42,8 @@ class TokenStorage {
     return _migrateLegacyToken();
   }
 
-  Future<void> write(String token) => _storage.write(key: _tokenKey, value: token);
+  Future<void> write(String token) =>
+      _storage.write(key: _tokenKey, value: token);
 
   Future<void> clear() => _storage.delete(key: _tokenKey);
 
@@ -51,7 +52,9 @@ class TokenStorage {
   Future<String?> _migrateLegacyToken() async {
     final box = GetStorage();
     final legacy = box.read(_legacyKey);
-    if (legacy is! String || legacy.isEmpty || legacy == _legacySignedOutSentinel) {
+    if (legacy is! String ||
+        legacy.isEmpty ||
+        legacy == _legacySignedOutSentinel) {
       // Also clears the sentinel, so the string stops existing anywhere.
       await box.remove(_legacyKey);
       return null;

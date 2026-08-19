@@ -31,19 +31,16 @@ class SysMain extends StatelessWidget {
             children: [
               ListTile(
                 onTap: () async {
-                  for(int i=0;i<10;i++){
-                    await Future.delayed(Duration(seconds: 1), ).then((value) {
-                    NbRequest().getAllProducts();
-                  });
+                  for (int i = 0; i < 10; i++) {
+                    await Future.delayed(Duration(seconds: 1)).then((value) {
+                      NbRequest().getAllProducts();
+                    });
                   }
                 },
                 title: Text("账号管理"),
                 subtitle: Text("修改账号和密码"),
               ),
-              Divider(
-                height: 1,
-                indent: 16,
-              ),
+              Divider(height: 1, indent: 16),
             ],
           ),
         ),
@@ -66,87 +63,84 @@ class SysMain extends StatelessWidget {
                 },
                 title: Text("登录日志"),
               ),
-              Divider(
-                height: 1,
-                indent: 16,
-              ),
+              Divider(height: 1, indent: 16),
               ListTile(
                 onTap: () {
                   context.push(Routes.operationLog);
                 },
                 title: Text("操作日志"),
               ),
-              Divider(
-                height: 1,
-                indent: 16,
-              ),
+              Divider(height: 1, indent: 16),
             ],
           ),
         ),
-        SizedBox(
-          height: 50,
-        ),
+        SizedBox(height: 50),
         OutlinedButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: Text(
-                        "确认退出登录吗？",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 18),
-                      ),
-                      actions: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                                onPressed: () async {
-                                  // Clears the credential, rather than overwriting it with
-                                  // the string "not logged in" — which stayed on the client
-                                  // as a header, so the next request went out as
-                                  // `Authorization: Bearer not logged in`.
-                                  await appContainer
-                                      .read(authProvider.notifier)
-                                      .signOut();
-                                  showTextToast("已退出登录");
-                                  // offAllNamed, not offAndToNamed: the latter
-                                  // replaces only the top route, and the home
-                                  // shell it leaves behind keeps its GetX
-                                  // controllers alive. Logging back in then
-                                  // pushed a SECOND shell whose controllers had
-                                  // already run onInit, so nothing fetched and
-                                  // the screen came up empty. Clearing the whole
-                                  // stack disposes the bindings with it.
-                                  // Redirect takes it from here.
-                                },
-                                child: Text("确认")),
-                            OutlinedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text("取消"))
-                          ],
-                        )
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  content: Text(
+                    "确认退出登录吗？",
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                  ),
+                  actions: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () async {
+                            // Clears the credential, rather than overwriting it with
+                            // the string "not logged in" — which stayed on the client
+                            // as a header, so the next request went out as
+                            // `Authorization: Bearer not logged in`.
+                            await appContainer
+                                .read(authProvider.notifier)
+                                .signOut();
+                            showTextToast("已退出登录");
+                            // offAllNamed, not offAndToNamed: the latter
+                            // replaces only the top route, and the home
+                            // shell it leaves behind keeps its GetX
+                            // controllers alive. Logging back in then
+                            // pushed a SECOND shell whose controllers had
+                            // already run onInit, so nothing fetched and
+                            // the screen came up empty. Clearing the whole
+                            // stack disposes the bindings with it.
+                            // Redirect takes it from here.
+                          },
+                          child: Text("确认"),
+                        ),
+                        OutlinedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("取消"),
+                        ),
                       ],
-                    );
-                  });
-            },
-            style: const ButtonStyle(
-              backgroundColor:
-                  WidgetStatePropertyAll(Color.fromARGB(255, 221, 159, 159)),
-              foregroundColor:
-                  WidgetStatePropertyAll(Color.fromARGB(255, 230, 13, 13)),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          style: const ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(
+              Color.fromARGB(255, 221, 159, 159),
             ),
-            child: Text(
-              "退出登录",
-              style: TextStyle(
-                  fontWeight: FontWeight.w100,
-                  fontSize: 20,
-                  color: ColorPalette.contentColorRed),
+            foregroundColor: WidgetStatePropertyAll(
+              Color.fromARGB(255, 230, 13, 13),
             ),
-          )
+          ),
+          child: Text(
+            "退出登录",
+            style: TextStyle(
+              fontWeight: FontWeight.w100,
+              fontSize: 20,
+              color: ColorPalette.contentColorRed,
+            ),
+          ),
+        ),
       ],
     );
   }

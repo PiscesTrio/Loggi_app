@@ -25,35 +25,55 @@ class ApiClient {
     String path, {
     Map<String, dynamic>? query,
     CancelToken? cancelToken,
-  }) =>
-      _send<T>(() => _dio.get<dynamic>(path, queryParameters: query, cancelToken: cancelToken));
+  }) => _send<T>(
+    () => _dio.get<dynamic>(
+      path,
+      queryParameters: query,
+      cancelToken: cancelToken,
+    ),
+  );
 
   Future<T> post<T>(
     String path, {
     Object? data,
     Map<String, dynamic>? query,
     CancelToken? cancelToken,
-  }) =>
-      _send<T>(() => _dio.post<dynamic>(path,
-          data: data, queryParameters: query, cancelToken: cancelToken));
+  }) => _send<T>(
+    () => _dio.post<dynamic>(
+      path,
+      data: data,
+      queryParameters: query,
+      cancelToken: cancelToken,
+    ),
+  );
 
   Future<T> put<T>(
     String path, {
     Object? data,
     Map<String, dynamic>? query,
     CancelToken? cancelToken,
-  }) =>
-      _send<T>(() => _dio.put<dynamic>(path,
-          data: data, queryParameters: query, cancelToken: cancelToken));
+  }) => _send<T>(
+    () => _dio.put<dynamic>(
+      path,
+      data: data,
+      queryParameters: query,
+      cancelToken: cancelToken,
+    ),
+  );
 
   Future<T> delete<T>(
     String path, {
     Object? data,
     Map<String, dynamic>? query,
     CancelToken? cancelToken,
-  }) =>
-      _send<T>(() => _dio.delete<dynamic>(path,
-          data: data, queryParameters: query, cancelToken: cancelToken));
+  }) => _send<T>(
+    () => _dio.delete<dynamic>(
+      path,
+      data: data,
+      queryParameters: query,
+      cancelToken: cancelToken,
+    ),
+  );
 
   /// Runs a request and normalises everything that can go wrong into [ApiException].
   ///

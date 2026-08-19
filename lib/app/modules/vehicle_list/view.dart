@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../data/api/vehicle_request.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/network/api_exception.dart';
@@ -41,7 +43,8 @@ class VehicleListPage extends ConsumerWidget {
                 mainAxisSpacing: 5,
               ),
               itemCount: data.length,
-              itemBuilder: (context, index) => VehicleMinCard(vehicle: data[index]),
+              itemBuilder: (context, index) =>
+                  VehicleMinCard(vehicle: data[index]),
             ),
           ),
         ),
@@ -68,7 +71,9 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
   Future<void> _submit() async {
     setState(() => _submitting = true);
     try {
-      await ref.read(vehicleListProvider.notifier).add(ref.read(vehicleDraftProvider));
+      await ref
+          .read(vehicleListProvider.notifier)
+          .add(ref.read(vehicleDraftProvider));
       if (!mounted) return;
       showTextToast('提交成功');
       Navigator.pop(context);

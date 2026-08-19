@@ -84,7 +84,11 @@ class _Message extends StatelessWidget {
     return ListView(
       children: [
         SizedBox(height: MediaQuery.of(context).size.height * 0.25),
-        Icon(icon, size: 48, color: ColorPalette.nileBlue.withValues(alpha: 0.4)),
+        Icon(
+          icon,
+          size: 48,
+          color: ColorPalette.nileBlue.withValues(alpha: 0.4),
+        ),
         const SizedBox(height: 12),
         Center(
           child: Padding(
@@ -92,7 +96,10 @@ class _Message extends StatelessWidget {
             child: Text(
               text,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 15, color: ColorPalette.nileBlue),
+              style: const TextStyle(
+                fontSize: 15,
+                color: ColorPalette.nileBlue,
+              ),
             ),
           ),
         ),

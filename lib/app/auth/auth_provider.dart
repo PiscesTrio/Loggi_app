@@ -39,7 +39,9 @@ class AuthNotifier extends Notifier<AuthState> {
   /// Reads the stored credential once, at startup.
   Future<void> restore() async {
     final token = await ref.read(tokenStorageProvider).read();
-    state = AuthState(token == null ? AuthStatus.signedOut : AuthStatus.signedIn);
+    state = AuthState(
+      token == null ? AuthStatus.signedOut : AuthStatus.signedIn,
+    );
   }
 
   Future<void> signIn(String token) async {
@@ -60,4 +62,6 @@ class AuthNotifier extends Notifier<AuthState> {
   }
 }
 
-final authProvider = NotifierProvider<AuthNotifier, AuthState>(AuthNotifier.new);
+final authProvider = NotifierProvider<AuthNotifier, AuthState>(
+  AuthNotifier.new,
+);

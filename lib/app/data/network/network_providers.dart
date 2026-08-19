@@ -45,17 +45,19 @@ final onUnauthorizedProvider = StateProvider<void Function()?>((ref) => null);
 final dioProvider = Provider<Dio>((ref) {
   AppConfig.assertValid();
 
-  final dio = Dio(BaseOptions(
-    baseUrl: AppConfig.apiBaseUrl,
-    connectTimeout: AppConfig.connectTimeout,
-    receiveTimeout: AppConfig.receiveTimeout,
-    sendTimeout: AppConfig.sendTimeout,
-    // Non-2xx bodies must reach the envelope interceptor. Dio's default rejects them
-    // first, and its DioException message is English boilerplate — for a 401 it even
-    // says the request "contains bad syntax", which is a different error entirely.
-    validateStatus: (status) => status != null,
-    contentType: Headers.jsonContentType,
-  ));
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: AppConfig.apiBaseUrl,
+      connectTimeout: AppConfig.connectTimeout,
+      receiveTimeout: AppConfig.receiveTimeout,
+      sendTimeout: AppConfig.sendTimeout,
+      // Non-2xx bodies must reach the envelope interceptor. Dio's default rejects them
+      // first, and its DioException message is English boilerplate — for a 401 it even
+      // says the request "contains bad syntax", which is a different error entirely.
+      validateStatus: (status) => status != null,
+      contentType: Headers.jsonContentType,
+    ),
+  );
 
   dio.interceptors.addAll([
     AuthInterceptor(
@@ -68,7 +70,10 @@ final dioProvider = Provider<Dio>((ref) {
     RetryInterceptor(
       dio: dio,
       retries: 2,
-      retryDelays: const [Duration(milliseconds: 300), Duration(milliseconds: 900)],
+      retryDelays: const [
+        Duration(milliseconds: 300),
+        Duration(milliseconds: 900),
+      ],
       retryEvaluator: (error, attempt) {
         final method = error.requestOptions.method.toUpperCase();
         if (method != 'GET' && method != 'HEAD') {
@@ -78,8 +83,7 @@ final dioProvider = Provider<Dio>((ref) {
           DioExceptionType.connectionTimeout ||
           DioExceptionType.receiveTimeout ||
           DioExceptionType.sendTimeout ||
-          DioExceptionType.connectionError =>
-            true,
+          DioExceptionType.connectionError => true,
           // 5xx is worth another try; a 4xx will say the same thing again.
           _ => (error.response?.statusCode ?? 0) >= 500,
         };

@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'employee_vo.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -19,145 +18,73 @@ part 'employee_vo.g.dart';
 class EmployeeVo {
   /// Returns a new [EmployeeVo] instance.
   EmployeeVo({
+    this.id,
 
-     this.id,
+    this.name,
 
-     this.name,
+    this.gender,
 
-     this.gender,
+    this.phone,
 
-     this.phone,
+    this.address,
 
-     this.address,
+    this.department,
 
-     this.department,
+    this.createAt,
 
-     this.createAt,
-
-     this.updateAt,
+    this.updateAt,
   });
 
-  @JsonKey(
-    
-    name: r'id',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'id', required: false, includeIfNull: false)
   final String? id;
 
-
-
-  @JsonKey(
-    
-    name: r'name',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'name', required: false, includeIfNull: false)
   final String? name;
 
-
-
-  @JsonKey(
-    
-    name: r'gender',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'gender', required: false, includeIfNull: false)
   final String? gender;
 
-
-
-  @JsonKey(
-    
-    name: r'phone',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'phone', required: false, includeIfNull: false)
   final String? phone;
 
-
-
-  @JsonKey(
-    
-    name: r'address',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'address', required: false, includeIfNull: false)
   final String? address;
 
-
-
-  @JsonKey(
-    
-    name: r'department',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'department', required: false, includeIfNull: false)
   final String? department;
 
-
-
-  @JsonKey(
-    
-    name: r'createAt',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'createAt', required: false, includeIfNull: false)
   final DateTime? createAt;
 
-
-
-  @JsonKey(
-    
-    name: r'updateAt',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'updateAt', required: false, includeIfNull: false)
   final DateTime? updateAt;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is EmployeeVo &&
+          other.id == id &&
+          other.name == name &&
+          other.gender == gender &&
+          other.phone == phone &&
+          other.address == address &&
+          other.department == department &&
+          other.createAt == createAt &&
+          other.updateAt == updateAt;
 
+  @override
+  int get hashCode =>
+      id.hashCode +
+      name.hashCode +
+      gender.hashCode +
+      phone.hashCode +
+      address.hashCode +
+      department.hashCode +
+      createAt.hashCode +
+      updateAt.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is EmployeeVo &&
-      other.id == id &&
-      other.name == name &&
-      other.gender == gender &&
-      other.phone == phone &&
-      other.address == address &&
-      other.department == department &&
-      other.createAt == createAt &&
-      other.updateAt == updateAt;
-
-    @override
-    int get hashCode =>
-        id.hashCode +
-        name.hashCode +
-        gender.hashCode +
-        phone.hashCode +
-        address.hashCode +
-        department.hashCode +
-        createAt.hashCode +
-        updateAt.hashCode;
-
-  factory EmployeeVo.fromJson(Map<String, dynamic> json) => _$EmployeeVoFromJson(json);
+  factory EmployeeVo.fromJson(Map<String, dynamic> json) =>
+      _$EmployeeVoFromJson(json);
 
   Map<String, dynamic> toJson() => _$EmployeeVoToJson(this);
 
@@ -165,6 +92,4 @@ class EmployeeVo {
   String toString() {
     return toJson().toString();
   }
-
 }
-

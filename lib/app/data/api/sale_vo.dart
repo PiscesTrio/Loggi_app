@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'sale_vo.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -19,175 +18,84 @@ part 'sale_vo.g.dart';
 class SaleVo {
   /// Returns a new [SaleVo] instance.
   SaleVo({
+    this.id,
 
-     this.id,
+    this.company,
 
-     this.company,
+    this.number,
 
-     this.number,
+    this.commodity,
 
-     this.commodity,
+    this.count,
 
-     this.count,
+    this.price,
 
-     this.price,
+    this.phone,
 
-     this.phone,
+    this.description,
 
-     this.description,
+    this.pay,
 
-     this.pay,
-
-     this.createAt,
+    this.createAt,
   });
 
-  @JsonKey(
-    
-    name: r'id',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'id', required: false, includeIfNull: false)
   final String? id;
 
-
-
-  @JsonKey(
-    
-    name: r'company',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'company', required: false, includeIfNull: false)
   final String? company;
 
-
-
-  @JsonKey(
-    
-    name: r'number',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'number', required: false, includeIfNull: false)
   final String? number;
 
-
-
-  @JsonKey(
-    
-    name: r'commodity',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'commodity', required: false, includeIfNull: false)
   final String? commodity;
 
-
-
-  @JsonKey(
-    
-    name: r'count',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'count', required: false, includeIfNull: false)
   final int? count;
 
-
-
-  @JsonKey(
-    
-    name: r'price',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'price', required: false, includeIfNull: false)
   final num? price;
 
-
-
-  @JsonKey(
-    
-    name: r'phone',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'phone', required: false, includeIfNull: false)
   final String? phone;
 
-
-
-  @JsonKey(
-    
-    name: r'description',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'description', required: false, includeIfNull: false)
   final String? description;
 
-
-
-  @JsonKey(
-    
-    name: r'pay',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'pay', required: false, includeIfNull: false)
   final bool? pay;
 
-
-
-  @JsonKey(
-    
-    name: r'createAt',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'createAt', required: false, includeIfNull: false)
   final DateTime? createAt;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SaleVo &&
+          other.id == id &&
+          other.company == company &&
+          other.number == number &&
+          other.commodity == commodity &&
+          other.count == count &&
+          other.price == price &&
+          other.phone == phone &&
+          other.description == description &&
+          other.pay == pay &&
+          other.createAt == createAt;
 
-
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is SaleVo &&
-      other.id == id &&
-      other.company == company &&
-      other.number == number &&
-      other.commodity == commodity &&
-      other.count == count &&
-      other.price == price &&
-      other.phone == phone &&
-      other.description == description &&
-      other.pay == pay &&
-      other.createAt == createAt;
-
-    @override
-    int get hashCode =>
-        id.hashCode +
-        company.hashCode +
-        number.hashCode +
-        commodity.hashCode +
-        count.hashCode +
-        price.hashCode +
-        phone.hashCode +
-        description.hashCode +
-        pay.hashCode +
-        createAt.hashCode;
+  @override
+  int get hashCode =>
+      id.hashCode +
+      company.hashCode +
+      number.hashCode +
+      commodity.hashCode +
+      count.hashCode +
+      price.hashCode +
+      phone.hashCode +
+      description.hashCode +
+      pay.hashCode +
+      createAt.hashCode;
 
   factory SaleVo.fromJson(Map<String, dynamic> json) => _$SaleVoFromJson(json);
 
@@ -197,6 +105,4 @@ class SaleVo {
   String toString() {
     return toJson().toString();
   }
-
 }
-

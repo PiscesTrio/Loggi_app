@@ -1,0 +1,23 @@
+{
+  "@@locale": "zh",
+
+  "navBase": "基础管理",
+  "navTransport": "运输管理",
+  "navChart": "图表分析",
+  "navSettings": "系统设置",
+
+  "tabCommodities": "商品管理",
+  "tabWarehouses": "仓库管理",
+  "tabDistributions": "配送管理",
+  "tabVehicles": "车辆管理",
+  "tabDrivers": "驾驶员管理",
+
+  "titleLoginLog": "登录日志",
+  "titleOperationLog": "操作日志",
+
+  "actionCancel": "取消",
+  "actionConfirm": "确认",
+
+  "directionInbound": "入库",
+  "directionOutbound": "出库"
+}

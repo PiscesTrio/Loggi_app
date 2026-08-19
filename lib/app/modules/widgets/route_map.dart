@@ -21,8 +21,7 @@ class RoutePoint {
 
   const RoutePoint(this.lat, this.lng, this.iconAsset);
 
-  bool get isUsable =>
-      lat != null && lng != null && !(lat == 0 && lng == 0);
+  bool get isUsable => lat != null && lng != null && !(lat == 0 && lng == 0);
 
   LatLng get latLng => LatLng(lat!, lng!);
 }
@@ -91,7 +90,9 @@ class RouteMap extends StatelessWidget {
               // a camera that never re-frames. Rebuilding is safe precisely because
               // this map is non-interactive: there is no user-adjusted viewport to
               // throw away.
-              key: ValueKey(coords.map((c) => '${c.latitude},${c.longitude}').join('|')),
+              key: ValueKey(
+                coords.map((c) => '${c.latitude},${c.longitude}').join('|'),
+              ),
               options: MapOptions(
                 initialCameraFit: CameraFit.bounds(
                   bounds: LatLngBounds.fromPoints(coords),
@@ -161,18 +162,20 @@ class RouteMap extends StatelessWidget {
 
   List<Marker> _markers(List<RoutePoint> usable) {
     return usable
-        .map((p) => Marker(
-              point: p.latLng,
-              width: 44,
-              height: 44,
-              // The default centres the icon ON the point; these are pin graphics
-              // whose tip is at the bottom, so they must sit above it. Alignment
-              // here names where the marker goes relative to the point, so
-              // topCenter puts the whole widget above it — the inverse of how it
-              // reads at first glance.
-              alignment: Alignment.topCenter,
-              child: Image.asset(p.iconAsset),
-            ))
+        .map(
+          (p) => Marker(
+            point: p.latLng,
+            width: 44,
+            height: 44,
+            // The default centres the icon ON the point; these are pin graphics
+            // whose tip is at the bottom, so they must sit above it. Alignment
+            // here names where the marker goes relative to the point, so
+            // topCenter puts the whole widget above it — the inverse of how it
+            // reads at first glance.
+            alignment: Alignment.topCenter,
+            child: Image.asset(p.iconAsset),
+          ),
+        )
         .toList();
   }
 
@@ -188,27 +191,27 @@ class RouteMap extends StatelessWidget {
   }
 
   Widget _chip(String text) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.88),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 12,
-            color: ColorPalette.nileBlue,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    decoration: BoxDecoration(
+      color: Colors.white.withValues(alpha: 0.88),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Text(
+      text,
+      style: const TextStyle(
+        fontFamily: 'Nunito',
+        fontSize: 12,
+        color: ColorPalette.nileBlue,
+      ),
+    ),
+  );
 
   Widget _attribution() => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-        color: Colors.white.withValues(alpha: 0.72),
-        child: Text(
-          source.attribution,
-          style: const TextStyle(fontSize: 10, color: Colors.black87),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+    color: Colors.white.withValues(alpha: 0.72),
+    child: Text(
+      source.attribution,
+      style: const TextStyle(fontSize: 10, color: Colors.black87),
+    ),
+  );
 }

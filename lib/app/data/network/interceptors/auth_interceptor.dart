@@ -50,7 +50,10 @@ class AuthInterceptor extends QueuedInterceptor {
   }
 
   @override
-  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     // ...and then again as an *error*, because the envelope interceptor rejects it. Both
     // hooks are kept — a transport-level 401, or a different interceptor order, reaches
     // only one of them — so the guard below is what makes it happen once.

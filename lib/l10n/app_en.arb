@@ -1,0 +1,23 @@
+{
+  "@@locale": "en",
+
+  "navBase": "Master data",
+  "navTransport": "Transport",
+  "navChart": "Analytics",
+  "navSettings": "Settings",
+
+  "tabCommodities": "Commodities",
+  "tabWarehouses": "Warehouses",
+  "tabDistributions": "Deliveries",
+  "tabVehicles": "Vehicles",
+  "tabDrivers": "Drivers",
+
+  "titleLoginLog": "Sign-in log",
+  "titleOperationLog": "Operation log",
+
+  "actionCancel": "Cancel",
+  "actionConfirm": "Confirm",
+
+  "directionInbound": "Inbound",
+  "directionOutbound": "Outbound"
+}

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../l10n/l10n.dart';
+
 /// The four-tab shell.
 ///
 /// What it replaces was an `IndexedStack` whose index came from a GetX controller, holding
@@ -27,11 +29,17 @@ class HomeShellScaffold extends StatelessWidget {
         currentIndex: shell.currentIndex,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.warehouse_rounded), label: '基础管理'),
+            icon: Icon(Icons.warehouse_rounded),
+            label: '基础管理',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.local_shipping_rounded), label: '运输管理'),
+            icon: Icon(Icons.local_shipping_rounded),
+            label: '运输管理',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.pie_chart_sharp), label: '图表分析'),
+            icon: Icon(Icons.pie_chart_sharp),
+            label: '图表分析',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: '系统设置'),
         ],
         onTap: (index) => shell.goBranch(

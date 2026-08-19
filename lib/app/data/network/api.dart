@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import '../api/commodity_chart_vo.dart';
 import '../api/commodity_request.dart';
 import '../api/commodity_vo.dart';
@@ -94,25 +95,33 @@ class NbRequest {
   }
 
   // ---- warehouses ------------------------------------------------------------------
-  Future<List<WarehouseVo>?> requestGet4() => _list('/warehouse', WarehouseVo.fromJson);
+  Future<List<WarehouseVo>?> requestGet4() =>
+      _list('/warehouse', WarehouseVo.fromJson);
 
-  Future<bool> saveWarehouse(WarehouseRequest data) =>
-      _write(() => _client.post<dynamic>('/warehouse', data: data.toJson()), '/warehouse');
+  Future<bool> saveWarehouse(WarehouseRequest data) => _write(
+    () => _client.post<dynamic>('/warehouse', data: data.toJson()),
+    '/warehouse',
+  );
 
   Future<List<InventoryVo>?> getInventoryFromWarehouseId(String id) =>
       _list('/inventory/warehouse/$id', InventoryVo.fromJson);
 
   // ---- commodities -----------------------------------------------------------------
-  Future<List<CommodityVo>?> getAllProducts() => _list('/commodity', CommodityVo.fromJson);
+  Future<List<CommodityVo>?> getAllProducts() =>
+      _list('/commodity', CommodityVo.fromJson);
 
-  Future<bool> saveProduct(CommodityRequest data) =>
-      _write(() => _client.post<dynamic>('/commodity', data: data.toJson()), '/commodity');
+  Future<bool> saveProduct(CommodityRequest data) => _write(
+    () => _client.post<dynamic>('/commodity', data: data.toJson()),
+    '/commodity',
+  );
 
   /// The id moved into the path. It used to travel inside the body, which meant a caller
   /// chose which row an update applied to by editing a field - and a body without one
   /// updated nothing while answering 200.
-  Future<bool> updateProduct(String id, CommodityRequest data) =>
-      _write(() => _client.put<dynamic>('/commodity/$id', data: data.toJson()), '/commodity/$id');
+  Future<bool> updateProduct(String id, CommodityRequest data) => _write(
+    () => _client.put<dynamic>('/commodity/$id', data: data.toJson()),
+    '/commodity/$id',
+  );
 
   Future<bool> importAndExport(InventoryMovementRequest data, bool inOrOut) {
     final path = '/inventory/${inOrOut ? "in" : "out"}';
@@ -122,29 +131,31 @@ class NbRequest {
   /// The direction is an enum name now, not a sign. It was `type=1` / `type=-1`, with the
   /// meaning of those numbers living in a private field of one backend service.
   Future<List<CommodityChartVo>?> getChartData(bool inOrOut) => _list(
-        '/inventory/analyze',
-        CommodityChartVo.fromJson,
-        query: {'type': inOrOut ? 'IN' : 'OUT'},
-      );
+    '/inventory/analyze',
+    CommodityChartVo.fromJson,
+    query: {'type': inOrOut ? 'IN' : 'OUT'},
+  );
 
   // ---- auth and logs ---------------------------------------------------------------
   Future<LoginVo?> login(LoginDto data) => _one(
-        () => _client.post<dynamic>('/admin/login/password', data: data.toJson()),
-        '/admin/login/password',
-        LoginVo.fromJson,
-      );
+    () => _client.post<dynamic>('/admin/login/password', data: data.toJson()),
+    '/admin/login/password',
+    LoginVo.fromJson,
+  );
 
   /// Both logs are paged. They grow by a row per login attempt and a row per audited
   /// request, so "all of them" stopped being an answer the server was willing to give.
   Future<PageVoLoginLogVo?> getLoginLog({int page = 0, int size = 20}) => _one(
-        () => _client.get<dynamic>('/loginlog', query: {'page': page, 'size': size}),
-        '/loginlog',
-        PageVoLoginLogVo.fromJson,
-      );
+    () =>
+        _client.get<dynamic>('/loginlog', query: {'page': page, 'size': size}),
+    '/loginlog',
+    PageVoLoginLogVo.fromJson,
+  );
 
   Future<PageVoSystemLogVo?> getSysLog({int page = 0, int size = 20}) => _one(
-        () => _client.get<dynamic>('/systemlog', query: {'page': page, 'size': size}),
-        '/systemlog',
-        PageVoSystemLogVo.fromJson,
-      );
+    () =>
+        _client.get<dynamic>('/systemlog', query: {'page': page, 'size': size}),
+    '/systemlog',
+    PageVoSystemLogVo.fromJson,
+  );
 }

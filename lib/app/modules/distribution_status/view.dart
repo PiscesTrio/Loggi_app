@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loggi_app/app/modules/widgets/distribution_status_item.dart';
+
 import '../../data/api/distribution_vo.dart';
 
 import '../../theme/color_palette.dart';
@@ -88,70 +89,89 @@ class DistributionStatusPage extends ConsumerWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0),
                         child: SizedBox(
-                            child: RefreshIndicator(
-                                onRefresh: () async => ref.invalidate(
+                          child: RefreshIndicator(
+                            onRefresh: () async => ref.invalidate(
+                              distributionStatusProvider(argument.id ?? ''),
+                            ),
+                            child: ListView(
+                              children: [
+                                // No InteractiveViewer: RouteMap runs its own
+                                // gesture handling, and wrapping it would put
+                                // the two in competition.
+                                AsyncView(
+                                  value: statuses,
+                                  onRetry: () => ref.invalidate(
                                     distributionStatusProvider(
-                                        argument.id ?? '')),
-                                child: ListView(
-                                  children: [
-                                    // No InteractiveViewer: RouteMap runs its own
-                                    // gesture handling, and wrapping it would put
-                                    // the two in competition.
-                                    AsyncView(
-                                        value: statuses,
-                                        onRetry: () => ref.invalidate(
-                                            distributionStatusProvider(
-                                                argument.id ?? '')),
-                                        builder: (data) {
-                                      // data![0] used to be read three times; an
-                                      // empty status list threw RangeError before
-                                      // the map could render.
-                                      final latest =
-                                          data.isNotEmpty ? data.first : null;
-                                      final points = <RoutePoint>[
-                                        RoutePoint(argument.fromLat,
-                                            argument.fromLng, kIconStart),
-                                        if (latest != null)
-                                          RoutePoint(latest.lat, latest.lng,
-                                              kIconCurrent),
-                                        RoutePoint(argument.toLat,
-                                            argument.toLng, kIconEnd),
-                                      ];
-                                      return RouteMap(
-                                        points: points,
-                                        height: MediaQuery.of(context)
-                                                .size
-                                                .height *
-                                            0.4,
-                                        onExpand: () => Navigator.of(context,
-                                                rootNavigator: true)
-                                            .push(MaterialPageRoute<void>(
-                                                builder: (_) =>
-                                                    RouteMapFullscreen(
-                                                        points: points))),
+                                      argument.id ?? '',
+                                    ),
+                                  ),
+                                  builder: (data) {
+                                    // data![0] used to be read three times; an
+                                    // empty status list threw RangeError before
+                                    // the map could render.
+                                    final latest = data.isNotEmpty
+                                        ? data.first
+                                        : null;
+                                    final points = <RoutePoint>[
+                                      RoutePoint(
+                                        argument.fromLat,
+                                        argument.fromLng,
+                                        kIconStart,
+                                      ),
+                                      if (latest != null)
+                                        RoutePoint(
+                                          latest.lat,
+                                          latest.lng,
+                                          kIconCurrent,
+                                        ),
+                                      RoutePoint(
+                                        argument.toLat,
+                                        argument.toLng,
+                                        kIconEnd,
+                                      ),
+                                    ];
+                                    return RouteMap(
+                                      points: points,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                          0.4,
+                                      onExpand: () =>
+                                          Navigator.of(
+                                            context,
+                                            rootNavigator: true,
+                                          ).push(
+                                            MaterialPageRoute<void>(
+                                              builder: (_) =>
+                                                  RouteMapFullscreen(
+                                                    points: points,
+                                                  ),
+                                            ),
+                                          ),
+                                    );
+                                  },
+                                ),
+                                AsyncView(
+                                  value: statuses,
+                                  emptyMessage: '暂无配送记录',
+                                  builder: (data) => ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: data.length,
+                                    itemBuilder: (context, index) {
+                                      return DistributionStatusItem(
+                                        distribution: argument,
+                                        distributionStatus: data[index],
+                                        isTop: index == 0,
+                                        isBottom: index == data.length - 1,
+                                        isStart: data.length == 1,
                                       );
-                                    }),
-                                    AsyncView(
-                                      value: statuses,
-                                      emptyMessage: '暂无配送记录',
-                                      builder: (data) => ListView.builder(
-                                          shrinkWrap: true,
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          itemCount: data.length,
-                                          itemBuilder: (context, index) {
-                                            return DistributionStatusItem(
-                                              distribution: argument,
-                                              distributionStatus: data[index],
-                                              isTop: index == 0,
-                                              isBottom:
-                                                  index == data.length - 1,
-                                              isStart: data.length == 1,
-                                            );
-                                          }),
-                                    )
-                                  ],
-                                ))),
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],

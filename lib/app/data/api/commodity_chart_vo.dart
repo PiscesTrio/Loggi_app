@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'commodity_chart_vo.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -18,50 +17,24 @@ part 'commodity_chart_vo.g.dart';
 )
 class CommodityChartVo {
   /// Returns a new [CommodityChartVo] instance.
-  CommodityChartVo({
+  CommodityChartVo({this.value, this.name});
 
-     this.value,
-
-     this.name,
-  });
-
-  @JsonKey(
-    
-    name: r'value',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'value', required: false, includeIfNull: false)
   final int? value;
 
-
-
-  @JsonKey(
-    
-    name: r'name',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'name', required: false, includeIfNull: false)
   final String? name;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CommodityChartVo && other.value == value && other.name == name;
 
+  @override
+  int get hashCode => value.hashCode + name.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is CommodityChartVo &&
-      other.value == value &&
-      other.name == name;
-
-    @override
-    int get hashCode =>
-        value.hashCode +
-        name.hashCode;
-
-  factory CommodityChartVo.fromJson(Map<String, dynamic> json) => _$CommodityChartVoFromJson(json);
+  factory CommodityChartVo.fromJson(Map<String, dynamic> json) =>
+      _$CommodityChartVoFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommodityChartVoToJson(this);
 
@@ -69,6 +42,4 @@ class CommodityChartVo {
   String toString() {
     return toJson().toString();
   }
-
 }
-

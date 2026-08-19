@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/modules/sys_main.dart';
 import '../../app/theme/color_palette.dart';
+import '../../l10n/l10n.dart';
 import '../shell/page_header.dart';
 
 /// 系统设置.
@@ -21,7 +22,7 @@ class SystemSettingPage extends StatelessWidget {
           color: ColorPalette.aquaHaze,
           child: Column(
             children: [
-              const PageHeader(title: '系统设置'),
+              PageHeader(title: context.l10n.navSettings),
               const Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),

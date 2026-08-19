@@ -1,37 +1,34 @@
 import 'package:flutter/material.dart';
+
 import '../../utils/date_display.dart';
 import '../../data/api/distribution_track_vo.dart';
 import '../../data/api/distribution_vo.dart';
 
-
 class DistributionStatusItem extends StatelessWidget {
-  const DistributionStatusItem(
-      {super.key,
-      required this.distributionStatus,
-      required this.distribution,
-      required this.isTop,
-      required this.isBottom,
-      required this.isStart});
+  const DistributionStatusItem({
+    super.key,
+    required this.distributionStatus,
+    required this.distribution,
+    required this.isTop,
+    required this.isBottom,
+    required this.isStart,
+  });
   final DistributionTrackVo distributionStatus;
   final DistributionVo distribution;
   final bool isTop;
   final bool isBottom;
   final bool isStart;
 
-  LeftLineWidget _leftLineWidget(){
-   
-                  if(isTop){
-                    return const LeftLineWidget(false
-                    , true, true);
-                  }else if(isBottom){
-                    return const LeftLineWidget(true, true, true);
-
-                  }else if(isStart){
-                    return const LeftLineWidget(false, false, false);
-                  }else{
-                    return const LeftLineWidget(true, true, false);
-                  }
-                
+  LeftLineWidget _leftLineWidget() {
+    if (isTop) {
+      return const LeftLineWidget(false, true, true);
+    } else if (isBottom) {
+      return const LeftLineWidget(true, true, true);
+    } else if (isStart) {
+      return const LeftLineWidget(false, false, false);
+    } else {
+      return const LeftLineWidget(true, true, false);
+    }
   }
 
   @override
@@ -43,52 +40,58 @@ class DistributionStatusItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-                // circle and line
-                height: 32,
-                child: _leftLineWidget()),
+              // circle and line
+              height: 32,
+              child: _leftLineWidget(),
+            ),
             Expanded(
-                child: Container(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: IndexedStack(
-                      index: _stepOf(distributionStatus.status),
-                      children: [
-                        const Text(
-                          '配送指示済み',
-                          style: TextStyle(fontSize: 18),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          '集荷完了・現在地：${distributionStatus.location}',
-                          style: const TextStyle(fontSize: 18),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          '輸送中・現在地：${distributionStatus.location}',
-                          style: const TextStyle(fontSize: 18),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const Text(
-                          '配送完了',
-                          style: TextStyle(fontSize: 18),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    )))
+              child: Container(
+                padding: const EdgeInsets.only(top: 4),
+                child: IndexedStack(
+                  index: _stepOf(distributionStatus.status),
+                  children: [
+                    const Text(
+                      '配送指示済み',
+                      style: TextStyle(fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      '集荷完了・現在地：${distributionStatus.location}',
+                      style: const TextStyle(fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      '輸送中・現在地：${distributionStatus.location}',
+                      style: const TextStyle(fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const Text(
+                      '配送完了',
+                      style: TextStyle(fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
         Container(
           decoration: const BoxDecoration(
-              border: Border(left: BorderSide(width: 2, color: Colors.grey))),
+            border: Border(left: BorderSide(width: 2, color: Colors.grey)),
+          ),
           margin: const EdgeInsets.only(left: 23),
           padding: const EdgeInsets.fromLTRB(22, 0, 16, 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('ドライバー：${distribution.driver?.name ?? '-'} / ${distribution.vehicle?.number ?? '-'}'),
-              Text('日時：${formatDateTime(distributionStatus.time)}')
+              Text(
+                'ドライバー：${distribution.driver?.name ?? '-'} / ${distribution.vehicle?.number ?? '-'}',
+              ),
+              Text('日時：${formatDateTime(distributionStatus.time)}'),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -99,8 +102,12 @@ class LeftLineWidget extends StatelessWidget {
   final bool showBottom;
   final bool isLight;
 
-  const LeftLineWidget(this.showTop, this.showBottom, this.isLight,
-      {super.key});
+  const LeftLineWidget(
+    this.showTop,
+    this.showBottom,
+    this.isLight, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +146,10 @@ class LeftLinePainter extends CustomPainter {
     circlePaint.style = PaintingStyle.fill;
     linePain.color = showBottom ? Colors.grey : Colors.transparent;
     canvas.drawLine(
-        Offset(centerX, _topHeight), Offset(centerX, size.height), linePain);
+      Offset(centerX, _topHeight),
+      Offset(centerX, size.height),
+      linePain,
+    );
     canvas.drawCircle(Offset(centerX, _topHeight), centerX, circlePaint);
   }
 
@@ -155,7 +165,7 @@ class LeftLinePainter extends CustomPainter {
 /// database stores, so the mapping to a screen position is written down here rather than
 /// implied by whichever child happened to sit at that index.
 int _stepOf(DistributionTrackVoStatusEnum? status) => switch (status) {
-      DistributionTrackVoStatusEnum.REVIEW_SUCCESS => 1,
-      DistributionTrackVoStatusEnum.END => 2,
-      _ => 0,
-    };
+  DistributionTrackVoStatusEnum.REVIEW_SUCCESS => 1,
+  DistributionTrackVoStatusEnum.END => 2,
+  _ => 0,
+};

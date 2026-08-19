@@ -82,3 +82,6 @@ Thumbs.db
 # openapi-generator scratch output; the models it produces are copied into
 # lib/app/data/api/ and committed, the rest is not.
 build/openapi-gen/
+
+# gen-l10n output: generated from lib/l10n/*.arb on every build.
+lib/l10n/app_localizations*.dart

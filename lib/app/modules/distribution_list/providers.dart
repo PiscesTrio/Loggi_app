@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../data/api/distribution_request.dart';
 import '../../data/api/distribution_vo.dart';
 
@@ -13,8 +14,9 @@ class DistributionListNotifier extends AsyncNotifier<List<DistributionVo>> {
       ref.read(distributionRepositoryProvider).list();
 
   Future<void> refresh() async {
-    state =
-        await AsyncValue.guard(() => ref.read(distributionRepositoryProvider).list());
+    state = await AsyncValue.guard(
+      () => ref.read(distributionRepositoryProvider).list(),
+    );
   }
 
   /// Advances an order, then refreshes everything the change touched.
@@ -45,4 +47,5 @@ class DistributionListNotifier extends AsyncNotifier<List<DistributionVo>> {
 
 final distributionListProvider =
     AsyncNotifierProvider<DistributionListNotifier, List<DistributionVo>>(
-        DistributionListNotifier.new);
+      DistributionListNotifier.new,
+    );

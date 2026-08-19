@@ -29,8 +29,10 @@ class RequestLogInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     if (!kReleaseMode) {
-      debugPrint('<-- ${response.statusCode} '
-          '${response.requestOptions.method} ${response.requestOptions.uri.path}');
+      debugPrint(
+        '<-- ${response.statusCode} '
+        '${response.requestOptions.method} ${response.requestOptions.uri.path}',
+      );
     }
     handler.next(response);
   }
@@ -40,9 +42,11 @@ class RequestLogInterceptor extends Interceptor {
     if (!kReleaseMode) {
       // err.message, not err.response — a failing response body can carry the
       // same things a successful one does.
-      debugPrint('<-- ${err.response?.statusCode ?? 'no response'} '
-          '${err.requestOptions.method} ${err.requestOptions.uri.path} '
-          '(${err.type.name})');
+      debugPrint(
+        '<-- ${err.response?.statusCode ?? 'no response'} '
+        '${err.requestOptions.method} ${err.requestOptions.uri.path} '
+        '(${err.type.name})',
+      );
     }
     handler.next(err);
   }

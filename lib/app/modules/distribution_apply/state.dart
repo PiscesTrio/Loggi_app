@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../data/api/distribution_request.dart';
 import '../../data/api/driver_summary.dart';
 import '../../data/api/vehicle_summary.dart';
