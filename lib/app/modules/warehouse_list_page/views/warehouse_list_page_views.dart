@@ -1,10 +1,10 @@
 
 import 'package:loggi_app/app/data/network/api.dart';
+import '../../../data/api/warehouse_request.dart';
 import 'package:loggi_app/app/modules/widgets/warehouse_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
-import '../../../data/models/warehouse.dart';
 import '../controllers/warehouse_list_page_controllers.dart';
 
 class WarehouseListPage extends GetView<WarehouseListPageController> {
@@ -30,6 +30,7 @@ class WarehouseListPage extends GetView<WarehouseListPageController> {
                 context: context,
                 builder: (BuildContext context) {
                   var principleController = TextEditingController();
+                  var locationController = TextEditingController();
                   var warehouseNameController = TextEditingController();
                   return AlertDialog(
                     scrollable: true,
@@ -53,6 +54,13 @@ class WarehouseListPage extends GetView<WarehouseListPageController> {
                                 icon: Icon(Icons.account_circle),
                               ),
                             ),
+                            TextFormField(
+                              controller: locationController,
+                              decoration: const InputDecoration(
+                                labelText: '地址',
+                                icon: Icon(Icons.place),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -66,10 +74,11 @@ class WarehouseListPage extends GetView<WarehouseListPageController> {
                       ElevatedButton(
                           child: const Text("确认"),
                           onPressed: () {
-                            NbRequest().saveWarehouse(Warehouse.fromMap({
-                              "name": warehouseNameController.text,
-                              "principle": principleController.text
-                            }));
+                              NbRequest().saveWarehouse(WarehouseRequest(
+                                name: warehouseNameController.text,
+                                principle: principleController.text,
+                                location: locationController.text,
+                              ));
                           })
                     ],
                   );

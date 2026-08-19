@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loggi_app/app/data/models/index.dart';
 import 'package:loggi_app/app/modules/widgets/distribution_status_item.dart';
+import '../../data/api/distribution_vo.dart';
 
 import '../../theme/color_palette.dart';
 import '../widgets/async_view.dart';
@@ -13,7 +13,7 @@ import 'providers.dart';
 class DistributionStatusPage extends ConsumerWidget {
   const DistributionStatusPage({super.key, required this.argument});
 
-  final Distribution argument;
+  final DistributionVo argument;
 
   final String? name = '配送状況';
 

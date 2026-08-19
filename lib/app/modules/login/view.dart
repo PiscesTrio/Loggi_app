@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../data/api/login_dto.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -77,9 +78,8 @@ class LoginPage extends GetView<LoginController> {
                   // automated login reduced to tapping coordinates. It also tells
                   // Flutter the field is a different widget after each rebuild.
                   key: const ValueKey('login_email_field'),
-                  onChanged: (value) => controller.loginData.update((val) {
-                    val!.email = value;
-                  }),
+                  onChanged: (value) => controller.loginData.value =
+                      controller.loginData.value.copyWith(email: value),
                   keyboardType: TextInputType.emailAddress,
                   style: const TextStyle(
                     fontFamily: "Nunito",
@@ -122,9 +122,8 @@ class LoginPage extends GetView<LoginController> {
                       child: TextField(
                         key: const ValueKey('login_password_field'),
                         obscureText: !controller.isVisible.value,
-                        onChanged: (value) => controller.loginData.update((val) {
-                          val!.password = value;
-                        }),
+                        onChanged: (value) => controller.loginData.value =
+                            controller.loginData.value.copyWith(password: value),
                         textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.visiblePassword,
                         style: const TextStyle(

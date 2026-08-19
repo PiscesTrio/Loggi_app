@@ -1,12 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import '../../data/api/distribution_request.dart';
+import '../../data/api/distribution_track_request.dart';
+import '../../data/api/driver_summary.dart';
+import '../../data/api/vehicle_summary.dart';
+import '../../data/api/warehouse_vo.dart';
 
 import '../../data/delivery_points.dart';
-import '../../data/models/distribution.dart';
-import '../../data/models/distribution_status.dart';
-import '../../data/models/driver.dart';
-import '../../data/models/vehicle.dart';
-import '../../data/models/warehouse.dart';
 import '../../data/network/api_exception.dart';
 import '../../data/repositories/distribution_repository.dart';
 import '../../data/repositories/warehouse_repository.dart';
@@ -36,8 +35,8 @@ class ApplyFormNotifier extends AutoDisposeAsyncNotifier<ApplyFormState> {
       ref.read(warehouseRepositoryProvider).list(),
     ).wait;
 
-    final drivers = available.drivers ?? const <Driver>[];
-    final vehicles = available.vehicles ?? const <Vehicle>[];
+    final drivers = available.drivers ?? const <DriverSummary>[];
+    final vehicles = available.vehicles ?? const <VehicleSummary>[];
     if (drivers.isEmpty || vehicles.isEmpty) {
       // `available.drivers!.isEmpty` was the old check — a force unwrap on a field the
       // model declares nullable, one malformed response away from a crash inside a null
@@ -50,17 +49,22 @@ class ApplyFormNotifier extends AutoDisposeAsyncNotifier<ApplyFormState> {
     return ApplyFormState(
       // No id: the server generates it, and sending an empty string made Hibernate treat
       // the payload as an existing row to update.
-      draft: Distribution(
+      // The copied driver name and plate are gone: a request names rows by id, and the
+      // screen reads the name from the driver it selected. Keeping a second copy in the
+      // draft was how the two drifted.
+      draft: DistributionRequest(
+        driverId: drivers.first.id ?? '',
+        vehicleId: vehicles.first.id ?? '',
+        warehouseId: warehouse?.id,
+        phone: '',
+        address: '',
         urgent: false,
-        status: 0,
-        driver: drivers.first.name,
-        did: drivers.first.id,
-        vid: vehicles.first.id,
-        number: vehicles.first.number,
-        wid: warehouse?.name,
-        fromLat: warehouse?.lat,
-        fromLng: warehouse?.lng,
-        time: _formatTime(now),
+        time: now,
+        status: DistributionRequestStatusEnum.REVIEWING,
+        fromLat: warehouse?.lat ?? 0,
+        fromLng: warehouse?.lng ?? 0,
+        toLat: 0,
+        toLng: 0,
       ),
       drivers: drivers,
       vehicles: vehicles,
@@ -72,9 +76,6 @@ class ApplyFormNotifier extends AutoDisposeAsyncNotifier<ApplyFormState> {
     );
   }
 
-  static String _formatTime(DateTime value) =>
-      DateFormat('yyyy-MM-dd kk:mm:ss').format(value);
-
   /// Applies an edit to the loaded form.
   ///
   /// A no-op while the form is still loading or has failed, which is the honest reading of
@@ -85,24 +86,26 @@ class ApplyFormNotifier extends AutoDisposeAsyncNotifier<ApplyFormState> {
     state = AsyncValue.data(change(current));
   }
 
-  void selectDriver(Driver driver) => _edit((s) => s.copyWith(
+  void selectDriver(DriverSummary driver) => _edit((s) => s.copyWith(
         selectedDriver: driver,
-        draft: s.draft.copyWith(driver: driver.name, did: driver.id),
+        draft: s.draft.copyWith(driverId: driver.id ?? ''),
       ));
 
-  void selectVehicle(Vehicle vehicle) => _edit((s) => s.copyWith(
+  void selectVehicle(VehicleSummary vehicle) => _edit((s) => s.copyWith(
         selectedVehicle: vehicle,
-        draft: s.draft.copyWith(number: vehicle.number, vid: vehicle.id),
+        draft: s.draft.copyWith(vehicleId: vehicle.id ?? ''),
       ));
 
-  void selectWarehouse(Warehouse warehouse) => _edit((s) => s.copyWith(
+  /// The origin is named by id now. It used to be the warehouse NAME, because the tracking
+  /// timeline rendered that column verbatim - so a column called `wid` held a name, and the
+  /// migration that turned it into a foreign key had to resolve every row by name to find
+  /// out what it pointed at.
+  void selectWarehouse(WarehouseVo warehouse) => _edit((s) => s.copyWith(
         selectedWarehouse: warehouse,
-        // Name, not id: `wid` carries the warehouse name here, which is what the status
-        // timeline renders.
         draft: s.draft.copyWith(
-          wid: warehouse.name,
-          fromLat: warehouse.lat,
-          fromLng: warehouse.lng,
+          warehouseId: warehouse.id,
+          fromLat: warehouse.lat ?? 0,
+          fromLng: warehouse.lng ?? 0,
         ),
       ));
 
@@ -111,15 +114,17 @@ class ApplyFormNotifier extends AutoDisposeAsyncNotifier<ApplyFormState> {
   void selectDeliveryPoint(DeliveryPoint? point) => _edit((s) => s.copyWith(
         selectedDeliveryPoint: point,
         draft: s.draft.copyWith(
-          address: point?.address,
-          toLat: point?.lat,
-          toLng: point?.lng,
+          address: point?.address ?? '',
+          toLat: point?.lat ?? 0,
+          toLng: point?.lng ?? 0,
         ),
       ));
 
+  /// No formatting. The field is a DateTime on the wire since S09; the string the client
+  /// used to build was a presentation decision being made in a request body.
   void setDateTime(DateTime value) => _edit((s) => s.copyWith(
         dateTime: value,
-        draft: s.draft.copyWith(time: _formatTime(value)),
+        draft: s.draft.copyWith(time: value),
       ));
 
   void setCares(List<String> cares) => _edit((s) => s.copyWith(
@@ -144,12 +149,14 @@ class ApplyFormNotifier extends AutoDisposeAsyncNotifier<ApplyFormState> {
 
     final repository = ref.read(distributionRepositoryProvider);
     final saved = await repository.save(current.draft);
-    await repository.submitStatus(DistributionStatus(
-      disId: saved.id,
-      lat: saved.fromLat,
-      lng: saved.fromLng,
-      status: 0,
-      location: saved.wid ?? current.selectedWarehouse?.name,
+    await repository.submitStatus(DistributionTrackRequest(
+      distributionId: saved.id ?? '',
+      lat: saved.fromLat ?? 0,
+      lng: saved.fromLng ?? 0,
+      status: DistributionTrackRequestStatusEnum.REVIEWING,
+      // The warehouse name, which is what the timeline renders. It is read from the
+      // association now rather than from a column that held a name.
+      location: saved.warehouse?.name ?? current.selectedWarehouse?.name,
     ));
     ref.invalidate(distributionListProvider);
   }

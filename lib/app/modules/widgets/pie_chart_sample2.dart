@@ -1,11 +1,11 @@
 
-import 'package:loggi_app/app/data/models/index.dart';
+import '../../data/api/commodity_chart_vo.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../theme/color_palette.dart';
 import 'package:flutter/material.dart';
 
 class PieChartSample2 extends StatelessWidget {
-  final List<CommdityVo> data;
+  final List<CommodityChartVo> data;
   PieChartSample2({super.key, required this.data});
      final List<Color> color = [
     ColorPalette.contentColorBlue,

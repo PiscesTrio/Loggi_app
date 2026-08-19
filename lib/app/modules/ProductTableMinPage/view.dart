@@ -2,8 +2,9 @@ import 'package:loggi_app/app/modules/widgets/toast.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../data/api/commodity_request.dart';
+import '../../data/api/commodity_vo.dart';
 
-import '../../data/models/commodity.dart';
 import '../../data/network/api.dart';
 import 'index.dart';
 import 'package:go_router/go_router.dart';
@@ -13,8 +14,8 @@ class ProducttableminpagePage extends GetView<ProducttableminpageController> {
   const ProducttableminpagePage({super.key});
 
   // Takes the context: navigation needs one, and this helper is called from build().
-  List<DataRow> getRows(BuildContext context, List<Product>? products) =>
-      products!.map((Product product) {
+  List<DataRow> getRows(BuildContext context, List<CommodityVo>? products) =>
+      products!.map((CommodityVo product) {
         final cells = [product.name, product.price, product.count];
         return DataRow(
             onSelectChanged: (value) async {
@@ -175,10 +176,12 @@ class ProducttableminpagePage extends GetView<ProducttableminpageController> {
                       ElevatedButton(
                           child: const Text("确认"),
                           onPressed: () {
-                            NbRequest().saveProduct(Product.fromMap({
-                              "name": productNameController.text,
-                              "price": double.parse(priceController.text)
-                            })).then((value) {
+                            NbRequest()
+                                .saveProduct(CommodityRequest(
+                              name: productNameController.text,
+                              price: num.tryParse(priceController.text) ?? 0,
+                            ))
+                                .then((value) {
                               controller.updateData();
                               showTextToast("添加成功");
                               // The await above may outlive this widget; popping a dead context throws.

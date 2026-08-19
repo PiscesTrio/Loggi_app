@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ApplyFormState {
 
- Distribution get draft; List<Driver> get drivers; List<Vehicle> get vehicles; List<Warehouse> get warehouses; Driver? get selectedDriver; Vehicle? get selectedVehicle; Warehouse? get selectedWarehouse; DeliveryPoint? get selectedDeliveryPoint; DateTime get dateTime; List<String> get cares;
+ DistributionRequest get draft; List<DriverSummary> get drivers; List<VehicleSummary> get vehicles; List<WarehouseVo> get warehouses; DriverSummary? get selectedDriver; VehicleSummary? get selectedVehicle; WarehouseVo? get selectedWarehouse; DeliveryPoint? get selectedDeliveryPoint; DateTime get dateTime; List<String> get cares;
 /// Create a copy of ApplyFormState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -46,11 +46,11 @@ abstract mixin class $ApplyFormStateCopyWith<$Res>  {
   factory $ApplyFormStateCopyWith(ApplyFormState value, $Res Function(ApplyFormState) _then) = _$ApplyFormStateCopyWithImpl;
 @useResult
 $Res call({
- Distribution draft, List<Driver> drivers, List<Vehicle> vehicles, List<Warehouse> warehouses, Driver? selectedDriver, Vehicle? selectedVehicle, Warehouse? selectedWarehouse, DeliveryPoint? selectedDeliveryPoint, DateTime dateTime, List<String> cares
+ DistributionRequest draft, List<DriverSummary> drivers, List<VehicleSummary> vehicles, List<WarehouseVo> warehouses, DriverSummary? selectedDriver, VehicleSummary? selectedVehicle, WarehouseVo? selectedWarehouse, DeliveryPoint? selectedDeliveryPoint, DateTime dateTime, List<String> cares
 });
 
 
-$DistributionCopyWith<$Res> get draft;$DriverCopyWith<$Res>? get selectedDriver;$VehicleCopyWith<$Res>? get selectedVehicle;
+
 
 }
 /// @nodoc
@@ -66,52 +66,19 @@ class _$ApplyFormStateCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? draft = null,Object? drivers = null,Object? vehicles = null,Object? warehouses = null,Object? selectedDriver = freezed,Object? selectedVehicle = freezed,Object? selectedWarehouse = freezed,Object? selectedDeliveryPoint = freezed,Object? dateTime = null,Object? cares = null,}) {
   return _then(ApplyFormState(
 draft: null == draft ? _self.draft : draft // ignore: cast_nullable_to_non_nullable
-as Distribution,drivers: null == drivers ? _self.drivers : drivers // ignore: cast_nullable_to_non_nullable
-as List<Driver>,vehicles: null == vehicles ? _self.vehicles : vehicles // ignore: cast_nullable_to_non_nullable
-as List<Vehicle>,warehouses: null == warehouses ? _self.warehouses : warehouses // ignore: cast_nullable_to_non_nullable
-as List<Warehouse>,selectedDriver: freezed == selectedDriver ? _self.selectedDriver : selectedDriver // ignore: cast_nullable_to_non_nullable
-as Driver?,selectedVehicle: freezed == selectedVehicle ? _self.selectedVehicle : selectedVehicle // ignore: cast_nullable_to_non_nullable
-as Vehicle?,selectedWarehouse: freezed == selectedWarehouse ? _self.selectedWarehouse : selectedWarehouse // ignore: cast_nullable_to_non_nullable
-as Warehouse?,selectedDeliveryPoint: freezed == selectedDeliveryPoint ? _self.selectedDeliveryPoint : selectedDeliveryPoint // ignore: cast_nullable_to_non_nullable
+as DistributionRequest,drivers: null == drivers ? _self.drivers : drivers // ignore: cast_nullable_to_non_nullable
+as List<DriverSummary>,vehicles: null == vehicles ? _self.vehicles : vehicles // ignore: cast_nullable_to_non_nullable
+as List<VehicleSummary>,warehouses: null == warehouses ? _self.warehouses : warehouses // ignore: cast_nullable_to_non_nullable
+as List<WarehouseVo>,selectedDriver: freezed == selectedDriver ? _self.selectedDriver : selectedDriver // ignore: cast_nullable_to_non_nullable
+as DriverSummary?,selectedVehicle: freezed == selectedVehicle ? _self.selectedVehicle : selectedVehicle // ignore: cast_nullable_to_non_nullable
+as VehicleSummary?,selectedWarehouse: freezed == selectedWarehouse ? _self.selectedWarehouse : selectedWarehouse // ignore: cast_nullable_to_non_nullable
+as WarehouseVo?,selectedDeliveryPoint: freezed == selectedDeliveryPoint ? _self.selectedDeliveryPoint : selectedDeliveryPoint // ignore: cast_nullable_to_non_nullable
 as DeliveryPoint?,dateTime: null == dateTime ? _self.dateTime : dateTime // ignore: cast_nullable_to_non_nullable
 as DateTime,cares: null == cares ? _self.cares : cares // ignore: cast_nullable_to_non_nullable
 as List<String>,
   ));
 }
-/// Create a copy of ApplyFormState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$DistributionCopyWith<$Res> get draft {
-  
-  return $DistributionCopyWith<$Res>(_self.draft, (value) {
-    return _then(_self.copyWith(draft: value));
-  });
-}/// Create a copy of ApplyFormState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$DriverCopyWith<$Res>? get selectedDriver {
-    if (_self.selectedDriver == null) {
-    return null;
-  }
 
-  return $DriverCopyWith<$Res>(_self.selectedDriver!, (value) {
-    return _then(_self.copyWith(selectedDriver: value));
-  });
-}/// Create a copy of ApplyFormState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$VehicleCopyWith<$Res>? get selectedVehicle {
-    if (_self.selectedVehicle == null) {
-    return null;
-  }
-
-  return $VehicleCopyWith<$Res>(_self.selectedVehicle!, (value) {
-    return _then(_self.copyWith(selectedVehicle: value));
-  });
-}
 }
 
 
@@ -193,7 +160,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Distribution draft,  List<Driver> drivers,  List<Vehicle> vehicles,  List<Warehouse> warehouses,  Driver? selectedDriver,  Vehicle? selectedVehicle,  Warehouse? selectedWarehouse,  DeliveryPoint? selectedDeliveryPoint,  DateTime dateTime,  List<String> cares)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DistributionRequest draft,  List<DriverSummary> drivers,  List<VehicleSummary> vehicles,  List<WarehouseVo> warehouses,  DriverSummary? selectedDriver,  VehicleSummary? selectedVehicle,  WarehouseVo? selectedWarehouse,  DeliveryPoint? selectedDeliveryPoint,  DateTime dateTime,  List<String> cares)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ApplyFormState() when $default != null:
 return $default(_that.draft,_that.drivers,_that.vehicles,_that.warehouses,_that.selectedDriver,_that.selectedVehicle,_that.selectedWarehouse,_that.selectedDeliveryPoint,_that.dateTime,_that.cares);case _:
@@ -214,7 +181,7 @@ return $default(_that.draft,_that.drivers,_that.vehicles,_that.warehouses,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Distribution draft,  List<Driver> drivers,  List<Vehicle> vehicles,  List<Warehouse> warehouses,  Driver? selectedDriver,  Vehicle? selectedVehicle,  Warehouse? selectedWarehouse,  DeliveryPoint? selectedDeliveryPoint,  DateTime dateTime,  List<String> cares)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DistributionRequest draft,  List<DriverSummary> drivers,  List<VehicleSummary> vehicles,  List<WarehouseVo> warehouses,  DriverSummary? selectedDriver,  VehicleSummary? selectedVehicle,  WarehouseVo? selectedWarehouse,  DeliveryPoint? selectedDeliveryPoint,  DateTime dateTime,  List<String> cares)  $default,) {final _that = this;
 switch (_that) {
 case _ApplyFormState():
 return $default(_that.draft,_that.drivers,_that.vehicles,_that.warehouses,_that.selectedDriver,_that.selectedVehicle,_that.selectedWarehouse,_that.selectedDeliveryPoint,_that.dateTime,_that.cares);case _:
@@ -234,7 +201,7 @@ return $default(_that.draft,_that.drivers,_that.vehicles,_that.warehouses,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Distribution draft,  List<Driver> drivers,  List<Vehicle> vehicles,  List<Warehouse> warehouses,  Driver? selectedDriver,  Vehicle? selectedVehicle,  Warehouse? selectedWarehouse,  DeliveryPoint? selectedDeliveryPoint,  DateTime dateTime,  List<String> cares)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DistributionRequest draft,  List<DriverSummary> drivers,  List<VehicleSummary> vehicles,  List<WarehouseVo> warehouses,  DriverSummary? selectedDriver,  VehicleSummary? selectedVehicle,  WarehouseVo? selectedWarehouse,  DeliveryPoint? selectedDeliveryPoint,  DateTime dateTime,  List<String> cares)?  $default,) {final _that = this;
 switch (_that) {
 case _ApplyFormState() when $default != null:
 return $default(_that.draft,_that.drivers,_that.vehicles,_that.warehouses,_that.selectedDriver,_that.selectedVehicle,_that.selectedWarehouse,_that.selectedDeliveryPoint,_that.dateTime,_that.cares);case _:
@@ -249,34 +216,34 @@ return $default(_that.draft,_that.drivers,_that.vehicles,_that.warehouses,_that.
 
 
 class _ApplyFormState implements ApplyFormState {
-  const _ApplyFormState({required this.draft, required  List<Driver> drivers, required  List<Vehicle> vehicles, required  List<Warehouse> warehouses, this.selectedDriver, this.selectedVehicle, this.selectedWarehouse, this.selectedDeliveryPoint, required this.dateTime,  List<String> cares = const <String>[]}): _drivers = drivers,_vehicles = vehicles,_warehouses = warehouses,_cares = cares;
+  const _ApplyFormState({required this.draft, required  List<DriverSummary> drivers, required  List<VehicleSummary> vehicles, required  List<WarehouseVo> warehouses, this.selectedDriver, this.selectedVehicle, this.selectedWarehouse, this.selectedDeliveryPoint, required this.dateTime,  List<String> cares = const <String>[]}): _drivers = drivers,_vehicles = vehicles,_warehouses = warehouses,_cares = cares;
   
 
-@override final  Distribution draft;
- final  List<Driver> _drivers;
-@override List<Driver> get drivers {
+@override final  DistributionRequest draft;
+ final  List<DriverSummary> _drivers;
+@override List<DriverSummary> get drivers {
   if (_drivers is EqualUnmodifiableListView) return _drivers;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_drivers);
 }
 
- final  List<Vehicle> _vehicles;
-@override List<Vehicle> get vehicles {
+ final  List<VehicleSummary> _vehicles;
+@override List<VehicleSummary> get vehicles {
   if (_vehicles is EqualUnmodifiableListView) return _vehicles;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_vehicles);
 }
 
- final  List<Warehouse> _warehouses;
-@override List<Warehouse> get warehouses {
+ final  List<WarehouseVo> _warehouses;
+@override List<WarehouseVo> get warehouses {
   if (_warehouses is EqualUnmodifiableListView) return _warehouses;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_warehouses);
 }
 
-@override final  Driver? selectedDriver;
-@override final  Vehicle? selectedVehicle;
-@override final  Warehouse? selectedWarehouse;
+@override final  DriverSummary? selectedDriver;
+@override final  VehicleSummary? selectedVehicle;
+@override final  WarehouseVo? selectedWarehouse;
 @override final  DeliveryPoint? selectedDeliveryPoint;
 @override final  DateTime dateTime;
  final  List<String> _cares;
@@ -317,11 +284,11 @@ abstract mixin class _$ApplyFormStateCopyWith<$Res> implements $ApplyFormStateCo
   factory _$ApplyFormStateCopyWith(_ApplyFormState value, $Res Function(_ApplyFormState) _then) = __$ApplyFormStateCopyWithImpl;
 @override @useResult
 $Res call({
- Distribution draft, List<Driver> drivers, List<Vehicle> vehicles, List<Warehouse> warehouses, Driver? selectedDriver, Vehicle? selectedVehicle, Warehouse? selectedWarehouse, DeliveryPoint? selectedDeliveryPoint, DateTime dateTime, List<String> cares
+ DistributionRequest draft, List<DriverSummary> drivers, List<VehicleSummary> vehicles, List<WarehouseVo> warehouses, DriverSummary? selectedDriver, VehicleSummary? selectedVehicle, WarehouseVo? selectedWarehouse, DeliveryPoint? selectedDeliveryPoint, DateTime dateTime, List<String> cares
 });
 
 
-@override $DistributionCopyWith<$Res> get draft;@override $DriverCopyWith<$Res>? get selectedDriver;@override $VehicleCopyWith<$Res>? get selectedVehicle;
+
 
 }
 /// @nodoc
@@ -337,53 +304,20 @@ class __$ApplyFormStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? draft = null,Object? drivers = null,Object? vehicles = null,Object? warehouses = null,Object? selectedDriver = freezed,Object? selectedVehicle = freezed,Object? selectedWarehouse = freezed,Object? selectedDeliveryPoint = freezed,Object? dateTime = null,Object? cares = null,}) {
   return _then(_ApplyFormState(
 draft: null == draft ? _self.draft : draft // ignore: cast_nullable_to_non_nullable
-as Distribution,drivers: null == drivers ? _self._drivers : drivers // ignore: cast_nullable_to_non_nullable
-as List<Driver>,vehicles: null == vehicles ? _self._vehicles : vehicles // ignore: cast_nullable_to_non_nullable
-as List<Vehicle>,warehouses: null == warehouses ? _self._warehouses : warehouses // ignore: cast_nullable_to_non_nullable
-as List<Warehouse>,selectedDriver: freezed == selectedDriver ? _self.selectedDriver : selectedDriver // ignore: cast_nullable_to_non_nullable
-as Driver?,selectedVehicle: freezed == selectedVehicle ? _self.selectedVehicle : selectedVehicle // ignore: cast_nullable_to_non_nullable
-as Vehicle?,selectedWarehouse: freezed == selectedWarehouse ? _self.selectedWarehouse : selectedWarehouse // ignore: cast_nullable_to_non_nullable
-as Warehouse?,selectedDeliveryPoint: freezed == selectedDeliveryPoint ? _self.selectedDeliveryPoint : selectedDeliveryPoint // ignore: cast_nullable_to_non_nullable
+as DistributionRequest,drivers: null == drivers ? _self._drivers : drivers // ignore: cast_nullable_to_non_nullable
+as List<DriverSummary>,vehicles: null == vehicles ? _self._vehicles : vehicles // ignore: cast_nullable_to_non_nullable
+as List<VehicleSummary>,warehouses: null == warehouses ? _self._warehouses : warehouses // ignore: cast_nullable_to_non_nullable
+as List<WarehouseVo>,selectedDriver: freezed == selectedDriver ? _self.selectedDriver : selectedDriver // ignore: cast_nullable_to_non_nullable
+as DriverSummary?,selectedVehicle: freezed == selectedVehicle ? _self.selectedVehicle : selectedVehicle // ignore: cast_nullable_to_non_nullable
+as VehicleSummary?,selectedWarehouse: freezed == selectedWarehouse ? _self.selectedWarehouse : selectedWarehouse // ignore: cast_nullable_to_non_nullable
+as WarehouseVo?,selectedDeliveryPoint: freezed == selectedDeliveryPoint ? _self.selectedDeliveryPoint : selectedDeliveryPoint // ignore: cast_nullable_to_non_nullable
 as DeliveryPoint?,dateTime: null == dateTime ? _self.dateTime : dateTime // ignore: cast_nullable_to_non_nullable
 as DateTime,cares: null == cares ? _self._cares : cares // ignore: cast_nullable_to_non_nullable
 as List<String>,
   ));
 }
 
-/// Create a copy of ApplyFormState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$DistributionCopyWith<$Res> get draft {
-  
-  return $DistributionCopyWith<$Res>(_self.draft, (value) {
-    return _then(_self.copyWith(draft: value));
-  });
-}/// Create a copy of ApplyFormState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$DriverCopyWith<$Res>? get selectedDriver {
-    if (_self.selectedDriver == null) {
-    return null;
-  }
 
-  return $DriverCopyWith<$Res>(_self.selectedDriver!, (value) {
-    return _then(_self.copyWith(selectedDriver: value));
-  });
-}/// Create a copy of ApplyFormState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$VehicleCopyWith<$Res>? get selectedVehicle {
-    if (_self.selectedVehicle == null) {
-    return null;
-  }
-
-  return $VehicleCopyWith<$Res>(_self.selectedVehicle!, (value) {
-    return _then(_self.copyWith(selectedVehicle: value));
-  });
-}
 }
 
 // dart format on

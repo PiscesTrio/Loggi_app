@@ -1,9 +1,16 @@
 import 'package:flutter/foundation.dart';
+import '../api/commodity_chart_vo.dart';
+import '../api/commodity_request.dart';
+import '../api/commodity_vo.dart';
+import '../api/inventory_movement_request.dart';
+import '../api/inventory_vo.dart';
+import '../api/login_dto.dart';
+import '../api/login_vo.dart';
+import '../api/page_vo_login_log_vo.dart';
+import '../api/page_vo_system_log_vo.dart';
+import '../api/warehouse_request.dart';
+import '../api/warehouse_vo.dart';
 
-import '../models/index.dart';
-import '../models/inventory_record.dart';
-import '../models/login_log.dart';
-import '../models/syslog.dart';
 import 'api_client.dart';
 import 'api_exception.dart';
 import 'container_access.dart';
@@ -87,80 +94,57 @@ class NbRequest {
   }
 
   // ---- warehouses ------------------------------------------------------------------
-  Future<List<Warehouse>?> requestGet4() => _list('/warehouse', Warehouse.fromJson);
+  Future<List<WarehouseVo>?> requestGet4() => _list('/warehouse', WarehouseVo.fromJson);
 
-  Future<bool> saveWarehouse(Warehouse data) =>
+  Future<bool> saveWarehouse(WarehouseRequest data) =>
       _write(() => _client.post<dynamic>('/warehouse', data: data.toJson()), '/warehouse');
 
-  Future<List<Inventory>?> getInventoryFromWarehouseId(String id) =>
-      _list('/inventory/warehouse/$id', Inventory.fromJson);
+  Future<List<InventoryVo>?> getInventoryFromWarehouseId(String id) =>
+      _list('/inventory/warehouse/$id', InventoryVo.fromJson);
 
   // ---- commodities -----------------------------------------------------------------
-  Future<List<Product>?> getAllProducts() => _list('/commodity', Product.fromJson);
+  Future<List<CommodityVo>?> getAllProducts() => _list('/commodity', CommodityVo.fromJson);
 
-  Future<bool> saveProduct(Product data) =>
+  Future<bool> saveProduct(CommodityRequest data) =>
       _write(() => _client.post<dynamic>('/commodity', data: data.toJson()), '/commodity');
 
-  Future<bool> updateProduct(Product data) =>
-      _write(() => _client.put<dynamic>('/commodity', data: data.toJson()), '/commodity');
+  /// The id moved into the path. It used to travel inside the body, which meant a caller
+  /// chose which row an update applied to by editing a field - and a body without one
+  /// updated nothing while answering 200.
+  Future<bool> updateProduct(String id, CommodityRequest data) =>
+      _write(() => _client.put<dynamic>('/commodity/$id', data: data.toJson()), '/commodity/$id');
 
-  Future<bool> importAndExport(InventoryRecord data, bool inOrOut) {
+  Future<bool> importAndExport(InventoryMovementRequest data, bool inOrOut) {
     final path = '/inventory/${inOrOut ? "in" : "out"}';
     return _write(() => _client.post<dynamic>(path, data: data.toJson()), path);
   }
 
-  Future<List<CommdityVo>?> getChartData(bool inOrOut) => _list(
+  /// The direction is an enum name now, not a sign. It was `type=1` / `type=-1`, with the
+  /// meaning of those numbers living in a private field of one backend service.
+  Future<List<CommodityChartVo>?> getChartData(bool inOrOut) => _list(
         '/inventory/analyze',
-        CommdityVo.fromJson,
-        query: {'type': inOrOut ? 1 : -1},
+        CommodityChartVo.fromJson,
+        query: {'type': inOrOut ? 'IN' : 'OUT'},
       );
-
-  // ---- distribution ----------------------------------------------------------------
-  Future<List<Distribution>?> getDistribution() =>
-      _list('/distribution', Distribution.fromJson);
-
-  Future<Distribution?> updateDistribution(Distribution data) => _one(
-        () => _client.post<dynamic>('/distribution', data: data.toJson()),
-        '/distribution',
-        Distribution.fromJson,
-      );
-
-  Future<Available?> findAvailable() => _one(
-        () => _client.get<dynamic>('/distribution/can'),
-        '/distribution/can',
-        Available.fromJson,
-      );
-
-  Future<List<DistributionStatus>?> getStatus(String disId) => _list(
-        '/distribution/status',
-        DistributionStatus.fromJson,
-        query: {'dis': disId},
-      );
-
-  Future<bool> submitStatus(DistributionStatus data) => _write(
-        () => _client.post<dynamic>('/distribution/status', data: data.toJson()),
-        '/distribution/status',
-      );
-
-  // ---- fleet -----------------------------------------------------------------------
-  Future<List<Vehicle>?> getVehicles() => _list('/vehicle', Vehicle.fromJson);
-
-  Future<bool> saveVehicle(Vehicle data) =>
-      _write(() => _client.post<dynamic>('/vehicle', data: data.toJson()), '/vehicle');
-
-  Future<List<Driver>?> getDrivers() => _list('/driver', Driver.fromJson);
 
   // ---- auth and logs ---------------------------------------------------------------
-  Future<LoginResp?> login(LoginDto data) => _one(
-        // Was "/admin/login?type=password". The backend split that one endpoint in two:
-        // the `type` string had no @RequestParam, so a caller who omitted it reached
-        // type.equals("email") on a null, and the NPE was reported as a wrong password.
+  Future<LoginVo?> login(LoginDto data) => _one(
         () => _client.post<dynamic>('/admin/login/password', data: data.toJson()),
         '/admin/login/password',
-        LoginResp.fromJson,
+        LoginVo.fromJson,
       );
 
-  Future<List<LoginLog>?> getLoginLog() => _list('/loginlog', LoginLog.fromJson);
+  /// Both logs are paged. They grow by a row per login attempt and a row per audited
+  /// request, so "all of them" stopped being an answer the server was willing to give.
+  Future<PageVoLoginLogVo?> getLoginLog({int page = 0, int size = 20}) => _one(
+        () => _client.get<dynamic>('/loginlog', query: {'page': page, 'size': size}),
+        '/loginlog',
+        PageVoLoginLogVo.fromJson,
+      );
 
-  Future<List<SysLog>?> getSysLog() => _list('/systemlog', SysLog.fromJson);
+  Future<PageVoSystemLogVo?> getSysLog({int page = 0, int size = 20}) => _one(
+        () => _client.get<dynamic>('/systemlog', query: {'page': page, 'size': size}),
+        '/systemlog',
+        PageVoSystemLogVo.fromJson,
+      );
 }

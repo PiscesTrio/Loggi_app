@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
+import '../../data/api/login_log_vo.dart';
 
-import '../../data/models/login_log.dart';
 import '../../data/network/api.dart';
 
-class LoginLogController extends GetxController with StateMixin<List<LoginLog>>{
+class LoginLogController extends GetxController with StateMixin<List<LoginLogVo>>{
   LoginLogController();
 
 
@@ -14,16 +14,16 @@ class LoginLogController extends GetxController with StateMixin<List<LoginLog>>{
   void onInit() {
     super.onInit();
       change(null, status: RxStatus.loading());
-    NbRequest().getLoginLog().then((result) => change(sortByTime(result!), status: RxStatus.success()))
+    NbRequest().getLoginLog().then((result) => change(sortByTime(result?.items ?? const []), status: RxStatus.success()))
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }
 
   void updateData(){
-     NbRequest().getLoginLog().then((result) => change(sortByTime(result!), status: RxStatus.success()))
+     NbRequest().getLoginLog().then((result) => change(sortByTime(result?.items ?? const []), status: RxStatus.success()))
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }
 
-    List<LoginLog> sortByTime(List<LoginLog> data){
+    List<LoginLogVo> sortByTime(List<LoginLogVo> data){
     data.sort(((a, b) =>(b.date)!.compareTo(a.date!)));
     return data;
 

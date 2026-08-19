@@ -1,16 +1,17 @@
 import 'package:get/get.dart';
+import '../../data/api/warehouse_request.dart';
+import '../../data/api/warehouse_vo.dart';
 
-import '../../data/models/warehouse.dart';
 import '../../data/network/api.dart';
 
-class WarehouselistminController extends GetxController  with StateMixin<List<Warehouse>> {
+class WarehouselistminController extends GetxController  with StateMixin<List<WarehouseVo>> {
   WarehouselistminController();
   
   RxBool saveWarehouseLoading = false.obs;
 
 
 
-  Future<bool> saveWarehouse(Warehouse data) async{
+  Future<bool> saveWarehouse(WarehouseRequest data) async{
     saveWarehouseLoading(true);
     return await  NbRequest().saveWarehouse(data).then((value) {
       saveWarehouseLoading(false);

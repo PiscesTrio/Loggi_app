@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import '../../data/api/commodity_vo.dart';
 
-import '../../data/models/commodity.dart';
 import '../../data/network/api.dart';
 
-class ProducttableminpageController extends GetxController with StateMixin<List<Product>> {
+class ProducttableminpageController extends GetxController with StateMixin<List<CommodityVo>> {
   ProducttableminpageController();
 
 
@@ -13,7 +13,7 @@ static ProducttableminpageController get to => Get.find();
 
   RxInt sortColumnIndex = 0.obs;
   RxBool isAscending = false.obs;
-  RxList<Product> commo = [Product()].obs;
+  RxList<CommodityVo> commo = [CommodityVo()].obs;
 
   void onSort(int newIndex, bool newAscd) {
     isAscending(newAscd);

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../api/inventory_vo.dart';
+import '../api/warehouse_vo.dart';
 
-import '../models/inventory.dart';
-import '../models/warehouse.dart';
 import '../network/api_client.dart';
 import '../network/network_providers.dart';
 
@@ -10,14 +10,14 @@ class WarehouseRepository {
 
   final ApiClient _client;
 
-  Future<List<Warehouse>> list() async {
+  Future<List<WarehouseVo>> list() async {
     final data = await _client.get<dynamic>('/warehouse');
-    return decodeList(data, Warehouse.fromJson);
+    return decodeList(data, WarehouseVo.fromJson);
   }
 
-  Future<List<Inventory>> inventoryOf(String warehouseId) async {
+  Future<List<InventoryVo>> inventoryOf(String warehouseId) async {
     final data = await _client.get<dynamic>('/inventory/warehouse/$warehouseId');
-    return decodeList(data, Inventory.fromJson);
+    return decodeList(data, InventoryVo.fromJson);
   }
 }
 

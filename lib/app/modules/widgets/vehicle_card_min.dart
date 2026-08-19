@@ -1,12 +1,12 @@
 
-import 'package:loggi_app/app/data/models/index.dart';
 import 'package:loggi_app/assets/svg/svg_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../theme/color_palette.dart';
+import '../../data/api/vehicle_vo.dart';
 
 class VehicleMinCard extends StatelessWidget {
-  final Vehicle? vehicle;
+  final VehicleVo? vehicle;
 
   const VehicleMinCard({super.key, this.vehicle});
 

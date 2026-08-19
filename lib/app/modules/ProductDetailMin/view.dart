@@ -1,9 +1,10 @@
 import 'package:loggi_app/app/data/network/api.dart';
+import '../../data/api/commodity_request.dart';
+import '../../data/api/commodity_vo.dart';
 import 'package:loggi_app/app/modules/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../data/models/commodity.dart';
 import '../../theme/color_palette.dart';
 import '../ProductTableMinPage/controller.dart';
 import 'index.dart';
@@ -15,7 +16,14 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
   const ProductdetailminPage( {super.key,required this.arguments});
   @override
   Widget build(BuildContext context) {
-    Product product = arguments['product'];
+    final CommodityVo product = arguments['product'];
+
+    // The form edits a draft, not the commodity. It used to assign straight onto the
+    // object the list handed it, so a field typed here changed the row behind the
+    // screen whether or not 确认 was ever pressed, and cancelling changed nothing back.
+    // The generated model is immutable, which makes that impossible rather than
+    // merely discouraged.
+    final draft = _Draft(product);
     return GetBuilder<ProductdetailminController>(builder: (_) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -63,7 +71,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                               child: TextFormField(
                                 initialValue: product.name ?? '',
                                 onChanged: (value) {
-                                  product.name = value;
+                                  draft.name = value;
                                 },
                                 textInputAction: TextInputAction.next,
                                 key: UniqueKey(),
@@ -113,7 +121,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                           ? ''
                                           : product.price.toString(),
                                       onChanged: (value) {
-                                        product.price = double.parse(value);
+                                        draft.price = num.tryParse(value) ?? 0;
                                       },
                                       textInputAction: TextInputAction.next,
                                       key: UniqueKey(),
@@ -162,7 +170,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                           ? ''
                                           : product.count.toString(),
                                       onChanged: (value) {
-                                        product.count = int.parse(value);
+                                        draft.count = int.tryParse(value) ?? 0;
                                       },
                                       textInputAction: TextInputAction.next,
                                       key: UniqueKey(),
@@ -243,7 +251,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                 minLines: 3,
                                 initialValue: product.description ?? '',
                                 onChanged: (value) {
-                                  product.description = value;
+                                  draft.description = value;
                                 },
                                 textInputAction: TextInputAction.next,
                                 key: UniqueKey(),
@@ -361,7 +369,7 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
                                       child: ElevatedButton(
                                         child: Text("确认"),
                                         onPressed: () async {
-                                          await NbRequest().updateProduct(product);
+                                          await NbRequest().updateProduct(product.id ?? '', draft.toRequest());
                                           showTextToast("提交成功");
                                           ProducttableminpageController.to.updateData();
                                           // The context is only used if this screen is
@@ -468,4 +476,30 @@ class ProductdetailminPage extends GetView<ProductdetailminController> {
       );
     });
   }
+}
+
+/// The fields being typed, before they are sent.
+///
+/// Mutable on purpose and local on purpose: the screen needs somewhere to accumulate edits,
+/// and the commodity it was handed is not that place. What leaves here is a
+/// [CommodityRequest] - a different type from the commodity, deliberately, because a request
+/// has no id and no timestamps to disagree with the server about.
+class _Draft {
+  _Draft(CommodityVo product)
+      : name = product.name ?? '',
+        price = product.price ?? 0,
+        description = product.description ?? '',
+        count = product.count ?? 0;
+
+  String name;
+  num price;
+  String description;
+  int count;
+
+  CommodityRequest toRequest() => CommodityRequest(
+        name: name,
+        price: price,
+        description: description,
+        count: count,
+      );
 }

@@ -1,6 +1,7 @@
-import 'package:loggi_app/app/data/models/inventory.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../data/api/inventory_movement_request.dart';
+import '../../data/api/inventory_vo.dart';
 
 import '../../theme/color_palette.dart';
 import '../widgets/toast.dart';
@@ -11,8 +12,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
   WarehouseinventoryPage({super.key, required this.warehouseId});
   final String warehouseId;
   // Takes the context: navigation needs one, and this helper is called from build().
-  List<DataRow> getRows(BuildContext context, List<Inventory>? inventorys) =>
-      inventorys!.map((Inventory inventory) {
+  List<DataRow> getRows(BuildContext context, List<InventoryVo>? inventorys) =>
+      inventorys!.map((InventoryVo inventory) {
         final cells = [inventory.name, inventory.count];
         return DataRow(
             onSelectChanged: (value) {
@@ -210,10 +211,11 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                               value: controller.selectedCommo.value,
                                                                               onChanged: (dynamic newValue) {
                                                                                 controller.selectedCommo(newValue);
-                                                                                controller.inventoryRecord.update((self) {
-                                                                                  self!.cid = newValue.id;
-                                                                                  self.name = newValue.name;
-                                                                                });
+                                                                                controller.inventoryRecord.value =
+                                                                                    controller.inventoryRecord.value.copyWith(
+                                                                                  commodityId: newValue.id ?? '',
+                                                                                  name: newValue.name,
+                                                                                );
                                                                               },
                                                                               items: controller.commoList.map((process) {
                                                                                 return DropdownMenuItem(
@@ -270,14 +272,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                   TextFormField(
                                                                 onChanged:
                                                                     (value) {
-                                                                  controller
-                                                                      .inventoryRecord
-                                                                      .update(
-                                                                          (val) {
-                                                                    val!.count =
-                                                                        int.parse(
-                                                                            value);
-                                                                  });
+                                                                  controller.inventoryRecord.value = controller.inventoryRecord.value
+                        .copyWith(count: int.tryParse(value) ?? 0);
                                                                 },
                                                                 // textInputAction: TextInputAction.next,
                                                                 key:
@@ -360,13 +356,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
 
                                                                 onChanged:
                                                                     (value) {
-                                                                  controller
-                                                                      .inventoryRecord
-                                                                      .update(
-                                                                          (val) {
-                                                                    val!.description =
-                                                                        value;
-                                                                  });
+                                                                  controller.inventoryRecord.value = controller.inventoryRecord.value
+                        .copyWith(description: value);
                                                                 },
                                                                 // textInputAction: TextInputAction.next,
                                                                 key:
@@ -457,7 +448,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                                   ),
                                                                             onPressed:
                                                                                 () async {
-                                                                              if (controller.inventoryRecord.value.count == null) {
+                                                                              if (controller.inventoryRecord.value.count <= 0) {
                                                                                 showTextToast("请填写数量");
                                                                               } else {
                                                                                 _isLoading(true);
@@ -591,10 +582,11 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                               value: controller.selectedCommoOut.value,
                                                                               onChanged: (dynamic newValue) {
                                                                                 controller.selectedCommoOut(newValue);
-                                                                                controller.inventoryRecordOut.update((self) {
-                                                                                  self!.cid = newValue.cid;
-                                                                                  self.name = newValue.name;
-                                                                                });
+                                                                                controller.inventoryRecordOut.value =
+                                                                                    controller.inventoryRecordOut.value.copyWith(
+                                                                                  commodityId: newValue.commodityId ?? '',
+                                                                                  name: newValue.name,
+                                                                                );
                                                                               },
                                                                               items: controller.commo.map((process) {
                                                                                 return DropdownMenuItem(
@@ -651,14 +643,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                   TextFormField(
                                                                 onChanged:
                                                                     (value) {
-                                                                  controller
-                                                                      .inventoryRecordOut
-                                                                      .update(
-                                                                          (val) {
-                                                                    val!.count =
-                                                                        int.parse(
-                                                                            value);
-                                                                  });
+                                                                  controller.inventoryRecordOut.value = controller.inventoryRecordOut.value
+                        .copyWith(count: int.tryParse(value) ?? 0);
                                                                 },
                                                                 // textInputAction: TextInputAction.next,
                                                                 key:
@@ -741,13 +727,8 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
 
                                                                 onChanged:
                                                                     (value) {
-                                                                  controller
-                                                                      .inventoryRecordOut
-                                                                      .update(
-                                                                          (val) {
-                                                                    val!.description =
-                                                                        value;
-                                                                  });
+                                                                  controller.inventoryRecordOut.value = controller.inventoryRecordOut.value
+                        .copyWith(description: value);
                                                                 },
                                                                 // textInputAction: TextInputAction.next,
                                                                 key:
@@ -838,7 +819,7 @@ class WarehouseinventoryPage extends GetView<WarehouseinventoryController> {
                                                                                   ),
                                                                             onPressed:
                                                                                 () async {
-                                                                              if (controller.inventoryRecordOut.value.count == null) {
+                                                                              if (controller.inventoryRecordOut.value.count <= 0) {
                                                                                 showTextToast("请填写数量");
                                                                               } else {
                                                                                 _isLoading(true);

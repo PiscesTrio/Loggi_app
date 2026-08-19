@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../data/api/vehicle_request.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/network/api_exception.dart';
@@ -122,7 +123,7 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
                     value: draft.type,
                     onChanged: (value) => ref
                         .read(vehicleDraftProvider.notifier)
-                        .update((v) => v.copyWith(type: value)),
+                        .update((v) => v.copyWith(type: value ?? v.type)),
                   ),
                 ],
               ),

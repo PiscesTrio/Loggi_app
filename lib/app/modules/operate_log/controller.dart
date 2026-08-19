@@ -1,9 +1,9 @@
-import 'package:loggi_app/app/data/models/syslog.dart';
 import 'package:get/get.dart';
+import '../../data/api/system_log_vo.dart';
 
 import '../../data/network/api.dart';
 
-class OperateLogController extends GetxController with StateMixin<List<SysLog>>{
+class OperateLogController extends GetxController with StateMixin<List<SystemLogVo>>{
   OperateLogController();
 
 
@@ -14,16 +14,16 @@ class OperateLogController extends GetxController with StateMixin<List<SysLog>>{
   void onInit() {
     super.onInit();
       change(null, status: RxStatus.loading());
-    NbRequest().getSysLog().then((result) => change(sortByTime(result!), status: RxStatus.success()))
+    NbRequest().getSysLog().then((result) => change(sortByTime(result?.items ?? const []), status: RxStatus.success()))
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }
 
   void updateData(){
-     NbRequest().getSysLog().then((result) => change(sortByTime(result!), status: RxStatus.success()))
+     NbRequest().getSysLog().then((result) => change(sortByTime(result?.items ?? const []), status: RxStatus.success()))
         .onError((error, stackTrace) => change(null, status: RxStatus.error()));
   }
 
-    List<SysLog> sortByTime(List<SysLog> data){
+    List<SystemLogVo> sortByTime(List<SystemLogVo> data){
     data.sort(((a, b) =>(b.time)!.compareTo(a.time!)));
     return data;
 

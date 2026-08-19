@@ -1,5 +1,7 @@
-import 'package:loggi_app/app/data/models/index.dart';
 import 'package:flutter/material.dart';
+import '../../utils/date_display.dart';
+import '../../data/api/distribution_track_vo.dart';
+import '../../data/api/distribution_vo.dart';
 
 
 class DistributionStatusItem extends StatelessWidget {
@@ -10,8 +12,8 @@ class DistributionStatusItem extends StatelessWidget {
       required this.isTop,
       required this.isBottom,
       required this.isStart});
-  final DistributionStatus distributionStatus;
-  final Distribution distribution;
+  final DistributionTrackVo distributionStatus;
+  final DistributionVo distribution;
   final bool isTop;
   final bool isBottom;
   final bool isStart;
@@ -48,7 +50,7 @@ class DistributionStatusItem extends StatelessWidget {
                 child: Container(
                     padding: const EdgeInsets.only(top: 4),
                     child: IndexedStack(
-                      index: distributionStatus.status,
+                      index: _stepOf(distributionStatus.status),
                       children: [
                         const Text(
                           '配送指示済み',
@@ -82,8 +84,8 @@ class DistributionStatusItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('ドライバー：${distribution.driver} / ${distribution.number}'),
-              Text('日時：${distributionStatus.time}')
+              Text('ドライバー：${distribution.driver?.name ?? '-'} / ${distribution.vehicle?.number ?? '-'}'),
+              Text('日時：${formatDateTime(distributionStatus.time)}')
             ],
           ),
         )
@@ -146,3 +148,14 @@ class LeftLinePainter extends CustomPainter {
     return true;
   }
 }
+
+/// The tracking row's stage as a stack index.
+///
+/// It was 0/1/2 on the wire and fed straight into the IndexedStack. It is the enum name the
+/// database stores, so the mapping to a screen position is written down here rather than
+/// implied by whichever child happened to sit at that index.
+int _stepOf(DistributionTrackVoStatusEnum? status) => switch (status) {
+      DistributionTrackVoStatusEnum.REVIEW_SUCCESS => 1,
+      DistributionTrackVoStatusEnum.END => 2,
+      _ => 0,
+    };

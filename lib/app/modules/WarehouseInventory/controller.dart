@@ -1,12 +1,12 @@
-import 'package:loggi_app/app/data/models/commodity.dart';
-import 'package:loggi_app/app/data/models/inventory.dart';
-import 'package:loggi_app/app/data/models/inventory_record.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import '../../data/api/commodity_vo.dart';
+import '../../data/api/inventory_movement_request.dart';
+import '../../data/api/inventory_vo.dart';
 
 import '../../data/network/api.dart';
 
-class WarehouseinventoryController extends GetxController with StateMixin<List<Inventory>> {
+class WarehouseinventoryController extends GetxController with StateMixin<List<InventoryVo>> {
   WarehouseinventoryController();
 
 
@@ -16,12 +16,14 @@ class WarehouseinventoryController extends GetxController with StateMixin<List<I
   RxInt sortColumnIndex = 0.obs;
   RxBool isAscending = false.obs;
   RxString warehouseId = "".obs;
-  RxList<Inventory> commo = [Inventory()].obs;
-  Rx<Product> selectedCommo =Product().obs;
-   Rx<Inventory> selectedCommoOut =Inventory().obs;
-  RxList<Product> commoList = [Product()].obs;
-  Rx<InventoryRecord> inventoryRecord= InventoryRecord().obs;
-   Rx<InventoryRecord> inventoryRecordOut= InventoryRecord().obs;
+  RxList<InventoryVo> commo = [InventoryVo()].obs;
+  Rx<CommodityVo> selectedCommo = CommodityVo().obs;
+   Rx<InventoryVo> selectedCommoOut = InventoryVo().obs;
+  RxList<CommodityVo> commoList = [CommodityVo()].obs;
+  Rx<InventoryMovementRequest> inventoryRecord =
+      InventoryMovementRequest(warehouseId: '', commodityId: '', count: 0).obs;
+   Rx<InventoryMovementRequest> inventoryRecordOut =
+      InventoryMovementRequest(warehouseId: '', commodityId: '', count: 0).obs;
   
 
   void onSort(int newIndex, bool newAscd) {
@@ -84,10 +86,12 @@ class WarehouseinventoryController extends GetxController with StateMixin<List<I
     }).onError((error, stackTrace) {
       change(null, status: RxStatus.error());
     });
-    inventoryRecord.update((val) {val!.wid=warehouseId.value;});
-    inventoryRecordOut.update((val) {
-        val!.wid=warehouseId.value;
-      });
+    // Replaced rather than mutated. The generated request is immutable, and an Rx whose
+    // value is edited in place never reports a change to anything comparing old with new.
+    inventoryRecord.value =
+        inventoryRecord.value.copyWith(warehouseId: warehouseId.value);
+    inventoryRecordOut.value =
+        inventoryRecordOut.value.copyWith(warehouseId: warehouseId.value);
   }
 
   @override
@@ -102,10 +106,12 @@ class WarehouseinventoryController extends GetxController with StateMixin<List<I
     }).onError((error, stackTrace) {
       change(null, status: RxStatus.error());
     });
-    inventoryRecord.update((val) {val!.wid=warehouseId.value;});
-    inventoryRecordOut.update((val) {
-        val!.wid=warehouseId.value;
-      });
+    // Replaced rather than mutated. The generated request is immutable, and an Rx whose
+    // value is edited in place never reports a change to anything comparing old with new.
+    inventoryRecord.value =
+        inventoryRecord.value.copyWith(warehouseId: warehouseId.value);
+    inventoryRecordOut.value =
+        inventoryRecordOut.value.copyWith(warehouseId: warehouseId.value);
   }
 
   @override

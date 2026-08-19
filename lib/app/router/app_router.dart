@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import '../data/api/distribution_vo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 import '../auth/auth_provider.dart';
-import '../data/models/distribution.dart';
 import '../modules/base_mangement_page/base_mangement_page_binding.dart';
 import '../modules/base_mangement_page/base_mangement_page_view.dart';
 import '../modules/chart/bindings.dart';
@@ -244,7 +244,7 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: Routes.distributionStatus,
                 builder: (_, state) =>
-                    DistributionStatusPage(argument: state.extra as Distribution),
+                    DistributionStatusPage(argument: state.extra as DistributionVo),
               ),
             ],
           ),

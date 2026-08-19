@@ -1,12 +1,12 @@
 import 'package:loggi_app/app/data/network/api.dart';
 import 'package:get/get.dart';
+import '../../data/api/commodity_chart_vo.dart';
 
-import '../../data/models/commdity_vo.dart';
 
 class ChartController extends GetxController
-    with StateMixin<Map<String, List<CommdityVo>>> {
-  RxMap<String, List<CommdityVo>>tempData =
-      <String, List<CommdityVo>>{}.obs;
+    with StateMixin<Map<String, List<CommodityChartVo>>> {
+  RxMap<String, List<CommodityChartVo>>tempData =
+      <String, List<CommodityChartVo>>{}.obs;
 
   /// The two series, empty until the corresponding request answers.
   ///
@@ -16,8 +16,8 @@ class ChartController extends GetxController
   /// unwrap with `!`, which threw on every frame until the data arrived. That
   /// error never reached logcat and was gone before any screenshot, which is
   /// how it survived unnoticed.
-  List<CommdityVo> get inSeries => tempData["in"] ?? const [];
-  List<CommdityVo> get outSeries => tempData["out"] ?? const [];
+  List<CommodityChartVo> get inSeries => tempData["in"] ?? const [];
+  List<CommodityChartVo> get outSeries => tempData["out"] ?? const [];
 
   /// Called immediately after the widget is allocated in memory.
   @override

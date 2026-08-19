@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../data/api/warehouse_request.dart';
 
-import '../../data/models/warehouse.dart';
 import '../../theme/color_palette.dart';
 import '../widgets/toast.dart';
 import '../widgets/warehouse_card.dart';
@@ -26,6 +26,7 @@ class WarehouselistminPage extends GetView<WarehouselistminController> {
                     context: context,
                     builder: (BuildContext context) {
                       var principleController = TextEditingController();
+                      var locationController = TextEditingController();
                       var warehouseNameController = TextEditingController();
                       return AlertDialog(
                         scrollable: true,
@@ -61,11 +62,13 @@ class WarehouselistminPage extends GetView<WarehouselistminController> {
                               }),
                           GestureDetector(
                             onTap: () async {
-                              await controller.saveWarehouse(
-                                  Warehouse.fromMap({
-                                "name": warehouseNameController.text,
-                                "principle": principleController.text
-                              })).then((value) {
+                                await controller
+                                    .saveWarehouse(WarehouseRequest(
+                                  name: warehouseNameController.text,
+                                  principle: principleController.text,
+                                  location: locationController.text,
+                                ))
+                                    .then((value) {
                                 
                                 
 
@@ -122,7 +125,7 @@ class WarehouselistminPage extends GetView<WarehouselistminController> {
                           // ElevatedButton(
                           //     child: const Text("确认"),
                           //     onPressed: () {
-                          //       NbRequest().saveWarehouse(Warehouse.fromMap({
+                          //       NbRequest().saveWarehouse(WarehouseRequest(
                           //         "name": warehouseNameController.text,
                           //         "principle": principleController.text
                           //       }));
