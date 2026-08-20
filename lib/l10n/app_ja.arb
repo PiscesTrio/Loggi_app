@@ -169,5 +169,7 @@
   "errorOffline": "サーバーに接続できません",
   "errorCancelled": "リクエストは取り消されました",
   "errorBadCertificate": "サーバー証明書が無効です",
-  "errorUnreadableResponse": "サーバーの応答を解釈できません"
+  "errorUnreadableResponse": "サーバーの応答を解釈できません",
+  "errorAuthenticationRequired": "ログインしてください",
+  "errorTokenInvalid": "セッションの有効期限が切れました。再度ログインしてください"
 }

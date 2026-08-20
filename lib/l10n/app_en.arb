@@ -219,5 +219,7 @@
   "errorOffline": "Cannot reach the server",
   "errorCancelled": "The request was cancelled",
   "errorBadCertificate": "The server's certificate is not valid",
-  "errorUnreadableResponse": "The server sent something unreadable"
+  "errorUnreadableResponse": "The server sent something unreadable",
+  "errorAuthenticationRequired": "Sign in first",
+  "errorTokenInvalid": "Your session expired — sign in again"
 }

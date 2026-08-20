@@ -260,5 +260,7 @@
   "errorOffline": "无法连接到服务器",
   "errorCancelled": "请求已取消",
   "errorBadCertificate": "服务器证书无效",
-  "errorUnreadableResponse": "服务器返回了无法解析的响应"
+  "errorUnreadableResponse": "服务器返回了无法解析的响应",
+  "errorAuthenticationRequired": "请先登录",
+  "errorTokenInvalid": "登录已失效，请重新登录"
 }

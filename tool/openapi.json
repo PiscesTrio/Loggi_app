@@ -1342,18 +1342,18 @@
                                     "type": "object",
                                     "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                                     "properties": {
-                                        "status": {
-                                            "type": "boolean",
-                                            "description": "False on a failure."
+                                        "code": {
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "description": "Repeats the HTTP status."
                                         },
                                         "msg": {
                                             "type": "string",
                                             "description": "Set on a failure."
                                         },
-                                        "code": {
-                                            "type": "integer",
-                                            "format": "int32",
-                                            "description": "Repeats the HTTP status."
+                                        "status": {
+                                            "type": "boolean",
+                                            "description": "False on a failure."
                                         },
                                         "data": {
                                             "type": "boolean"
@@ -2269,6 +2269,8 @@
                             "CODE_REQUESTED_TOO_SOON",
                             "CODE_ATTEMPTS_EXHAUSTED",
                             "CODE_DELIVERY_FAILED",
+                            "AUTHENTICATION_REQUIRED",
+                            "TOKEN_INVALID",
                             "ACCESS_DENIED",
                             "METHOD_NOT_ALLOWED",
                             "INTERNAL_ERROR"
@@ -2559,18 +2561,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/EmployeeVo"
@@ -2581,18 +2583,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/CommodityVo"
@@ -2603,18 +2605,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -2628,18 +2630,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/WarehouseVo"
@@ -2650,18 +2652,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -2675,18 +2677,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/VehicleVo"
@@ -2697,18 +2699,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -2722,18 +2724,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/SaleVo"
@@ -2744,18 +2746,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/InventoryRecordVo"
@@ -2766,18 +2768,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -2791,18 +2793,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -2816,18 +2818,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/DriverVo"
@@ -2838,18 +2840,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -2863,18 +2865,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/DistributionVo"
@@ -2885,18 +2887,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -2910,18 +2912,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/DistributionTrackVo"
@@ -2932,18 +2934,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -2957,18 +2959,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -2982,18 +2984,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/AdminVo"
@@ -3004,18 +3006,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/LoginVo"
@@ -3026,18 +3028,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/PageVoSystemLogVo"
@@ -3048,18 +3050,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -3073,18 +3075,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/PageVoLoginLogVo"
@@ -3095,18 +3097,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -3120,18 +3122,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -3145,18 +3147,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "type": "array",
@@ -3170,18 +3172,18 @@
                 "type": "object",
                 "description": "The standard response envelope. `code` repeats the HTTP status; `status` is false only on a failure, where `msg` explains it and `data` is null.",
                 "properties": {
-                    "status": {
-                        "type": "boolean",
-                        "description": "False on a failure."
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Repeats the HTTP status."
                     },
                     "msg": {
                         "type": "string",
                         "description": "Set on a failure."
                     },
-                    "code": {
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Repeats the HTTP status."
+                    "status": {
+                        "type": "boolean",
+                        "description": "False on a failure."
                     },
                     "data": {
                         "$ref": "#/components/schemas/AvailableFleetVo"
