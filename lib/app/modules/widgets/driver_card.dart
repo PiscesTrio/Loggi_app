@@ -1,4 +1,5 @@
 import '../../theme/status_colors.dart';
+import '../../../features/fleet/fleet_labels.dart';
 import '../../../l10n/l10n.dart';
 
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class DriverCard extends StatelessWidget {
   });
 
   Image buildImage(BuildContext context) {
-    if (driver.gender == null || driver.gender == "男性") {
+    if (isMale(driver.gender?.value)) {
       return Image.asset(
         "lib/assets/images/male/icon_business_man${imageIndex % 16 + 1}.png",
       );
@@ -95,7 +96,9 @@ class DriverCard extends StatelessWidget {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 content: Text(
-                                  "确认拨打以下号码？\n ${driver.phone}",
+                                  context.l10n.driverCallConfirm(
+                                    driver.phone ?? '-',
+                                  ),
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18,
@@ -200,7 +203,7 @@ class DriverCard extends StatelessWidget {
                       SizedBox(
                         // width: 100,
                         child: Text(
-                          driver.gender ?? '-',
+                          genderLabel(context, driver.gender?.value),
                           maxLines: 3,
                           style: TextStyle(
                             fontFamily: "Nunito",
@@ -222,7 +225,7 @@ class DriverCard extends StatelessWidget {
             top: 30,
             child: Container(
               height: 25,
-              width: 50,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 color: driver.driving! ? StatusColors.busy : StatusColors.idle,
                 borderRadius: BorderRadius.circular(6),
@@ -230,8 +233,8 @@ class DriverCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   driver.driving!
-                      ? context.l10n.driverBusy
-                      : context.l10n.driverIdle,
+                      ? context.l10n.fleetStatusBusy
+                      : context.l10n.fleetStatusIdle,
                   maxLines: 1,
                   style: const TextStyle(
                     fontFamily: "Nunito",

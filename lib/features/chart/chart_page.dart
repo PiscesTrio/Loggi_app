@@ -43,8 +43,14 @@ class ChartPage extends ConsumerWidget {
                         width: 360,
                         child: ListView(
                           children: [
-                            _Section(title: '入库', rows: data.inbound),
-                            _Section(title: '出库', rows: data.outbound),
+                            _Section(
+                              title: context.l10n.inventoryDirectionInbound,
+                              rows: data.inbound,
+                            ),
+                            _Section(
+                              title: context.l10n.inventoryDirectionOutbound,
+                              rows: data.outbound,
+                            ),
                           ],
                         ),
                       ),
@@ -91,7 +97,7 @@ class _Section extends StatelessWidget {
             // pie above it drew fine.
             value: row.value ?? 0,
             color: ChartPalette.slices[index % ChartPalette.slices.length],
-            text: row.name ?? '未命名',
+            text: row.name ?? context.l10n.chartUnnamed,
             isSquare: true,
           ),
       ],

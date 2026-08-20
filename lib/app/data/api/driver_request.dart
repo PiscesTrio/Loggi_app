@@ -37,7 +37,7 @@ class DriverRequest {
   final String name;
 
   @JsonKey(name: r'gender', required: false, includeIfNull: false)
-  final String? gender;
+  final DriverRequestGenderEnum? gender;
 
   @JsonKey(name: r'phone', required: true, includeIfNull: false)
   final String phone;
@@ -85,4 +85,18 @@ class DriverRequest {
   String toString() {
     return toJson().toString();
   }
+}
+
+enum DriverRequestGenderEnum {
+  @JsonValue(r'MALE')
+  MALE(r'MALE'),
+  @JsonValue(r'FEMALE')
+  FEMALE(r'FEMALE');
+
+  const DriverRequestGenderEnum(this.value);
+
+  final String value;
+
+  @override
+  String toString() => value;
 }

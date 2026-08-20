@@ -46,7 +46,7 @@ class DriverVo {
   final String? name;
 
   @JsonKey(name: r'gender', required: false, includeIfNull: false)
-  final String? gender;
+  final DriverVoGenderEnum? gender;
 
   @JsonKey(name: r'phone', required: false, includeIfNull: false)
   final String? phone;
@@ -106,4 +106,18 @@ class DriverVo {
   String toString() {
     return toJson().toString();
   }
+}
+
+enum DriverVoGenderEnum {
+  @JsonValue(r'MALE')
+  MALE(r'MALE'),
+  @JsonValue(r'FEMALE')
+  FEMALE(r'FEMALE');
+
+  const DriverVoGenderEnum(this.value);
+
+  final String value;
+
+  @override
+  String toString() => value;
 }

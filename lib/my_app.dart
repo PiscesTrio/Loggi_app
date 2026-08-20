@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/router/app_router.dart';
+import 'app/settings/locale_provider.dart';
 
 /// One app, one router.
 ///
@@ -24,6 +25,9 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       title: 'Application',
+      // Null means "follow the device", which is MaterialApp's own default behaviour for
+      // this parameter — so the three-way choice needs no special case here.
+      locale: ref.watch(localeProvider),
       routerConfig: ref.watch(routerProvider),
       localizationsDelegates: const [
         // The app's own strings. Without this the other three localise Flutter's
@@ -37,7 +41,17 @@ class MyApp extends ConsumerWidget {
       // language code first, so Material's own widgets were in Chinese regardless — what
       // the typo actually broke is region-dependent formatting, and the fallback for a
       // device that is not zh_*.
-      supportedLocales: const [Locale('zh', 'CN'), Locale('en', 'US')],
+      //
+      // ja is first, and that position is the decision: Flutter falls back to
+      // supportedLocales.first when the device's language matches nothing, so this line
+      // answers "what does a reader who is neither Chinese nor English-speaking see". The
+      // data this app carries is Japanese — the warehouses, the addresses, the plates — so
+      // Japanese is the only language in which the interface and its contents agree.
+      supportedLocales: const [
+        Locale('ja'),
+        Locale('zh', 'CN'),
+        Locale('en', 'US'),
+      ],
       theme: AppTheme.light,
     );
   }

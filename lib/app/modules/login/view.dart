@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/toast.dart';
+import '../../../l10n/l10n.dart';
+
 import '../../data/api/login_dto.dart';
 
 import 'package:get/get.dart';
@@ -160,7 +163,9 @@ class LoginPage extends GetView<LoginController> {
                   const SizedBox(height: 15),
                   Center(
                     child: Text(
-                      controller.failed.value ? "邮箱或密码错误！" : "",
+                      controller.failed.value
+                          ? context.l10n.loginBadCredentials
+                          : '',
                       style: const TextStyle(
                         color: ColorPalette.mandy,
                         fontFamily: "Nunito",
@@ -173,7 +178,12 @@ class LoginPage extends GetView<LoginController> {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          await controller.signIn();
+                          final message = context.l10n.loginSucceeded;
+                          // Read before the await: the router redirects on a successful
+                          // sign-in, so by the time this resolves the context may be gone.
+                          if (await controller.signIn()) {
+                            showTextToast(message);
+                          }
                         },
                         child: Container(
                           height: 50,

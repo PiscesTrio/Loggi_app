@@ -75,7 +75,7 @@ class DistributionVo {
   final bool? urgent;
 
   @JsonKey(name: r'care', required: false, includeIfNull: false)
-  final String? care;
+  final List<DistributionVoCareEnum>? care;
 
   @JsonKey(name: r'time', required: false, includeIfNull: false)
   final DateTime? time;
@@ -145,6 +145,32 @@ class DistributionVo {
   String toString() {
     return toJson().toString();
   }
+}
+
+enum DistributionVoCareEnum {
+  @JsonValue(r'FRAGILE')
+  FRAGILE(r'FRAGILE'),
+  @JsonValue(r'KEEP_DRY')
+  KEEP_DRY(r'KEEP_DRY'),
+  @JsonValue(r'KEEP_AWAY_FROM_SUNLIGHT')
+  KEEP_AWAY_FROM_SUNLIGHT(r'KEEP_AWAY_FROM_SUNLIGHT'),
+  @JsonValue(r'PROTECT_FROM_HEAT')
+  PROTECT_FROM_HEAT(r'PROTECT_FROM_HEAT'),
+  @JsonValue(r'DO_NOT_ROLL')
+  DO_NOT_ROLL(r'DO_NOT_ROLL'),
+  @JsonValue(r'DO_NOT_STACK')
+  DO_NOT_STACK(r'DO_NOT_STACK'),
+  @JsonValue(r'REFRIGERATE')
+  REFRIGERATE(r'REFRIGERATE'),
+  @JsonValue(r'FLAMMABLE')
+  FLAMMABLE(r'FLAMMABLE');
+
+  const DistributionVoCareEnum(this.value);
+
+  final String value;
+
+  @override
+  String toString() => value;
 }
 
 enum DistributionVoStatusEnum {

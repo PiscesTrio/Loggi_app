@@ -11,7 +11,7 @@ abstract class _$SystemLogVoCWProxy {
 
   SystemLogVo account(String? account);
 
-  SystemLogVo module(String? module);
+  SystemLogVo module(SystemLogVoModuleEnum? module);
 
   SystemLogVo businessType(SystemLogVoBusinessTypeEnum? businessType);
 
@@ -35,7 +35,7 @@ abstract class _$SystemLogVoCWProxy {
   SystemLogVo call({
     String? id,
     String? account,
-    String? module,
+    SystemLogVoModuleEnum? module,
     SystemLogVoBusinessTypeEnum? businessType,
     String? ip,
     String? method,
@@ -59,7 +59,7 @@ class _$SystemLogVoCWProxyImpl implements _$SystemLogVoCWProxy {
   SystemLogVo account(String? account) => call(account: account);
 
   @override
-  SystemLogVo module(String? module) => call(module: module);
+  SystemLogVo module(SystemLogVoModuleEnum? module) => call(module: module);
 
   @override
   SystemLogVo businessType(SystemLogVoBusinessTypeEnum? businessType) =>
@@ -111,7 +111,7 @@ class _$SystemLogVoCWProxyImpl implements _$SystemLogVoCWProxy {
       module: module == const $CopyWithPlaceholder()
           ? _value.module
           // ignore: cast_nullable_to_non_nullable
-          : module as String?,
+          : module as SystemLogVoModuleEnum?,
       businessType: businessType == const $CopyWithPlaceholder()
           ? _value.businessType
           // ignore: cast_nullable_to_non_nullable
@@ -156,7 +156,10 @@ SystemLogVo _$SystemLogVoFromJson(Map<String, dynamic> json) =>
       final val = SystemLogVo(
         id: $checkedConvert('id', (v) => v as String?),
         account: $checkedConvert('account', (v) => v as String?),
-        module: $checkedConvert('module', (v) => v as String?),
+        module: $checkedConvert(
+          'module',
+          (v) => $enumDecodeNullable(_$SystemLogVoModuleEnumEnumMap, v),
+        ),
         businessType: $checkedConvert(
           'businessType',
           (v) => $enumDecodeNullable(_$SystemLogVoBusinessTypeEnumEnumMap, v),
@@ -178,13 +181,23 @@ Map<String, dynamic> _$SystemLogVoToJson(
 ) => <String, dynamic>{
   'id': ?instance.id,
   'account': ?instance.account,
-  'module': ?instance.module,
+  'module': ?_$SystemLogVoModuleEnumEnumMap[instance.module],
   'businessType': ?_$SystemLogVoBusinessTypeEnumEnumMap[instance.businessType],
   'ip': ?instance.ip,
   'method': ?instance.method,
   'costMs': ?instance.costMs,
   'success': ?instance.success,
   'time': ?instance.time?.toIso8601String(),
+};
+
+const _$SystemLogVoModuleEnumEnumMap = {
+  SystemLogVoModuleEnum.COMMODITY: 'COMMODITY',
+  SystemLogVoModuleEnum.WAREHOUSE: 'WAREHOUSE',
+  SystemLogVoModuleEnum.EMPLOYEE: 'EMPLOYEE',
+  SystemLogVoModuleEnum.DRIVER: 'DRIVER',
+  SystemLogVoModuleEnum.VEHICLE: 'VEHICLE',
+  SystemLogVoModuleEnum.DISTRIBUTION: 'DISTRIBUTION',
+  SystemLogVoModuleEnum.DISTRIBUTION_TRACK: 'DISTRIBUTION_TRACK',
 };
 
 const _$SystemLogVoBusinessTypeEnumEnumMap = {

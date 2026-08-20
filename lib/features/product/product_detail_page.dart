@@ -1,4 +1,5 @@
 import '../../l10n/l10n.dart';
+import '../errors/error_messages.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -89,7 +90,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
     } on ApiException catch (e) {
       if (!mounted) return;
       setState(() => _submitting = false);
-      showTextToast(e.message);
+      showTextToast(apiErrorMessage(context, e));
     }
   }
 
@@ -157,14 +158,18 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
             Padding(
               padding: const EdgeInsets.only(left: 8, bottom: 5),
               child: Text(
-                '创建时间： ${formatDateTime(widget.product.createAt)}',
+                context.l10n.productCreatedAt(
+                  formatDateTime(widget.product.createAt),
+                ),
                 style: framedFieldTextStyle,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8, bottom: 5),
               child: Text(
-                '上次更新时间：${formatDateTime(widget.product.updateAt)}',
+                context.l10n.productUpdatedAt(
+                  formatDateTime(widget.product.updateAt),
+                ),
                 style: framedFieldTextStyle,
               ),
             ),

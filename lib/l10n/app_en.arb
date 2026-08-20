@@ -15,9 +15,6 @@
   "actionConfirm": "Confirm",
   "commonYes": "Yes",
   "commonNo": "No",
-  "unnamed": "Unnamed",
-  "directionInbound": "Inbound",
-  "directionOutbound": "Outbound",
   "settingsSystemSection": "System",
   "settingsAccount": "Account",
   "settingsAccountSubtitle": "Change the address and password",
@@ -25,13 +22,6 @@
   "settingsSignOut": "Sign out",
   "settingsSignOutConfirm": "Sign out of this account?",
   "settingsSignedOut": "Signed out",
-  "operationInsert": "Created",
-  "operationUpdate": "Updated",
-  "operationDelete": "Deleted",
-  "operationQuery": "Read",
-  "operationExport": "Exported",
-  "operationForce": "Forced out",
-  "operationOther": "Other",
   "logAccount": "Account: {account}",
   "@logAccount": {
     "placeholders": {
@@ -102,17 +92,8 @@
   "fieldPrinciple": "Contact",
   "fieldLocation": "Address",
   "fieldSelectCommodity": "Commodity",
-  "fieldDescription": "Description",
   "addWarehouseTitle": "Add a warehouse",
   "addProductTitle": "Add a commodity",
-  "movementTitle": "Record {direction}",
-  "@movementTitle": {
-    "placeholders": {
-      "direction": {
-        "type": "String"
-      }
-    }
-  },
   "emptyStockForOutbound": "This warehouse holds nothing to send out",
   "validationCommodityRequired": "Choose a commodity",
   "validationQuantityRequired": "Enter a quantity",
@@ -123,31 +104,13 @@
   "savedOk": "Saved",
   "addedOk": "Added",
   "submittedOk": "Submitted",
-  "createdAt": "Created {at}",
-  "@createdAt": {
-    "placeholders": {
-      "at": {
-        "type": "String"
-      }
-    }
-  },
-  "updatedAt": "Updated {at}",
-  "@updatedAt": {
-    "placeholders": {
-      "at": {
-        "type": "String"
-      }
-    }
-  },
   "productNoId": "This commodity has no id and cannot be saved",
   "emptyWarehouses": "No warehouses yet",
   "emptyCommodities": "No commodities yet",
   "emptyLogs": "Nothing recorded yet",
   "errorGeneric": "Something went wrong — try again",
   "driverLicence": "Licence: ",
-  "driverBusy": "On a run",
-  "driverIdle": "Available",
-  "driverCallConfirm": "Call {phone}?",
+  "driverCallConfirm": "Call this number?\n {phone}",
   "@driverCallConfirm": {
     "placeholders": {
       "phone": {
@@ -181,5 +144,85 @@
       }
     }
   },
-  "logSignInSucceeded": "Succeeded"
+  "logSignInSucceeded": "Succeeded",
+  "vehicleTypeLightTruck": "Van",
+  "vehicleTypeTruck": "Truck",
+  "vehicleTypeHeavyTruck": "Heavy truck",
+  "genderMale": "Male",
+  "genderFemale": "Female",
+  "logModuleCommodity": "Commodities",
+  "logModuleWarehouse": "Warehouses",
+  "logModuleEmployee": "Employees",
+  "logModuleDriver": "Drivers",
+  "logModuleVehicle": "Vehicles",
+  "logModuleDistribution": "Deliveries",
+  "logModuleDistributionTrack": "Delivery tracking",
+  "logActionInsert": "Created",
+  "logActionUpdate": "Updated",
+  "logActionDelete": "Deleted",
+  "logActionQuery": "Viewed",
+  "logActionExport": "Exported",
+  "logActionForce": "Forced out",
+  "logActionOther": "Other",
+  "emptyDistributions": "No delivery orders",
+  "emptyDistributionStatus": "No tracking records yet",
+  "emptyDrivers": "No drivers",
+  "emptyVehicles": "No vehicles",
+  "loginSucceeded": "Signed in",
+  "loginBadCredentials": "Wrong e-mail or password",
+  "vehicleAddTitle": "Add a vehicle",
+  "vehiclePlateNumber": "Plate number",
+  "fieldType": "Type:",
+  "actionRetry": "Retry",
+  "trackTitle": "Delivery status",
+  "trackDriverAndVehicle": "Driver: {driver} / {vehicle}",
+  "mapRouteTitle": "Delivery route",
+  "mapNoLocation": "No location data",
+  "vehicleDriver": "Driver:",
+  "warehousePrinciple": "In charge:",
+  "fleetStatusBusy": "On a run",
+  "fleetStatusIdle": "Available",
+  "inventoryDirectionInbound": "Stock in",
+  "inventoryDirectionOutbound": "Stock out",
+  "inventoryRecordTitleInbound": "Record stock in",
+  "inventoryRecordTitleOutbound": "Record stock out",
+  "chartUnnamed": "Unnamed",
+  "productCreatedAt": "Created {at}",
+  "productUpdatedAt": "Updated {at}",
+  "mapFullscreen": "Full screen",
+  "mapStraightLineDistance": "About {km} km as the crow flies",
+  "settingsLanguage": "Language",
+  "settingsLanguageSystem": "Follow the device",
+  "listSeparator": ", ",
+  "errorWarehouseNotFound": "No such warehouse",
+  "errorDriverNotFound": "No such driver",
+  "errorVehicleNotFound": "No such vehicle",
+  "errorDistributionNotFound": "No such delivery order",
+  "errorCommodityNotInWarehouse": "This warehouse does not hold that commodity",
+  "errorCommodityNotFound": "No such commodity",
+  "errorNotFound": "Not found",
+  "errorDriverUnavailable": "That driver is not available",
+  "errorVehicleUnavailable": "That vehicle is not available",
+  "errorInsufficientStock": "Not enough stock to send out",
+  "errorAlreadyExists": "That already exists",
+  "errorQuantityNotPositive": "The quantity must be greater than zero",
+  "errorValidationFailed": "Check the form and try again",
+  "errorMalformedRequest": "The request could not be read",
+  "errorBadRequest": "The request could not be handled",
+  "errorCodeRequestedTooSoon": "Too soon — try again in a moment",
+  "errorCodeAttemptsExhausted": "Too many attempts — try again later",
+  "errorCodeDeliveryFailed": "The code could not be sent",
+  "errorAccessDenied": "You do not have access",
+  "errorMethodNotAllowed": "That is not allowed here",
+  "errorInternal": "Something went wrong on the server",
+  "errorTimeout": "The connection timed out",
+  "errorOffline": "Cannot reach the server",
+  "errorCancelled": "The request was cancelled",
+  "errorBadCertificate": "The server's certificate is not valid",
+  "errorUnreadableResponse": "The server sent something unreadable",
+  "errorAuthenticationRequired": "Sign in first",
+  "errorTokenInvalid": "Your session expired — sign in again",
+  "errorVerificationCodeInvalid": "That code is not right",
+  "errorUnsupportedMediaType": "That format is not supported",
+  "validationPlateRequired": "Enter a plate number"
 }

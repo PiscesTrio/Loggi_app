@@ -9,8 +9,6 @@ part of 'role_vo.dart';
 abstract class _$RoleVoCWProxy {
   RoleVo value(String? value);
 
-  RoleVo description(String? description);
-
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `RoleVo(...).copyWith.fieldName(value)`.
   ///
@@ -18,7 +16,7 @@ abstract class _$RoleVoCWProxy {
   /// ```dart
   /// RoleVo(...).copyWith(id: 12, name: "My name")
   /// ```
-  RoleVo call({String? value, String? description});
+  RoleVo call({String? value});
 }
 
 /// Callable proxy for `copyWith` functionality.
@@ -31,9 +29,6 @@ class _$RoleVoCWProxyImpl implements _$RoleVoCWProxy {
   @override
   RoleVo value(String? value) => call(value: value);
 
-  @override
-  RoleVo description(String? description) => call(description: description);
-
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `RoleVo(...).copyWith.fieldName(value)`.
   ///
@@ -42,19 +37,12 @@ class _$RoleVoCWProxyImpl implements _$RoleVoCWProxy {
   /// RoleVo(...).copyWith(id: 12, name: "My name")
   /// ```
   @override
-  RoleVo call({
-    Object? value = const $CopyWithPlaceholder(),
-    Object? description = const $CopyWithPlaceholder(),
-  }) {
+  RoleVo call({Object? value = const $CopyWithPlaceholder()}) {
     return RoleVo(
       value: value == const $CopyWithPlaceholder()
           ? _value.value
           // ignore: cast_nullable_to_non_nullable
           : value as String?,
-      description: description == const $CopyWithPlaceholder()
-          ? _value.description
-          // ignore: cast_nullable_to_non_nullable
-          : description as String?,
     );
   }
 }
@@ -72,14 +60,10 @@ extension $RoleVoCopyWith on RoleVo {
 
 RoleVo _$RoleVoFromJson(Map<String, dynamic> json) =>
     $checkedCreate('RoleVo', json, ($checkedConvert) {
-      final val = RoleVo(
-        value: $checkedConvert('value', (v) => v as String?),
-        description: $checkedConvert('description', (v) => v as String?),
-      );
+      final val = RoleVo(value: $checkedConvert('value', (v) => v as String?));
       return val;
     });
 
 Map<String, dynamic> _$RoleVoToJson(RoleVo instance) => <String, dynamic>{
   'value': ?instance.value,
-  'description': ?instance.description,
 };

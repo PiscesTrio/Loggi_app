@@ -9,7 +9,7 @@ part of 'driver_request.dart';
 abstract class _$DriverRequestCWProxy {
   DriverRequest name(String name);
 
-  DriverRequest gender(String? gender);
+  DriverRequest gender(DriverRequestGenderEnum? gender);
 
   DriverRequest phone(String phone);
 
@@ -30,7 +30,7 @@ abstract class _$DriverRequestCWProxy {
   /// ```
   DriverRequest call({
     String name,
-    String? gender,
+    DriverRequestGenderEnum? gender,
     String phone,
     String? address,
     String? idCard,
@@ -50,7 +50,7 @@ class _$DriverRequestCWProxyImpl implements _$DriverRequestCWProxy {
   DriverRequest name(String name) => call(name: name);
 
   @override
-  DriverRequest gender(String? gender) => call(gender: gender);
+  DriverRequest gender(DriverRequestGenderEnum? gender) => call(gender: gender);
 
   @override
   DriverRequest phone(String phone) => call(phone: phone);
@@ -92,7 +92,7 @@ class _$DriverRequestCWProxyImpl implements _$DriverRequestCWProxy {
       gender: gender == const $CopyWithPlaceholder()
           ? _value.gender
           // ignore: cast_nullable_to_non_nullable
-          : gender as String?,
+          : gender as DriverRequestGenderEnum?,
       phone: phone == const $CopyWithPlaceholder() || phone == null
           ? _value.phone
           // ignore: cast_nullable_to_non_nullable
@@ -133,7 +133,10 @@ DriverRequest _$DriverRequestFromJson(Map<String, dynamic> json) =>
       $checkKeys(json, requiredKeys: const ['name', 'phone']);
       final val = DriverRequest(
         name: $checkedConvert('name', (v) => v as String),
-        gender: $checkedConvert('gender', (v) => v as String?),
+        gender: $checkedConvert(
+          'gender',
+          (v) => $enumDecodeNullable(_$DriverRequestGenderEnumEnumMap, v),
+        ),
         phone: $checkedConvert('phone', (v) => v as String),
         address: $checkedConvert('address', (v) => v as String?),
         idCard: $checkedConvert('idCard', (v) => v as String?),
@@ -146,10 +149,15 @@ DriverRequest _$DriverRequestFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$DriverRequestToJson(DriverRequest instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'gender': ?instance.gender,
+      'gender': ?_$DriverRequestGenderEnumEnumMap[instance.gender],
       'phone': instance.phone,
       'address': ?instance.address,
       'idCard': ?instance.idCard,
       'license': ?instance.license,
       'score': ?instance.score,
     };
+
+const _$DriverRequestGenderEnumEnumMap = {
+  DriverRequestGenderEnum.MALE: 'MALE',
+  DriverRequestGenderEnum.FEMALE: 'FEMALE',
+};

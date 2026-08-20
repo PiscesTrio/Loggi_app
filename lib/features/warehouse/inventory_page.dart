@@ -118,7 +118,7 @@ class _DirectionButton extends ConsumerWidget {
     // these are the screen's two primary actions.
     return ElevatedButton(
       onPressed: () => _open(context, ref),
-      child: Text(direction.label),
+      child: Text(directionLabel(context, direction)),
     );
   }
 

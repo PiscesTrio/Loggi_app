@@ -1,4 +1,5 @@
 import '../../../l10n/l10n.dart';
+import '../../errors/error_messages.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -53,7 +54,7 @@ class _AddProductDialogState extends ConsumerState<AddProductDialog> {
     } on ApiException catch (e) {
       if (!mounted) return;
       setState(() => _submitting = false);
-      showTextToast(e.message);
+      showTextToast(apiErrorMessage(context, e));
     }
   }
 

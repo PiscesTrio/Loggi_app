@@ -44,7 +44,7 @@ class SystemLogVo {
   final String? account;
 
   @JsonKey(name: r'module', required: false, includeIfNull: false)
-  final String? module;
+  final SystemLogVoModuleEnum? module;
 
   @JsonKey(name: r'businessType', required: false, includeIfNull: false)
   final SystemLogVoBusinessTypeEnum? businessType;
@@ -99,6 +99,30 @@ class SystemLogVo {
   String toString() {
     return toJson().toString();
   }
+}
+
+enum SystemLogVoModuleEnum {
+  @JsonValue(r'COMMODITY')
+  COMMODITY(r'COMMODITY'),
+  @JsonValue(r'WAREHOUSE')
+  WAREHOUSE(r'WAREHOUSE'),
+  @JsonValue(r'EMPLOYEE')
+  EMPLOYEE(r'EMPLOYEE'),
+  @JsonValue(r'DRIVER')
+  DRIVER(r'DRIVER'),
+  @JsonValue(r'VEHICLE')
+  VEHICLE(r'VEHICLE'),
+  @JsonValue(r'DISTRIBUTION')
+  DISTRIBUTION(r'DISTRIBUTION'),
+  @JsonValue(r'DISTRIBUTION_TRACK')
+  DISTRIBUTION_TRACK(r'DISTRIBUTION_TRACK');
+
+  const SystemLogVoModuleEnum(this.value);
+
+  final String value;
+
+  @override
+  String toString() => value;
 }
 
 enum SystemLogVoBusinessTypeEnum {

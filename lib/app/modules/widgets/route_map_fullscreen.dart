@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter_map/flutter_map.dart';
 
 import '../../data/map/map_tile_source.dart';
@@ -16,13 +19,16 @@ import 'route_map.dart';
 class RouteMapFullscreen extends StatelessWidget {
   final List<RoutePoint> points;
   final MapTileSource source;
-  final String title;
+
+  /// Null means "use the default title", which can only be resolved with a context — so it
+  /// cannot be a default argument the way the Japanese literal was.
+  final String? title;
 
   const RouteMapFullscreen({
     super.key,
     required this.points,
     this.source = MapTileSource.gsiPale,
-    this.title = '配送ルート',
+    this.title,
   });
 
   @override
@@ -33,7 +39,7 @@ class RouteMapFullscreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          title,
+          title ?? context.l10n.mapRouteTitle,
           style: const TextStyle(fontFamily: 'Nunito', fontSize: 18),
         ),
         backgroundColor: ColorPalette.white,
@@ -41,7 +47,7 @@ class RouteMapFullscreen extends StatelessWidget {
         elevation: 1,
       ),
       body: coords.isEmpty
-          ? const Center(child: Text('位置情報がありません'))
+          ? Center(child: Text(context.l10n.mapNoLocation))
           : Stack(
               children: [
                 FlutterMap(

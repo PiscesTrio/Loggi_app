@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -64,7 +67,7 @@ class RouteMap extends StatelessWidget {
         height: height,
         child: Center(
           child: Text(
-            '位置情報がありません',
+            context.l10n.mapNoLocation,
             style: TextStyle(
               fontFamily: 'Nunito',
               fontSize: 15,
@@ -136,7 +139,11 @@ class RouteMap extends StatelessWidget {
               ],
             ),
             if (coords.length >= 2)
-              Positioned(left: 8, top: 8, child: _chip(_distanceLabel(coords))),
+              Positioned(
+                left: 8,
+                top: 8,
+                child: _chip(_distanceLabel(context, coords)),
+              ),
             Positioned(right: 6, bottom: 4, child: _attribution()),
             if (onExpand != null)
               Positioned(
@@ -147,7 +154,7 @@ class RouteMap extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   child: IconButton(
                     iconSize: 20,
-                    tooltip: '全画面表示',
+                    tooltip: context.l10n.mapFullscreen,
                     icon: const Icon(Icons.fullscreen),
                     color: ColorPalette.nileBlue,
                     onPressed: onExpand,
@@ -181,13 +188,15 @@ class RouteMap extends StatelessWidget {
 
   /// Straight-line distance — the polyline is a direct line, not a driving route,
   /// so calling it 配送距離 would be a lie about what is drawn.
-  static String _distanceLabel(List<LatLng> coords) {
+  static String _distanceLabel(BuildContext context, List<LatLng> coords) {
     const distance = Distance();
     var metres = 0.0;
     for (var i = 0; i < coords.length - 1; i++) {
       metres += distance.as(LengthUnit.Meter, coords[i], coords[i + 1]);
     }
-    return '直線距離 約 ${(metres / 1000).toStringAsFixed(0)} km';
+    return context.l10n.mapStraightLineDistance(
+      (metres / 1000).toStringAsFixed(0),
+    );
   }
 
   Widget _chip(String text) => Container(

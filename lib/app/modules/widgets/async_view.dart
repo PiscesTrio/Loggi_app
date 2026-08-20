@@ -1,9 +1,9 @@
 import '../../../l10n/l10n.dart';
+import '../../../features/errors/error_messages.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/network/api_exception.dart';
 import '../../theme/color_palette.dart';
 
 /// Renders the three states a request can be in, so each screen does not invent its own.
@@ -57,17 +57,18 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ApiException carries what the server said. Anything else is a bug in the app, and
-    // showing its toString to a user helps nobody.
-    final message = error is ApiException
-        ? (error as ApiException).message
-        : context.l10n.errorGeneric;
+    // What to say is a question for the reader's language, so it is asked one layer up from
+    // the exception rather than baked into it. See features/errors/error_messages.dart.
+    final message = apiErrorMessage(context, error);
     return _Message(
       text: message,
       icon: Icons.error_outline,
       action: onRetry == null
           ? null
-          : TextButton(onPressed: onRetry, child: const Text('重试')),
+          : TextButton(
+              onPressed: onRetry,
+              child: Text(context.l10n.actionRetry),
+            ),
     );
   }
 }

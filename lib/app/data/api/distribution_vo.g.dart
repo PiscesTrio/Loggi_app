@@ -21,7 +21,7 @@ abstract class _$DistributionVoCWProxy {
 
   DistributionVo urgent(bool? urgent);
 
-  DistributionVo care(String? care);
+  DistributionVo care(List<DistributionVoCareEnum>? care);
 
   DistributionVo time(DateTime? time);
 
@@ -52,7 +52,7 @@ abstract class _$DistributionVoCWProxy {
     String? phone,
     String? address,
     bool? urgent,
-    String? care,
+    List<DistributionVoCareEnum>? care,
     DateTime? time,
     DistributionVoStatusEnum? status,
     double? fromLat,
@@ -93,7 +93,7 @@ class _$DistributionVoCWProxyImpl implements _$DistributionVoCWProxy {
   DistributionVo urgent(bool? urgent) => call(urgent: urgent);
 
   @override
-  DistributionVo care(String? care) => call(care: care);
+  DistributionVo care(List<DistributionVoCareEnum>? care) => call(care: care);
 
   @override
   DistributionVo time(DateTime? time) => call(time: time);
@@ -174,7 +174,7 @@ class _$DistributionVoCWProxyImpl implements _$DistributionVoCWProxy {
       care: care == const $CopyWithPlaceholder()
           ? _value.care
           // ignore: cast_nullable_to_non_nullable
-          : care as String?,
+          : care as List<DistributionVoCareEnum>?,
       time: time == const $CopyWithPlaceholder()
           ? _value.time
           // ignore: cast_nullable_to_non_nullable
@@ -242,7 +242,12 @@ DistributionVo _$DistributionVoFromJson(
     phone: $checkedConvert('phone', (v) => v as String?),
     address: $checkedConvert('address', (v) => v as String?),
     urgent: $checkedConvert('urgent', (v) => v as bool?),
-    care: $checkedConvert('care', (v) => v as String?),
+    care: $checkedConvert(
+      'care',
+      (v) => (v as List<dynamic>?)
+          ?.map((e) => $enumDecode(_$DistributionVoCareEnumEnumMap, e))
+          .toList(),
+    ),
     time: $checkedConvert(
       'time',
       (v) => v == null ? null : DateTime.parse(v as String),
@@ -272,7 +277,9 @@ Map<String, dynamic> _$DistributionVoToJson(DistributionVo instance) =>
       'phone': ?instance.phone,
       'address': ?instance.address,
       'urgent': ?instance.urgent,
-      'care': ?instance.care,
+      'care': ?instance.care
+          ?.map((e) => _$DistributionVoCareEnumEnumMap[e]!)
+          .toList(),
       'time': ?instance.time?.toIso8601String(),
       'status': ?_$DistributionVoStatusEnumEnumMap[instance.status],
       'fromLat': ?instance.fromLat,
@@ -281,6 +288,17 @@ Map<String, dynamic> _$DistributionVoToJson(DistributionVo instance) =>
       'toLng': ?instance.toLng,
       'createAt': ?instance.createAt?.toIso8601String(),
     };
+
+const _$DistributionVoCareEnumEnumMap = {
+  DistributionVoCareEnum.FRAGILE: 'FRAGILE',
+  DistributionVoCareEnum.KEEP_DRY: 'KEEP_DRY',
+  DistributionVoCareEnum.KEEP_AWAY_FROM_SUNLIGHT: 'KEEP_AWAY_FROM_SUNLIGHT',
+  DistributionVoCareEnum.PROTECT_FROM_HEAT: 'PROTECT_FROM_HEAT',
+  DistributionVoCareEnum.DO_NOT_ROLL: 'DO_NOT_ROLL',
+  DistributionVoCareEnum.DO_NOT_STACK: 'DO_NOT_STACK',
+  DistributionVoCareEnum.REFRIGERATE: 'REFRIGERATE',
+  DistributionVoCareEnum.FLAMMABLE: 'FLAMMABLE',
+};
 
 const _$DistributionVoStatusEnumEnumMap = {
   DistributionVoStatusEnum.REVIEWING: 'REVIEWING',

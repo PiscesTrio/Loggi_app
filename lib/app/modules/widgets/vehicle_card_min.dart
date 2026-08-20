@@ -1,4 +1,6 @@
 import '../../theme/status_colors.dart';
+import '../../../l10n/l10n.dart';
+import '../../../features/fleet/fleet_labels.dart';
 
 import 'package:loggi_app/assets/svg/svg_strings.dart';
 import 'package:flutter/material.dart';
@@ -11,19 +13,6 @@ class VehicleMinCard extends StatelessWidget {
   final VehicleVo? vehicle;
 
   const VehicleMinCard({super.key, this.vehicle});
-
-  int _type(String type) {
-    switch (type) {
-      case "货车":
-        return 0;
-      case "卡车":
-        return 1;
-      case "重卡":
-        return 2;
-      default:
-        return 0;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +42,7 @@ class VehicleMinCard extends StatelessWidget {
                     height: 80,
                     width: 120,
                     child: IndexedStack(
-                      index: _type(vehicle!.type!),
+                      index: vehicleTypeIndex(vehicle!.type?.value),
                       children: [
                         SvgPicture.string(SvgString.van),
                         SvgPicture.string(SvgString.truck),
@@ -75,14 +64,14 @@ class VehicleMinCard extends StatelessWidget {
               top: 5,
               child: Container(
                 height: 20,
-                width: 40,
+                padding: const EdgeInsets.symmetric(horizontal: 6),
                 decoration: BoxDecoration(
                   color: ColorPalette.nileBlue,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Center(
                   child: Text(
-                    vehicle!.type!,
+                    vehicleTypeLabel(context, vehicle!.type?.value),
                     maxLines: 1,
                     style: const TextStyle(
                       fontFamily: "Nunito",
@@ -98,7 +87,7 @@ class VehicleMinCard extends StatelessWidget {
               top: 30,
               child: Container(
                 height: 20,
-                width: 40,
+                padding: const EdgeInsets.symmetric(horizontal: 6),
                 decoration: BoxDecoration(
                   color: vehicle!.driving!
                       ? StatusColors.busy
@@ -107,7 +96,9 @@ class VehicleMinCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    vehicle!.driving! ? "配送中" : "空闲",
+                    vehicle!.driving!
+                        ? context.l10n.fleetStatusBusy
+                        : context.l10n.fleetStatusIdle,
                     maxLines: 1,
                     style: const TextStyle(
                       fontFamily: "Nunito",

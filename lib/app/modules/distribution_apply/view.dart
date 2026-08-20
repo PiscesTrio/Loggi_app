@@ -1,4 +1,7 @@
 import '../../../features/distribution/care_tags.dart';
+import '../../../features/errors/error_messages.dart';
+import '../../../features/fleet/fleet_labels.dart';
+import '../../data/api/distribution_request.dart';
 import '../../../l10n/l10n.dart';
 
 import 'package:flutter/material.dart';
@@ -54,7 +57,7 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
     } on ApiException catch (e) {
       if (!mounted) return;
       setState(() => _submitting = false);
-      showTextToast(e.message);
+      showTextToast(apiErrorMessage(context, e));
     }
   }
 
@@ -200,7 +203,11 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                         return DropdownMenuItem(
                                           value: process,
                                           child: Text(
-                                            "${process.type}：${process.number}",
+                                            // Not "${process.type}". The generated enum's
+                                            // toString() is the wire value, so interpolating
+                                            // it compiles, analyses clean, and puts
+                                            // LIGHT_TRUCK on screen.
+                                            "${vehicleTypeLabel(context, process.type?.value)}：${process.number}",
                                             style: TextStyle(
                                               fontFamily: "Nunito",
                                               fontSize: 16,
@@ -417,13 +424,14 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                           return MultiSelectDialog(
                                             initialValue: form.cares,
                                             items: [
-                                              for (final tag
-                                                  in CareTags.wireValues)
-                                                MultiSelectItem<String>(
+                                              for (final tag in CareTags.all)
+                                                MultiSelectItem<
+                                                  DistributionRequestCareEnum
+                                                >(
                                                   tag,
                                                   CareTags.labelOf(
                                                     context,
-                                                    tag,
+                                                    tag.value,
                                                   ),
                                                 ),
                                             ],
@@ -467,7 +475,10 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                     .map(
                                       (element) => MultiSelectItem(
                                         element,
-                                        CareTags.labelOf(context, element),
+                                        CareTags.labelOf(
+                                          context,
+                                          element.value,
+                                        ),
                                       ),
                                     )
                                     .toList(),

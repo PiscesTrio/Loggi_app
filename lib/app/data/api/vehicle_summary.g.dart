@@ -11,7 +11,7 @@ abstract class _$VehicleSummaryCWProxy {
 
   VehicleSummary number(String? number);
 
-  VehicleSummary type(String? type);
+  VehicleSummary type(VehicleSummaryTypeEnum? type);
 
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `VehicleSummary(...).copyWith.fieldName(value)`.
@@ -20,7 +20,11 @@ abstract class _$VehicleSummaryCWProxy {
   /// ```dart
   /// VehicleSummary(...).copyWith(id: 12, name: "My name")
   /// ```
-  VehicleSummary call({String? id, String? number, String? type});
+  VehicleSummary call({
+    String? id,
+    String? number,
+    VehicleSummaryTypeEnum? type,
+  });
 }
 
 /// Callable proxy for `copyWith` functionality.
@@ -37,7 +41,7 @@ class _$VehicleSummaryCWProxyImpl implements _$VehicleSummaryCWProxy {
   VehicleSummary number(String? number) => call(number: number);
 
   @override
-  VehicleSummary type(String? type) => call(type: type);
+  VehicleSummary type(VehicleSummaryTypeEnum? type) => call(type: type);
 
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `VehicleSummary(...).copyWith.fieldName(value)`.
@@ -64,7 +68,7 @@ class _$VehicleSummaryCWProxyImpl implements _$VehicleSummaryCWProxy {
       type: type == const $CopyWithPlaceholder()
           ? _value.type
           // ignore: cast_nullable_to_non_nullable
-          : type as String?,
+          : type as VehicleSummaryTypeEnum?,
     );
   }
 }
@@ -85,7 +89,10 @@ VehicleSummary _$VehicleSummaryFromJson(Map<String, dynamic> json) =>
       final val = VehicleSummary(
         id: $checkedConvert('id', (v) => v as String?),
         number: $checkedConvert('number', (v) => v as String?),
-        type: $checkedConvert('type', (v) => v as String?),
+        type: $checkedConvert(
+          'type',
+          (v) => $enumDecodeNullable(_$VehicleSummaryTypeEnumEnumMap, v),
+        ),
       );
       return val;
     });
@@ -94,5 +101,11 @@ Map<String, dynamic> _$VehicleSummaryToJson(VehicleSummary instance) =>
     <String, dynamic>{
       'id': ?instance.id,
       'number': ?instance.number,
-      'type': ?instance.type,
+      'type': ?_$VehicleSummaryTypeEnumEnumMap[instance.type],
     };
+
+const _$VehicleSummaryTypeEnumEnumMap = {
+  VehicleSummaryTypeEnum.LIGHT_TRUCK: 'LIGHT_TRUCK',
+  VehicleSummaryTypeEnum.TRUCK: 'TRUCK',
+  VehicleSummaryTypeEnum.HEAVY_TRUCK: 'HEAVY_TRUCK',
+};

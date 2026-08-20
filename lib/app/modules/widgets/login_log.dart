@@ -27,7 +27,7 @@ class LoginLogsTtem extends StatelessWidget {
             children: [
               Container(
                 height: 25,
-                width: 50,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
                   color: loginLog.status == 0
                       ? StatusColors.busy
@@ -52,12 +52,12 @@ class LoginLogsTtem extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              "账号：${loginLog.email ?? "-"}",
+              context.l10n.logAccount(loginLog.email ?? '-'),
               style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
             ),
           ),
 
-          Text("IP地址：${loginLog.ip ?? "-"}"),
+          Text(context.l10n.logIpAddress(loginLog.ip ?? '-')),
           Text(formatDateTime(loginLog.date)),
         ],
       ),

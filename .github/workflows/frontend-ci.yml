@@ -24,9 +24,23 @@ jobs:
         # the first new info fails the build instead of joining a pile nobody reads.
         run: flutter analyze
       - name: Test with coverage
+        # This is the localisation gate as well as the test run. test/l10n asserts no CJK
+        # literal outside three allowlisted files, matching key sets across zh/en/ja, no value
+        # identical across languages, no kana in the Chinese file, no simplified-only forms in
+        # the Japanese one, no unreferenced key, and matching placeholders. test/features adds
+        # the layout check — every card rendered in every language, asserting nothing overflows
+        # and nothing is silently clipped — and the error contract, which reads the code list
+        # out of tool/openapi.json.
+        #
+        # Written as tests rather than as a CI script on purpose: a script here runs after the
+        # push, and these run before it, on the machine of whoever broke them.
         run: flutter test --coverage
-      # S00 deliberately omits `dart format --set-exit-if-changed`: existing code is unformatted,
-      # so it would always fail. Enable it once the frontend cleanup slice lands a format-only commit.
+      - name: Check formatting
+        # S00 omitted this because the repo carried unformatted code and it would have failed on
+        # day one — the same reason `flutter analyze` had escape hatches then and does not now.
+        # `dart format .` reports 0 changed across all 170 files, so the condition that comment
+        # set has been met.
+        run: dart format --set-exit-if-changed .
       - uses: actions/upload-artifact@v4
         if: always()
         with:

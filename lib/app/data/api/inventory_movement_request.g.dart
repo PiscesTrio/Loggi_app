@@ -11,8 +11,6 @@ abstract class _$InventoryMovementRequestCWProxy {
 
   InventoryMovementRequest commodityId(String commodityId);
 
-  InventoryMovementRequest name(String? name);
-
   InventoryMovementRequest count(int count);
 
   InventoryMovementRequest description(String? description);
@@ -27,7 +25,6 @@ abstract class _$InventoryMovementRequestCWProxy {
   InventoryMovementRequest call({
     String warehouseId,
     String commodityId,
-    String? name,
     int count,
     String? description,
   });
@@ -50,9 +47,6 @@ class _$InventoryMovementRequestCWProxyImpl
       call(commodityId: commodityId);
 
   @override
-  InventoryMovementRequest name(String? name) => call(name: name);
-
-  @override
   InventoryMovementRequest count(int count) => call(count: count);
 
   @override
@@ -70,7 +64,6 @@ class _$InventoryMovementRequestCWProxyImpl
   InventoryMovementRequest call({
     Object? warehouseId = const $CopyWithPlaceholder(),
     Object? commodityId = const $CopyWithPlaceholder(),
-    Object? name = const $CopyWithPlaceholder(),
     Object? count = const $CopyWithPlaceholder(),
     Object? description = const $CopyWithPlaceholder(),
   }) {
@@ -85,10 +78,6 @@ class _$InventoryMovementRequestCWProxyImpl
           ? _value.commodityId
           // ignore: cast_nullable_to_non_nullable
           : commodityId as String,
-      name: name == const $CopyWithPlaceholder()
-          ? _value.name
-          // ignore: cast_nullable_to_non_nullable
-          : name as String?,
       count: count == const $CopyWithPlaceholder() || count == null
           ? _value.count
           // ignore: cast_nullable_to_non_nullable
@@ -120,7 +109,6 @@ InventoryMovementRequest _$InventoryMovementRequestFromJson(
   final val = InventoryMovementRequest(
     warehouseId: $checkedConvert('warehouseId', (v) => v as String),
     commodityId: $checkedConvert('commodityId', (v) => v as String),
-    name: $checkedConvert('name', (v) => v as String?),
     count: $checkedConvert('count', (v) => (v as num).toInt()),
     description: $checkedConvert('description', (v) => v as String?),
   );
@@ -132,7 +120,6 @@ Map<String, dynamic> _$InventoryMovementRequestToJson(
 ) => <String, dynamic>{
   'warehouseId': instance.warehouseId,
   'commodityId': instance.commodityId,
-  'name': ?instance.name,
   'count': instance.count,
   'description': ?instance.description,
 };

@@ -1,4 +1,5 @@
 import '../../../l10n/l10n.dart';
+import '../../errors/error_messages.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,7 +64,7 @@ class _AddWarehouseDialogState extends ConsumerState<AddWarehouseDialog> {
     } on ApiException catch (e) {
       if (!mounted) return;
       setState(() => _submitting = false);
-      showTextToast(e.message);
+      showTextToast(apiErrorMessage(context, e));
     }
   }
 

@@ -1,4 +1,5 @@
 import '../../../l10n/l10n.dart';
+import '../../errors/error_messages.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,16 +12,22 @@ import '../../../app/theme/color_palette.dart';
 import '../providers.dart';
 
 /// Which way the stock is going.
+///
+/// Carried its own Chinese label until B1. A constant cannot hold a localised string — there
+/// is no context at class-initialisation time — so the wording moved out to [directionLabel]
+/// and the enum is just the direction again.
 enum InventoryDirection {
-  inbound('入库'),
-  outbound('出库');
-
-  const InventoryDirection(this.label);
-
-  final String label;
+  inbound,
+  outbound;
 
   bool get isInbound => this == InventoryDirection.inbound;
 }
+
+/// What to call a direction on screen.
+String directionLabel(BuildContext context, InventoryDirection direction) =>
+    direction.isInbound
+    ? context.l10n.inventoryDirectionInbound
+    : context.l10n.inventoryDirectionOutbound;
 
 /// One commodity the dialog can record a movement against.
 ///
@@ -97,10 +104,13 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
       await ref
           .read(inventoryProvider(widget.warehouseId).notifier)
           .move(
+            // No name. The server derives it from commodityId (S18, backfilled by V8) — the
+            // client used to supply a copy, and a movement filed without one produced the
+            // unnamed slice in the chart. The generated model still carried the field until
+            // it was regenerated, so this line had been sending something nobody read.
             InventoryMovementRequest(
               warehouseId: widget.warehouseId,
               commodityId: selected.commodityId,
-              name: selected.name,
               count: _count,
               description: _description.isEmpty ? null : _description,
             ),
@@ -115,7 +125,7 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
       // so a rejected movement was indistinguishable from a slow one.
       if (!mounted) return;
       setState(() => _submitting = false);
-      showTextToast(e.message);
+      showTextToast(apiErrorMessage(context, e));
     }
   }
 
@@ -123,7 +133,11 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: ColorPalette.aquaHaze,
-      title: Text('${widget.direction.label}登记'),
+      title: Text(
+        widget.direction.isInbound
+            ? context.l10n.inventoryRecordTitleInbound
+            : context.l10n.inventoryRecordTitleOutbound,
+      ),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -34,7 +34,10 @@ class EnvelopeInterceptor extends Interceptor {
       handler.reject(
         _asError(
           response,
-          ApiException(message: '服务器返回了无法解析的响应', statusCode: status),
+          ApiException(
+            failure: ApiFailure.unreadableResponse,
+            statusCode: status,
+          ),
         ),
         true,
       );
@@ -55,11 +58,17 @@ class EnvelopeInterceptor extends Interceptor {
     }
 
     final message = body['msg'];
+    final errorCode = body['errorCode'];
     handler.reject(
       _asError(
         response,
         ApiException(
-          message: message is String && message.isNotEmpty ? message : '请求出错',
+          // Both, and neither invented here. errorCode is what the UI maps into the
+          // reader's language; msg is the server's own words, kept for a code this build
+          // does not know and for the log. This used to substitute 请求出错 when msg was
+          // missing, which put a Chinese sentence into an app that now has three languages.
+          message: message is String && message.isNotEmpty ? message : null,
+          errorCode: errorCode is String ? errorCode : null,
           statusCode: response.statusCode,
           code: code is int ? code : null,
         ),

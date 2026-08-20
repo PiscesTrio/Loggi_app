@@ -11,7 +11,7 @@ abstract class _$EmployeeVoCWProxy {
 
   EmployeeVo name(String? name);
 
-  EmployeeVo gender(String? gender);
+  EmployeeVo gender(EmployeeVoGenderEnum? gender);
 
   EmployeeVo phone(String? phone);
 
@@ -33,7 +33,7 @@ abstract class _$EmployeeVoCWProxy {
   EmployeeVo call({
     String? id,
     String? name,
-    String? gender,
+    EmployeeVoGenderEnum? gender,
     String? phone,
     String? address,
     String? department,
@@ -56,7 +56,7 @@ class _$EmployeeVoCWProxyImpl implements _$EmployeeVoCWProxy {
   EmployeeVo name(String? name) => call(name: name);
 
   @override
-  EmployeeVo gender(String? gender) => call(gender: gender);
+  EmployeeVo gender(EmployeeVoGenderEnum? gender) => call(gender: gender);
 
   @override
   EmployeeVo phone(String? phone) => call(phone: phone);
@@ -103,7 +103,7 @@ class _$EmployeeVoCWProxyImpl implements _$EmployeeVoCWProxy {
       gender: gender == const $CopyWithPlaceholder()
           ? _value.gender
           // ignore: cast_nullable_to_non_nullable
-          : gender as String?,
+          : gender as EmployeeVoGenderEnum?,
       phone: phone == const $CopyWithPlaceholder()
           ? _value.phone
           // ignore: cast_nullable_to_non_nullable
@@ -144,7 +144,10 @@ EmployeeVo _$EmployeeVoFromJson(Map<String, dynamic> json) =>
       final val = EmployeeVo(
         id: $checkedConvert('id', (v) => v as String?),
         name: $checkedConvert('name', (v) => v as String?),
-        gender: $checkedConvert('gender', (v) => v as String?),
+        gender: $checkedConvert(
+          'gender',
+          (v) => $enumDecodeNullable(_$EmployeeVoGenderEnumEnumMap, v),
+        ),
         phone: $checkedConvert('phone', (v) => v as String?),
         address: $checkedConvert('address', (v) => v as String?),
         department: $checkedConvert('department', (v) => v as String?),
@@ -164,10 +167,15 @@ Map<String, dynamic> _$EmployeeVoToJson(EmployeeVo instance) =>
     <String, dynamic>{
       'id': ?instance.id,
       'name': ?instance.name,
-      'gender': ?instance.gender,
+      'gender': ?_$EmployeeVoGenderEnumEnumMap[instance.gender],
       'phone': ?instance.phone,
       'address': ?instance.address,
       'department': ?instance.department,
       'createAt': ?instance.createAt?.toIso8601String(),
       'updateAt': ?instance.updateAt?.toIso8601String(),
     };
+
+const _$EmployeeVoGenderEnumEnumMap = {
+  EmployeeVoGenderEnum.MALE: 'MALE',
+  EmployeeVoGenderEnum.FEMALE: 'FEMALE',
+};

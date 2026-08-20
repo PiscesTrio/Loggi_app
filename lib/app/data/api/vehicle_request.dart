@@ -23,7 +23,7 @@ class VehicleRequest {
   final String number;
 
   @JsonKey(name: r'type', required: true, includeIfNull: false)
-  final String type;
+  final VehicleRequestTypeEnum type;
 
   @override
   bool operator ==(Object other) =>
@@ -42,4 +42,20 @@ class VehicleRequest {
   String toString() {
     return toJson().toString();
   }
+}
+
+enum VehicleRequestTypeEnum {
+  @JsonValue(r'LIGHT_TRUCK')
+  LIGHT_TRUCK(r'LIGHT_TRUCK'),
+  @JsonValue(r'TRUCK')
+  TRUCK(r'TRUCK'),
+  @JsonValue(r'HEAVY_TRUCK')
+  HEAVY_TRUCK(r'HEAVY_TRUCK');
+
+  const VehicleRequestTypeEnum(this.value);
+
+  final String value;
+
+  @override
+  String toString() => value;
 }

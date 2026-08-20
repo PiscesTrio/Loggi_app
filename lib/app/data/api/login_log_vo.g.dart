@@ -15,7 +15,7 @@ abstract class _$LoginLogVoCWProxy {
 
   LoginLogVo ip(String? ip);
 
-  LoginLogVo browser(String? browser);
+  LoginLogVo browser(LoginLogVoBrowserEnum? browser);
 
   LoginLogVo date(DateTime? date);
 
@@ -31,7 +31,7 @@ abstract class _$LoginLogVoCWProxy {
     String? email,
     int? status,
     String? ip,
-    String? browser,
+    LoginLogVoBrowserEnum? browser,
     DateTime? date,
   });
 }
@@ -56,7 +56,7 @@ class _$LoginLogVoCWProxyImpl implements _$LoginLogVoCWProxy {
   LoginLogVo ip(String? ip) => call(ip: ip);
 
   @override
-  LoginLogVo browser(String? browser) => call(browser: browser);
+  LoginLogVo browser(LoginLogVoBrowserEnum? browser) => call(browser: browser);
 
   @override
   LoginLogVo date(DateTime? date) => call(date: date);
@@ -97,7 +97,7 @@ class _$LoginLogVoCWProxyImpl implements _$LoginLogVoCWProxy {
       browser: browser == const $CopyWithPlaceholder()
           ? _value.browser
           // ignore: cast_nullable_to_non_nullable
-          : browser as String?,
+          : browser as LoginLogVoBrowserEnum?,
       date: date == const $CopyWithPlaceholder()
           ? _value.date
           // ignore: cast_nullable_to_non_nullable
@@ -124,7 +124,10 @@ LoginLogVo _$LoginLogVoFromJson(Map<String, dynamic> json) =>
         email: $checkedConvert('email', (v) => v as String?),
         status: $checkedConvert('status', (v) => (v as num?)?.toInt()),
         ip: $checkedConvert('ip', (v) => v as String?),
-        browser: $checkedConvert('browser', (v) => v as String?),
+        browser: $checkedConvert(
+          'browser',
+          (v) => $enumDecodeNullable(_$LoginLogVoBrowserEnumEnumMap, v),
+        ),
         date: $checkedConvert(
           'date',
           (v) => v == null ? null : DateTime.parse(v as String),
@@ -139,6 +142,28 @@ Map<String, dynamic> _$LoginLogVoToJson(LoginLogVo instance) =>
       'email': ?instance.email,
       'status': ?instance.status,
       'ip': ?instance.ip,
-      'browser': ?instance.browser,
+      'browser': ?_$LoginLogVoBrowserEnumEnumMap[instance.browser],
       'date': ?instance.date?.toIso8601String(),
     };
+
+const _$LoginLogVoBrowserEnumEnumMap = {
+  LoginLogVoBrowserEnum.CHROME: 'CHROME',
+  LoginLogVoBrowserEnum.SAFARI: 'SAFARI',
+  LoginLogVoBrowserEnum.FIREFOX: 'FIREFOX',
+  LoginLogVoBrowserEnum.EDGE: 'EDGE',
+  LoginLogVoBrowserEnum.IE: 'IE',
+  LoginLogVoBrowserEnum.OPERA: 'OPERA',
+  LoginLogVoBrowserEnum.QQ: 'QQ',
+  LoginLogVoBrowserEnum.UC: 'UC',
+  LoginLogVoBrowserEnum.SOGOU: 'SOGOU',
+  LoginLogVoBrowserEnum.BAIDU: 'BAIDU',
+  LoginLogVoBrowserEnum.QIHOO_360: 'QIHOO_360',
+  LoginLogVoBrowserEnum.LIEBAO: 'LIEBAO',
+  LoginLogVoBrowserEnum.MAXTHON: 'MAXTHON',
+  LoginLogVoBrowserEnum.THE_WORLD: 'THE_WORLD',
+  LoginLogVoBrowserEnum.QUARK: 'QUARK',
+  LoginLogVoBrowserEnum.KONQUEROR: 'KONQUEROR',
+  LoginLogVoBrowserEnum.CAMINO: 'CAMINO',
+  LoginLogVoBrowserEnum.AVAST: 'AVAST',
+  LoginLogVoBrowserEnum.UNKNOWN: 'UNKNOWN',
+};

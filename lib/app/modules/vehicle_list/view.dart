@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../features/errors/error_messages.dart';
+
+import '../../../l10n/l10n.dart';
+
+import '../../../features/fleet/fleet_labels.dart';
+
 import '../../data/api/vehicle_request.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,7 +40,7 @@ class VehicleListPage extends ConsumerWidget {
           child: AsyncView(
             value: vehicles,
             onRetry: () => ref.invalidate(vehicleListProvider),
-            emptyMessage: '暂无车辆',
+            emptyMessage: context.l10n.emptyVehicles,
             builder: (data) => GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -69,13 +75,23 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
   bool _submitting = false;
 
   Future<void> _submit() async {
+    // Every other form in this app checks its required fields before sending; this one did
+    // not, and it was the only place where a server validation failure was reachable from
+    // the UI. That mattered after A3: the client maps VALIDATION_FAILED to one sentence for
+    // all fifty-two constraints, so a blank plate produced "check the form" where it used to
+    // produce "the plate number is required". Saying which field needs either a check here
+    // or a field-level code from the server — this is the cheap half.
+    if (ref.read(vehicleDraftProvider).number.isEmpty) {
+      showTextToast(context.l10n.validationPlateRequired);
+      return;
+    }
     setState(() => _submitting = true);
     try {
       await ref
           .read(vehicleListProvider.notifier)
           .add(ref.read(vehicleDraftProvider));
       if (!mounted) return;
-      showTextToast('提交成功');
+      showTextToast(context.l10n.submittedOk);
       Navigator.pop(context);
     } on ApiException catch (e) {
       // The old dialog's failure branch cleared the spinner and did nothing else, so a
@@ -83,7 +99,7 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
       // reaches the user now.
       if (!mounted) return;
       setState(() => _submitting = false);
-      showTextToast(e.message);
+      showTextToast(apiErrorMessage(context, e));
     }
   }
 
@@ -92,7 +108,7 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
     final draft = ref.watch(vehicleDraftProvider);
     return AlertDialog(
       scrollable: true,
-      title: const Text('添加车辆'),
+      title: Text(context.l10n.vehicleAddTitle),
       content: Padding(
         padding: const EdgeInsets.all(8),
         child: Form(
@@ -102,26 +118,34 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
                 onChanged: (value) => ref
                     .read(vehicleDraftProvider.notifier)
                     .update((v) => v.copyWith(number: value)),
-                decoration: const InputDecoration(
-                  labelText: '车牌号',
-                  icon: Icon(Icons.add_circle_rounded),
+                decoration: InputDecoration(
+                  labelText: context.l10n.vehiclePlateNumber,
+                  icon: const Icon(Icons.add_circle_rounded),
                 ),
               ),
               const SizedBox(height: 20),
               Row(
                 children: [
-                  const Text(
-                    '类型：',
-                    style: TextStyle(
+                  Text(
+                    context.l10n.fieldType,
+                    style: const TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 20,
                       color: ColorPalette.nileBlue,
                     ),
                   ),
                   const SizedBox(width: 10),
-                  DropdownButton<String>(
-                    items: const ['货车', '卡车', '重卡']
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                  DropdownButton<VehicleRequestTypeEnum>(
+                    // The set is the generated enum's own values, not a literal list that
+                    // has to be kept in step with the server by hand. Adding a fourth type
+                    // server-side puts it in this dropdown on the next regeneration.
+                    items: VehicleRequestTypeEnum.values
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(vehicleTypeLabel(context, e.value)),
+                          ),
+                        )
                         .toList(),
                     iconSize: 30,
                     underline: const SizedBox(),
@@ -139,7 +163,7 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
       actions: [
         OutlinedButton(
           onPressed: _submitting ? null : () => Navigator.pop(context),
-          child: const Text('取消'),
+          child: Text(context.l10n.actionCancel),
         ),
         ElevatedButton(
           onPressed: _submitting ? null : _submit,
@@ -149,9 +173,9 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
                   width: 15,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text(
-                  '确认',
-                  style: TextStyle(fontSize: 15, fontFamily: 'Nunito'),
+              : Text(
+                  context.l10n.actionConfirm,
+                  style: const TextStyle(fontSize: 15, fontFamily: 'Nunito'),
                 ),
         ),
       ],

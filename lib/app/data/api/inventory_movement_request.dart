@@ -22,8 +22,6 @@ class InventoryMovementRequest {
 
     required this.commodityId,
 
-    this.name,
-
     required this.count,
 
     this.description,
@@ -34,9 +32,6 @@ class InventoryMovementRequest {
 
   @JsonKey(name: r'commodityId', required: true, includeIfNull: false)
   final String commodityId;
-
-  @JsonKey(name: r'name', required: false, includeIfNull: false)
-  final String? name;
 
   // minimum: 1
   @JsonKey(name: r'count', required: true, includeIfNull: false)
@@ -51,7 +46,6 @@ class InventoryMovementRequest {
       other is InventoryMovementRequest &&
           other.warehouseId == warehouseId &&
           other.commodityId == commodityId &&
-          other.name == name &&
           other.count == count &&
           other.description == description;
 
@@ -59,7 +53,6 @@ class InventoryMovementRequest {
   int get hashCode =>
       warehouseId.hashCode +
       commodityId.hashCode +
-      name.hashCode +
       count.hashCode +
       description.hashCode;
 

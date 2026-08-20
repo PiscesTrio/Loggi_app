@@ -138,10 +138,13 @@ class ApplyFormNotifier extends AutoDisposeAsyncNotifier<ApplyFormState> {
     ),
   );
 
-  void setCares(List<String> cares) => _edit(
+  void setCares(List<DistributionRequestCareEnum> cares) => _edit(
     (s) => s.copyWith(
       cares: cares,
-      draft: s.draft.copyWith(care: cares.isEmpty ? '' : '${cares.join(',')},'),
+      // Was '${cares.join(',')},' — a comma-joined string with a trailing comma, which the
+      // server stored verbatim in one column. The list is the list now; nothing serialises
+      // it on the way out and nothing has to parse it on the way back.
+      draft: s.draft.copyWith(care: cares.toSet()),
     ),
   );
 

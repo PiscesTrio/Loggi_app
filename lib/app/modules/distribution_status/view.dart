@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loggi_app/app/modules/widgets/distribution_status_item.dart';
@@ -16,10 +19,9 @@ class DistributionStatusPage extends ConsumerWidget {
 
   final DistributionVo argument;
 
-  final String? name = '配送状況';
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final title = context.l10n.trackTitle;
     // The timeline is asked for by id. The old screen assigned the order onto the
     // controller from inside build() and the controller fetched in onReady, one frame
     // later — an ordering that held by luck and dereferenced `id!` if it ever did not.
@@ -72,9 +74,12 @@ class DistributionStatusPage extends ConsumerWidget {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
                             child: Text(
-                              name!.length > 14
-                                  ? '${name!.substring(0, 12)}..'
-                                  : name!,
+                              // Was a field initialised with a literal, which a
+                              // localised string cannot be: there is no context yet when
+                              // the widget is constructed.
+                              title.length > 14
+                                  ? '${title.substring(0, 12)}..'
+                                  : title,
                               style: const TextStyle(
                                 fontFamily: "Nunito",
                                 fontSize: 28,
@@ -152,7 +157,8 @@ class DistributionStatusPage extends ConsumerWidget {
                                 ),
                                 AsyncView(
                                   value: statuses,
-                                  emptyMessage: '暂无配送记录',
+                                  emptyMessage:
+                                      context.l10n.emptyDistributionStatus,
                                   builder: (data) => ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),

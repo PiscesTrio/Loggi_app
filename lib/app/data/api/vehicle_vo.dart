@@ -26,7 +26,7 @@ class VehicleVo {
   final String? number;
 
   @JsonKey(name: r'type', required: false, includeIfNull: false)
-  final String? type;
+  final VehicleVoTypeEnum? type;
 
   @JsonKey(name: r'driving', required: false, includeIfNull: false)
   final bool? driving;
@@ -61,4 +61,20 @@ class VehicleVo {
   String toString() {
     return toJson().toString();
   }
+}
+
+enum VehicleVoTypeEnum {
+  @JsonValue(r'LIGHT_TRUCK')
+  LIGHT_TRUCK(r'LIGHT_TRUCK'),
+  @JsonValue(r'TRUCK')
+  TRUCK(r'TRUCK'),
+  @JsonValue(r'HEAVY_TRUCK')
+  HEAVY_TRUCK(r'HEAVY_TRUCK');
+
+  const VehicleVoTypeEnum(this.value);
+
+  final String value;
+
+  @override
+  String toString() => value;
 }
