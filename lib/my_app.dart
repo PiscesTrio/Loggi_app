@@ -37,7 +37,15 @@ class MyApp extends ConsumerWidget {
       // language code first, so Material's own widgets were in Chinese regardless — what
       // the typo actually broke is region-dependent formatting, and the fallback for a
       // device that is not zh_*.
-      supportedLocales: const [Locale('zh', 'CN'), Locale('en', 'US')],
+      //
+      // ja is here because the app has one now; which language a device with no match falls
+      // back to is a separate decision and still zh — B5 moves it, together with the switch
+      // that makes the choice a user's rather than the device's.
+      supportedLocales: const [
+        Locale('zh', 'CN'),
+        Locale('en', 'US'),
+        Locale('ja'),
+      ],
       theme: AppTheme.light,
     );
   }
