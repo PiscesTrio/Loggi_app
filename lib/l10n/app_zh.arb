@@ -263,5 +263,6 @@
   "errorUnreadableResponse": "服务器返回了无法解析的响应",
   "errorAuthenticationRequired": "请先登录",
   "errorTokenInvalid": "登录已失效，请重新登录",
-  "errorVerificationCodeInvalid": "验证码不正确"
+  "errorVerificationCodeInvalid": "验证码不正确",
+  "errorUnsupportedMediaType": "不支持的媒体类型"
 }

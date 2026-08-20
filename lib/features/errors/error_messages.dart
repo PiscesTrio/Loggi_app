@@ -73,6 +73,7 @@ String? _byCode(BuildContext context, String code) {
     'TOKEN_INVALID' => l10n.errorTokenInvalid,
     'ACCESS_DENIED' => l10n.errorAccessDenied,
     'METHOD_NOT_ALLOWED' => l10n.errorMethodNotAllowed,
+    'UNSUPPORTED_MEDIA_TYPE' => l10n.errorUnsupportedMediaType,
     'INTERNAL_ERROR' => l10n.errorInternal,
     _ => null,
   };

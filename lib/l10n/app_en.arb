@@ -222,5 +222,6 @@
   "errorUnreadableResponse": "The server sent something unreadable",
   "errorAuthenticationRequired": "Sign in first",
   "errorTokenInvalid": "Your session expired — sign in again",
-  "errorVerificationCodeInvalid": "That code is not right"
+  "errorVerificationCodeInvalid": "That code is not right",
+  "errorUnsupportedMediaType": "That format is not supported"
 }
