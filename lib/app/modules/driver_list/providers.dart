@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../data/api/driver_vo.dart';
 
 import '../../data/repositories/fleet_repository.dart';
@@ -21,9 +22,13 @@ class DriverListNotifier extends AsyncNotifier<List<DriverVo>> {
 
   /// Re-fetches, leaving the current list on screen until the new one arrives.
   Future<void> refresh() async {
-    state = await AsyncValue.guard(() => ref.read(fleetRepositoryProvider).drivers());
+    state = await AsyncValue.guard(
+      () => ref.read(fleetRepositoryProvider).drivers(),
+    );
   }
 }
 
 final driverListProvider =
-    AsyncNotifierProvider<DriverListNotifier, List<DriverVo>>(DriverListNotifier.new);
+    AsyncNotifierProvider<DriverListNotifier, List<DriverVo>>(
+      DriverListNotifier.new,
+    );

@@ -32,10 +32,10 @@ class EnvelopeInterceptor extends Interceptor {
         return;
       }
       handler.reject(
-        _asError(response, ApiException(
-          message: '服务器返回了无法解析的响应',
-          statusCode: status,
-        )),
+        _asError(
+          response,
+          ApiException(message: '服务器返回了无法解析的响应', statusCode: status),
+        ),
         true,
       );
       return;
@@ -56,11 +56,14 @@ class EnvelopeInterceptor extends Interceptor {
 
     final message = body['msg'];
     handler.reject(
-      _asError(response, ApiException(
-        message: message is String && message.isNotEmpty ? message : '请求出错',
-        statusCode: response.statusCode,
-        code: code is int ? code : null,
-      )),
+      _asError(
+        response,
+        ApiException(
+          message: message is String && message.isNotEmpty ? message : '请求出错',
+          statusCode: response.statusCode,
+          code: code is int ? code : null,
+        ),
+      ),
       true,
     );
   }
@@ -78,19 +81,30 @@ class EnvelopeInterceptor extends Interceptor {
     // envelope — that is where the backend puts its message.
     final body = err.response?.data;
     if (body is Map && body['msg'] is String) {
-      handler.next(_asError(err.response!, ApiException(
-        message: body['msg'] as String,
-        statusCode: err.response?.statusCode,
-        code: body['code'] is int ? body['code'] as int : null,
-        cause: err,
-      )));
+      handler.next(
+        _asError(
+          err.response!,
+          ApiException(
+            message: body['msg'] as String,
+            statusCode: err.response?.statusCode,
+            code: body['code'] is int ? body['code'] as int : null,
+            cause: err,
+          ),
+        ),
+      );
       return;
     }
 
-    handler.next(_asError(err.response, ApiException.fromDio(err), original: err));
+    handler.next(
+      _asError(err.response, ApiException.fromDio(err), original: err),
+    );
   }
 
-  DioException _asError(Response? response, ApiException api, {DioException? original}) {
+  DioException _asError(
+    Response? response,
+    ApiException api, {
+    DioException? original,
+  }) {
     return DioException(
       requestOptions: response?.requestOptions ?? original!.requestOptions,
       response: response,

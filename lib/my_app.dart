@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'app/theme/fade_page_transitions.dart';
+import 'l10n/app_localizations.dart';
+import 'app/theme/app_theme.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,15 +26,19 @@ class MyApp extends ConsumerWidget {
       title: 'Application',
       routerConfig: ref.watch(routerProvider),
       localizationsDelegates: const [
+        // The app's own strings. Without this the other three localise Flutter's
+        // widgets and nothing the user actually reads.
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [Locale('zh', 'CH'), Locale('en', 'US')],
-      theme: ThemeData(
-        useMaterial3: true,
-        pageTransitionsTheme: fadePageTransitionsTheme,
-      ),
+      // CN, not CH. CH is Switzerland; simplified Chinese is zh_CN. Flutter resolves by
+      // language code first, so Material's own widgets were in Chinese regardless — what
+      // the typo actually broke is region-dependent formatting, and the fallback for a
+      // device that is not zh_*.
+      supportedLocales: const [Locale('zh', 'CN'), Locale('en', 'US')],
+      theme: AppTheme.light,
     );
   }
 }

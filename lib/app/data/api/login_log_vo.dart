@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'login_log_vo.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -19,113 +18,59 @@ part 'login_log_vo.g.dart';
 class LoginLogVo {
   /// Returns a new [LoginLogVo] instance.
   LoginLogVo({
+    this.id,
 
-     this.id,
+    this.email,
 
-     this.email,
+    this.status,
 
-     this.status,
+    this.ip,
 
-     this.ip,
+    this.browser,
 
-     this.browser,
-
-     this.date,
+    this.date,
   });
 
-  @JsonKey(
-    
-    name: r'id',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'id', required: false, includeIfNull: false)
   final String? id;
 
-
-
-  @JsonKey(
-    
-    name: r'email',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'email', required: false, includeIfNull: false)
   final String? email;
 
-
-
-  @JsonKey(
-    
-    name: r'status',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'status', required: false, includeIfNull: false)
   final int? status;
 
-
-
-  @JsonKey(
-    
-    name: r'ip',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'ip', required: false, includeIfNull: false)
   final String? ip;
 
-
-
-  @JsonKey(
-    
-    name: r'browser',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'browser', required: false, includeIfNull: false)
   final String? browser;
 
-
-
-  @JsonKey(
-    
-    name: r'date',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'date', required: false, includeIfNull: false)
   final DateTime? date;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LoginLogVo &&
+          other.id == id &&
+          other.email == email &&
+          other.status == status &&
+          other.ip == ip &&
+          other.browser == browser &&
+          other.date == date;
 
+  @override
+  int get hashCode =>
+      id.hashCode +
+      email.hashCode +
+      status.hashCode +
+      ip.hashCode +
+      browser.hashCode +
+      date.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is LoginLogVo &&
-      other.id == id &&
-      other.email == email &&
-      other.status == status &&
-      other.ip == ip &&
-      other.browser == browser &&
-      other.date == date;
-
-    @override
-    int get hashCode =>
-        id.hashCode +
-        email.hashCode +
-        status.hashCode +
-        ip.hashCode +
-        browser.hashCode +
-        date.hashCode;
-
-  factory LoginLogVo.fromJson(Map<String, dynamic> json) => _$LoginLogVoFromJson(json);
+  factory LoginLogVo.fromJson(Map<String, dynamic> json) =>
+      _$LoginLogVoFromJson(json);
 
   Map<String, dynamic> toJson() => _$LoginLogVoToJson(this);
 
@@ -133,6 +78,4 @@ class LoginLogVo {
   String toString() {
     return toJson().toString();
   }
-
 }
-

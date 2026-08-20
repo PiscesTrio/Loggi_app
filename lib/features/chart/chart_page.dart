@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../shell/page_header.dart';
 import '../../app/data/api/commodity_chart_vo.dart';
 import '../../app/modules/widgets/async_view.dart';
 import '../../app/modules/widgets/indicator.dart';
 import '../../app/modules/widgets/pie_chart_sample2.dart';
 import '../../app/theme/color_palette.dart';
+import '../../l10n/l10n.dart';
+import '../shell/page_header.dart';
 import 'providers.dart';
-
-const _sliceColours = [
-  ColorPalette.contentColorBlue,
-  ColorPalette.contentColorYellow,
-  ColorPalette.contentColorOrange,
-  ColorPalette.contentColorGreen,
-  ColorPalette.contentColorPurple,
-  ColorPalette.contentColorPink,
-  ColorPalette.contentColorRed,
-  ColorPalette.contentColorCyan,
-];
 
 /// What moved in and what moved out.
 class ChartPage extends ConsumerWidget {
@@ -35,7 +25,7 @@ class ChartPage extends ConsumerWidget {
           color: ColorPalette.aquaHaze,
           child: Column(
             children: [
-              const PageHeader(title: '图表分析'),
+              PageHeader(title: context.l10n.navChart),
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () =>
@@ -100,7 +90,7 @@ class _Section extends StatelessWidget {
             // record without a name replaced the whole legend with an ErrorWidget while the
             // pie above it drew fine.
             value: row.value ?? 0,
-            color: _sliceColours[index % _sliceColours.length],
+            color: ChartPalette.slices[index % ChartPalette.slices.length],
             text: row.name ?? '未命名',
             isSquare: true,
           ),

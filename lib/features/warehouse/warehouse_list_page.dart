@@ -1,3 +1,5 @@
+import '../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,6 +30,7 @@ class WarehouseListPage extends ConsumerWidget {
         ),
         splashColor: ColorPalette.bondyBlue,
         backgroundColor: ColorPalette.pacificBlue,
+        tooltip: context.l10n.addWarehouseTitle,
         child: const Icon(Icons.add, color: ColorPalette.white),
       ),
       body: RefreshIndicator(
@@ -35,7 +38,7 @@ class WarehouseListPage extends ConsumerWidget {
         child: AsyncView(
           value: warehouses,
           onRetry: () => ref.read(warehouseListProvider.notifier).refresh(),
-          emptyMessage: '还没有仓库',
+          emptyMessage: context.l10n.emptyWarehouses,
           builder: (rows) => ListView.builder(
             itemCount: rows.length,
             itemBuilder: (context, index) =>

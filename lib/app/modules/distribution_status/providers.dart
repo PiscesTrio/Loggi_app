@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../data/api/distribution_track_vo.dart';
 
 import '../../data/repositories/distribution_repository.dart';
@@ -16,15 +17,16 @@ import '../../data/repositories/distribution_repository.dart';
 /// with the fetch happening in `onReady` — one frame later, reading
 /// `distribution.value.id!`. It worked because the assignment happened to land first, and
 /// it would have thrown on the `!` if it ever did not.
-final distributionStatusProvider =
-    FutureProvider.autoDispose.family<List<DistributionTrackVo>, String>(
-  (ref, distributionId) async {
-    final statuses =
-        await ref.read(distributionRepositoryProvider).statusOf(distributionId);
-    // Newest first. Sorted on a copy: the list came from the repository and sorting in
-    // place would reorder whatever else happened to hold it.
-    final sorted = [...statuses]
-      ..sort((a, b) => (b.time ?? DateTime(0)).compareTo(a.time ?? DateTime(0)));
-    return sorted;
-  },
-);
+final distributionStatusProvider = FutureProvider.autoDispose
+    .family<List<DistributionTrackVo>, String>((ref, distributionId) async {
+      final statuses = await ref
+          .read(distributionRepositoryProvider)
+          .statusOf(distributionId);
+      // Newest first. Sorted on a copy: the list came from the repository and sorting in
+      // place would reorder whatever else happened to hold it.
+      final sorted = [...statuses]
+        ..sort(
+          (a, b) => (b.time ?? DateTime(0)).compareTo(a.time ?? DateTime(0)),
+        );
+      return sorted;
+    });

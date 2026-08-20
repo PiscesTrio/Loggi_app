@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'vehicle_summary.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -18,66 +17,30 @@ part 'vehicle_summary.g.dart';
 )
 class VehicleSummary {
   /// Returns a new [VehicleSummary] instance.
-  VehicleSummary({
+  VehicleSummary({this.id, this.number, this.type});
 
-     this.id,
-
-     this.number,
-
-     this.type,
-  });
-
-  @JsonKey(
-    
-    name: r'id',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'id', required: false, includeIfNull: false)
   final String? id;
 
-
-
-  @JsonKey(
-    
-    name: r'number',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'number', required: false, includeIfNull: false)
   final String? number;
 
-
-
-  @JsonKey(
-    
-    name: r'type',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'type', required: false, includeIfNull: false)
   final String? type;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is VehicleSummary &&
+          other.id == id &&
+          other.number == number &&
+          other.type == type;
 
+  @override
+  int get hashCode => id.hashCode + number.hashCode + type.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is VehicleSummary &&
-      other.id == id &&
-      other.number == number &&
-      other.type == type;
-
-    @override
-    int get hashCode =>
-        id.hashCode +
-        number.hashCode +
-        type.hashCode;
-
-  factory VehicleSummary.fromJson(Map<String, dynamic> json) => _$VehicleSummaryFromJson(json);
+  factory VehicleSummary.fromJson(Map<String, dynamic> json) =>
+      _$VehicleSummaryFromJson(json);
 
   Map<String, dynamic> toJson() => _$VehicleSummaryToJson(this);
 
@@ -85,6 +48,4 @@ class VehicleSummary {
   String toString() {
     return toJson().toString();
   }
-
 }
-

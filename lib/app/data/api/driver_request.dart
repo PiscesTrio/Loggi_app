@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'driver_request.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -19,129 +18,66 @@ part 'driver_request.g.dart';
 class DriverRequest {
   /// Returns a new [DriverRequest] instance.
   DriverRequest({
+    required this.name,
 
-    required  this.name,
+    this.gender,
 
-     this.gender,
+    required this.phone,
 
-    required  this.phone,
+    this.address,
 
-     this.address,
+    this.idCard,
 
-     this.idCard,
+    this.license,
 
-     this.license,
-
-     this.score,
+    this.score,
   });
 
-  @JsonKey(
-    
-    name: r'name',
-    required: true,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'name', required: true, includeIfNull: false)
   final String name;
 
-
-
-  @JsonKey(
-    
-    name: r'gender',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'gender', required: false, includeIfNull: false)
   final String? gender;
 
-
-
-  @JsonKey(
-    
-    name: r'phone',
-    required: true,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'phone', required: true, includeIfNull: false)
   final String phone;
 
-
-
-  @JsonKey(
-    
-    name: r'address',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'address', required: false, includeIfNull: false)
   final String? address;
 
-
-
-  @JsonKey(
-    
-    name: r'idCard',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'idCard', required: false, includeIfNull: false)
   final String? idCard;
 
-
-
-  @JsonKey(
-    
-    name: r'license',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'license', required: false, includeIfNull: false)
   final String? license;
 
-
-
-  @JsonKey(
-    
-    name: r'score',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'score', required: false, includeIfNull: false)
   final String? score;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DriverRequest &&
+          other.name == name &&
+          other.gender == gender &&
+          other.phone == phone &&
+          other.address == address &&
+          other.idCard == idCard &&
+          other.license == license &&
+          other.score == score;
 
+  @override
+  int get hashCode =>
+      name.hashCode +
+      gender.hashCode +
+      phone.hashCode +
+      address.hashCode +
+      idCard.hashCode +
+      license.hashCode +
+      score.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is DriverRequest &&
-      other.name == name &&
-      other.gender == gender &&
-      other.phone == phone &&
-      other.address == address &&
-      other.idCard == idCard &&
-      other.license == license &&
-      other.score == score;
-
-    @override
-    int get hashCode =>
-        name.hashCode +
-        gender.hashCode +
-        phone.hashCode +
-        address.hashCode +
-        idCard.hashCode +
-        license.hashCode +
-        score.hashCode;
-
-  factory DriverRequest.fromJson(Map<String, dynamic> json) => _$DriverRequestFromJson(json);
+  factory DriverRequest.fromJson(Map<String, dynamic> json) =>
+      _$DriverRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$DriverRequestToJson(this);
 
@@ -149,6 +85,4 @@ class DriverRequest {
   String toString() {
     return toJson().toString();
   }
-
 }
-

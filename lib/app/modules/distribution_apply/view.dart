@@ -1,3 +1,6 @@
+import '../../../features/distribution/care_tags.dart';
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,19 +17,6 @@ import 'providers.dart';
 
 class DistributionApplyPage extends ConsumerStatefulWidget {
   const DistributionApplyPage({super.key});
-
-  static final List<String> _care = [
-    "易碎",
-    "防潮",
-    "防晒",
-    "防高温",
-    "禁止翻滚",
-    "禁止堆码",
-    "冷藏",
-    "易燃",
-  ];
-  static final _items =
-      _care.map((care) => MultiSelectItem<String>(care, care)).toList();
 
   @override
   ConsumerState<DistributionApplyPage> createState() =>
@@ -47,11 +37,11 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
   Future<void> _submit() async {
     final draft = ref.read(applyFormProvider).valueOrNull?.draft;
     if (draft == null || draft.phone.isEmpty) {
-      showTextToast("请填写客户电话");
+      showTextToast(context.l10n.applyPhoneRequired);
       return;
     }
     if (draft.address.isEmpty) {
-      showTextToast("请填写客户地址");
+      showTextToast(context.l10n.applyAddressRequired);
       return;
     }
 
@@ -59,7 +49,7 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
     try {
       await _form.submit();
       if (!mounted) return;
-      showTextToast("提交成功");
+      showTextToast(context.l10n.submittedOk);
       context.pop();
     } on ApiException catch (e) {
       if (!mounted) return;
@@ -84,32 +74,32 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                   child: Stack(
                     children: [
                       Container(
-                          height: double.infinity,
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 20,
+                        height: double.infinity,
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 20,
+                        ),
+                        margin: const EdgeInsets.only(top: 20),
+                        decoration: const BoxDecoration(
+                          color: ColorPalette.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
                           ),
-                          margin: const EdgeInsets.only(top: 20),
-                          decoration: const BoxDecoration(
-                            color: ColorPalette.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(16),
-                              topRight: Radius.circular(16),
-                            ),
-                          ),
-                          child: SingleChildScrollView(
-                              child: Column(
+                        ),
+                        child: SingleChildScrollView(
+                          child: Column(
                             children: [
                               Row(
                                 children: [
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
                                       left: 8,
                                       bottom: 5,
                                     ),
                                     child: Text(
-                                      "驾驶员",
+                                      context.l10n.applyDriver,
                                       style: TextStyle(
                                         fontFamily: "Nunito",
                                         fontSize: 20,
@@ -117,64 +107,61 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
+                                  const SizedBox(width: 20),
                                   Container(
-                                      decoration: BoxDecoration(
-                                        color: ColorPalette.white,
-                                        borderRadius: BorderRadius.circular(15),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            offset: const Offset(0, 3),
-                                            blurRadius: 6,
-                                            color: ColorPalette.nileBlue
-                                                .withValues(alpha: 0.1),
+                                    decoration: BoxDecoration(
+                                      color: ColorPalette.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          offset: const Offset(0, 3),
+                                          blurRadius: 6,
+                                          color: ColorPalette.nileBlue
+                                              .withValues(alpha: 0.1),
+                                        ),
+                                      ],
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 2.5,
+                                    ),
+                                    child: DropdownButton(
+                                      iconSize: 30,
+                                      underline: const SizedBox(),
+                                      value: form.selectedDriver,
+                                      onChanged: (newValue) {
+                                        if (newValue != null) {
+                                          _form.selectDriver(newValue);
+                                        }
+                                      },
+                                      items: form.drivers.map((process) {
+                                        return DropdownMenuItem(
+                                          value: process,
+                                          child: Text(
+                                            process.name!,
+                                            style: TextStyle(
+                                              fontFamily: "Nunito",
+                                              fontSize: 16,
+                                              color: ColorPalette.nileBlue
+                                                  .withValues(alpha: 0.58),
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 2.5),
-                                      child: DropdownButton(
-                                                iconSize: 30,
-                                                underline: const SizedBox(),
-                                                value: form.selectedDriver,
-                                                onChanged: (newValue) {
-                                                  if (newValue != null) {
-                                                    _form.selectDriver(newValue);
-                                                  }
-                                                },
-                                                items: form.drivers
-                                                    .map((process) {
-                                                  return DropdownMenuItem(
-                                                    value: process,
-                                                    child: Text(
-                                                      process.name!,
-                                                      style: TextStyle(
-                                                        fontFamily: "Nunito",
-                                                        fontSize: 16,
-                                                        color: ColorPalette
-                                                            .nileBlue
-                                                            .withValues(alpha: 0.58),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                              ),),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
+                              const SizedBox(height: 20),
                               Row(
                                 children: [
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
                                       left: 8,
                                       bottom: 5,
                                     ),
                                     child: Text(
-                                      "车辆",
+                                      context.l10n.applyVehicle,
                                       style: TextStyle(
                                         fontFamily: "Nunito",
                                         fontSize: 20,
@@ -182,64 +169,61 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
+                                  const SizedBox(width: 20),
                                   Container(
-                                      decoration: BoxDecoration(
-                                        color: ColorPalette.white,
-                                        borderRadius: BorderRadius.circular(15),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            offset: const Offset(0, 3),
-                                            blurRadius: 6,
-                                            color: ColorPalette.nileBlue
-                                                .withValues(alpha: 0.1),
+                                    decoration: BoxDecoration(
+                                      color: ColorPalette.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          offset: const Offset(0, 3),
+                                          blurRadius: 6,
+                                          color: ColorPalette.nileBlue
+                                              .withValues(alpha: 0.1),
+                                        ),
+                                      ],
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 2.5,
+                                    ),
+                                    child: DropdownButton(
+                                      iconSize: 30,
+                                      underline: const SizedBox(),
+                                      value: form.selectedVehicle,
+                                      onChanged: (newValue) {
+                                        if (newValue != null) {
+                                          _form.selectVehicle(newValue);
+                                        }
+                                      },
+                                      items: form.vehicles.map((process) {
+                                        return DropdownMenuItem(
+                                          value: process,
+                                          child: Text(
+                                            "${process.type}：${process.number}",
+                                            style: TextStyle(
+                                              fontFamily: "Nunito",
+                                              fontSize: 16,
+                                              color: ColorPalette.nileBlue
+                                                  .withValues(alpha: 0.58),
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 2.5),
-                                      child: DropdownButton(
-                                                iconSize: 30,
-                                                underline: const SizedBox(),
-                                                value: form.selectedVehicle,
-                                                onChanged: (newValue) {
-                                                  if (newValue != null) {
-                                                    _form.selectVehicle(newValue);
-                                                  }
-                                                },
-                                                items: form.vehicles
-                                                    .map((process) {
-                                                  return DropdownMenuItem(
-                                                    value: process,
-                                                    child: Text(
-                                                      "${process.type}：${process.number}",
-                                                      style: TextStyle(
-                                                        fontFamily: "Nunito",
-                                                        fontSize: 16,
-                                                        color: ColorPalette
-                                                            .nileBlue
-                                                            .withValues(alpha: 0.58),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                              ),),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
+                              const SizedBox(height: 20),
                               Row(
                                 children: [
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
                                       left: 8,
                                       bottom: 5,
                                     ),
                                     child: Text(
-                                      "仓库",
+                                      context.l10n.applyWarehouse,
                                       style: TextStyle(
                                         fontFamily: "Nunito",
                                         fontSize: 20,
@@ -247,179 +231,177 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
+                                  const SizedBox(width: 20),
                                   Container(
-                                      decoration: BoxDecoration(
-                                        color: ColorPalette.white,
-                                        borderRadius: BorderRadius.circular(15),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            offset: const Offset(0, 3),
-                                            blurRadius: 6,
-                                            color: ColorPalette.nileBlue
-                                                .withValues(alpha: 0.1),
+                                    decoration: BoxDecoration(
+                                      color: ColorPalette.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          offset: const Offset(0, 3),
+                                          blurRadius: 6,
+                                          color: ColorPalette.nileBlue
+                                              .withValues(alpha: 0.1),
+                                        ),
+                                      ],
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 2.5,
+                                    ),
+                                    child: DropdownButton(
+                                      iconSize: 30,
+                                      underline: const SizedBox(),
+                                      value: form.selectedWarehouse,
+                                      onChanged: (newValue) {
+                                        if (newValue != null) {
+                                          _form.selectWarehouse(newValue);
+                                        }
+                                      },
+                                      items: form.warehouses.map((process) {
+                                        return DropdownMenuItem(
+                                          value: process,
+                                          child: Text(
+                                            "${process.name}",
+                                            style: TextStyle(
+                                              fontFamily: "Nunito",
+                                              fontSize: 16,
+                                              color: ColorPalette.nileBlue
+                                                  .withValues(alpha: 0.58),
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 2.5),
-                                      child: DropdownButton(
-                                                iconSize: 30,
-                                                underline: const SizedBox(),
-                                                value: form.selectedWarehouse,
-                                                onChanged: (newValue) {
-                                                  if (newValue != null) {
-                                                    _form.selectWarehouse(newValue);
-                                                  }
-                                                },
-                                                items: form.warehouses
-                                                    .map((process) {
-                                                  return DropdownMenuItem(
-                                                    value: process,
-                                                    child: Text(
-                                                      "${process.name}",
-                                                      style: TextStyle(
-                                                        fontFamily: "Nunito",
-                                                        fontSize: 16,
-                                                        color: ColorPalette
-                                                            .nileBlue
-                                                            .withValues(alpha: 0.58),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                              ),),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
+                              const SizedBox(height: 20),
                               Row(
                                 children: [
                                   GestureDetector(
-                                      onTap: () async {
-                                        final value = await showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime.now(),
-                                          lastDate: DateTime(2077, 10),
-                                          currentDate: DateTime.now(),
-                                          locale: const Locale("zh"),
-                                        );
-                                        // The old code did `value!.year` inside a `then`:
-                                        // dismissing the picker returns null, so cancelling
-                                        // threw instead of doing nothing.
-                                        if (value == null) return;
-                                        _form.setDateTime(form.dateTime.copyWith(
-                                            year: value.year,
-                                            month: value.month,
-                                            day: value.day));
-                                      },
-                                      child: Container(
-                                        height: 50,
-                                        width: 160,
-                                        decoration: BoxDecoration(
-                                          color: ColorPalette.white,
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              offset: const Offset(0, 3),
-                                              blurRadius: 6,
-                                              color: ColorPalette.nileBlue
-                                                  .withValues(alpha: 0.1),
-                                            ),
-                                          ],
+                                    onTap: () async {
+                                      final value = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime(2077, 10),
+                                        currentDate: DateTime.now(),
+                                        locale: const Locale("zh"),
+                                      );
+                                      // The old code did `value!.year` inside a `then`:
+                                      // dismissing the picker returns null, so cancelling
+                                      // threw instead of doing nothing.
+                                      if (value == null) return;
+                                      _form.setDateTime(
+                                        form.dateTime.copyWith(
+                                          year: value.year,
+                                          month: value.month,
+                                          day: value.day,
                                         ),
-                                        child: Row(children: [
-                                          const SizedBox(
-                                            width: 10,
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 50,
+                                      width: 160,
+                                      decoration: BoxDecoration(
+                                        color: ColorPalette.white,
+                                        borderRadius: BorderRadius.circular(15),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            offset: const Offset(0, 3),
+                                            blurRadius: 6,
+                                            color: ColorPalette.nileBlue
+                                                .withValues(alpha: 0.1),
                                           ),
+                                        ],
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const SizedBox(width: 10),
                                           const Icon(
                                             Icons.edit_calendar,
                                             color: ColorPalette.nileBlue,
                                           ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
+                                          const SizedBox(width: 10),
                                           Text(
-                                            DateFormat("yyyy-MM-dd").format(
-                                                form.dateTime),
-                                            style:
-                                                const TextStyle(fontSize: 16),
-                                          )
-                                        ]),
-                                      )),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  GestureDetector(
-                                      onTap: () async {
-                                        final value = await showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay.now(),
-                                            cancelText: "取消",
-                                            helpText: "时间选择",
-                                            confirmText: "确认");
-                                        // Same as the date picker above: `value!.hour`
-                                        // threw when the user cancelled.
-                                        if (value == null) return;
-                                        _form.setDateTime(form.dateTime.copyWith(
-                                            hour: value.hour,
-                                            minute: value.minute,
-                                            second: 0));
-                                      },
-                                      child: Container(
-                                        height: 50,
-                                        width: 130,
-                                        decoration: BoxDecoration(
-                                          color: ColorPalette.white,
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              offset: const Offset(0, 3),
-                                              blurRadius: 6,
-                                              color: ColorPalette.nileBlue
-                                                  .withValues(alpha: 0.1),
+                                            DateFormat("yyyy-MM-dd")
+                                                .format(form.dateTime),
+                                            style: const TextStyle(
+                                              fontSize: 16,
                                             ),
-                                          ],
-                                        ),
-                                        child: Row(children: [
-                                          const SizedBox(
-                                            width: 10,
                                           ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 20),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final value = await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now(),
+                                        cancelText: context.l10n.actionCancel,
+                                        helpText: context.l10n.applyTimePicker,
+                                        confirmText: context.l10n.actionConfirm,
+                                      );
+                                      // Same as the date picker above: `value!.hour`
+                                      // threw when the user cancelled.
+                                      if (value == null) return;
+                                      _form.setDateTime(
+                                        form.dateTime.copyWith(
+                                          hour: value.hour,
+                                          minute: value.minute,
+                                          second: 0,
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 50,
+                                      width: 130,
+                                      decoration: BoxDecoration(
+                                        color: ColorPalette.white,
+                                        borderRadius: BorderRadius.circular(15),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            offset: const Offset(0, 3),
+                                            blurRadius: 6,
+                                            color: ColorPalette.nileBlue
+                                                .withValues(alpha: 0.1),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const SizedBox(width: 10),
                                           const Icon(
                                             Icons.timer,
                                             color: ColorPalette.nileBlue,
                                           ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
+                                          const SizedBox(width: 10),
                                           Text(
-                                            DateFormat("kk:mm:ss").format(
-                                                form.dateTime),
-                                            style:
-                                                const TextStyle(fontSize: 16),
-                                          )
-                                        ]),
-                                      )),
+                                            DateFormat("kk:mm:ss")
+                                                .format(form.dateTime),
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
+                              const SizedBox(height: 10),
                               Row(
                                 children: [
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
                                       left: 8,
                                       bottom: 5,
                                     ),
                                     child: Text(
-                                      "注意事项",
+                                      context.l10n.applyCares,
                                       style: TextStyle(
                                         fontFamily: "Nunito",
                                         fontSize: 20,
@@ -428,32 +410,41 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                     ),
                                   ),
                                   IconButton(
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return MultiSelectDialog(
-                                                initialValue: form.cares,
-                                                items:
-                                                    DistributionApplyPage._items,
-                                                listType:
-                                                    MultiSelectListType.CHIP,
-                                                onConfirm: _form.setCares,
-                                              );
-                                            });
-                                      },
-                                      icon: const Icon(
-                                          Icons.add_circle_outline_sharp)),
-                                  SizedBox(
-                                    width: 50,
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return MultiSelectDialog(
+                                            initialValue: form.cares,
+                                            items: [
+                                              for (final tag
+                                                  in CareTags.wireValues)
+                                                MultiSelectItem<String>(
+                                                  tag,
+                                                  CareTags.labelOf(
+                                                    context,
+                                                    tag,
+                                                  ),
+                                                ),
+                                            ],
+                                            listType: MultiSelectListType.CHIP,
+                                            onConfirm: _form.setCares,
+                                          );
+                                        },
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.add_circle_outline_sharp,
+                                    ),
                                   ),
-                                  const Padding(
+                                  SizedBox(width: 50),
+                                  Padding(
                                     padding: EdgeInsets.only(
                                       left: 8,
                                       bottom: 5,
                                     ),
                                     child: Text(
-                                      "加急",
+                                      context.l10n.applyUrgent,
                                       style: TextStyle(
                                         fontFamily: "Nunito",
                                         fontSize: 20,
@@ -462,21 +453,27 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                     ),
                                   ),
                                   Switch(
-                                      // `urgent!` — the model declares it nullable and the
-                                      // draft happens to seed it false, so the bang was
-                                      // load-bearing on an invariant nothing enforced.
-                                      value: form.draft.urgent ?? false,
-                                      onChanged: _form.setUrgent)
+                                    // `urgent!` — the model declares it nullable and the
+                                    // draft happens to seed it false, so the bang was
+                                    // load-bearing on an invariant nothing enforced.
+                                    value: form.draft.urgent ?? false,
+                                    onChanged: _form.setUrgent,
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 10),
                               MultiSelectChipDisplay(
                                 items: form.cares
-                                    .map((element) =>
-                                        MultiSelectItem(element, element))
+                                    .map(
+                                      (element) => MultiSelectItem(
+                                        element,
+                                        CareTags.labelOf(context, element),
+                                      ),
+                                    )
                                     .toList(),
                                 onTap: (p0) => _form.setCares(
-                                    form.cares.where((c) => c != p0).toList()),
+                                  form.cares.where((c) => c != p0).toList(),
+                                ),
                               ),
                               Container(
                                 decoration: BoxDecoration(
@@ -486,8 +483,9 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                     BoxShadow(
                                       offset: const Offset(0, 3),
                                       blurRadius: 6,
-                                      color: ColorPalette.nileBlue
-                                          .withValues(alpha: 0.1),
+                                      color: ColorPalette.nileBlue.withValues(
+                                        alpha: 0.1,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -503,22 +501,21 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                   ),
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "客户电话",
+                                    hintText: context.l10n.applyPhone,
                                     filled: true,
                                     fillColor: Colors.transparent,
                                     hintStyle: TextStyle(
                                       fontFamily: "Nunito",
                                       fontSize: 16,
-                                      color: ColorPalette.nileBlue
-                                          .withValues(alpha: 0.58),
+                                      color: ColorPalette.nileBlue.withValues(
+                                        alpha: 0.58,
+                                      ),
                                     ),
                                   ),
                                   cursorColor: ColorPalette.timberGreen,
                                 ),
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
+                              const SizedBox(height: 10),
                               Container(
                                 decoration: BoxDecoration(
                                   color: ColorPalette.white,
@@ -527,25 +524,43 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                     BoxShadow(
                                       offset: const Offset(0, 3),
                                       blurRadius: 6,
-                                      color: ColorPalette.nileBlue
-                                          .withValues(alpha: 0.1),
+                                      color: ColorPalette.nileBlue.withValues(
+                                        alpha: 0.1,
+                                      ),
                                     ),
                                   ],
                                 ),
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 2.5),
+                                  horizontal: 15,
+                                  vertical: 2.5,
+                                ),
                                 // Free-text address + geocoding lookup replaced by a
                                 // fixed destination list: the coordinates now come
                                 // with the selection instead of from a service call
                                 // that always failed. Deliberately NOT preselected,
                                 // so the "address is empty" check below still bites.
                                 child: DropdownButton<DeliveryPoint>(
-                                      isExpanded: true,
-                                      iconSize: 30,
-                                      underline: const SizedBox(),
-                                      value: form.selectedDeliveryPoint,
-                                      hint: Text(
-                                        "客户地址",
+                                  isExpanded: true,
+                                  iconSize: 30,
+                                  underline: const SizedBox(),
+                                  value: form.selectedDeliveryPoint,
+                                  hint: Text(
+                                    context.l10n.applyAddress,
+                                    style: TextStyle(
+                                      fontFamily: "Nunito",
+                                      fontSize: 16,
+                                      color: ColorPalette.nileBlue.withValues(
+                                        alpha: 0.58,
+                                      ),
+                                    ),
+                                  ),
+                                  onChanged: _form.selectDeliveryPoint,
+                                  items: kDeliveryPoints.map((point) {
+                                    return DropdownMenuItem<DeliveryPoint>(
+                                      value: point,
+                                      child: Text(
+                                        point.address,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontFamily: "Nunito",
                                           fontSize: 16,
@@ -553,27 +568,11 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                               .withValues(alpha: 0.58),
                                         ),
                                       ),
-                                      onChanged: _form.selectDeliveryPoint,
-                                      items: kDeliveryPoints.map((point) {
-                                        return DropdownMenuItem<DeliveryPoint>(
-                                          value: point,
-                                          child: Text(
-                                            point.address,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontFamily: "Nunito",
-                                              fontSize: 16,
-                                              color: ColorPalette.nileBlue
-                                                  .withValues(alpha: 0.58),
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
+                              SizedBox(height: 10),
                               Row(
                                 children: [
                                   Expanded(
@@ -583,44 +582,42 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                         onPressed: () {
                                           context.pop();
                                         },
-                                        child: Text("取消"),
+                                        child: Text(context.l10n.actionCancel),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
+                                  const SizedBox(width: 20),
                                   Expanded(
                                     child: SizedBox(
-                                        height: 50,
-                                        child: ElevatedButton(
-                                              onPressed:
-                                                  _submitting ? null : _submit,
-                                              child: _submitting
-                                                  ? const SizedBox(
-                                                      height: 15,
-                                                      width: 15,
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        strokeWidth: 2,
-                                                      ),
-                                                    )
-                                                  : const Text(
-                                                      "确认",
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontFamily: "Nunito",
-                                                      ),
+                                      height: 50,
+                                      child: ElevatedButton(
+                                        onPressed: _submitting ? null : _submit,
+                                        child: _submitting
+                                            ? const SizedBox(
+                                                height: 15,
+                                                width: 15,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                      strokeWidth: 2,
                                                     ),
-                                            )),
+                                              )
+                                            : Text(
+                                                context.l10n.actionConfirm,
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: "Nunito",
+                                                ),
+                                              ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
+                              const SizedBox(height: 10),
                             ],
-                          ))),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../api/available_fleet_vo.dart';
 import '../api/distribution_request.dart';
 import '../api/distribution_track_request.dart';
@@ -24,7 +25,10 @@ class DistributionRepository {
   /// own. Sending one was what made this call fail for the life of the project: the server
   /// read a non-null id as an existing row to update and refused.
   Future<DistributionVo> save(DistributionRequest order) async {
-    final data = await _client.post<dynamic>('/distribution', data: order.toJson());
+    final data = await _client.post<dynamic>(
+      '/distribution',
+      data: order.toJson(),
+    );
     return decodeObject(data, DistributionVo.fromJson);
   }
 

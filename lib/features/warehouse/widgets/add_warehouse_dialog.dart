@@ -1,3 +1,5 @@
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,11 +38,11 @@ class _AddWarehouseDialogState extends ConsumerState<AddWarehouseDialog> {
 
   Future<void> _submit() async {
     if (_name.text.isEmpty) {
-      showTextToast('请填写仓库名');
+      showTextToast(context.l10n.validationWarehouseNameRequired);
       return;
     }
     if (_location.text.isEmpty) {
-      showTextToast('请填写地址');
+      showTextToast(context.l10n.validationLocationRequired);
       return;
     }
 
@@ -56,7 +58,7 @@ class _AddWarehouseDialogState extends ConsumerState<AddWarehouseDialog> {
             ),
           );
       if (!mounted) return;
-      showTextToast('保存成功');
+      showTextToast(context.l10n.savedOk);
       Navigator.of(context).pop();
     } on ApiException catch (e) {
       if (!mounted) return;
@@ -68,29 +70,29 @@ class _AddWarehouseDialogState extends ConsumerState<AddWarehouseDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('添加仓库'),
+      title: Text(context.l10n.addWarehouseTitle),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
               controller: _name,
-              decoration: const InputDecoration(
-                labelText: '仓库名',
+              decoration: InputDecoration(
+                labelText: context.l10n.fieldWarehouseName,
                 icon: Icon(Icons.warehouse),
               ),
             ),
             TextFormField(
               controller: _principle,
-              decoration: const InputDecoration(
-                labelText: '负责人',
+              decoration: InputDecoration(
+                labelText: context.l10n.fieldPrinciple,
                 icon: Icon(Icons.account_circle),
               ),
             ),
             TextFormField(
               controller: _location,
-              decoration: const InputDecoration(
-                labelText: '地址',
+              decoration: InputDecoration(
+                labelText: context.l10n.fieldLocation,
                 icon: Icon(Icons.place),
               ),
             ),
@@ -100,7 +102,7 @@ class _AddWarehouseDialogState extends ConsumerState<AddWarehouseDialog> {
       actions: [
         OutlinedButton(
           onPressed: _submitting ? null : () => Navigator.of(context).pop(),
-          child: const Text('取消'),
+          child: Text(context.l10n.actionCancel),
         ),
         ElevatedButton(
           onPressed: _submitting ? null : _submit,
@@ -110,7 +112,7 @@ class _AddWarehouseDialogState extends ConsumerState<AddWarehouseDialog> {
                   height: 18,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('确认'),
+              : Text(context.l10n.actionConfirm),
         ),
       ],
     );

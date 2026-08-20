@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'distribution_track_vo.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -19,129 +18,66 @@ part 'distribution_track_vo.g.dart';
 class DistributionTrackVo {
   /// Returns a new [DistributionTrackVo] instance.
   DistributionTrackVo({
+    this.id,
 
-     this.id,
+    this.distributionId,
 
-     this.distributionId,
+    this.lat,
 
-     this.lat,
+    this.lng,
 
-     this.lng,
+    this.location,
 
-     this.location,
+    this.time,
 
-     this.time,
-
-     this.status,
+    this.status,
   });
 
-  @JsonKey(
-    
-    name: r'id',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'id', required: false, includeIfNull: false)
   final String? id;
 
-
-
-  @JsonKey(
-    
-    name: r'distributionId',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'distributionId', required: false, includeIfNull: false)
   final String? distributionId;
 
-
-
-  @JsonKey(
-    
-    name: r'lat',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'lat', required: false, includeIfNull: false)
   final double? lat;
 
-
-
-  @JsonKey(
-    
-    name: r'lng',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'lng', required: false, includeIfNull: false)
   final double? lng;
 
-
-
-  @JsonKey(
-    
-    name: r'location',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'location', required: false, includeIfNull: false)
   final String? location;
 
-
-
-  @JsonKey(
-    
-    name: r'time',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'time', required: false, includeIfNull: false)
   final DateTime? time;
 
-
-
-  @JsonKey(
-    
-    name: r'status',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'status', required: false, includeIfNull: false)
   final DistributionTrackVoStatusEnum? status;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DistributionTrackVo &&
+          other.id == id &&
+          other.distributionId == distributionId &&
+          other.lat == lat &&
+          other.lng == lng &&
+          other.location == location &&
+          other.time == time &&
+          other.status == status;
 
+  @override
+  int get hashCode =>
+      id.hashCode +
+      distributionId.hashCode +
+      lat.hashCode +
+      lng.hashCode +
+      location.hashCode +
+      time.hashCode +
+      status.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is DistributionTrackVo &&
-      other.id == id &&
-      other.distributionId == distributionId &&
-      other.lat == lat &&
-      other.lng == lng &&
-      other.location == location &&
-      other.time == time &&
-      other.status == status;
-
-    @override
-    int get hashCode =>
-        id.hashCode +
-        distributionId.hashCode +
-        lat.hashCode +
-        lng.hashCode +
-        location.hashCode +
-        time.hashCode +
-        status.hashCode;
-
-  factory DistributionTrackVo.fromJson(Map<String, dynamic> json) => _$DistributionTrackVoFromJson(json);
+  factory DistributionTrackVo.fromJson(Map<String, dynamic> json) =>
+      _$DistributionTrackVoFromJson(json);
 
   Map<String, dynamic> toJson() => _$DistributionTrackVoToJson(this);
 
@@ -149,24 +85,20 @@ class DistributionTrackVo {
   String toString() {
     return toJson().toString();
   }
-
 }
-
 
 enum DistributionTrackVoStatusEnum {
-@JsonValue(r'REVIEWING')
-REVIEWING(r'REVIEWING'),
-@JsonValue(r'REVIEW_SUCCESS')
-REVIEW_SUCCESS(r'REVIEW_SUCCESS'),
-@JsonValue(r'END')
-END(r'END');
+  @JsonValue(r'REVIEWING')
+  REVIEWING(r'REVIEWING'),
+  @JsonValue(r'REVIEW_SUCCESS')
+  REVIEW_SUCCESS(r'REVIEW_SUCCESS'),
+  @JsonValue(r'END')
+  END(r'END');
 
-const DistributionTrackVoStatusEnum(this.value);
+  const DistributionTrackVoStatusEnum(this.value);
 
-final String value;
+  final String value;
 
-@override
-String toString() => value;
+  @override
+  String toString() => value;
 }
-
-

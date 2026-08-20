@@ -1,4 +1,8 @@
+import '../../theme/status_colors.dart';
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
+
 import '../../utils/date_display.dart';
 import '../../data/api/login_log_vo.dart';
 
@@ -18,42 +22,41 @@ class LoginLogsTtem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Divider(height: 3),
-          SizedBox(height: 20,),
+          SizedBox(height: 20),
           Row(
-            
             children: [
-              
-           
               Container(
-                  height: 25,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: loginLog.status == 0
-                        ? Color.fromRGBO(255, 0, 0, 1)
-                        : Color.fromRGBO(4, 202, 4, 1),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Center(
-                    child: Text(
-                      loginLog.status == 0 ? "失败" : "成功",
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontFamily: "Nunito",
-                        fontSize: 14,
-                        color: ColorPalette.white,
-                      ),
+                height: 25,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: loginLog.status == 0
+                      ? StatusColors.busy
+                      : StatusColors.idle,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Center(
+                  child: Text(
+                    loginLog.status == 0
+                        ? context.l10n.logSignInFailed
+                        : context.l10n.logSignInSucceeded,
+                    maxLines: 1,
+                    style: const TextStyle(
+                      fontFamily: "Nunito",
+                      fontSize: 14,
+                      color: ColorPalette.white,
                     ),
-                  )),
-            ],
-          ),
-             ListTile(
-                title: Text(
-                  "账号：${loginLog.email ?? "-"}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w600, fontSize: 18),
+                  ),
                 ),
               ),
-  
+            ],
+          ),
+          ListTile(
+            title: Text(
+              "账号：${loginLog.email ?? "-"}",
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+            ),
+          ),
+
           Text("IP地址：${loginLog.ip ?? "-"}"),
           Text(formatDateTime(loginLog.date)),
         ],

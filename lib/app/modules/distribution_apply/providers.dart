@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../data/api/distribution_request.dart';
 import '../../data/api/distribution_track_request.dart';
 import '../../data/api/driver_summary.dart';
@@ -86,51 +87,63 @@ class ApplyFormNotifier extends AutoDisposeAsyncNotifier<ApplyFormState> {
     state = AsyncValue.data(change(current));
   }
 
-  void selectDriver(DriverSummary driver) => _edit((s) => s.copyWith(
-        selectedDriver: driver,
-        draft: s.draft.copyWith(driverId: driver.id ?? ''),
-      ));
+  void selectDriver(DriverSummary driver) => _edit(
+    (s) => s.copyWith(
+      selectedDriver: driver,
+      draft: s.draft.copyWith(driverId: driver.id ?? ''),
+    ),
+  );
 
-  void selectVehicle(VehicleSummary vehicle) => _edit((s) => s.copyWith(
-        selectedVehicle: vehicle,
-        draft: s.draft.copyWith(vehicleId: vehicle.id ?? ''),
-      ));
+  void selectVehicle(VehicleSummary vehicle) => _edit(
+    (s) => s.copyWith(
+      selectedVehicle: vehicle,
+      draft: s.draft.copyWith(vehicleId: vehicle.id ?? ''),
+    ),
+  );
 
   /// The origin is named by id now. It used to be the warehouse NAME, because the tracking
   /// timeline rendered that column verbatim - so a column called `wid` held a name, and the
   /// migration that turned it into a foreign key had to resolve every row by name to find
   /// out what it pointed at.
-  void selectWarehouse(WarehouseVo warehouse) => _edit((s) => s.copyWith(
-        selectedWarehouse: warehouse,
-        draft: s.draft.copyWith(
-          warehouseId: warehouse.id,
-          fromLat: warehouse.lat ?? 0,
-          fromLng: warehouse.lng ?? 0,
-        ),
-      ));
+  void selectWarehouse(WarehouseVo warehouse) => _edit(
+    (s) => s.copyWith(
+      selectedWarehouse: warehouse,
+      draft: s.draft.copyWith(
+        warehouseId: warehouse.id,
+        fromLat: warehouse.lat ?? 0,
+        fromLng: warehouse.lng ?? 0,
+      ),
+    ),
+  );
 
   /// The destination comes from [kDeliveryPoints], so its coordinates are known up front
   /// and no geocoding round-trip is needed.
-  void selectDeliveryPoint(DeliveryPoint? point) => _edit((s) => s.copyWith(
-        selectedDeliveryPoint: point,
-        draft: s.draft.copyWith(
-          address: point?.address ?? '',
-          toLat: point?.lat ?? 0,
-          toLng: point?.lng ?? 0,
-        ),
-      ));
+  void selectDeliveryPoint(DeliveryPoint? point) => _edit(
+    (s) => s.copyWith(
+      selectedDeliveryPoint: point,
+      draft: s.draft.copyWith(
+        address: point?.address ?? '',
+        toLat: point?.lat ?? 0,
+        toLng: point?.lng ?? 0,
+      ),
+    ),
+  );
 
   /// No formatting. The field is a DateTime on the wire since S09; the string the client
   /// used to build was a presentation decision being made in a request body.
-  void setDateTime(DateTime value) => _edit((s) => s.copyWith(
-        dateTime: value,
-        draft: s.draft.copyWith(time: value),
-      ));
+  void setDateTime(DateTime value) => _edit(
+    (s) => s.copyWith(
+      dateTime: value,
+      draft: s.draft.copyWith(time: value),
+    ),
+  );
 
-  void setCares(List<String> cares) => _edit((s) => s.copyWith(
-        cares: cares,
-        draft: s.draft.copyWith(care: cares.isEmpty ? '' : '${cares.join(',')},'),
-      ));
+  void setCares(List<String> cares) => _edit(
+    (s) => s.copyWith(
+      cares: cares,
+      draft: s.draft.copyWith(care: cares.isEmpty ? '' : '${cares.join(',')},'),
+    ),
+  );
 
   void setPhone(String phone) =>
       _edit((s) => s.copyWith(draft: s.draft.copyWith(phone: phone)));
@@ -149,19 +162,22 @@ class ApplyFormNotifier extends AutoDisposeAsyncNotifier<ApplyFormState> {
 
     final repository = ref.read(distributionRepositoryProvider);
     final saved = await repository.save(current.draft);
-    await repository.submitStatus(DistributionTrackRequest(
-      distributionId: saved.id ?? '',
-      lat: saved.fromLat ?? 0,
-      lng: saved.fromLng ?? 0,
-      status: DistributionTrackRequestStatusEnum.REVIEWING,
-      // The warehouse name, which is what the timeline renders. It is read from the
-      // association now rather than from a column that held a name.
-      location: saved.warehouse?.name ?? current.selectedWarehouse?.name,
-    ));
+    await repository.submitStatus(
+      DistributionTrackRequest(
+        distributionId: saved.id ?? '',
+        lat: saved.fromLat ?? 0,
+        lng: saved.fromLng ?? 0,
+        status: DistributionTrackRequestStatusEnum.REVIEWING,
+        // The warehouse name, which is what the timeline renders. It is read from the
+        // association now rather than from a column that held a name.
+        location: saved.warehouse?.name ?? current.selectedWarehouse?.name,
+      ),
+    );
     ref.invalidate(distributionListProvider);
   }
 }
 
 final applyFormProvider =
     AsyncNotifierProvider.autoDispose<ApplyFormNotifier, ApplyFormState>(
-        ApplyFormNotifier.new);
+      ApplyFormNotifier.new,
+    );

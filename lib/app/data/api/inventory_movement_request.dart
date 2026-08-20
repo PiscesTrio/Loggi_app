@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'inventory_movement_request.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -19,98 +18,53 @@ part 'inventory_movement_request.g.dart';
 class InventoryMovementRequest {
   /// Returns a new [InventoryMovementRequest] instance.
   InventoryMovementRequest({
+    required this.warehouseId,
 
-    required  this.warehouseId,
+    required this.commodityId,
 
-    required  this.commodityId,
+    this.name,
 
-     this.name,
+    required this.count,
 
-    required  this.count,
-
-     this.description,
+    this.description,
   });
 
-  @JsonKey(
-    
-    name: r'warehouseId',
-    required: true,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'warehouseId', required: true, includeIfNull: false)
   final String warehouseId;
 
-
-
-  @JsonKey(
-    
-    name: r'commodityId',
-    required: true,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'commodityId', required: true, includeIfNull: false)
   final String commodityId;
 
-
-
-  @JsonKey(
-    
-    name: r'name',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'name', required: false, includeIfNull: false)
   final String? name;
 
-
-
-          // minimum: 1
-  @JsonKey(
-    
-    name: r'count',
-    required: true,
-    includeIfNull: false,
-  )
-
-
+  // minimum: 1
+  @JsonKey(name: r'count', required: true, includeIfNull: false)
   final int count;
 
-
-
-  @JsonKey(
-    
-    name: r'description',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'description', required: false, includeIfNull: false)
   final String? description;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is InventoryMovementRequest &&
+          other.warehouseId == warehouseId &&
+          other.commodityId == commodityId &&
+          other.name == name &&
+          other.count == count &&
+          other.description == description;
 
+  @override
+  int get hashCode =>
+      warehouseId.hashCode +
+      commodityId.hashCode +
+      name.hashCode +
+      count.hashCode +
+      description.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is InventoryMovementRequest &&
-      other.warehouseId == warehouseId &&
-      other.commodityId == commodityId &&
-      other.name == name &&
-      other.count == count &&
-      other.description == description;
-
-    @override
-    int get hashCode =>
-        warehouseId.hashCode +
-        commodityId.hashCode +
-        name.hashCode +
-        count.hashCode +
-        description.hashCode;
-
-  factory InventoryMovementRequest.fromJson(Map<String, dynamic> json) => _$InventoryMovementRequestFromJson(json);
+  factory InventoryMovementRequest.fromJson(Map<String, dynamic> json) =>
+      _$InventoryMovementRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$InventoryMovementRequestToJson(this);
 
@@ -118,6 +72,4 @@ class InventoryMovementRequest {
   String toString() {
     return toJson().toString();
   }
-
 }
-

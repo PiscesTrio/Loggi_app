@@ -30,8 +30,10 @@ class AppConfig {
 
   /// Refuses to start against a plaintext endpoint. Off by default so local development
   /// works; a release build should pass it.
-  static const bool enforceHttps =
-      bool.fromEnvironment('ENFORCE_HTTPS', defaultValue: false);
+  static const bool enforceHttps = bool.fromEnvironment(
+    'ENFORCE_HTTPS',
+    defaultValue: false,
+  );
 
   /// The old configuration set only a connect timeout of 3 seconds. A server that accepts
   /// the connection and then never answers left the request hanging forever, because

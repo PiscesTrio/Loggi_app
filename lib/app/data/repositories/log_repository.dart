@@ -35,7 +35,8 @@ class LogRepository {
       query: {'page': page, 'size': size},
     );
     return _newestFirst(
-      PageVoSystemLogVo.fromJson(data as Map<String, dynamic>).items ?? const [],
+      PageVoSystemLogVo.fromJson(data as Map<String, dynamic>).items ??
+          const [],
       (row) => row.time,
     );
   }

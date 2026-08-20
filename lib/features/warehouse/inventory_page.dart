@@ -1,3 +1,6 @@
+import '../../app/theme/status_colors.dart';
+import '../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -69,6 +72,7 @@ class InventoryPage extends ConsumerWidget {
         onPressed: () => context.pop(),
         splashColor: ColorPalette.bondyBlue,
         backgroundColor: ColorPalette.pacificBlue,
+        tooltip: MaterialLocalizations.of(context).backButtonTooltip,
         child: const Icon(Icons.arrow_back, color: ColorPalette.white),
       ),
       body: Column(
@@ -175,8 +179,8 @@ class _InventoryTable extends ConsumerWidget {
           sortColumnIndex: order?.column,
           sortAscending: order?.ascending ?? true,
           columns: [
-            DataColumn(label: const Text('名称'), onSort: sort),
-            DataColumn(label: const Text('数量'), onSort: sort),
+            DataColumn(label: Text(context.l10n.fieldName), onSort: sort),
+            DataColumn(label: Text(context.l10n.fieldQuantity), onSort: sort),
           ],
           rows: [
             for (final row in order?.apply(rows) ?? rows)
@@ -204,7 +208,7 @@ class _CountChip extends StatelessWidget {
       height: 25,
       width: 50,
       decoration: BoxDecoration(
-        color: const Color.fromRGBO(32, 108, 190, 1),
+        color: StatusColors.stockBadge,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Center(

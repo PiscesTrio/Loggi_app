@@ -32,8 +32,10 @@ class RouteMapFullscreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title,
-            style: const TextStyle(fontFamily: 'Nunito', fontSize: 18)),
+        title: Text(
+          title,
+          style: const TextStyle(fontFamily: 'Nunito', fontSize: 18),
+        ),
         backgroundColor: ColorPalette.white,
         foregroundColor: ColorPalette.nileBlue,
         elevation: 1,
@@ -74,19 +76,23 @@ class RouteMapFullscreen extends StatelessWidget {
                           Polyline(
                             points: coords,
                             strokeWidth: 4,
-                            color: ColorPalette.timberGreen.withValues(alpha: 0.75),
+                            color: ColorPalette.timberGreen.withValues(
+                              alpha: 0.75,
+                            ),
                           ),
                         ],
                       ),
                     MarkerLayer(
                       markers: usable
-                          .map((p) => Marker(
-                                point: p.latLng,
-                                width: 44,
-                                height: 44,
-                                alignment: Alignment.topCenter,
-                                child: Image.asset(p.iconAsset),
-                              ))
+                          .map(
+                            (p) => Marker(
+                              point: p.latLng,
+                              width: 44,
+                              height: 44,
+                              alignment: Alignment.topCenter,
+                              child: Image.asset(p.iconAsset),
+                            ),
+                          )
                           .toList(),
                     ),
                   ],
@@ -95,13 +101,17 @@ class RouteMapFullscreen extends StatelessWidget {
                   right: 6,
                   bottom: 4,
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     color: Colors.white.withValues(alpha: 0.72),
                     child: Text(
                       source.attribution,
                       style: const TextStyle(
-                          fontSize: 10, color: Colors.black87),
+                        fontSize: 10,
+                        color: Colors.black87,
+                      ),
                     ),
                   ),
                 ),

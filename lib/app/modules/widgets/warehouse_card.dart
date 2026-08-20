@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+
 import '../../utils/date_display.dart';
 import '../../data/api/warehouse_vo.dart';
+
 // import 'package:warehouse_management/screens/warehouse_details_page.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../assets/svg/svg_strings.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:loggi_app/app/router/routes.dart';
 
@@ -13,14 +16,19 @@ class WarehouseCard extends StatelessWidget {
   final WarehouseVo? warehouse;
   final String? docID;
   final int iconIndex;
-  const WarehouseCard({super.key, this.warehouse, this.docID, required this.iconIndex});
+  const WarehouseCard({
+    super.key,
+    this.warehouse,
+    this.docID,
+    required this.iconIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
         context.push('${Routes.warehouseInventory}/${warehouse!.id}');
-            },
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
 
@@ -49,14 +57,13 @@ class WarehouseCard extends StatelessWidget {
                       ),
                     )
                   : ClipRRect(
-                            borderRadius: BorderRadius.circular(11),
-                            child: SvgPicture.string(
-                              SvgString.warehouse[iconIndex%3],
-                            ),
-            ),),
-            SizedBox(
-              width: 10,
+                      borderRadius: BorderRadius.circular(11),
+                      child: SvgPicture.string(
+                        SvgString.warehouse[iconIndex % 3],
+                      ),
+                    ),
             ),
+            SizedBox(width: 10),
             Expanded(
               flex: 5,
               child: Column(
@@ -71,9 +78,7 @@ class WarehouseCard extends StatelessWidget {
                       color: ColorPalette.timberGreen,
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
                       Icon(
@@ -83,7 +88,7 @@ class WarehouseCard extends StatelessWidget {
                       ),
                       Text(
                         // warehouse!.location ?? '-',
-                        warehouse!.location??"-",
+                        warehouse!.location ?? "-",
                         maxLines: 1,
                         style: const TextStyle(
                           fontFamily: "Nunito",
@@ -93,9 +98,7 @@ class WarehouseCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
                       Text(
@@ -105,7 +108,9 @@ class WarehouseCard extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: "Nunito",
                           fontSize: 12,
-                          color: ColorPalette.timberGreen.withValues(alpha: 0.44),
+                          color: ColorPalette.timberGreen.withValues(
+                            alpha: 0.44,
+                          ),
                         ),
                       ),
                       Padding(
@@ -117,7 +122,9 @@ class WarehouseCard extends StatelessWidget {
                         child: Icon(
                           Icons.circle,
                           size: 5,
-                          color: ColorPalette.timberGreen.withValues(alpha: 0.44),
+                          color: ColorPalette.timberGreen.withValues(
+                            alpha: 0.44,
+                          ),
                         ),
                       ),
                       Text(
@@ -126,14 +133,14 @@ class WarehouseCard extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: "Nunito",
                           fontSize: 12,
-                          color: ColorPalette.timberGreen.withValues(alpha: 0.44),
+                          color: ColorPalette.timberGreen.withValues(
+                            alpha: 0.44,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   SizedBox(
                     // width: 100,
                     child: Text(

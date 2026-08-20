@@ -1,3 +1,5 @@
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -59,7 +61,7 @@ class _ErrorState extends StatelessWidget {
     // showing its toString to a user helps nobody.
     final message = error is ApiException
         ? (error as ApiException).message
-        : '出错了，请稍后重试';
+        : context.l10n.errorGeneric;
     return _Message(
       text: message,
       icon: Icons.error_outline,
@@ -84,7 +86,11 @@ class _Message extends StatelessWidget {
     return ListView(
       children: [
         SizedBox(height: MediaQuery.of(context).size.height * 0.25),
-        Icon(icon, size: 48, color: ColorPalette.nileBlue.withValues(alpha: 0.4)),
+        Icon(
+          icon,
+          size: 48,
+          color: ColorPalette.nileBlue.withValues(alpha: 0.4),
+        ),
         const SizedBox(height: 12),
         Center(
           child: Padding(
@@ -92,7 +98,10 @@ class _Message extends StatelessWidget {
             child: Text(
               text,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 15, color: ColorPalette.nileBlue),
+              style: const TextStyle(
+                fontSize: 15,
+                color: ColorPalette.nileBlue,
+              ),
             ),
           ),
         ),

@@ -129,6 +129,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  # Runs gen-l10n on build, turning lib/l10n/*.arb into a typed AppLocalizations.
+  # The app declared flutter_localizations and a supportedLocales list but shipped no
+  # ARB resources, which localises Flutter's own widgets and nothing else.
+  generate: true
+
  
   fonts:
     - family: Nunito

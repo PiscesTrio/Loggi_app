@@ -29,10 +29,8 @@ class DriverListPage extends ConsumerWidget {
             emptyMessage: '暂无驾驶员',
             builder: (data) => ListView.builder(
               itemCount: data.length,
-              itemBuilder: (context, index) => DriverCard(
-                driver: data[index],
-                imageIndex: index,
-              ),
+              itemBuilder: (context, index) =>
+                  DriverCard(driver: data[index], imageIndex: index),
             ),
           ),
         ),

@@ -1,3 +1,5 @@
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -82,11 +84,11 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
   Future<void> _submit() async {
     final selected = _selected;
     if (selected == null) {
-      showTextToast('请选择商品');
+      showTextToast(context.l10n.validationCommodityRequired);
       return;
     }
     if (_count <= 0) {
-      showTextToast('请填写数量');
+      showTextToast(context.l10n.validationQuantityRequired);
       return;
     }
 
@@ -105,7 +107,7 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
             inbound: widget.direction.isInbound,
           );
       if (!mounted) return;
-      showTextToast('提交成功');
+      showTextToast(context.l10n.submittedOk);
       Navigator.of(context).pop();
     } on ApiException catch (e) {
       // The message, not a cleared spinner. Both copies of the old dialog ended their
@@ -140,14 +142,16 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
               // rejects.
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              decoration: const InputDecoration(labelText: '数量'),
+              decoration: InputDecoration(
+                labelText: context.l10n.fieldQuantity,
+              ),
               onChanged: (value) => _count = int.tryParse(value) ?? 0,
             ),
             const SizedBox(height: 16),
             TextFormField(
               minLines: 2,
               maxLines: 4,
-              decoration: const InputDecoration(labelText: '备注'),
+              decoration: InputDecoration(labelText: context.l10n.fieldNote),
               onChanged: (value) => _description = value,
             ),
           ],
@@ -156,7 +160,7 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
       actions: [
         OutlinedButton(
           onPressed: _submitting ? null : () => Navigator.of(context).pop(),
-          child: const Text('取消'),
+          child: Text(context.l10n.actionCancel),
         ),
         ElevatedButton(
           onPressed: _submitting ? null : _submit,
@@ -166,7 +170,7 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
                   height: 18,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('确认'),
+              : Text(context.l10n.actionConfirm),
         ),
       ],
     );
@@ -193,15 +197,15 @@ class _CommodityField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (options.isEmpty) {
-      return const Padding(
+      return Padding(
         padding: EdgeInsets.symmetric(vertical: 8),
-        child: Text('该仓库暂无库存可出库'),
+        child: Text(context.l10n.emptyStockForOutbound),
       );
     }
     return DropdownButtonFormField<InventoryOption>(
       initialValue: selected,
       isExpanded: true,
-      decoration: const InputDecoration(labelText: '选择商品'),
+      decoration: InputDecoration(labelText: context.l10n.fieldSelectCommodity),
       items: [
         for (final option in options)
           DropdownMenuItem(value: option, child: Text(option.name)),

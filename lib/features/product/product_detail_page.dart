@@ -1,3 +1,5 @@
+import '../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,11 +57,11 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
   Future<void> _submit() async {
     final id = widget.product.id;
     if (id == null) {
-      showTextToast('这条商品没有 id，无法保存');
+      showTextToast(context.l10n.productNoId);
       return;
     }
     if (_name.text.isEmpty) {
-      showTextToast('请填写名称');
+      showTextToast(context.l10n.validationNameRequired);
       return;
     }
 
@@ -82,7 +84,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
       // is not currently registered.
       ref.invalidate(commodityListProvider);
       if (!mounted) return;
-      showTextToast('提交成功');
+      showTextToast(context.l10n.submittedOk);
       context.pop();
     } on ApiException catch (e) {
       if (!mounted) return;
@@ -110,7 +112,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                 style: framedFieldTextStyle,
                 cursorColor: ColorPalette.timberGreen,
                 textInputAction: TextInputAction.next,
-                decoration: framedFieldDecoration('名称'),
+                decoration: framedFieldDecoration(context.l10n.fieldName),
               ),
             ),
             const SizedBox(height: 20),
@@ -128,7 +130,9 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                       ],
-                      decoration: framedFieldDecoration('价格'),
+                      decoration: framedFieldDecoration(
+                        context.l10n.fieldPrice,
+                      ),
                     ),
                   ),
                 ),
@@ -141,7 +145,9 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                       cursorColor: ColorPalette.timberGreen,
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      decoration: framedFieldDecoration('数量'),
+                      decoration: framedFieldDecoration(
+                        context.l10n.fieldQuantity,
+                      ),
                     ),
                   ),
                 ),
@@ -181,7 +187,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                   child: FramedBox(
                     child: OutlinedButton(
                       onPressed: _submitting ? null : () => context.pop(),
-                      child: const Text('取消'),
+                      child: Text(context.l10n.actionCancel),
                     ),
                   ),
                 ),
@@ -196,7 +202,7 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
                               height: 18,
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
-                          : const Text('确认'),
+                          : Text(context.l10n.actionConfirm),
                     ),
                   ),
                 ),

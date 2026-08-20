@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../l10n/l10n.dart';
 import '../../features/settings/system_setting_page.dart';
 import '../../features/shell/tabbed_shell_page.dart';
 import '../../features/chart/chart_page.dart';
@@ -123,9 +124,12 @@ final routerProvider = Provider<GoRouter>((ref) {
               StatefulShellRoute.indexedStack(
                 // This builder supplies the header and the 商品/仓库 tab bar; `inner` goes
                 // where the old IndexedStack of two Navigators used to sit.
-                builder: (_, _, inner) => TabbedShellPage(
-                  title: '基础管理',
-                  tabs: const ['商品管理', '仓库管理'],
+                builder: (context, _, inner) => TabbedShellPage(
+                  title: context.l10n.navBase,
+                  tabs: [
+                    context.l10n.tabCommodities,
+                    context.l10n.tabWarehouses,
+                  ],
                   shell: inner,
                 ),
                 branches: [
@@ -176,9 +180,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             initialLocation: Routes.transportDistribution,
             routes: [
               StatefulShellRoute.indexedStack(
-                builder: (_, _, inner) => TabbedShellPage(
-                  title: '运输管理',
-                  tabs: const ['配送管理', '车辆管理', '驾驶员管理'],
+                builder: (context, _, inner) => TabbedShellPage(
+                  title: context.l10n.navTransport,
+                  tabs: [
+                    context.l10n.tabDistributions,
+                    context.l10n.tabVehicles,
+                    context.l10n.tabDrivers,
+                  ],
                   shell: inner,
                 ),
                 branches: [

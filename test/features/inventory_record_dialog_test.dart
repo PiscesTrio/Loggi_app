@@ -8,6 +8,7 @@ import 'package:loggi_app/app/data/api/warehouse_request.dart';
 import 'package:loggi_app/app/data/api/warehouse_vo.dart';
 import 'package:loggi_app/app/data/repositories/warehouse_repository.dart';
 import 'package:loggi_app/features/warehouse/widgets/inventory_record_dialog.dart';
+import 'package:loggi_app/l10n/l10n.dart';
 
 /// A repository that records what it was asked to do.
 ///
@@ -46,6 +47,12 @@ Future<void> _pump(
     ProviderScope(
       overrides: [warehouseRepositoryProvider.overrideWithValue(repository)],
       child: MaterialApp(
+        // The dialog reads its labels from AppLocalizations now, so a test that does not
+        // register the delegate gets a null back and throws inside build. Registering it
+        // also means these cases assert against the same strings a user sees.
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('zh'),
         home: Scaffold(
           body: InventoryRecordDialog(
             direction: direction,

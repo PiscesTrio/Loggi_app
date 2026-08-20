@@ -24,7 +24,8 @@ class DistributionListPage extends ConsumerWidget {
       body: Container(
         color: ColorPalette.aquaHaze,
         child: RefreshIndicator(
-          onRefresh: () => ref.read(distributionListProvider.notifier).refresh(),
+          onRefresh: () =>
+              ref.read(distributionListProvider.notifier).refresh(),
           child: AsyncView(
             value: distributions,
             onRetry: () => ref.invalidate(distributionListProvider),

@@ -16,5 +16,6 @@ String formatDateTime(DateTime? value) => value == null
     : DateFormat('yyyy-MM-dd HH:mm:ss').format(value.toLocal());
 
 /// To the minute. For cards, where the seconds are noise.
-String formatDateMinute(DateTime? value) =>
-    value == null ? '-' : DateFormat('yyyy-MM-dd HH:mm').format(value.toLocal());
+String formatDateMinute(DateTime? value) => value == null
+    ? '-'
+    : DateFormat('yyyy-MM-dd HH:mm').format(value.toLocal());

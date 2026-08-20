@@ -8,7 +8,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'commodity_request.g.dart';
 
-
 @CopyWith()
 @JsonSerializable(
   checked: true,
@@ -19,82 +18,43 @@ part 'commodity_request.g.dart';
 class CommodityRequest {
   /// Returns a new [CommodityRequest] instance.
   CommodityRequest({
+    required this.name,
 
-    required  this.name,
+    required this.price,
 
-    required  this.price,
+    this.description,
 
-     this.description,
-
-     this.count,
+    this.count,
   });
 
-  @JsonKey(
-    
-    name: r'name',
-    required: true,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'name', required: true, includeIfNull: false)
   final String name;
 
-
-
-          // minimum: 0.0
-  @JsonKey(
-    
-    name: r'price',
-    required: true,
-    includeIfNull: false,
-  )
-
-
+  // minimum: 0.0
+  @JsonKey(name: r'price', required: true, includeIfNull: false)
   final num price;
 
-
-
-  @JsonKey(
-    
-    name: r'description',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'description', required: false, includeIfNull: false)
   final String? description;
 
-
-
-  @JsonKey(
-    
-    name: r'count',
-    required: false,
-    includeIfNull: false,
-  )
-
-
+  @JsonKey(name: r'count', required: false, includeIfNull: false)
   final int? count;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CommodityRequest &&
+          other.name == name &&
+          other.price == price &&
+          other.description == description &&
+          other.count == count;
 
+  @override
+  int get hashCode =>
+      name.hashCode + price.hashCode + description.hashCode + count.hashCode;
 
-
-
-    @override
-    bool operator ==(Object other) => identical(this, other) || other is CommodityRequest &&
-      other.name == name &&
-      other.price == price &&
-      other.description == description &&
-      other.count == count;
-
-    @override
-    int get hashCode =>
-        name.hashCode +
-        price.hashCode +
-        description.hashCode +
-        count.hashCode;
-
-  factory CommodityRequest.fromJson(Map<String, dynamic> json) => _$CommodityRequestFromJson(json);
+  factory CommodityRequest.fromJson(Map<String, dynamic> json) =>
+      _$CommodityRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommodityRequestToJson(this);
 
@@ -102,6 +62,4 @@ class CommodityRequest {
   String toString() {
     return toJson().toString();
   }
-
 }
-

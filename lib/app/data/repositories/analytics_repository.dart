@@ -25,7 +25,9 @@ class AnalyticsRepository {
 
   final ApiClient _client;
 
-  Future<List<CommodityChartVo>> movementsBy(MovementDirection direction) async {
+  Future<List<CommodityChartVo>> movementsBy(
+    MovementDirection direction,
+  ) async {
     final data = await _client.get<dynamic>(
       '/inventory/analyze',
       query: {'type': direction.wireValue},

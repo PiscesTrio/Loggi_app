@@ -1,3 +1,6 @@
+import '../../app/theme/status_colors.dart';
+import '../../l10n/l10n.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -62,12 +65,13 @@ class ProductListPage extends ConsumerWidget {
         ),
         splashColor: ColorPalette.bondyBlue,
         backgroundColor: ColorPalette.pacificBlue,
+        tooltip: context.l10n.addProductTitle,
         child: const Icon(Icons.add, color: ColorPalette.white),
       ),
       body: AsyncView(
         value: commodities,
         onRetry: () => ref.read(commodityListProvider.notifier).refresh(),
-        emptyMessage: '还没有商品',
+        emptyMessage: context.l10n.emptyCommodities,
         builder: (rows) => _ProductTable(rows: rows),
       ),
     );
@@ -96,9 +100,9 @@ class _ProductTable extends ConsumerWidget {
           sortColumnIndex: order?.column,
           sortAscending: order?.ascending ?? true,
           columns: [
-            DataColumn(label: const Text('名称'), onSort: sort),
-            DataColumn(label: const Text('价格'), onSort: sort),
-            DataColumn(label: const Text('库存'), onSort: sort),
+            DataColumn(label: Text(context.l10n.fieldName), onSort: sort),
+            DataColumn(label: Text(context.l10n.fieldPrice), onSort: sort),
+            DataColumn(label: Text(context.l10n.fieldStock), onSort: sort),
           ],
           rows: [
             for (final row in order?.apply(rows) ?? rows)
@@ -131,9 +135,7 @@ class _Chip extends StatelessWidget {
       // used — the chip is as wide as its number and no wider.
       padding: const EdgeInsets.symmetric(horizontal: 2),
       decoration: BoxDecoration(
-        color: accent
-            ? const Color.fromRGBO(32, 108, 190, 1)
-            : const Color.fromRGBO(4, 173, 182, 1),
+        color: accent ? StatusColors.stockBadge : StatusColors.priceBadge,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
