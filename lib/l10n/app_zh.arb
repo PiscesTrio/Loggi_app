@@ -219,5 +219,14 @@
         "type": "String"
       }
     }
+  },
+  "mapFullscreen": "全屏显示",
+  "mapStraightLineDistance": "直线距离 约 {km} km",
+  "@mapStraightLineDistance": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
   }
 }

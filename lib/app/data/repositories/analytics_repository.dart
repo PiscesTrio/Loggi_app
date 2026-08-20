@@ -9,15 +9,18 @@ import '../network/network_providers.dart';
 /// A type rather than a bool. The call was `getChartData(true)` / `getChartData(false)`, and
 /// which way round that went was written down nowhere — the parameter was named `inOrOut`.
 enum MovementDirection {
-  inbound('IN', '入库'),
-  outbound('OUT', '出库');
+  inbound('IN'),
+  outbound('OUT');
 
-  const MovementDirection(this.wireValue, this.label);
+  const MovementDirection(this.wireValue);
 
   /// What the API expects. It was `type=1` / `type=-1` until S09, with the meaning of those
   /// numbers living in a private field of one backend service.
+  ///
+  /// It carried a Chinese `label` beside this until B1. Nothing read it — the chart gets its
+  /// section headings from the ARB — so it was a display string sitting in a repository,
+  /// waiting to disagree with the one actually shown.
   final String wireValue;
-  final String label;
 }
 
 class AnalyticsRepository {

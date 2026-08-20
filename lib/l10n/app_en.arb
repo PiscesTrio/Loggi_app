@@ -188,5 +188,7 @@
   "inventoryRecordTitleOutbound": "Record stock out",
   "chartUnnamed": "Unnamed",
   "productCreatedAt": "Created {at}",
-  "productUpdatedAt": "Updated {at}"
+  "productUpdatedAt": "Updated {at}",
+  "mapFullscreen": "Full screen",
+  "mapStraightLineDistance": "About {km} km as the crow flies"
 }
