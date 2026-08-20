@@ -252,7 +252,7 @@ void main() {
 
   group('transport failures', () {
     test(
-      'a connection error arrives as an ApiException in the app language',
+      'a connection error arrives as an ApiException that names the failure',
       () async {
         adapter.onGet('/warehouse', (server) {
           server.throws(
@@ -266,10 +266,17 @@ void main() {
 
         // Dio's own message here is English boilerplate; for a 401 it even describes the
         // status as "bad syntax". Nothing in this app should show a user that sentence.
+        //
+        // Nor should this layer write the replacement. It asserted the Chinese sentence
+        // until A3, which was correct for one of the app's three languages; the sentence is
+        // chosen by features/errors/error_messages.dart now, where there is a locale to
+        // choose it with. What arrives here is the classification.
         await expectLater(
           client.get<dynamic>('/warehouse'),
           throwsA(
-            isA<ApiException>().having((e) => e.message, 'message', '无法连接到服务器'),
+            isA<ApiException>()
+                .having((e) => e.failure, 'failure', ApiFailure.offline)
+                .having((e) => e.message, 'message', isNull),
           ),
         );
       },

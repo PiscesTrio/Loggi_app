@@ -234,5 +234,31 @@
   "listSeparator": "、",
   "@listSeparator": {
     "description": "Joins items in a one-line list. CJK uses the ideographic comma without a following space; English uses a comma and a space."
-  }
+  },
+  "errorWarehouseNotFound": "找不到该仓库",
+  "errorDriverNotFound": "找不到该驾驶员",
+  "errorVehicleNotFound": "找不到该车辆",
+  "errorDistributionNotFound": "找不到该配送单",
+  "errorCommodityNotInWarehouse": "该仓库没有这件商品",
+  "errorCommodityNotFound": "找不到该商品",
+  "errorNotFound": "请求的资源不存在",
+  "errorDriverUnavailable": "该驾驶员当前不可用",
+  "errorVehicleUnavailable": "该车辆当前不可用",
+  "errorInsufficientStock": "库存不足，无法出库",
+  "errorAlreadyExists": "数据已存在，请检查是否重复",
+  "errorQuantityNotPositive": "数量必须大于 0",
+  "errorValidationFailed": "填写内容有误，请检查",
+  "errorMalformedRequest": "请求参数错误",
+  "errorBadRequest": "请求无法处理",
+  "errorCodeRequestedTooSoon": "请求过于频繁，请稍后再试",
+  "errorCodeAttemptsExhausted": "验证失败次数过多，请稍后再试",
+  "errorCodeDeliveryFailed": "验证码发送失败，请稍后再试",
+  "errorAccessDenied": "你没有访问权限",
+  "errorMethodNotAllowed": "不支持的请求方法",
+  "errorInternal": "服务器内部错误",
+  "errorTimeout": "连接超时，请检查网络后重试",
+  "errorOffline": "无法连接到服务器",
+  "errorCancelled": "请求已取消",
+  "errorBadCertificate": "服务器证书无效",
+  "errorUnreadableResponse": "服务器返回了无法解析的响应"
 }

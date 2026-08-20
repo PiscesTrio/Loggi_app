@@ -1,4 +1,5 @@
 import '../../../l10n/l10n.dart';
+import '../../errors/error_messages.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -124,7 +125,7 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
       // so a rejected movement was indistinguishable from a slow one.
       if (!mounted) return;
       setState(() => _submitting = false);
-      showTextToast(e.message);
+      showTextToast(apiErrorMessage(context, e));
     }
   }
 

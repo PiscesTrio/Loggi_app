@@ -1,4 +1,5 @@
 import '../../../features/distribution/care_tags.dart';
+import '../../../features/errors/error_messages.dart';
 import '../../../features/fleet/fleet_labels.dart';
 import '../../data/api/distribution_request.dart';
 import '../../../l10n/l10n.dart';
@@ -56,7 +57,7 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
     } on ApiException catch (e) {
       if (!mounted) return;
       setState(() => _submitting = false);
-      showTextToast(e.message);
+      showTextToast(apiErrorMessage(context, e));
     }
   }
 

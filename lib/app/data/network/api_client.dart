@@ -88,7 +88,7 @@ class ApiClient {
       final api = e.error;
       throw api is ApiException ? api : ApiException.fromDio(e);
     } on TypeError catch (e) {
-      throw ApiException(message: '服务器返回的数据格式不正确', cause: e);
+      throw ApiException(failure: ApiFailure.unreadableResponse, cause: e);
     }
   }
 }
@@ -99,7 +99,7 @@ class ApiClient {
 /// layer; the repositories that know their own types call these.
 List<T> decodeList<T>(dynamic data, T Function(Map<String, dynamic>) fromJson) {
   if (data is! List) {
-    throw ApiException(message: '服务器返回的数据格式不正确（期望列表）');
+    throw const ApiException(failure: ApiFailure.unreadableResponse);
   }
   return data
       .whereType<Map>()
@@ -109,7 +109,7 @@ List<T> decodeList<T>(dynamic data, T Function(Map<String, dynamic>) fromJson) {
 
 T decodeObject<T>(dynamic data, T Function(Map<String, dynamic>) fromJson) {
   if (data is! Map) {
-    throw ApiException(message: '服务器返回的数据格式不正确（期望对象）');
+    throw const ApiException(failure: ApiFailure.unreadableResponse);
   }
   return fromJson(Map<String, dynamic>.from(data));
 }

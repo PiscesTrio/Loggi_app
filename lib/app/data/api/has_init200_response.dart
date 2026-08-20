@@ -17,14 +17,7 @@ part 'has_init200_response.g.dart';
 )
 class HasInit200Response {
   /// Returns a new [HasInit200Response] instance.
-  HasInit200Response({this.code, this.data, this.status, this.msg});
-
-  /// Repeats the HTTP status.
-  @JsonKey(name: r'code', required: false, includeIfNull: false)
-  final int? code;
-
-  @JsonKey(name: r'data', required: false, includeIfNull: false)
-  final bool? data;
+  HasInit200Response({this.status, this.msg, this.code, this.data});
 
   /// False on a failure.
   @JsonKey(name: r'status', required: false, includeIfNull: false)
@@ -34,18 +27,25 @@ class HasInit200Response {
   @JsonKey(name: r'msg', required: false, includeIfNull: false)
   final String? msg;
 
+  /// Repeats the HTTP status.
+  @JsonKey(name: r'code', required: false, includeIfNull: false)
+  final int? code;
+
+  @JsonKey(name: r'data', required: false, includeIfNull: false)
+  final bool? data;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is HasInit200Response &&
-          other.code == code &&
-          other.data == data &&
           other.status == status &&
-          other.msg == msg;
+          other.msg == msg &&
+          other.code == code &&
+          other.data == data;
 
   @override
   int get hashCode =>
-      code.hashCode + data.hashCode + status.hashCode + msg.hashCode;
+      status.hashCode + msg.hashCode + code.hashCode + data.hashCode;
 
   factory HasInit200Response.fromJson(Map<String, dynamic> json) =>
       _$HasInit200ResponseFromJson(json);

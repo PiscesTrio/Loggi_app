@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../features/errors/error_messages.dart';
+
 import '../../../l10n/l10n.dart';
 
 import '../../../features/fleet/fleet_labels.dart';
@@ -87,7 +89,7 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
       // reaches the user now.
       if (!mounted) return;
       setState(() => _submitting = false);
-      showTextToast(e.message);
+      showTextToast(apiErrorMessage(context, e));
     }
   }
 
