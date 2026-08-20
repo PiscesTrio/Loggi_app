@@ -9,7 +9,7 @@ part of 'vehicle_request.dart';
 abstract class _$VehicleRequestCWProxy {
   VehicleRequest number(String number);
 
-  VehicleRequest type(String type);
+  VehicleRequest type(VehicleRequestTypeEnum type);
 
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `VehicleRequest(...).copyWith.fieldName(value)`.
@@ -18,7 +18,7 @@ abstract class _$VehicleRequestCWProxy {
   /// ```dart
   /// VehicleRequest(...).copyWith(id: 12, name: "My name")
   /// ```
-  VehicleRequest call({String number, String type});
+  VehicleRequest call({String number, VehicleRequestTypeEnum type});
 }
 
 /// Callable proxy for `copyWith` functionality.
@@ -32,7 +32,7 @@ class _$VehicleRequestCWProxyImpl implements _$VehicleRequestCWProxy {
   VehicleRequest number(String number) => call(number: number);
 
   @override
-  VehicleRequest type(String type) => call(type: type);
+  VehicleRequest type(VehicleRequestTypeEnum type) => call(type: type);
 
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `VehicleRequest(...).copyWith.fieldName(value)`.
@@ -54,7 +54,7 @@ class _$VehicleRequestCWProxyImpl implements _$VehicleRequestCWProxy {
       type: type == const $CopyWithPlaceholder() || type == null
           ? _value.type
           // ignore: cast_nullable_to_non_nullable
-          : type as String,
+          : type as VehicleRequestTypeEnum,
     );
   }
 }
@@ -75,10 +75,22 @@ VehicleRequest _$VehicleRequestFromJson(Map<String, dynamic> json) =>
       $checkKeys(json, requiredKeys: const ['number', 'type']);
       final val = VehicleRequest(
         number: $checkedConvert('number', (v) => v as String),
-        type: $checkedConvert('type', (v) => v as String),
+        type: $checkedConvert(
+          'type',
+          (v) => $enumDecode(_$VehicleRequestTypeEnumEnumMap, v),
+        ),
       );
       return val;
     });
 
 Map<String, dynamic> _$VehicleRequestToJson(VehicleRequest instance) =>
-    <String, dynamic>{'number': instance.number, 'type': instance.type};
+    <String, dynamic>{
+      'number': instance.number,
+      'type': _$VehicleRequestTypeEnumEnumMap[instance.type]!,
+    };
+
+const _$VehicleRequestTypeEnumEnumMap = {
+  VehicleRequestTypeEnum.LIGHT_TRUCK: 'LIGHT_TRUCK',
+  VehicleRequestTypeEnum.TRUCK: 'TRUCK',
+  VehicleRequestTypeEnum.HEAVY_TRUCK: 'HEAVY_TRUCK',
+};

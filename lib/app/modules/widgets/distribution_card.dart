@@ -1,4 +1,5 @@
 import '../../theme/status_colors.dart';
+import '../../../features/distribution/care_tags.dart';
 import '../../../l10n/l10n.dart';
 
 import 'package:flutter/material.dart';
@@ -184,7 +185,7 @@ class DistributionCard extends StatelessWidget {
                       SizedBox(
                         // width: 100,
                         child: Text(
-                          distribution!.care ?? '-',
+                          CareTags.describe(context, distribution!.care),
                           maxLines: 3,
                           style: TextStyle(
                             fontFamily: "Nunito",
@@ -438,7 +439,10 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
                         Text(context.l10n.deliveryCares),
                         Expanded(
                           child: Text(
-                            widget.distribution!.care ?? "-",
+                            CareTags.describe(
+                              context,
+                              widget.distribution!.care,
+                            ),
                             maxLines: 5,
                           ),
                         ),
@@ -564,7 +568,7 @@ DistributionRequest _requestFrom(DistributionVo order, int step) {
     phone: order.phone ?? '',
     address: order.address ?? '',
     urgent: order.urgent ?? false,
-    care: order.care,
+    care: CareTags.toRequest(order.care),
     time: order.time ?? DateTime.now(),
     status: stages[step.clamp(0, stages.length - 1)],
     fromLat: order.fromLat ?? 0,

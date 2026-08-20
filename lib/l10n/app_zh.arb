@@ -189,5 +189,10 @@
       }
     }
   },
-  "logSignInSucceeded": "成功"
+  "logSignInSucceeded": "成功",
+  "vehicleTypeLightTruck": "货车",
+  "vehicleTypeTruck": "卡车",
+  "vehicleTypeHeavyTruck": "重卡",
+  "genderMale": "男性",
+  "genderFemale": "女性"
 }

@@ -17,23 +17,17 @@ part 'role_vo.g.dart';
 )
 class RoleVo {
   /// Returns a new [RoleVo] instance.
-  RoleVo({this.value, this.description});
+  RoleVo({this.value});
 
   @JsonKey(name: r'value', required: false, includeIfNull: false)
   final String? value;
 
-  @JsonKey(name: r'description', required: false, includeIfNull: false)
-  final String? description;
-
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is RoleVo &&
-          other.value == value &&
-          other.description == description;
+      identical(this, other) || other is RoleVo && other.value == value;
 
   @override
-  int get hashCode => value.hashCode + description.hashCode;
+  int get hashCode => value.hashCode;
 
   factory RoleVo.fromJson(Map<String, dynamic> json) => _$RoleVoFromJson(json);
 

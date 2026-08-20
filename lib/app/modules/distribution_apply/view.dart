@@ -1,4 +1,5 @@
 import '../../../features/distribution/care_tags.dart';
+import '../../data/api/distribution_request.dart';
 import '../../../l10n/l10n.dart';
 
 import 'package:flutter/material.dart';
@@ -417,13 +418,14 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                           return MultiSelectDialog(
                                             initialValue: form.cares,
                                             items: [
-                                              for (final tag
-                                                  in CareTags.wireValues)
-                                                MultiSelectItem<String>(
+                                              for (final tag in CareTags.all)
+                                                MultiSelectItem<
+                                                  DistributionRequestCareEnum
+                                                >(
                                                   tag,
                                                   CareTags.labelOf(
                                                     context,
-                                                    tag,
+                                                    tag.value,
                                                   ),
                                                 ),
                                             ],
@@ -467,7 +469,10 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                     .map(
                                       (element) => MultiSelectItem(
                                         element,
-                                        CareTags.labelOf(context, element),
+                                        CareTags.labelOf(
+                                          context,
+                                          element.value,
+                                        ),
                                       ),
                                     )
                                     .toList(),

@@ -40,5 +40,5 @@ final vehicleListProvider =
 /// next to the list itself — two unrelated pieces of state in one object, so a rebuild of
 /// either touched both.
 final vehicleDraftProvider = StateProvider.autoDispose<VehicleRequest>(
-  (ref) => VehicleRequest(number: '', type: '货车'),
+  (ref) => VehicleRequest(number: '', type: VehicleRequestTypeEnum.LIGHT_TRUCK),
 );

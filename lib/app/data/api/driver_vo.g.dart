@@ -11,7 +11,7 @@ abstract class _$DriverVoCWProxy {
 
   DriverVo name(String? name);
 
-  DriverVo gender(String? gender);
+  DriverVo gender(DriverVoGenderEnum? gender);
 
   DriverVo phone(String? phone);
 
@@ -37,7 +37,7 @@ abstract class _$DriverVoCWProxy {
   DriverVo call({
     String? id,
     String? name,
-    String? gender,
+    DriverVoGenderEnum? gender,
     String? phone,
     String? address,
     String? license,
@@ -62,7 +62,7 @@ class _$DriverVoCWProxyImpl implements _$DriverVoCWProxy {
   DriverVo name(String? name) => call(name: name);
 
   @override
-  DriverVo gender(String? gender) => call(gender: gender);
+  DriverVo gender(DriverVoGenderEnum? gender) => call(gender: gender);
 
   @override
   DriverVo phone(String? phone) => call(phone: phone);
@@ -117,7 +117,7 @@ class _$DriverVoCWProxyImpl implements _$DriverVoCWProxy {
       gender: gender == const $CopyWithPlaceholder()
           ? _value.gender
           // ignore: cast_nullable_to_non_nullable
-          : gender as String?,
+          : gender as DriverVoGenderEnum?,
       phone: phone == const $CopyWithPlaceholder()
           ? _value.phone
           // ignore: cast_nullable_to_non_nullable
@@ -166,7 +166,10 @@ DriverVo _$DriverVoFromJson(Map<String, dynamic> json) =>
       final val = DriverVo(
         id: $checkedConvert('id', (v) => v as String?),
         name: $checkedConvert('name', (v) => v as String?),
-        gender: $checkedConvert('gender', (v) => v as String?),
+        gender: $checkedConvert(
+          'gender',
+          (v) => $enumDecodeNullable(_$DriverVoGenderEnumEnumMap, v),
+        ),
         phone: $checkedConvert('phone', (v) => v as String?),
         address: $checkedConvert('address', (v) => v as String?),
         license: $checkedConvert('license', (v) => v as String?),
@@ -187,7 +190,7 @@ DriverVo _$DriverVoFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$DriverVoToJson(DriverVo instance) => <String, dynamic>{
   'id': ?instance.id,
   'name': ?instance.name,
-  'gender': ?instance.gender,
+  'gender': ?_$DriverVoGenderEnumEnumMap[instance.gender],
   'phone': ?instance.phone,
   'address': ?instance.address,
   'license': ?instance.license,
@@ -195,4 +198,9 @@ Map<String, dynamic> _$DriverVoToJson(DriverVo instance) => <String, dynamic>{
   'driving': ?instance.driving,
   'createAt': ?instance.createAt?.toIso8601String(),
   'updateAt': ?instance.updateAt?.toIso8601String(),
+};
+
+const _$DriverVoGenderEnumEnumMap = {
+  DriverVoGenderEnum.MALE: 'MALE',
+  DriverVoGenderEnum.FEMALE: 'FEMALE',
 };

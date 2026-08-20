@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../features/fleet/fleet_labels.dart';
+
 import '../../data/api/vehicle_request.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -119,9 +121,17 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  DropdownButton<String>(
-                    items: const ['货车', '卡车', '重卡']
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                  DropdownButton<VehicleRequestTypeEnum>(
+                    // The set is the generated enum's own values, not a literal list that
+                    // has to be kept in step with the server by hand. Adding a fourth type
+                    // server-side puts it in this dropdown on the next regeneration.
+                    items: VehicleRequestTypeEnum.values
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(vehicleTypeLabel(context, e.value)),
+                          ),
+                        )
                         .toList(),
                     iconSize: 30,
                     underline: const SizedBox(),

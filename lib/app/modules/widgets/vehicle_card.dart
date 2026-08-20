@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../features/fleet/fleet_labels.dart';
+
 import '../../utils/date_display.dart';
 import '../../data/api/vehicle_vo.dart';
 
@@ -62,7 +64,10 @@ class VehicleCard extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              text: vehicle!.type ?? '-',
+                              text: vehicleTypeLabel(
+                                context,
+                                vehicle!.type?.value,
+                              ),
                               style: const TextStyle(
                                 fontFamily: "Nunito",
                                 fontSize: 12,

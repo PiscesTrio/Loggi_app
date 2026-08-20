@@ -17,35 +17,35 @@ part 'has_init200_response.g.dart';
 )
 class HasInit200Response {
   /// Returns a new [HasInit200Response] instance.
-  HasInit200Response({this.msg, this.status, this.data, this.code});
-
-  /// Set on a failure.
-  @JsonKey(name: r'msg', required: false, includeIfNull: false)
-  final String? msg;
-
-  /// False on a failure.
-  @JsonKey(name: r'status', required: false, includeIfNull: false)
-  final bool? status;
-
-  @JsonKey(name: r'data', required: false, includeIfNull: false)
-  final bool? data;
+  HasInit200Response({this.code, this.data, this.status, this.msg});
 
   /// Repeats the HTTP status.
   @JsonKey(name: r'code', required: false, includeIfNull: false)
   final int? code;
 
+  @JsonKey(name: r'data', required: false, includeIfNull: false)
+  final bool? data;
+
+  /// False on a failure.
+  @JsonKey(name: r'status', required: false, includeIfNull: false)
+  final bool? status;
+
+  /// Set on a failure.
+  @JsonKey(name: r'msg', required: false, includeIfNull: false)
+  final String? msg;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is HasInit200Response &&
-          other.msg == msg &&
-          other.status == status &&
+          other.code == code &&
           other.data == data &&
-          other.code == code;
+          other.status == status &&
+          other.msg == msg;
 
   @override
   int get hashCode =>
-      msg.hashCode + status.hashCode + data.hashCode + code.hashCode;
+      code.hashCode + data.hashCode + status.hashCode + msg.hashCode;
 
   factory HasInit200Response.fromJson(Map<String, dynamic> json) =>
       _$HasInit200ResponseFromJson(json);

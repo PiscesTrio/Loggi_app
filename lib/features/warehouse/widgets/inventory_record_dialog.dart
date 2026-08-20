@@ -97,10 +97,13 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
       await ref
           .read(inventoryProvider(widget.warehouseId).notifier)
           .move(
+            // No name. The server derives it from commodityId (S18, backfilled by V8) — the
+            // client used to supply a copy, and a movement filed without one produced the
+            // unnamed slice in the chart. The generated model still carried the field until
+            // it was regenerated, so this line had been sending something nobody read.
             InventoryMovementRequest(
               warehouseId: widget.warehouseId,
               commodityId: selected.commodityId,
-              name: selected.name,
               count: _count,
               description: _description.isEmpty ? null : _description,
             ),

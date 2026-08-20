@@ -11,7 +11,7 @@ abstract class _$VehicleVoCWProxy {
 
   VehicleVo number(String? number);
 
-  VehicleVo type(String? type);
+  VehicleVo type(VehicleVoTypeEnum? type);
 
   VehicleVo driving(bool? driving);
 
@@ -27,7 +27,7 @@ abstract class _$VehicleVoCWProxy {
   VehicleVo call({
     String? id,
     String? number,
-    String? type,
+    VehicleVoTypeEnum? type,
     bool? driving,
     DateTime? createAt,
   });
@@ -47,7 +47,7 @@ class _$VehicleVoCWProxyImpl implements _$VehicleVoCWProxy {
   VehicleVo number(String? number) => call(number: number);
 
   @override
-  VehicleVo type(String? type) => call(type: type);
+  VehicleVo type(VehicleVoTypeEnum? type) => call(type: type);
 
   @override
   VehicleVo driving(bool? driving) => call(driving: driving);
@@ -82,7 +82,7 @@ class _$VehicleVoCWProxyImpl implements _$VehicleVoCWProxy {
       type: type == const $CopyWithPlaceholder()
           ? _value.type
           // ignore: cast_nullable_to_non_nullable
-          : type as String?,
+          : type as VehicleVoTypeEnum?,
       driving: driving == const $CopyWithPlaceholder()
           ? _value.driving
           // ignore: cast_nullable_to_non_nullable
@@ -111,7 +111,10 @@ VehicleVo _$VehicleVoFromJson(Map<String, dynamic> json) =>
       final val = VehicleVo(
         id: $checkedConvert('id', (v) => v as String?),
         number: $checkedConvert('number', (v) => v as String?),
-        type: $checkedConvert('type', (v) => v as String?),
+        type: $checkedConvert(
+          'type',
+          (v) => $enumDecodeNullable(_$VehicleVoTypeEnumEnumMap, v),
+        ),
         driving: $checkedConvert('driving', (v) => v as bool?),
         createAt: $checkedConvert(
           'createAt',
@@ -124,7 +127,13 @@ VehicleVo _$VehicleVoFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$VehicleVoToJson(VehicleVo instance) => <String, dynamic>{
   'id': ?instance.id,
   'number': ?instance.number,
-  'type': ?instance.type,
+  'type': ?_$VehicleVoTypeEnumEnumMap[instance.type],
   'driving': ?instance.driving,
   'createAt': ?instance.createAt?.toIso8601String(),
+};
+
+const _$VehicleVoTypeEnumEnumMap = {
+  VehicleVoTypeEnum.LIGHT_TRUCK: 'LIGHT_TRUCK',
+  VehicleVoTypeEnum.TRUCK: 'TRUCK',
+  VehicleVoTypeEnum.HEAVY_TRUCK: 'HEAVY_TRUCK',
 };

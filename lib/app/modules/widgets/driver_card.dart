@@ -1,4 +1,5 @@
 import '../../theme/status_colors.dart';
+import '../../../features/fleet/fleet_labels.dart';
 import '../../../l10n/l10n.dart';
 
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class DriverCard extends StatelessWidget {
   });
 
   Image buildImage(BuildContext context) {
-    if (driver.gender == null || driver.gender == "男性") {
+    if (isMale(driver.gender?.value)) {
       return Image.asset(
         "lib/assets/images/male/icon_business_man${imageIndex % 16 + 1}.png",
       );
@@ -200,7 +201,7 @@ class DriverCard extends StatelessWidget {
                       SizedBox(
                         // width: 100,
                         child: Text(
-                          driver.gender ?? '-',
+                          genderLabel(context, driver.gender?.value),
                           maxLines: 3,
                           style: TextStyle(
                             fontFamily: "Nunito",

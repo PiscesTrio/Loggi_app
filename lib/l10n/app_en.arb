@@ -181,5 +181,10 @@
       }
     }
   },
-  "logSignInSucceeded": "Succeeded"
+  "logSignInSucceeded": "Succeeded",
+  "vehicleTypeLightTruck": "Van",
+  "vehicleTypeTruck": "Truck",
+  "vehicleTypeHeavyTruck": "Heavy truck",
+  "genderMale": "Male",
+  "genderFemale": "Female"
 }

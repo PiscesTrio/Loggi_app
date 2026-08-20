@@ -42,7 +42,7 @@ class EmployeeVo {
   final String? name;
 
   @JsonKey(name: r'gender', required: false, includeIfNull: false)
-  final String? gender;
+  final EmployeeVoGenderEnum? gender;
 
   @JsonKey(name: r'phone', required: false, includeIfNull: false)
   final String? phone;
@@ -92,4 +92,18 @@ class EmployeeVo {
   String toString() {
     return toJson().toString();
   }
+}
+
+enum EmployeeVoGenderEnum {
+  @JsonValue(r'MALE')
+  MALE(r'MALE'),
+  @JsonValue(r'FEMALE')
+  FEMALE(r'FEMALE');
+
+  const EmployeeVoGenderEnum(this.value);
+
+  final String value;
+
+  @override
+  String toString() => value;
 }

@@ -19,7 +19,7 @@ abstract class _$DistributionRequestCWProxy {
 
   DistributionRequest urgent(bool? urgent);
 
-  DistributionRequest care(String? care);
+  DistributionRequest care(Set<DistributionRequestCareEnum>? care);
 
   DistributionRequest time(DateTime time);
 
@@ -47,7 +47,7 @@ abstract class _$DistributionRequestCWProxy {
     String phone,
     String address,
     bool? urgent,
-    String? care,
+    Set<DistributionRequestCareEnum>? care,
     DateTime time,
     DistributionRequestStatusEnum status,
     double? fromLat,
@@ -84,7 +84,8 @@ class _$DistributionRequestCWProxyImpl implements _$DistributionRequestCWProxy {
   DistributionRequest urgent(bool? urgent) => call(urgent: urgent);
 
   @override
-  DistributionRequest care(String? care) => call(care: care);
+  DistributionRequest care(Set<DistributionRequestCareEnum>? care) =>
+      call(care: care);
 
   @override
   DistributionRequest time(DateTime time) => call(time: time);
@@ -156,7 +157,7 @@ class _$DistributionRequestCWProxyImpl implements _$DistributionRequestCWProxy {
       care: care == const $CopyWithPlaceholder()
           ? _value.care
           // ignore: cast_nullable_to_non_nullable
-          : care as String?,
+          : care as Set<DistributionRequestCareEnum>?,
       time: time == const $CopyWithPlaceholder() || time == null
           ? _value.time
           // ignore: cast_nullable_to_non_nullable
@@ -217,7 +218,12 @@ DistributionRequest _$DistributionRequestFromJson(Map<String, dynamic> json) =>
         phone: $checkedConvert('phone', (v) => v as String),
         address: $checkedConvert('address', (v) => v as String),
         urgent: $checkedConvert('urgent', (v) => v as bool?),
-        care: $checkedConvert('care', (v) => v as String?),
+        care: $checkedConvert(
+          'care',
+          (v) => (v as List<dynamic>?)
+              ?.map((e) => $enumDecode(_$DistributionRequestCareEnumEnumMap, e))
+              .toSet(),
+        ),
         time: $checkedConvert('time', (v) => DateTime.parse(v as String)),
         status: $checkedConvert(
           'status',
@@ -240,13 +246,27 @@ Map<String, dynamic> _$DistributionRequestToJson(
   'phone': instance.phone,
   'address': instance.address,
   'urgent': ?instance.urgent,
-  'care': ?instance.care,
+  'care': ?instance.care
+      ?.map((e) => _$DistributionRequestCareEnumEnumMap[e]!)
+      .toList(),
   'time': instance.time.toIso8601String(),
   'status': _$DistributionRequestStatusEnumEnumMap[instance.status]!,
   'fromLat': ?instance.fromLat,
   'fromLng': ?instance.fromLng,
   'toLat': ?instance.toLat,
   'toLng': ?instance.toLng,
+};
+
+const _$DistributionRequestCareEnumEnumMap = {
+  DistributionRequestCareEnum.FRAGILE: 'FRAGILE',
+  DistributionRequestCareEnum.KEEP_DRY: 'KEEP_DRY',
+  DistributionRequestCareEnum.KEEP_AWAY_FROM_SUNLIGHT:
+      'KEEP_AWAY_FROM_SUNLIGHT',
+  DistributionRequestCareEnum.PROTECT_FROM_HEAT: 'PROTECT_FROM_HEAT',
+  DistributionRequestCareEnum.DO_NOT_ROLL: 'DO_NOT_ROLL',
+  DistributionRequestCareEnum.DO_NOT_STACK: 'DO_NOT_STACK',
+  DistributionRequestCareEnum.REFRIGERATE: 'REFRIGERATE',
+  DistributionRequestCareEnum.FLAMMABLE: 'FLAMMABLE',
 };
 
 const _$DistributionRequestStatusEnumEnumMap = {

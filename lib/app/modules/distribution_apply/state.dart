@@ -43,6 +43,7 @@ abstract class ApplyFormState with _$ApplyFormState {
     WarehouseVo? selectedWarehouse,
     DeliveryPoint? selectedDeliveryPoint,
     required DateTime dateTime,
-    @Default(<String>[]) List<String> cares,
+    @Default(<DistributionRequestCareEnum>[])
+    List<DistributionRequestCareEnum> cares,
   }) = _ApplyFormState;
 }

@@ -9,7 +9,7 @@ part of 'employee_request.dart';
 abstract class _$EmployeeRequestCWProxy {
   EmployeeRequest name(String name);
 
-  EmployeeRequest gender(String? gender);
+  EmployeeRequest gender(EmployeeRequestGenderEnum? gender);
 
   EmployeeRequest phone(String phone);
 
@@ -28,7 +28,7 @@ abstract class _$EmployeeRequestCWProxy {
   /// ```
   EmployeeRequest call({
     String name,
-    String? gender,
+    EmployeeRequestGenderEnum? gender,
     String phone,
     String? address,
     String? idCard,
@@ -47,7 +47,8 @@ class _$EmployeeRequestCWProxyImpl implements _$EmployeeRequestCWProxy {
   EmployeeRequest name(String name) => call(name: name);
 
   @override
-  EmployeeRequest gender(String? gender) => call(gender: gender);
+  EmployeeRequest gender(EmployeeRequestGenderEnum? gender) =>
+      call(gender: gender);
 
   @override
   EmployeeRequest phone(String phone) => call(phone: phone);
@@ -86,7 +87,7 @@ class _$EmployeeRequestCWProxyImpl implements _$EmployeeRequestCWProxy {
       gender: gender == const $CopyWithPlaceholder()
           ? _value.gender
           // ignore: cast_nullable_to_non_nullable
-          : gender as String?,
+          : gender as EmployeeRequestGenderEnum?,
       phone: phone == const $CopyWithPlaceholder() || phone == null
           ? _value.phone
           // ignore: cast_nullable_to_non_nullable
@@ -123,7 +124,10 @@ EmployeeRequest _$EmployeeRequestFromJson(Map<String, dynamic> json) =>
       $checkKeys(json, requiredKeys: const ['name', 'phone']);
       final val = EmployeeRequest(
         name: $checkedConvert('name', (v) => v as String),
-        gender: $checkedConvert('gender', (v) => v as String?),
+        gender: $checkedConvert(
+          'gender',
+          (v) => $enumDecodeNullable(_$EmployeeRequestGenderEnumEnumMap, v),
+        ),
         phone: $checkedConvert('phone', (v) => v as String),
         address: $checkedConvert('address', (v) => v as String?),
         idCard: $checkedConvert('idCard', (v) => v as String?),
@@ -135,9 +139,14 @@ EmployeeRequest _$EmployeeRequestFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$EmployeeRequestToJson(EmployeeRequest instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'gender': ?instance.gender,
+      'gender': ?_$EmployeeRequestGenderEnumEnumMap[instance.gender],
       'phone': instance.phone,
       'address': ?instance.address,
       'idCard': ?instance.idCard,
       'department': ?instance.department,
     };
+
+const _$EmployeeRequestGenderEnumEnumMap = {
+  EmployeeRequestGenderEnum.MALE: 'MALE',
+  EmployeeRequestGenderEnum.FEMALE: 'FEMALE',
+};
