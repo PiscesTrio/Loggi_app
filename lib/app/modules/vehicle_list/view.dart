@@ -75,6 +75,16 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
   bool _submitting = false;
 
   Future<void> _submit() async {
+    // Every other form in this app checks its required fields before sending; this one did
+    // not, and it was the only place where a server validation failure was reachable from
+    // the UI. That mattered after A3: the client maps VALIDATION_FAILED to one sentence for
+    // all fifty-two constraints, so a blank plate produced "check the form" where it used to
+    // produce "the plate number is required". Saying which field needs either a check here
+    // or a field-level code from the server — this is the cheap half.
+    if (ref.read(vehicleDraftProvider).number.isEmpty) {
+      showTextToast(context.l10n.validationPlateRequired);
+      return;
+    }
     setState(() => _submitting = true);
     try {
       await ref

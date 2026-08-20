@@ -173,5 +173,6 @@
   "errorAuthenticationRequired": "ログインしてください",
   "errorTokenInvalid": "セッションの有効期限が切れました。再度ログインしてください",
   "errorVerificationCodeInvalid": "認証コードが正しくありません",
-  "errorUnsupportedMediaType": "対応していない形式です"
+  "errorUnsupportedMediaType": "対応していない形式です",
+  "validationPlateRequired": "車両番号を入力してください"
 }

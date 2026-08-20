@@ -264,5 +264,6 @@
   "errorAuthenticationRequired": "请先登录",
   "errorTokenInvalid": "登录已失效，请重新登录",
   "errorVerificationCodeInvalid": "验证码不正确",
-  "errorUnsupportedMediaType": "不支持的媒体类型"
+  "errorUnsupportedMediaType": "不支持的媒体类型",
+  "validationPlateRequired": "请填写车牌号"
 }
