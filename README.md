@@ -154,8 +154,10 @@ folding it into `null`.
 changes:
 
 ```bash
-# 1. Fetch the document from a running backend
-curl -s http://localhost:8088/v3/api-docs -o tool/openapi.json
+# 1. Fetch the document from a running backend, then re-pin the host it names — springdoc
+#    writes whichever machine answered, and this file is committed and public.
+curl -s http://localhost:8088/v3/api-docs | python -m json.tool > tool/openapi.json
+python -c "import io,json;p='tool/openapi.json';d=json.load(io.open(p,encoding='utf-8'));d['servers']=[{'url':'http://localhost:8088','description':'Generated server url'}];f=io.open(p,'w',encoding='utf-8',newline='\n');json.dump(d,f,indent=4,ensure_ascii=False);f.write('\n')"
 
 # 2. Generate models only — the ApiClient and its interceptors are hand-written and stay
 npx @openapitools/openapi-generator-cli generate \
