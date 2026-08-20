@@ -194,5 +194,19 @@
   "vehicleTypeTruck": "卡车",
   "vehicleTypeHeavyTruck": "重卡",
   "genderMale": "男性",
-  "genderFemale": "女性"
+  "genderFemale": "女性",
+  "logModuleCommodity": "商品管理",
+  "logModuleWarehouse": "仓库管理",
+  "logModuleEmployee": "员工管理",
+  "logModuleDriver": "驾驶员管理",
+  "logModuleVehicle": "车辆管理",
+  "logModuleDistribution": "配送管理",
+  "logModuleDistributionTrack": "运输状态",
+  "logActionInsert": "新增",
+  "logActionUpdate": "修改",
+  "logActionDelete": "删除",
+  "logActionQuery": "查询",
+  "logActionExport": "导出",
+  "logActionForce": "强退",
+  "logActionOther": "其它"
 }

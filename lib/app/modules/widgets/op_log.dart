@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/date_display.dart';
+import '../../../features/log/log_labels.dart';
+import '../../../l10n/l10n.dart';
 import '../../data/api/system_log_vo.dart';
+import '../../utils/date_display.dart';
 
 class OpLogsItem extends StatelessWidget {
   final SystemLogVo sysLog;
@@ -9,6 +11,7 @@ class OpLogsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -16,37 +19,21 @@ class OpLogsItem extends StatelessWidget {
         const Divider(height: 1),
         ListTile(
           title: Text(
-            "账号：${sysLog.account ?? "-"}",
+            l10n.logAccount(sysLog.account ?? '-'),
             style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
           ),
         ),
         Row(
           children: [
-            Text(sysLog.module ?? "-"),
-            SizedBox(width: 20),
-            Text(_businessTypeLabel(sysLog.businessType)),
+            Text(logModuleLabel(context, sysLog.module)),
+            const SizedBox(width: 20),
+            Text(businessTypeLabel(context, sysLog.businessType)),
           ],
         ),
-        Text("IP地址：${sysLog.ip ?? "-"}"),
-        Text("调用方法：${sysLog.method ?? "-"}"),
+        Text(l10n.logIpAddress(sysLog.ip ?? '-')),
+        Text(l10n.logMethod(sysLog.method ?? '-')),
         Text(formatDateTime(sysLog.time)),
       ],
     );
   }
 }
-
-/// The operation kind, in words.
-///
-/// The API used to send '新增' and the row printed it. That made a display string part of
-/// the contract, and the database was storing 'INSERT' beside it — the two disagreed for
-/// the life of the project. The API sends the stored name now, and the wording lives here.
-String _businessTypeLabel(SystemLogVoBusinessTypeEnum? type) => switch (type) {
-  SystemLogVoBusinessTypeEnum.INSERT => '新增',
-  SystemLogVoBusinessTypeEnum.UPDATE => '修改',
-  SystemLogVoBusinessTypeEnum.DELETE => '删除',
-  SystemLogVoBusinessTypeEnum.QUERY => '查询',
-  SystemLogVoBusinessTypeEnum.EXPORT => '导出',
-  SystemLogVoBusinessTypeEnum.FORCE => '强退',
-  SystemLogVoBusinessTypeEnum.OTHER => '其它',
-  null => '-',
-};

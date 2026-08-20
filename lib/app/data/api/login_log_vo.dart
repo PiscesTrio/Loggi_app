@@ -44,7 +44,7 @@ class LoginLogVo {
   final String? ip;
 
   @JsonKey(name: r'browser', required: false, includeIfNull: false)
-  final String? browser;
+  final LoginLogVoBrowserEnum? browser;
 
   @JsonKey(name: r'date', required: false, includeIfNull: false)
   final DateTime? date;
@@ -78,4 +78,52 @@ class LoginLogVo {
   String toString() {
     return toJson().toString();
   }
+}
+
+enum LoginLogVoBrowserEnum {
+  @JsonValue(r'CHROME')
+  CHROME(r'CHROME'),
+  @JsonValue(r'SAFARI')
+  SAFARI(r'SAFARI'),
+  @JsonValue(r'FIREFOX')
+  FIREFOX(r'FIREFOX'),
+  @JsonValue(r'EDGE')
+  EDGE(r'EDGE'),
+  @JsonValue(r'IE')
+  IE(r'IE'),
+  @JsonValue(r'OPERA')
+  OPERA(r'OPERA'),
+  @JsonValue(r'QQ')
+  QQ(r'QQ'),
+  @JsonValue(r'UC')
+  UC(r'UC'),
+  @JsonValue(r'SOGOU')
+  SOGOU(r'SOGOU'),
+  @JsonValue(r'BAIDU')
+  BAIDU(r'BAIDU'),
+  @JsonValue(r'QIHOO_360')
+  QIHOO_360(r'QIHOO_360'),
+  @JsonValue(r'LIEBAO')
+  LIEBAO(r'LIEBAO'),
+  @JsonValue(r'MAXTHON')
+  MAXTHON(r'MAXTHON'),
+  @JsonValue(r'THE_WORLD')
+  THE_WORLD(r'THE_WORLD'),
+  @JsonValue(r'QUARK')
+  QUARK(r'QUARK'),
+  @JsonValue(r'KONQUEROR')
+  KONQUEROR(r'KONQUEROR'),
+  @JsonValue(r'CAMINO')
+  CAMINO(r'CAMINO'),
+  @JsonValue(r'AVAST')
+  AVAST(r'AVAST'),
+  @JsonValue(r'UNKNOWN')
+  UNKNOWN(r'UNKNOWN');
+
+  const LoginLogVoBrowserEnum(this.value);
+
+  final String value;
+
+  @override
+  String toString() => value;
 }

@@ -52,12 +52,12 @@ class LoginLogsTtem extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              "账号：${loginLog.email ?? "-"}",
+              context.l10n.logAccount(loginLog.email ?? '-'),
               style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
             ),
           ),
 
-          Text("IP地址：${loginLog.ip ?? "-"}"),
+          Text(context.l10n.logIpAddress(loginLog.ip ?? '-')),
           Text(formatDateTime(loginLog.date)),
         ],
       ),

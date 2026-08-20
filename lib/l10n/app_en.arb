@@ -186,5 +186,19 @@
   "vehicleTypeTruck": "Truck",
   "vehicleTypeHeavyTruck": "Heavy truck",
   "genderMale": "Male",
-  "genderFemale": "Female"
+  "genderFemale": "Female",
+  "logModuleCommodity": "Commodities",
+  "logModuleWarehouse": "Warehouses",
+  "logModuleEmployee": "Employees",
+  "logModuleDriver": "Drivers",
+  "logModuleVehicle": "Vehicles",
+  "logModuleDistribution": "Deliveries",
+  "logModuleDistributionTrack": "Delivery tracking",
+  "logActionInsert": "Created",
+  "logActionUpdate": "Updated",
+  "logActionDelete": "Deleted",
+  "logActionQuery": "Viewed",
+  "logActionExport": "Exported",
+  "logActionForce": "Forced out",
+  "logActionOther": "Other"
 }

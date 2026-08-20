@@ -3,9 +3,9 @@
 //
 
 // ignore_for_file: unused_element
+import 'driver_summary.dart';
 import 'vehicle_summary.dart';
 import 'warehouse_summary.dart';
-import 'driver_summary.dart';
 
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
