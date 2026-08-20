@@ -190,5 +190,8 @@
   "productCreatedAt": "Created {at}",
   "productUpdatedAt": "Updated {at}",
   "mapFullscreen": "Full screen",
-  "mapStraightLineDistance": "About {km} km as the crow flies"
+  "mapStraightLineDistance": "About {km} km as the crow flies",
+  "settingsLanguage": "Language",
+  "settingsLanguageSystem": "Follow the device",
+  "listSeparator": ", "
 }

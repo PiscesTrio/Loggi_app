@@ -23,6 +23,11 @@ void main() {
     'lib/app/data/map/map_tile_source.dart':
         'Required attribution. 出典：国土地理院 is the wording the tile licence '
         'obliges us to show, in the language it obliges us to show it in.',
+    'lib/features/settings/language_tile.dart':
+        'Language names, written in themselves — 日本語, 中文, English. Deliberately not '
+        'localised: the person who needs the language menu is the person who cannot '
+        'read the language the app is currently in, so a list of names in that '
+        'language is a list they cannot use.',
     'lib/assets/svg/svg_strings.dart': 'An Inkscape sodipodi:docname inside an embedded SVG document. Never rendered.',
   };
 

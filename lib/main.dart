@@ -3,9 +3,11 @@ import 'package:flutter_driver/driver_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:loggi_app/my_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/auth/auth_provider.dart';
 import 'app/config/app_config.dart';
+import 'app/settings/locale_provider.dart';
 import 'app/data/network/container_access.dart';
 import 'app/data/network/network_providers.dart';
 
@@ -41,7 +43,14 @@ Future<void> main() async {
   // uses it.
   await GetStorage.init();
 
-  final container = ProviderContainer();
+  // Read before the container is built, for the same reason the token is read before the
+  // first frame: a language that resolves a moment later means the first frame is in the
+  // wrong one and then flips.
+  final prefs = await SharedPreferences.getInstance();
+
+  final container = ProviderContainer(
+    overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+  );
   appContainer = container;
 
   // Reads the credential before the first frame, so the router's redirect has an answer

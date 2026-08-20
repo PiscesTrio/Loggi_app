@@ -140,5 +140,8 @@
   "productCreatedAt": "登録日時：{at}",
   "productUpdatedAt": "更新日時：{at}",
   "mapFullscreen": "全画面表示",
-  "mapStraightLineDistance": "直線距離 約 {km} km"
+  "mapStraightLineDistance": "直線距離 約 {km} km",
+  "settingsLanguage": "言語",
+  "settingsLanguageSystem": "デバイスに合わせる",
+  "listSeparator": "、"
 }

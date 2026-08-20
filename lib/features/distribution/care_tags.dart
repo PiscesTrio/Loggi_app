@@ -47,12 +47,17 @@ abstract final class CareTags {
   }
 
   /// The tags on an order, as one line of readable text.
+  /// The separator is localised. It was a hardcoded ideographic comma, which is right for
+  /// Chinese and Japanese and wrong for English — "Fragile、Do not tumble" is what the
+  /// English screen showed, found on the device the first time anyone rendered one.
   static String describe(
     BuildContext context,
     List<DistributionVoCareEnum>? tags,
   ) => (tags == null || tags.isEmpty)
       ? '-'
-      : tags.map((t) => labelOf(context, t.value)).join('、');
+      : tags
+            .map((t) => labelOf(context, t.value))
+            .join(context.l10n.listSeparator);
 
   /// An order's tags in the shape a request carries them.
   ///

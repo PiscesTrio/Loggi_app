@@ -9,6 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:loggi_app/app/router/routes.dart';
 import 'package:loggi_app/app/auth/auth_provider.dart';
 
+import '../../features/settings/language_tile.dart';
+
 class SysMain extends StatelessWidget {
   const SysMain({super.key});
 
@@ -42,6 +44,8 @@ class SysMain extends StatelessWidget {
                 title: Text(context.l10n.settingsAccount),
                 subtitle: Text(context.l10n.settingsAccountSubtitle),
               ),
+              Divider(height: 1, indent: 16),
+              const LanguageTile(),
               Divider(height: 1, indent: 16),
             ],
           ),

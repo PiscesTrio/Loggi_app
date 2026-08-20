@@ -64,7 +64,7 @@ class VehicleMinCard extends StatelessWidget {
               top: 5,
               child: Container(
                 height: 20,
-                width: 40,
+                padding: const EdgeInsets.symmetric(horizontal: 6),
                 decoration: BoxDecoration(
                   color: ColorPalette.nileBlue,
                   borderRadius: BorderRadius.circular(6),
@@ -87,7 +87,7 @@ class VehicleMinCard extends StatelessWidget {
               top: 30,
               child: Container(
                 height: 20,
-                width: 40,
+                padding: const EdgeInsets.symmetric(horizontal: 6),
                 decoration: BoxDecoration(
                   color: vehicle!.driving!
                       ? StatusColors.busy

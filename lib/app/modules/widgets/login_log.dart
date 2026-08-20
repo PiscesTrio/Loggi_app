@@ -27,7 +27,7 @@ class LoginLogsTtem extends StatelessWidget {
             children: [
               Container(
                 height: 25,
-                width: 50,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
                   color: loginLog.status == 0
                       ? StatusColors.busy

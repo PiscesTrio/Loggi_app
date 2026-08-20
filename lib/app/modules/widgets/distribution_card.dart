@@ -205,93 +205,7 @@ class DistributionCard extends StatelessWidget {
           Positioned(
             right: 30,
             top: 20,
-            child: IndexedStack(
-              index: _stepOf(distribution!.status),
-              children: [
-                Container(
-                  height: 30,
-                  width: 70,
-                  decoration: BoxDecoration(
-                    color: StatusColors.busy,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        SizedBox(width: 3),
-                        Icon(Icons.search, size: 14, color: ColorPalette.white),
-                        Text(
-                          // distribution!.location ?? '-',
-                          context.l10n.deliveryStatusReviewing,
-                          maxLines: 1,
-                          style: TextStyle(
-                            fontFamily: "Nunito",
-                            fontSize: 12,
-                            color: ColorPalette.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 30,
-                  width: 70,
-                  decoration: BoxDecoration(
-                    color: StatusColors.inTransit,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        SizedBox(width: 7),
-                        Icon(
-                          Icons.fire_truck,
-                          size: 14,
-                          color: ColorPalette.white,
-                        ),
-                        Text(
-                          // distribution!.location ?? '-',
-                          context.l10n.deliveryStatusInTransit,
-                          maxLines: 1,
-                          style: TextStyle(
-                            fontFamily: "Nunito",
-                            fontSize: 12,
-                            color: ColorPalette.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 30,
-                  width: 70,
-                  decoration: BoxDecoration(
-                    color: StatusColors.idle,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        SizedBox(width: 3),
-                        Icon(Icons.done, size: 14, color: ColorPalette.white),
-                        Text(
-                          // distribution!.location ?? '-',
-                          context.l10n.deliveryStatusDelivered,
-                          maxLines: 1,
-                          style: TextStyle(
-                            fontFamily: "Nunito",
-                            fontSize: 12,
-                            color: ColorPalette.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            child: _StatusBadge(step: _stepOf(distribution!.status)),
           ),
         ],
       ),
@@ -580,3 +494,59 @@ DistributionRequest _requestFrom(DistributionVo order, int step) {
 
 /// The delivery time, as text.
 ///
+
+/// The coloured status pill on a delivery card.
+///
+/// Was three near-identical `Container`s in an `IndexedStack`, each 70 logical pixels wide.
+/// 70 fits 等待审核 and 審査待ち; "Awaiting review" overflowed it by 38 pixels, which the app
+/// draws as a black-and-yellow stripe across the card. Nothing caught it because until B5
+/// there was no way to see an English screen — the tests assert the strings exist and differ
+/// from one another, and a string that exists can still not fit.
+///
+/// The width is gone rather than enlarged. A number chosen to fit today's longest translation
+/// is a number that breaks on the next language, and there is no reason for these to be the
+/// same width as each other.
+class _StatusBadge extends StatelessWidget {
+  const _StatusBadge({required this.step});
+
+  final int step;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final (color, icon, label) = switch (step) {
+      1 => (
+        StatusColors.inTransit,
+        Icons.fire_truck,
+        l10n.deliveryStatusInTransit,
+      ),
+      2 => (StatusColors.idle, Icons.done, l10n.deliveryStatusDelivered),
+      _ => (StatusColors.busy, Icons.search, l10n.deliveryStatusReviewing),
+    };
+
+    return Container(
+      height: 30,
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: ColorPalette.white),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            maxLines: 1,
+            style: const TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 12,
+              color: ColorPalette.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

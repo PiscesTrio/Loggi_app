@@ -228,5 +228,11 @@
         "type": "String"
       }
     }
+  },
+  "settingsLanguage": "语言",
+  "settingsLanguageSystem": "跟随系统",
+  "listSeparator": "、",
+  "@listSeparator": {
+    "description": "Joins items in a one-line list. CJK uses the ideographic comma without a following space; English uses a comma and a space."
   }
 }

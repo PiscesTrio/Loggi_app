@@ -225,7 +225,7 @@ class DriverCard extends StatelessWidget {
             top: 30,
             child: Container(
               height: 25,
-              width: 50,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 color: driver.driving! ? StatusColors.busy : StatusColors.idle,
                 borderRadius: BorderRadius.circular(6),

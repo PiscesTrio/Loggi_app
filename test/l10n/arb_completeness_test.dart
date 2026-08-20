@@ -59,6 +59,7 @@ void main() {
         'logSignInSucceeded', // 成功
         'genderMale', // 男性
         'genderFemale', // 女性
+        'listSeparator', // 、 — the ideographic comma, used by both
       };
 
       final pairs = [
