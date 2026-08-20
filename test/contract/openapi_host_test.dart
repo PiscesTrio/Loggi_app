@@ -15,8 +15,9 @@ import 'package:flutter_test/flutter_test.dart';
 /// `lib/app/data/api/README.md` has the one-liner that re-pins it as part of regenerating.
 void main() {
   test('the committed OpenAPI document names no real host', () {
-    final doc =
-        jsonDecode(File('tool/openapi.json').readAsStringSync()) as Map<String, dynamic>;
+    final doc = jsonDecode(
+      File('tool/openapi.json').readAsStringSync(),
+    ) as Map<String, dynamic>;
 
     final servers = doc['servers'] as List<dynamic>?;
     expect(
