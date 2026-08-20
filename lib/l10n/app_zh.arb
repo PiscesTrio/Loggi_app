@@ -15,9 +15,6 @@
   "actionConfirm": "确认",
   "commonYes": "是",
   "commonNo": "否",
-  "unnamed": "未命名",
-  "directionInbound": "入库",
-  "directionOutbound": "出库",
   "settingsSystemSection": "系统管理",
   "settingsAccount": "账号管理",
   "settingsAccountSubtitle": "修改账号和密码",
@@ -25,13 +22,6 @@
   "settingsSignOut": "退出登录",
   "settingsSignOutConfirm": "确认退出登录吗？",
   "settingsSignedOut": "已退出登录",
-  "operationInsert": "新增",
-  "operationUpdate": "修改",
-  "operationDelete": "删除",
-  "operationQuery": "查询",
-  "operationExport": "导出",
-  "operationForce": "强退",
-  "operationOther": "其它",
   "logAccount": "账号：{account}",
   "@logAccount": {
     "description": "Row heading in both log lists.",
@@ -106,18 +96,8 @@
   "fieldPrinciple": "负责人",
   "fieldLocation": "地址",
   "fieldSelectCommodity": "选择商品",
-  "fieldDescription": "Description",
   "addWarehouseTitle": "添加仓库",
   "addProductTitle": "添加商品",
-  "movementTitle": "{direction}登记",
-  "@movementTitle": {
-    "description": "direction is the localised 入库 / 出库.",
-    "placeholders": {
-      "direction": {
-        "type": "String"
-      }
-    }
-  },
   "emptyStockForOutbound": "该仓库暂无库存可出库",
   "validationCommodityRequired": "请选择商品",
   "validationQuantityRequired": "请填写数量",
@@ -128,31 +108,13 @@
   "savedOk": "保存成功",
   "addedOk": "添加成功",
   "submittedOk": "提交成功",
-  "createdAt": "创建时间： {at}",
-  "@createdAt": {
-    "placeholders": {
-      "at": {
-        "type": "String"
-      }
-    }
-  },
-  "updatedAt": "上次更新时间：{at}",
-  "@updatedAt": {
-    "placeholders": {
-      "at": {
-        "type": "String"
-      }
-    }
-  },
   "productNoId": "这条商品没有 id，无法保存",
   "emptyWarehouses": "还没有仓库",
   "emptyCommodities": "还没有商品",
   "emptyLogs": "还没有记录",
   "errorGeneric": "出错了，请稍后重试",
   "driverLicence": "驾驶执照：",
-  "driverBusy": "配送中",
-  "driverIdle": "空闲",
-  "driverCallConfirm": "确认拨打以下号码？\\n {phone}",
+  "driverCallConfirm": "确认拨打以下号码？\n {phone}",
   "@driverCallConfirm": {
     "placeholders": {
       "phone": {
@@ -160,11 +122,11 @@
       }
     }
   },
-  "trackAssigned": "配送指示済み",
+  "trackAssigned": "已派单",
   "@trackAssigned": {
     "description": "The tracking timeline is in Japanese where the rest of the app is in Chinese. That is how the screen has always read; the zh resource keeps it rather than changing the app silently."
   },
-  "trackPickedUp": "集荷完了・現在地：{location}",
+  "trackPickedUp": "已揽收，当前位置：{location}",
   "@trackPickedUp": {
     "placeholders": {
       "location": {
@@ -172,7 +134,7 @@
       }
     }
   },
-  "trackInTransit": "輸送中・現在地：{location}",
+  "trackInTransit": "运输中，当前位置：{location}",
   "@trackInTransit": {
     "placeholders": {
       "location": {
@@ -180,8 +142,8 @@
       }
     }
   },
-  "trackDelivered": "配送完了",
-  "trackAt": "日時：{at}",
+  "trackDelivered": "已送达",
+  "trackAt": "时间：{at}",
   "@trackAt": {
     "placeholders": {
       "at": {
@@ -208,5 +170,54 @@
   "logActionQuery": "查询",
   "logActionExport": "导出",
   "logActionForce": "强退",
-  "logActionOther": "其它"
+  "logActionOther": "其它",
+  "emptyDistributions": "暂无配送单",
+  "emptyDistributionStatus": "暂无配送记录",
+  "emptyDrivers": "暂无驾驶员",
+  "emptyVehicles": "暂无车辆",
+  "loginSucceeded": "登录成功",
+  "loginBadCredentials": "邮箱或密码错误！",
+  "vehicleAddTitle": "添加车辆",
+  "vehiclePlateNumber": "车牌号",
+  "fieldType": "类型：",
+  "actionRetry": "重试",
+  "trackTitle": "配送状态",
+  "trackDriverAndVehicle": "驾驶员：{driver} / {vehicle}",
+  "mapRouteTitle": "配送路线",
+  "mapNoLocation": "没有位置信息",
+  "vehicleDriver": "驾驶员：",
+  "warehousePrinciple": "负责人：",
+  "fleetStatusBusy": "配送中",
+  "fleetStatusIdle": "空闲",
+  "inventoryDirectionInbound": "入库",
+  "inventoryDirectionOutbound": "出库",
+  "inventoryRecordTitleInbound": "入库登记",
+  "inventoryRecordTitleOutbound": "出库登记",
+  "chartUnnamed": "未命名",
+  "productCreatedAt": "创建时间：{at}",
+  "productUpdatedAt": "上次更新时间：{at}",
+  "@trackDriverAndVehicle": {
+    "placeholders": {
+      "driver": {
+        "type": "String"
+      },
+      "vehicle": {
+        "type": "String"
+      }
+    }
+  },
+  "@productCreatedAt": {
+    "placeholders": {
+      "at": {
+        "type": "String"
+      }
+    }
+  },
+  "@productUpdatedAt": {
+    "placeholders": {
+      "at": {
+        "type": "String"
+      }
+    }
+  }
 }

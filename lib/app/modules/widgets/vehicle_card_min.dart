@@ -1,4 +1,5 @@
 import '../../theme/status_colors.dart';
+import '../../../l10n/l10n.dart';
 import '../../../features/fleet/fleet_labels.dart';
 
 import 'package:loggi_app/assets/svg/svg_strings.dart';
@@ -95,7 +96,9 @@ class VehicleMinCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    vehicle!.driving! ? "配送中" : "空闲",
+                    vehicle!.driving!
+                        ? context.l10n.fleetStatusBusy
+                        : context.l10n.fleetStatusIdle,
                     maxLines: 1,
                     style: const TextStyle(
                       fontFamily: "Nunito",

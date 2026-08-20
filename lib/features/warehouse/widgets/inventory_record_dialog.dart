@@ -11,16 +11,22 @@ import '../../../app/theme/color_palette.dart';
 import '../providers.dart';
 
 /// Which way the stock is going.
+///
+/// Carried its own Chinese label until B1. A constant cannot hold a localised string — there
+/// is no context at class-initialisation time — so the wording moved out to [directionLabel]
+/// and the enum is just the direction again.
 enum InventoryDirection {
-  inbound('入库'),
-  outbound('出库');
-
-  const InventoryDirection(this.label);
-
-  final String label;
+  inbound,
+  outbound;
 
   bool get isInbound => this == InventoryDirection.inbound;
 }
+
+/// What to call a direction on screen.
+String directionLabel(BuildContext context, InventoryDirection direction) =>
+    direction.isInbound
+    ? context.l10n.inventoryDirectionInbound
+    : context.l10n.inventoryDirectionOutbound;
 
 /// One commodity the dialog can record a movement against.
 ///
@@ -126,7 +132,11 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: ColorPalette.aquaHaze,
-      title: Text('${widget.direction.label}登记'),
+      title: Text(
+        widget.direction.isInbound
+            ? context.l10n.inventoryRecordTitleInbound
+            : context.l10n.inventoryRecordTitleOutbound,
+      ),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

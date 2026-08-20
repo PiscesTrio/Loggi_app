@@ -18,7 +18,10 @@ class _RecordingRepository implements WarehouseRepository {
   final List<({InventoryMovementRequest movement, bool inbound})> moves = [];
 
   @override
-  Future<void> move(InventoryMovementRequest movement, {required bool inbound}) async {
+  Future<void> move(
+    InventoryMovementRequest movement, {
+    required bool inbound,
+  }) async {
     moves.add((movement: movement, inbound: inbound));
   }
 
@@ -80,12 +83,14 @@ void main() {
     // The toast is a plugin channel with nothing behind it in a test.
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
-      const MethodChannel('PonnamKarthik/fluttertoast'),
-      (_) async => null,
-    );
+          const MethodChannel('PonnamKarthik/fluttertoast'),
+          (_) async => null,
+        );
   });
 
-  testWidgets('the first commodity is already selected when the form opens', (tester) async {
+  testWidgets('the first commodity is already selected when the form opens', (
+    tester,
+  ) async {
     // The defect this pins: the commodity id used to be written only by the dropdown's
     // onChanged, and a dropdown renders its first item without firing it. Opening the form
     // and pressing 确认 sent an empty id under a dropdown that was plainly showing one, and
@@ -124,7 +129,9 @@ void main() {
     expect(repository.moves.single.inbound, isFalse);
   });
 
-  testWidgets('a warehouse holding nothing says so instead of crashing', (tester) async {
+  testWidgets('a warehouse holding nothing says so instead of crashing', (
+    tester,
+  ) async {
     // The screen this replaces took `.first` of the empty list, inside a `.then`, so it
     // landed in `.onError` and the whole inventory view became "A error occurred: null".
     // A warehouse created a minute ago is in this state.

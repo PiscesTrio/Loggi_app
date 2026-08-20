@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
+
 import '../../utils/date_display.dart';
 import '../../data/api/distribution_track_vo.dart';
 import '../../data/api/distribution_vo.dart';
@@ -50,24 +52,28 @@ class DistributionStatusItem extends StatelessWidget {
                 child: IndexedStack(
                   index: _stepOf(distributionStatus.status),
                   children: [
-                    const Text(
-                      '配送指示済み',
-                      style: TextStyle(fontSize: 18),
-                      overflow: TextOverflow.ellipsis,
-                    ),
                     Text(
-                      '集荷完了・現在地：${distributionStatus.location}',
+                      context.l10n.trackAssigned,
                       style: const TextStyle(fontSize: 18),
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      '輸送中・現在地：${distributionStatus.location}',
+                      context.l10n.trackPickedUp(
+                        distributionStatus.location ?? '-',
+                      ),
                       style: const TextStyle(fontSize: 18),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const Text(
-                      '配送完了',
-                      style: TextStyle(fontSize: 18),
+                    Text(
+                      context.l10n.trackInTransit(
+                        distributionStatus.location ?? '-',
+                      ),
+                      style: const TextStyle(fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      context.l10n.trackDelivered,
+                      style: const TextStyle(fontSize: 18),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -86,9 +92,14 @@ class DistributionStatusItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'ドライバー：${distribution.driver?.name ?? '-'} / ${distribution.vehicle?.number ?? '-'}',
+                context.l10n.trackDriverAndVehicle(
+                  distribution.driver?.name ?? '-',
+                  distribution.vehicle?.number ?? '-',
+                ),
               ),
-              Text('日時：${formatDateTime(distributionStatus.time)}'),
+              Text(
+                context.l10n.trackAt(formatDateTime(distributionStatus.time)),
+              ),
             ],
           ),
         ),

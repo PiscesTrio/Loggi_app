@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
+
 import '../../../features/fleet/fleet_labels.dart';
 
 import '../../data/api/vehicle_request.dart';
@@ -36,7 +38,7 @@ class VehicleListPage extends ConsumerWidget {
           child: AsyncView(
             value: vehicles,
             onRetry: () => ref.invalidate(vehicleListProvider),
-            emptyMessage: '暂无车辆',
+            emptyMessage: context.l10n.emptyVehicles,
             builder: (data) => GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -77,7 +79,7 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
           .read(vehicleListProvider.notifier)
           .add(ref.read(vehicleDraftProvider));
       if (!mounted) return;
-      showTextToast('提交成功');
+      showTextToast(context.l10n.submittedOk);
       Navigator.pop(context);
     } on ApiException catch (e) {
       // The old dialog's failure branch cleared the spinner and did nothing else, so a
@@ -94,7 +96,7 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
     final draft = ref.watch(vehicleDraftProvider);
     return AlertDialog(
       scrollable: true,
-      title: const Text('添加车辆'),
+      title: Text(context.l10n.vehicleAddTitle),
       content: Padding(
         padding: const EdgeInsets.all(8),
         child: Form(
@@ -104,17 +106,17 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
                 onChanged: (value) => ref
                     .read(vehicleDraftProvider.notifier)
                     .update((v) => v.copyWith(number: value)),
-                decoration: const InputDecoration(
-                  labelText: '车牌号',
-                  icon: Icon(Icons.add_circle_rounded),
+                decoration: InputDecoration(
+                  labelText: context.l10n.vehiclePlateNumber,
+                  icon: const Icon(Icons.add_circle_rounded),
                 ),
               ),
               const SizedBox(height: 20),
               Row(
                 children: [
-                  const Text(
-                    '类型：',
-                    style: TextStyle(
+                  Text(
+                    context.l10n.fieldType,
+                    style: const TextStyle(
                       fontFamily: 'Nunito',
                       fontSize: 20,
                       color: ColorPalette.nileBlue,
@@ -149,7 +151,7 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
       actions: [
         OutlinedButton(
           onPressed: _submitting ? null : () => Navigator.pop(context),
-          child: const Text('取消'),
+          child: Text(context.l10n.actionCancel),
         ),
         ElevatedButton(
           onPressed: _submitting ? null : _submit,
@@ -159,9 +161,9 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
                   width: 15,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text(
-                  '确认',
-                  style: TextStyle(fontSize: 15, fontFamily: 'Nunito'),
+              : Text(
+                  context.l10n.actionConfirm,
+                  style: const TextStyle(fontSize: 15, fontFamily: 'Nunito'),
                 ),
         ),
       ],

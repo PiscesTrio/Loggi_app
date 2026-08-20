@@ -96,7 +96,9 @@ class DriverCard extends StatelessWidget {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 content: Text(
-                                  "确认拨打以下号码？\n ${driver.phone}",
+                                  context.l10n.driverCallConfirm(
+                                    driver.phone ?? '-',
+                                  ),
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18,
@@ -231,8 +233,8 @@ class DriverCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   driver.driving!
-                      ? context.l10n.driverBusy
-                      : context.l10n.driverIdle,
+                      ? context.l10n.fleetStatusBusy
+                      : context.l10n.fleetStatusIdle,
                   maxLines: 1,
                   style: const TextStyle(
                     fontFamily: "Nunito",

@@ -45,13 +45,18 @@ void main() {
   void buildClient({String? token}) {
     tokens = _MemoryTokenStorage(token);
     unauthorizedEvents = [];
-    dio = Dio(BaseOptions(
-      baseUrl: 'http://test.local/api',
-      validateStatus: (status) => status != null,
-    ));
+    dio = Dio(
+      BaseOptions(
+        baseUrl: 'http://test.local/api',
+        validateStatus: (status) => status != null,
+      ),
+    );
     adapter = DioAdapter(dio: dio);
     dio.interceptors.addAll([
-      AuthInterceptor(tokens, onUnauthorized: () => unauthorizedEvents.add('cleared')),
+      AuthInterceptor(
+        tokens,
+        onUnauthorized: () => unauthorizedEvents.add('cleared'),
+      ),
       const EnvelopeInterceptor(),
     ]);
     client = ApiClient(dio);
@@ -67,7 +72,7 @@ void main() {
           'status': true,
           'msg': null,
           'data': [
-            {'name': 'A仓库'}
+            {'name': 'A仓库'},
           ],
         });
       });
@@ -94,52 +99,80 @@ void main() {
         });
       }, data: Matchers.any);
 
-      final data = await client.post<Map<String, dynamic>>('/inventory/in',
-          data: const {'count': 5});
+      final data = await client.post<Map<String, dynamic>>(
+        '/inventory/in',
+        data: const {'count': 5},
+      );
 
       expect(data['id'], 'rec-1');
     });
 
-    test('a business error becomes an ApiException carrying the backend message', () async {
-      adapter.onPost('/admin/login/password', (server) {
-        server.reply(400, {'code': 400, 'status': false, 'msg': '邮箱或密码错误'});
-      }, data: Matchers.any);
+    test(
+      'a business error becomes an ApiException carrying the backend message',
+      () async {
+        adapter.onPost('/admin/login/password', (server) {
+          server.reply(400, {'code': 400, 'status': false, 'msg': '邮箱或密码错误'});
+        }, data: Matchers.any);
 
-      // The message is the point. The decoder this replaces read `errorMsg`, a key the
-      // backend has never sent, so every message the server wrote was thrown away and the
-      // user saw a generic fallback instead.
-      await expectLater(
-        client.post<dynamic>('/admin/login/password', data: {'email': 'a@b.c'}),
-        throwsA(isA<ApiException>()
-            .having((e) => e.message, 'message', '邮箱或密码错误')
-            .having((e) => e.statusCode, 'statusCode', 400)
-            .having((e) => e.code, 'code', 400)),
-      );
-    });
+        // The message is the point. The decoder this replaces read `errorMsg`, a key the
+        // backend has never sent, so every message the server wrote was thrown away and the
+        // user saw a generic fallback instead.
+        await expectLater(
+          client.post<dynamic>(
+            '/admin/login/password',
+            data: {'email': 'a@b.c'},
+          ),
+          throwsA(
+            isA<ApiException>()
+                .having((e) => e.message, 'message', '邮箱或密码错误')
+                .having((e) => e.statusCode, 'statusCode', 400)
+                .having((e) => e.code, 'code', 400),
+          ),
+        );
+      },
+    );
 
-    test('a 429 is recognisable as rate limiting rather than a generic failure', () async {
-      adapter.onPost('/admin/verification-code', (server) {
-        server.reply(429, {'code': 429, 'status': false, 'msg': '请求过于频繁，请稍后再试'});
-      }, data: Matchers.any);
+    test(
+      'a 429 is recognisable as rate limiting rather than a generic failure',
+      () async {
+        adapter.onPost('/admin/verification-code', (server) {
+          server.reply(429, {
+            'code': 429,
+            'status': false,
+            'msg': '请求过于频繁，请稍后再试',
+          });
+        }, data: Matchers.any);
 
-      await expectLater(
-        client.post<dynamic>('/admin/verification-code'),
-        throwsA(isA<ApiException>().having((e) => e.isRateLimited, 'isRateLimited', true)),
-      );
-    });
+        await expectLater(
+          client.post<dynamic>('/admin/verification-code'),
+          throwsA(
+            isA<ApiException>().having(
+              (e) => e.isRateLimited,
+              'isRateLimited',
+              true,
+            ),
+          ),
+        );
+      },
+    );
 
-    test('a non-envelope error body does not throw NoSuchMethodError', () async {
-      adapter.onGet('/warehouse', (server) {
-        server.reply(502, '<html>502 Bad Gateway</html>');
-      });
+    test(
+      'a non-envelope error body does not throw NoSuchMethodError',
+      () async {
+        adapter.onGet('/warehouse', (server) {
+          server.reply(502, '<html>502 Bad Gateway</html>');
+        });
 
-      // `body['code']` on a String is a NoSuchMethodError, and nothing in the old stack
-      // caught it, so it escaped past every failure handler in the app.
-      await expectLater(
-        client.get<dynamic>('/warehouse'),
-        throwsA(isA<ApiException>().having((e) => e.statusCode, 'statusCode', 502)),
-      );
-    });
+        // `body['code']` on a String is a NoSuchMethodError, and nothing in the old stack
+        // caught it, so it escaped past every failure handler in the app.
+        await expectLater(
+          client.get<dynamic>('/warehouse'),
+          throwsA(
+            isA<ApiException>().having((e) => e.statusCode, 'statusCode', 502),
+          ),
+        );
+      },
+    );
   });
 
   group('auth', () {
@@ -148,10 +181,14 @@ void main() {
       adapter.onGet('/commodity', (server) {
         server.reply(200, {'code': 200, 'status': true, 'data': []});
       });
-      dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-        seenHeader = options.headers['Authorization'] as String?;
-        handler.next(options);
-      }));
+      dio.interceptors.add(
+        InterceptorsWrapper(
+          onRequest: (options, handler) {
+            seenHeader = options.headers['Authorization'] as String?;
+            handler.next(options);
+          },
+        ),
+      );
 
       await client.get<List<dynamic>>('/commodity');
 
@@ -160,32 +197,49 @@ void main() {
       expect(seenHeader, 'Bearer jwt-abc');
     });
 
-    test('no token means no header, rather than a header saying there is none', () async {
-      buildClient();
-      String? seenHeader = 'sentinel';
-      adapter.onGet('/commodity', (server) {
-        server.reply(200, {'code': 200, 'status': true, 'data': []});
-      });
-      dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-        seenHeader = options.headers['Authorization'] as String?;
-        handler.next(options);
-      }));
+    test(
+      'no token means no header, rather than a header saying there is none',
+      () async {
+        buildClient();
+        String? seenHeader = 'sentinel';
+        adapter.onGet('/commodity', (server) {
+          server.reply(200, {'code': 200, 'status': true, 'data': []});
+        });
+        dio.interceptors.add(
+          InterceptorsWrapper(
+            onRequest: (options, handler) {
+              seenHeader = options.headers['Authorization'] as String?;
+              handler.next(options);
+            },
+          ),
+        );
 
-      await client.get<List<dynamic>>('/commodity');
+        await client.get<List<dynamic>>('/commodity');
 
-      // Logging out used to store the literal "not logged in" as the token, which then
-      // went out as `Authorization: Bearer not logged in`.
-      expect(seenHeader, isNull);
-    });
+        // Logging out used to store the literal "not logged in" as the token, which then
+        // went out as `Authorization: Bearer not logged in`.
+        expect(seenHeader, isNull);
+      },
+    );
 
     test('a 401 clears the token and reports it once', () async {
       adapter.onGet('/commodity', (server) {
-        server.reply(401, {'code': 401, 'status': false, 'msg': 'Invalid or expired token'});
+        server.reply(401, {
+          'code': 401,
+          'status': false,
+          'msg': 'Invalid or expired token',
+        });
       });
 
       await expectLater(
         client.get<dynamic>('/commodity'),
-        throwsA(isA<ApiException>().having((e) => e.isUnauthorized, 'isUnauthorized', true)),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.isUnauthorized,
+            'isUnauthorized',
+            true,
+          ),
+        ),
       );
 
       // Keeping a token the server has already rejected means every later request fails
@@ -197,23 +251,28 @@ void main() {
   });
 
   group('transport failures', () {
-    test('a connection error arrives as an ApiException in the app language', () async {
-      adapter.onGet('/warehouse', (server) {
-        server.throws(
-          0,
-          DioException.connectionError(
-            requestOptions: RequestOptions(path: '/warehouse'),
-            reason: 'no route to host',
+    test(
+      'a connection error arrives as an ApiException in the app language',
+      () async {
+        adapter.onGet('/warehouse', (server) {
+          server.throws(
+            0,
+            DioException.connectionError(
+              requestOptions: RequestOptions(path: '/warehouse'),
+              reason: 'no route to host',
+            ),
+          );
+        });
+
+        // Dio's own message here is English boilerplate; for a 401 it even describes the
+        // status as "bad syntax". Nothing in this app should show a user that sentence.
+        await expectLater(
+          client.get<dynamic>('/warehouse'),
+          throwsA(
+            isA<ApiException>().having((e) => e.message, 'message', '无法连接到服务器'),
           ),
         );
-      });
-
-      // Dio's own message here is English boilerplate; for a 401 it even describes the
-      // status as "bad syntax". Nothing in this app should show a user that sentence.
-      await expectLater(
-        client.get<dynamic>('/warehouse'),
-        throwsA(isA<ApiException>().having((e) => e.message, 'message', '无法连接到服务器')),
-      );
-    });
+      },
+    );
   });
 }

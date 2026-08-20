@@ -52,13 +52,8 @@ Future<void> main() async {
   // A rejected token now signs the app out through the same path the user's own logout
   // takes, so the router redirects to the login screen on its own. The provider existed in
   // S12 with nobody to set it; this is that wiring.
-  container.read(onUnauthorizedProvider.notifier).state =
-      () => container.read(authProvider.notifier).signOut();
+  container.read(onUnauthorizedProvider.notifier).state = () =>
+      container.read(authProvider.notifier).signOut();
 
-  runApp(
-    UncontrolledProviderScope(
-      container: container,
-      child: const MyApp(),
-    ),
-  );
+  runApp(UncontrolledProviderScope(container: container, child: const MyApp()));
 }

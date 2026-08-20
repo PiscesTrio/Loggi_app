@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/l10n.dart';
+
 import '../../utils/date_display.dart';
 import '../../data/api/warehouse_vo.dart';
 
@@ -103,7 +105,7 @@ class WarehouseCard extends StatelessWidget {
                     children: [
                       Text(
                         // warehouse!.group ?? '-',
-                        '负责人：',
+                        context.l10n.warehousePrinciple,
                         maxLines: 1,
                         style: TextStyle(
                           fontFamily: "Nunito",

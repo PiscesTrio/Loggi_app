@@ -157,14 +157,18 @@ class _ProductDetailPageState extends ConsumerState<ProductDetailPage> {
             Padding(
               padding: const EdgeInsets.only(left: 8, bottom: 5),
               child: Text(
-                '创建时间： ${formatDateTime(widget.product.createAt)}',
+                context.l10n.productCreatedAt(
+                  formatDateTime(widget.product.createAt),
+                ),
                 style: framedFieldTextStyle,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8, bottom: 5),
               child: Text(
-                '上次更新时间：${formatDateTime(widget.product.updateAt)}',
+                context.l10n.productUpdatedAt(
+                  formatDateTime(widget.product.updateAt),
+                ),
                 style: framedFieldTextStyle,
               ),
             ),

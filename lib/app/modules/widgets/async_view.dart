@@ -67,7 +67,10 @@ class _ErrorState extends StatelessWidget {
       icon: Icons.error_outline,
       action: onRetry == null
           ? null
-          : TextButton(onPressed: onRetry, child: const Text('重试')),
+          : TextButton(
+              onPressed: onRetry,
+              child: Text(context.l10n.actionRetry),
+            ),
     );
   }
 }

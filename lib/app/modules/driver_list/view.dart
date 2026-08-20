@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../l10n/l10n.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loggi_app/app/modules/widgets/driver_card.dart';
 
@@ -26,7 +29,7 @@ class DriverListPage extends ConsumerWidget {
           child: AsyncView(
             value: drivers,
             onRetry: () => ref.invalidate(driverListProvider),
-            emptyMessage: '暂无驾驶员',
+            emptyMessage: context.l10n.emptyDrivers,
             builder: (data) => ListView.builder(
               itemCount: data.length,
               itemBuilder: (context, index) =>
