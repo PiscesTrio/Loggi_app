@@ -23,7 +23,12 @@ With the backend running:
 ```bash
 # Pretty-printed on the way in: springdoc answers with one long line, and a one-line file
 # has no reviewable diff — which is the whole point of committing it.
-curl -s http://127.0.0.1:8088/v3/api-docs | python -m json.tool > tool/openapi.json
+#
+# The second command re-pins servers[].url. springdoc fills it with whatever host answered,
+# so without this the address of somebody's machine lands in a public file — which is exactly
+# what happened, for twelve commits. test/contract/openapi_host_test.dart fails if it recurs.
+curl -s http://localhost:8088/v3/api-docs | python -m json.tool > tool/openapi.json
+python -c "import io,json;p='tool/openapi.json';d=json.load(io.open(p,encoding='utf-8'));d['servers']=[{'url':'http://localhost:8088','description':'Generated server url'}];f=io.open(p,'w',encoding='utf-8',newline='\n');json.dump(d,f,indent=4,ensure_ascii=False);f.write('\n')"
 
 npx --yes @openapitools/openapi-generator-cli generate \
   -i tool/openapi.json -g dart-dio -o build/openapi-gen \
