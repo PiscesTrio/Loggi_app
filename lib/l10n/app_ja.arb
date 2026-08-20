@@ -171,5 +171,6 @@
   "errorBadCertificate": "サーバー証明書が無効です",
   "errorUnreadableResponse": "サーバーの応答を解釈できません",
   "errorAuthenticationRequired": "ログインしてください",
-  "errorTokenInvalid": "セッションの有効期限が切れました。再度ログインしてください"
+  "errorTokenInvalid": "セッションの有効期限が切れました。再度ログインしてください",
+  "errorVerificationCodeInvalid": "認証コードが正しくありません"
 }

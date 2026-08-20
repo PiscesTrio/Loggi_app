@@ -221,5 +221,6 @@
   "errorBadCertificate": "The server's certificate is not valid",
   "errorUnreadableResponse": "The server sent something unreadable",
   "errorAuthenticationRequired": "Sign in first",
-  "errorTokenInvalid": "Your session expired — sign in again"
+  "errorTokenInvalid": "Your session expired — sign in again",
+  "errorVerificationCodeInvalid": "That code is not right"
 }

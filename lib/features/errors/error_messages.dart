@@ -66,6 +66,7 @@ String? _byCode(BuildContext context, String code) {
     'CODE_REQUESTED_TOO_SOON' => l10n.errorCodeRequestedTooSoon,
     'CODE_ATTEMPTS_EXHAUSTED' => l10n.errorCodeAttemptsExhausted,
     'CODE_DELIVERY_FAILED' => l10n.errorCodeDeliveryFailed,
+    'VERIFICATION_CODE_INVALID' => l10n.errorVerificationCodeInvalid,
     // Shown only if the sign-out redirect somehow does not happen first; the client treats
     // a 401 as "the session is over" and leaves the screen before reading this.
     'AUTHENTICATION_REQUIRED' => l10n.errorAuthenticationRequired,
