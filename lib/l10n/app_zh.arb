@@ -86,7 +86,7 @@
   "applyAddressRequired": "请填写客户地址",
   "careFragile": "易碎",
   "@careFragile": {
-    "description": "Display label for a care tag. The value stored in distribution.care stays the Chinese token, because the server, the seed data and the client all treat it as a wire value — translating what is sent would change what is recorded."
+    "description": "Display label for a care tag. The stored value is an ISO 780 identifier (FRAGILE, KEEP_DRY, ...) since server-side V9, so translating this label changes nothing about what is recorded. It used to be the Chinese token itself, which is why translating it was once unsafe."
   },
   "careKeepDry": "防潮",
   "careNoSun": "防晒",

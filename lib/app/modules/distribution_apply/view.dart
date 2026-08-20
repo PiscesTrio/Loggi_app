@@ -1,4 +1,5 @@
 import '../../../features/distribution/care_tags.dart';
+import '../../../features/fleet/fleet_labels.dart';
 import '../../data/api/distribution_request.dart';
 import '../../../l10n/l10n.dart';
 
@@ -201,7 +202,11 @@ class _DistributionApplyPageState extends ConsumerState<DistributionApplyPage> {
                                         return DropdownMenuItem(
                                           value: process,
                                           child: Text(
-                                            "${process.type}：${process.number}",
+                                            // Not "${process.type}". The generated enum's
+                                            // toString() is the wire value, so interpolating
+                                            // it compiles, analyses clean, and puts
+                                            // LIGHT_TRUCK on screen.
+                                            "${vehicleTypeLabel(context, process.type?.value)}：${process.number}",
                                             style: TextStyle(
                                               fontFamily: "Nunito",
                                               fontSize: 16,
