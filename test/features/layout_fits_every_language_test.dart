@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:loggi_app/app/data/api/distribution_vo.dart';
 import 'package:loggi_app/app/data/api/driver_summary.dart';
@@ -34,6 +37,25 @@ import 'package:loggi_app/l10n/app_localizations.dart';
 /// is worse for being silent, so it is checked by asking every laid-out paragraph whether it
 /// had to drop anything.
 void main() {
+  // Without this every glyph in a test is a fixed 1em box, so a Latin string measures about
+  // twice what Nunito actually draws and a CJK one about half. The login subtitle is the
+  // widest thing here and it is Latin, so the difference is the difference between a test
+  // that describes the device and one that does not: "Logistics Management System" is 1093dp
+  // in the placeholder font and 273dp in Nunito at 20px.
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final loader = FontLoader('Nunito');
+    for (final name in [
+      'Nunito-Regular.ttf',
+      'Nunito-Bold.ttf',
+      'Nunito-Light.ttf',
+    ]) {
+      final bytes = File('lib/assets/fonts/Nunito/$name').readAsBytesSync();
+      loader.addFont(Future.value(ByteData.view(bytes.buffer)));
+    }
+    await loader.load();
+  });
+
   DistributionVo order(DistributionVoStatusEnum status) => DistributionVo(
     id: 'd1',
     status: status,
@@ -128,8 +150,13 @@ void main() {
     testWidgets('the login title stays on two lines in $locale', (
       tester,
     ) async {
+      // The device reports 720x1280 at density 240, which is a devicePixelRatio of 1.5 and
+      // therefore 480 logical pixels wide — not 720. The rest of this file assumes 720
+      // logical and so gives every widget half again the width it really gets; that is a
+      // laxer test, not a wrong one, for the fixed-width boxes those cases were written
+      // against. It matters here because this widget's width is the thing being asserted.
       tester.view.physicalSize = const Size(720, 1280);
-      tester.view.devicePixelRatio = 1.0;
+      tester.view.devicePixelRatio = 1.5;
       addTearDown(tester.view.reset);
 
       // 648 is the width the title actually gets: a full-width Column inside

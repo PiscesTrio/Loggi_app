@@ -14,21 +14,22 @@ import '../../theme/color_palette.dart';
 /// name and stays identical in every language, for the same reason driver names, plates and
 /// warehouse names do: it is content, not interface. Only the line under it is translated.
 ///
-/// The second line is 20px rather than the name's 40px, and the reason is measured. Laid out
-/// at 40 against the 648 logical pixels this screen has to spend (720 wide, 36 of padding a
-/// side):
+/// The second line is 20px rather than the name's 40px. The screen is 480 logical pixels
+/// wide — the device reports 720 at density 240, which is a devicePixelRatio of 1.5 — and
+/// spends 36 a side on padding, so the title has 408 to work with. In Nunito:
 ///
-///     zh  物流管理系统                  240px
-///     ja  物流管理システム                320px
-///     en  Logistics Management System  1080px   <- 432px over
+///     en  Logistics Management System   @40  547dp   <- wraps
+///                                       @20  273dp
+///     ja  物流管理システム                 @20  160dp
+///     zh  物流管理系统                    @20  120dp
 ///
-/// The guess going in was that Japanese would be the tight one, because its glyphs are
-/// full-width. It is not close to tight; the long Latin string is three times wider than
-/// either. That is the same shape as the defect this project shipped in S20 — a box sized
-/// against the language in front of you — only with the languages swapped, which is why the
-/// numbers above are measured rather than reasoned. At 20 the widest is 540px and all three
-/// fit. `layout_fits_every_language_test` renders this widget in every language and fails on
-/// either overflow or silent truncation.
+/// Two things about arriving at those numbers are worth keeping. The guess going in was that
+/// Japanese would be the tight one because its glyphs are full-width; it is not close, and
+/// the long Latin string is the only one that has ever been at risk. And the first set of
+/// measurements was taken in a widget test without fonts loaded, where every glyph is a 1em
+/// box — that reports this string at 1093dp and the Japanese one at 320dp, both wrong, and
+/// in opposite directions. `layout_fits_every_language_test` now loads Nunito and renders at
+/// the device's real 480, and fails if any language's subtitle takes more than one line.
 class LoginTitle extends StatelessWidget {
   const LoginTitle({super.key});
 
