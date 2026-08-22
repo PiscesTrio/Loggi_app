@@ -145,7 +145,7 @@
   "productUpdatedAt": "更新日時：{at}",
   "mapFullscreen": "全画面表示",
   "mapStraightLineDistance": "直線距離 約 {km} km",
-  "settingsLanguage": "言語",
+  "settingsLanguage": "Language/言語",
   "settingsLanguageSystem": "デバイスに合わせる",
   "listSeparator": "、",
   "errorWarehouseNotFound": "該当する倉庫が見つかりません",

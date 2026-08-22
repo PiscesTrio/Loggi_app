@@ -14,6 +14,13 @@ typedef _Choice = ({Locale? locale, String? name});
 /// stylistic: the person who needs this menu is the person who cannot read the language the
 /// app is currently in, so a list of language names *in that language* is a list they cannot
 /// use. Only "follow the device" is localised, because it is a sentence rather than a name.
+///
+/// The same reasoning applies one level up, to the row that opens this menu. Someone who
+/// cannot read 言語 cannot find the setting that would fix that, so the label carries English
+/// alongside — `Language/言語`, `Language/语言` — and English alone where the pair would just
+/// repeat itself. It is the one label in the app that is deliberately not only in the
+/// reader's language, because it is the label they may need *before* the app is in a language
+/// they read.
 class LanguageTile extends ConsumerWidget {
   const LanguageTile({super.key});
 

@@ -233,7 +233,7 @@
       }
     }
   },
-  "settingsLanguage": "语言",
+  "settingsLanguage": "Language/语言",
   "settingsLanguageSystem": "跟随系统",
   "listSeparator": "、",
   "@listSeparator": {
