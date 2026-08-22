@@ -10,6 +10,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../theme/color_palette.dart';
 import 'index.dart';
+import 'login_title.dart';
 
 class LoginPage extends GetView<LoginController> {
   LoginPage({super.key});
@@ -32,10 +33,7 @@ class LoginPage extends GetView<LoginController> {
                   const Expanded(child: SizedBox()),
                   // SvgPicture.string(SvgStrings.warehouse),
                   const SizedBox(height: 18),
-                  const Text(
-                    "Logistic\nManagement",
-                    style: TextStyle(fontFamily: "Nunito", fontSize: 40),
-                  ),
+                  const LoginTitle(),
                   const SizedBox(height: 15),
                   // Row(
                   //   children: [
@@ -82,7 +80,7 @@ class LoginPage extends GetView<LoginController> {
                       ),
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Email",
+                        hintText: context.l10n.loginEmailHint,
                         filled: true,
                         fillColor: Colors.transparent,
                         hintStyle: TextStyle(
@@ -129,7 +127,7 @@ class LoginPage extends GetView<LoginController> {
                             ),
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "Password",
+                              hintText: context.l10n.loginPasswordHint,
                               filled: true,
                               fillColor: Colors.transparent,
                               hintStyle: TextStyle(
@@ -210,8 +208,8 @@ class LoginPage extends GetView<LoginController> {
                                       color: ColorPalette.aquaHaze,
                                     ),
                                   )
-                                : const Text(
-                                    "Login",
+                                : Text(
+                                    context.l10n.loginSubmit,
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontFamily: "Nunito",
