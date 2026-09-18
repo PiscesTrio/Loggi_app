@@ -177,6 +177,10 @@
   "emptyVehicles": "暂无车辆",
   "loginSucceeded": "登录成功",
   "loginBadCredentials": "邮箱或密码错误！",
+  "loginSubtitle": "物流管理系统",
+  "loginEmailHint": "邮箱",
+  "loginPasswordHint": "密码",
+  "loginSubmit": "登录",
   "vehicleAddTitle": "添加车辆",
   "vehiclePlateNumber": "车牌号",
   "fieldType": "类型：",
@@ -229,7 +233,7 @@
       }
     }
   },
-  "settingsLanguage": "语言",
+  "settingsLanguage": "Language/语言",
   "settingsLanguageSystem": "跟随系统",
   "listSeparator": "、",
   "@listSeparator": {

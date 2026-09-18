@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:loggi_app/app/data/api/distribution_vo.dart';
 import 'package:loggi_app/app/data/api/driver_summary.dart';
@@ -11,6 +14,7 @@ import 'package:loggi_app/app/data/api/vehicle_vo.dart';
 import 'package:loggi_app/app/modules/widgets/distribution_card.dart';
 import 'package:loggi_app/app/modules/widgets/driver_card.dart';
 import 'package:loggi_app/app/modules/widgets/login_log.dart';
+import 'package:loggi_app/app/modules/login/login_title.dart';
 import 'package:loggi_app/app/modules/widgets/vehicle_card_min.dart';
 import 'package:loggi_app/l10n/app_localizations.dart';
 
@@ -33,6 +37,25 @@ import 'package:loggi_app/l10n/app_localizations.dart';
 /// is worse for being silent, so it is checked by asking every laid-out paragraph whether it
 /// had to drop anything.
 void main() {
+  // Without this every glyph in a test is a fixed 1em box, so a Latin string measures about
+  // twice what Nunito actually draws and a CJK one about half. The login subtitle is the
+  // widest thing here and it is Latin, so the difference is the difference between a test
+  // that describes the device and one that does not: "Logistics Management System" is 1093dp
+  // in the placeholder font and 273dp in Nunito at 20px.
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final loader = FontLoader('Nunito');
+    for (final name in [
+      'Nunito-Regular.ttf',
+      'Nunito-Bold.ttf',
+      'Nunito-Light.ttf',
+    ]) {
+      final bytes = File('lib/assets/fonts/Nunito/$name').readAsBytesSync();
+      loader.addFont(Future.value(ByteData.view(bytes.buffer)));
+    }
+    await loader.load();
+  });
+
   DistributionVo order(DistributionVoStatusEnum status) => DistributionVo(
     id: 'd1',
     status: status,
@@ -83,6 +106,11 @@ void main() {
     driving: false,
   );
 
+  /// The subtitle as the app would say it, read from the generated localisations rather
+  /// than copied here — a copy would keep passing after someone changed the ARB.
+  String subtitleOf(Locale locale) =>
+      lookupAppLocalizations(locale).loginSubtitle;
+
   for (final locale in AppLocalizations.supportedLocales) {
     testWidgets('the fleet and log badges are not truncated in $locale', (
       tester,
@@ -117,6 +145,66 @@ void main() {
         expect(tester.takeException(), isNull, reason: 'overflow in $locale');
         expectNothingTruncated(tester, locale);
       }
+    });
+
+    testWidgets('the login title stays on two lines in $locale', (
+      tester,
+    ) async {
+      // The device reports 720x1280 at density 240, which is a devicePixelRatio of 1.5 and
+      // therefore 480 logical pixels wide — not 720. The rest of this file assumes 720
+      // logical and so gives every widget half again the width it really gets; that is a
+      // laxer test, not a wrong one, for the fixed-width boxes those cases were written
+      // against. It matters here because this widget's width is the thing being asserted.
+      tester.view.physicalSize = const Size(720, 1280);
+      tester.view.devicePixelRatio = 1.5;
+      addTearDown(tester.view.reset);
+
+      // 648 is the width the title actually gets: a full-width Column inside
+      // `EdgeInsets.symmetric(horizontal: 36)`. Handing it 720 would let a string 72px too
+      // wide pass here and wrap on the device.
+      await render(
+        tester,
+        locale,
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 36),
+          child: Align(alignment: Alignment.topLeft, child: LoginTitle()),
+        ),
+      );
+
+      expect(
+        tester.takeException(),
+        isNull,
+        reason: 'the login title overflows in $locale',
+      );
+      expectNothingTruncated(tester, locale);
+
+      // The assertion that does the work. `Text` wraps rather than overflowing, so a
+      // subtitle too wide for the screen raises no exception and reports no truncation —
+      // it silently becomes two lines, and the title block reads as three.
+      //
+      // Line count is the property. Height is not: height also moves when someone changes
+      // the font size, so an assertion on height fails saying "it wrapped" about a line
+      // that did not wrap. That draft existed, and Japanese at 40px was its false positive
+      // — one line, 57px tall, reported as wrapping against a 40px threshold.
+      final subtitle = tester.renderObject<RenderParagraph>(
+        find.text(subtitleOf(locale)),
+      );
+      // One line, measured against itself: the same span laid out with no width limit is
+      // one line by definition, so equal heights mean the on-screen one did not wrap.
+      // Taking the span from the render object rather than rebuilding a TextStyle here
+      // keeps the two in step if the widget's style changes.
+      final unwrapped = TextPainter(
+        text: subtitle.text,
+        textDirection: TextDirection.ltr,
+      )..layout();
+      expect(
+        subtitle.size.height,
+        unwrapped.height,
+        reason:
+            'the subtitle wrapped in $locale — ${subtitle.size.height}px against '
+            '${unwrapped.height}px for a single line, so the title reads as three '
+            'lines instead of two',
+      );
     });
 
     for (final status in DistributionVoStatusEnum.values) {
