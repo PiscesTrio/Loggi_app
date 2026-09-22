@@ -4,7 +4,8 @@
 [![Flutter](https://img.shields.io/badge/Flutter-3.47-informational)](https://flutter.dev/)
 [![License](https://img.shields.io/badge/License-MIT-informational)](LICENSE)
 
-> **A personal practice project, not production software.**
+[English](README.md) · [日本語](README.ja.md)
+
 > Not hardened for deployment; do not point it at real data.
 
 The Flutter client for a logistics management system: warehouses and stock, commodities,
@@ -28,7 +29,7 @@ builds without running the generator.
 | **Credentials** | `flutter_secure_storage` — Keystore / Keychain |
 | **Maps** | `flutter_map` over GSI (国土地理院) tiles |
 | **Charts** | `fl_chart` |
-| **i18n** | `flutter gen-l10n` from `lib/l10n/*.arb` |
+| **i18n** | `flutter gen-l10n` from `lib/l10n/*.arb` — 日本語 / 中文 / English, `ja` the fallback |
 
 `get` and `get_storage` remain in `pubspec.yaml` for the one screen still on GetX (login) and
 for reading the legacy token during migration. Everything else has moved.
@@ -43,6 +44,8 @@ for reading the legacy token during migration. Everything else has moved.
 - **Fleet** — drivers and vehicles.
 - **Analytics** — what moved in and out, by commodity.
 - **Audit** — sign-in and operation logs.
+- **Languages** — 日本語, 中文 and English, switched in settings; the choice outlives a
+  restart. See [Languages](#languages).
 
 ## Getting started
 
@@ -99,20 +102,27 @@ flutter test
 dart format --set-exit-if-changed .
 ```
 
+CI runs exactly these three and nothing else. `flutter test` is the localisation gate as well
+as the test run — [Languages](#languages) says what it holds. Written as tests rather than as
+a CI script on purpose: a script runs after the push, and these run before it, on the machine
+of whoever broke them.
+
 ## Project structure
 
 ```
 lib/
 ├── main.dart                      # ProviderScope + secure-storage init
 ├── my_app.dart                    # MaterialApp.router: theme, locales, delegates
-├── l10n/                          # app_zh.arb / app_en.arb + the context.l10n extension
-├── features/                      # screens, by domain
+├── l10n/                          # app_ja/zh/en.arb, GLOSSARY.md, the context.l10n extension
+├── features/                      # screens by domain, and the label tables they share
 │   ├── warehouse/                 # warehouse list, stock, the in/out dialog
 │   ├── product/                   # commodity table and editor
 │   ├── chart/                     # inbound / outbound analytics
 │   ├── log/                       # one page, both logs
-│   ├── settings/
+│   ├── settings/                  # the system page and the language picker
 │   ├── shell/                     # the tabbed shell and the page header
+│   ├── fleet/                     # driver and vehicle labels
+│   ├── errors/                    # the server's codes, in the reader's language
 │   └── distribution/              # care tags (wire value vs label)
 └── app/
     ├── config/app_config.dart     # the compile-time configuration, read once
@@ -125,12 +135,17 @@ lib/
     │   ├── repositories/          # one per domain; the only callers of ApiClient
     │   ├── auth/token_storage.dart
     │   └── map/                   # tile sources and their attribution
-    └── modules/                   # what has not moved yet: login, and shared widgets
+    └── modules/                   # not migrated yet: login, deliveries, drivers, vehicles
 ```
 
 Two directories exist at once on purpose. `features/` is where a screen belongs;
-`app/modules/` is what is left of the GetX layout, and it shrinks with each slice. The last
-resident is `login`.
+`app/modules/` is what is left of the GetX layout, and it shrinks with each slice. Still
+living there, all of them routed: `login`, the three delivery screens (`distribution_list`,
+`distribution_apply`, `distribution_status`), `driver_list` and `vehicle_list`.
+
+`features/fleet/` and `features/errors/` hold no screen — they are the label and message
+tables those legacy screens read from. The strings moved out before the screens did, which is
+what let them be localised without waiting for the migration.
 
 ## How a screen is wired
 
@@ -147,6 +162,16 @@ Nothing above the repository knows about HTTP, and nothing below it knows about 
 error state shows the server's own message, which survives the trip because the envelope
 interceptor reads it from `msg` and the repository lets the exception through instead of
 folding it into `null`.
+
+## Languages
+
+日本語, 中文 and English — 180 keys each, one ARB file per language, with `ja` as the
+fallback when the device matches none of them. The settings page switches between them and the
+choice survives a restart. Three test files under `flutter test` hold the three in step: the
+same keys everywhere with no unused and no empty entry, no CJK literal left in a screen, and
+every card rendered in every language to prove nothing overflows and nothing is silently
+clipped. `lib/l10n/GLOSSARY.md` fixes the terms first, so the same word is the same word on
+every screen.
 
 ## Regenerating the API models
 
