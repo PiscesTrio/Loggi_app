@@ -16,7 +16,7 @@ final sharedPreferencesProvider = Provider<SharedPreferences>(
 /// Which language the app is in, or null to follow the device.
 ///
 /// Null is a real third state, not a missing value. "Follow the system" and "Japanese, and
-/// keep it Japanese even if I hand this phone to someone in China" are different intentions,
+/// keep it Japanese even on a device that asks for something else" are different intentions,
 /// and a provider that resolved the system locale eagerly could not tell them apart — it
 /// would silently freeze whatever the device happened to say the first time.
 class LocaleNotifier extends Notifier<Locale?> {

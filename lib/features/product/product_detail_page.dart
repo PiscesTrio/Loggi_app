@@ -20,10 +20,10 @@ import '../warehouse/providers.dart';
 ///
 /// The screen this replaces assigned onto the commodity the list had handed it —
 /// `product.name = value` — so typing here changed the row behind the screen whether or not
-/// 确认 was ever pressed, and 取消 changed nothing back. The generated model is immutable,
-/// which makes that impossible rather than merely discouraged: what is being edited is a
-/// draft, and what leaves is a [CommodityRequest], a different type with no id and no
-/// timestamps to disagree with the server about.
+/// Confirm was ever pressed, and Cancel changed nothing back. The generated model is
+/// immutable, which makes that impossible rather than merely discouraged: what is being
+/// edited is a draft, and what leaves is a [CommodityRequest], a different type with no id
+/// and no timestamps to disagree with the server about.
 class ProductDetailPage extends ConsumerStatefulWidget {
   const ProductDetailPage({super.key, required this.product});
 

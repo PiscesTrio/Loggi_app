@@ -9,22 +9,22 @@ class Routes {
 
   static const String login = '/login';
 
-  // ---- Tab 0: 基础管理 — inner tabs 商品管理 / 仓库管理 -----------------------------
+  // ---- Tab 0: Master data — inner tabs Commodities / Warehouses ---------------------
   static const String baseProducts = '/base/products';
   static const String baseWarehouses = '/base/warehouses';
 
-  /// Relative to [baseProducts]; renders inside the 商品管理 tab.
+  /// Relative to [baseProducts]; renders inside the Commodities tab.
   static const String segmentProductDetail = 'detail';
 
-  /// Relative to [baseWarehouses]; renders inside the 仓库管理 tab.
+  /// Relative to [baseWarehouses]; renders inside the Warehouses tab.
   static const String segmentWarehouseInventory = ':id';
 
-  // ---- Tab 1: 运输管理 — inner tabs 配送 / 车辆 / 驾驶员 ---------------------------
+  // ---- Tab 1: Transport — inner tabs Deliveries / Vehicles / Drivers ---------------
   static const String transportDistribution = '/transport/distribution';
   static const String transportVehicles = '/transport/vehicles';
   static const String transportDrivers = '/transport/drivers';
 
-  /// Relative to [transportDistribution]; renders inside the 配送管理 tab.
+  /// Relative to [transportDistribution]; renders inside the Deliveries tab.
   static const String segmentDistributionApply = 'apply';
 
   /// A sibling of the inner tab bar rather than a child of one, so it covers the whole

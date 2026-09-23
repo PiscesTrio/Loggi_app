@@ -68,10 +68,10 @@ Widget _withBindings(List<Bindings> bindings, Widget Function() page) {
 /// of the screen it covers, and the five old navigators were not all at the same depth:
 ///
 /// * `(4)`, `(5)`, `(6)` sat in the `Expanded` *below* a page's header and inner tab bar,
-///   so 商品详情, 仓库库存 and 配送申请 rendered in the content area with the chrome above
-///   them still visible.
-/// * `(69)`, `(70)` *were* the tab's whole content, so 配送详情 and the two log screens
-///   covered everything, header included.
+///   so commodity detail, warehouse stock and the delivery form rendered in the content
+///   area with the chrome above them still visible.
+/// * `(69)`, `(70)` *were* the tab's whole content, so delivery tracking and the two log
+///   screens covered everything, header included.
 ///
 /// A first attempt flattened all of them into children of the four outer branches. The
 /// three in the first group came up with no header, no tabs, and their first row jammed
@@ -117,13 +117,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => HomeShellScaffold(shell: shell),
         branches: [
-          // ---- Tab 0: 基础管理 --------------------------------------------------
+          // ---- Tab 0: Master data -----------------------------------------------
           StatefulShellBranch(
             navigatorKey: _baseKey,
             routes: [
               StatefulShellRoute.indexedStack(
-                // This builder supplies the header and the 商品/仓库 tab bar; `inner` goes
-                // where the old IndexedStack of two Navigators used to sit.
+                // This builder supplies the header and the Commodities / Warehouses tab
+                // bar; `inner` goes where the old IndexedStack of two Navigators used to sit.
                 builder: (context, _, inner) => TabbedShellPage(
                   title: context.l10n.navBase,
                   tabs: [
@@ -174,7 +174,7 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          // ---- Tab 1: 运输管理 --------------------------------------------------
+          // ---- Tab 1: Transport -------------------------------------------------
           StatefulShellBranch(
             navigatorKey: _transportKey,
             initialLocation: Routes.transportDistribution,
@@ -260,14 +260,14 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          // ---- Tab 2: 图表分析 --------------------------------------------------
+          // ---- Tab 2: Analytics -------------------------------------------------
           StatefulShellBranch(
             navigatorKey: _chartKey,
             routes: [
               GoRoute(path: Routes.chart, builder: (_, _) => const ChartPage()),
             ],
           ),
-          // ---- Tab 3: 系统设置 --------------------------------------------------
+          // ---- Tab 3: Settings --------------------------------------------------
           StatefulShellBranch(
             navigatorKey: _settingsKey,
             routes: [

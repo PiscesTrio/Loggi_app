@@ -5,7 +5,7 @@ import '../../app/theme/color_palette.dart';
 import '../../l10n/l10n.dart';
 import '../shell/page_header.dart';
 
-/// 系统设置.
+/// System settings.
 ///
 /// Was a `GetView<SystemSettingController>` wrapped in a `GetBuilder`, over a controller
 /// whose entire body was four lifecycle overrides calling super. The page never read it, so

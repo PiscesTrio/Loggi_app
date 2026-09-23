@@ -76,7 +76,7 @@ class LogPage<T> extends ConsumerWidget {
   }
 }
 
-/// 登录日志.
+/// Sign-in log.
 class LoginLogPage extends StatelessWidget {
   const LoginLogPage({super.key});
 
@@ -91,7 +91,7 @@ class LoginLogPage extends StatelessWidget {
   }
 }
 
-/// 操作日志.
+/// Operation log.
 class OperationLogPage extends StatelessWidget {
   const OperationLogPage({super.key});
 
