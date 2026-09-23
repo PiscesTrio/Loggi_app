@@ -23,7 +23,7 @@ class WarehouseListNotifier extends AsyncNotifier<List<WarehouseVo>> {
   /// Adds a warehouse and reloads.
   ///
   /// Reloading is the point. The GetX controller this replaces fetched only in `onInit`, so
-  /// 保存成功 appeared over a list that did not contain the row that had just been saved.
+  /// the success toast appeared over a list that did not contain the row just saved.
   Future<void> add(WarehouseRequest warehouse) async {
     await ref.read(warehouseRepositoryProvider).add(warehouse);
     await refresh();

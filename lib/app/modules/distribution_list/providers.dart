@@ -31,7 +31,7 @@ class DistributionListNotifier extends AsyncNotifier<List<DistributionVo>> {
   /// ```
   ///
   /// `.to` is `Get.find()`: a compile-time dependency on a runtime registration. If the
-  /// user had not yet opened the 车辆管理 tab, no controller existed and the call threw.
+  /// user had not yet opened the Vehicles tab, no controller existed and the call threw.
   /// `ref.invalidate` needs no instance — it marks the provider stale, and it is rebuilt
   /// if and when something is watching it.
   Future<void> advance(DistributionRequest distribution) async {

@@ -27,7 +27,6 @@ mixin SvgString {
    width="300"
    height="300"
    id="svg166"
-   sodipodi:docname="仓库2.svg"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
