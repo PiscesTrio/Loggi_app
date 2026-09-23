@@ -34,7 +34,6 @@ void main() {
         'localised: the person who needs the language menu is the person who cannot '
         'read the language the app is currently in, so a list of names in that '
         'language is a list they cannot use.',
-    'lib/assets/svg/svg_strings.dart': 'An Inkscape sodipodi:docname inside an embedded SVG document. Never rendered.',
   };
 
   /// Generated or derived files, which are not anybody's to edit.
