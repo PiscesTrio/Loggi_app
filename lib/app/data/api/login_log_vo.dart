@@ -103,12 +103,6 @@ enum LoginLogVoBrowserEnum {
   BAIDU(r'BAIDU'),
   @JsonValue(r'QIHOO_360')
   QIHOO_360(r'QIHOO_360'),
-  @JsonValue(r'LIEBAO')
-  LIEBAO(r'LIEBAO'),
-  @JsonValue(r'MAXTHON')
-  MAXTHON(r'MAXTHON'),
-  @JsonValue(r'THE_WORLD')
-  THE_WORLD(r'THE_WORLD'),
   @JsonValue(r'QUARK')
   QUARK(r'QUARK'),
   @JsonValue(r'KONQUEROR')

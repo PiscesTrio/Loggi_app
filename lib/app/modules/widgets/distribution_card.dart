@@ -11,7 +11,10 @@ import 'package:go_router/go_router.dart';
 import 'package:loggi_app/app/router/routes.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
 
-import '../../data/api/distribution_request.dart';
+import '../../data/api/distribution_status_change.dart';
+import '../../data/network/api_exception.dart';
+import '../../../features/errors/error_messages.dart';
+import 'toast.dart';
 import '../../data/api/distribution_vo.dart';
 
 import '../distribution_list/providers.dart';
@@ -298,22 +301,28 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
             onStepCancel: () {
               Navigator.pop(context);
             },
-            onStepContinue: () {
-              // .value, not the Rx itself: GetX overrides == to unwrap,
-              // so both compile and behave identically, but only one of
-              // them says so without knowing that.
-              if (_step != 2) {
-                final next = _step + 1;
-                setState(() => _step = next);
-                // DistributionVo is immutable now, so the advanced order is
-                // a new value rather than an edit to the one the list is
-                // still rendering. The list refreshes from the server
-                // response, which is the only copy that was ever right.
-                ref
-                    .read(distributionListProvider.notifier)
-                    .advance(_requestFrom(widget.distribution!, next));
-              } else {
+            onStepContinue: () async {
+              if (_step == 2) {
                 Navigator.pop(context);
+                return;
+              }
+              final id = widget.distribution?.id;
+              if (id == null) return;
+              final next = _step + 1;
+              // The step moves when the server says the order moved, not before. It used to
+              // advance first and post afterwards, so a refused approval - a driver already
+              // out on another delivery - still showed as approved on the stepper while
+              // the list behind it was replaced by an error screen.
+              try {
+                await ref
+                    .read(distributionListProvider.notifier)
+                    .advance(id, _statusAt(next));
+                if (!mounted) return;
+                setState(() => _step = next);
+              } on ApiException catch (e) {
+                if (!mounted) return;
+                // this.context: the State's own, which is what `mounted` above vouches for.
+                showTextToast(apiErrorMessage(this.context, e));
               }
             },
             type: StepperType.horizontal,
@@ -464,33 +473,12 @@ int _stepOf(DistributionVoStatusEnum? status) => switch (status) {
   _ => 0,
 };
 
-/// The order as a request to advance it.
-///
-/// The API takes a request type rather than the order back: an order carries an id and the
-/// rows it points at, a request names them by id and has no id of its own. Sending the id
-/// back is what made writes to this endpoint fail for the life of the project.
-DistributionRequest _requestFrom(DistributionVo order, int step) {
-  const stages = [
-    DistributionRequestStatusEnum.REVIEWING,
-    DistributionRequestStatusEnum.REVIEW_SUCCESS,
-    DistributionRequestStatusEnum.END,
-  ];
-  return DistributionRequest(
-    driverId: order.driver?.id ?? '',
-    vehicleId: order.vehicle?.id ?? '',
-    warehouseId: order.warehouse?.id,
-    phone: order.phone ?? '',
-    address: order.address ?? '',
-    urgent: order.urgent ?? false,
-    care: CareTags.toRequest(order.care),
-    time: order.time ?? DateTime.now(),
-    status: stages[step.clamp(0, stages.length - 1)],
-    fromLat: order.fromLat ?? 0,
-    fromLng: order.fromLng ?? 0,
-    toLat: order.toLat ?? 0,
-    toLng: order.toLng ?? 0,
-  );
-}
+/// The status a step index stands for, as the status-change request spells it.
+DistributionStatusChangeStatusEnum _statusAt(int step) => switch (step) {
+  1 => DistributionStatusChangeStatusEnum.REVIEW_SUCCESS,
+  2 => DistributionStatusChangeStatusEnum.END,
+  _ => DistributionStatusChangeStatusEnum.REVIEWING,
+};
 
 /// The delivery time, as text.
 ///

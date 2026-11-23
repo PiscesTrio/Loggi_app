@@ -198,6 +198,7 @@ const _$SystemLogVoModuleEnumEnumMap = {
   SystemLogVoModuleEnum.VEHICLE: 'VEHICLE',
   SystemLogVoModuleEnum.DISTRIBUTION: 'DISTRIBUTION',
   SystemLogVoModuleEnum.DISTRIBUTION_TRACK: 'DISTRIBUTION_TRACK',
+  SystemLogVoModuleEnum.AUDIT_LOG: 'AUDIT_LOG',
 };
 
 const _$SystemLogVoBusinessTypeEnumEnumMap = {

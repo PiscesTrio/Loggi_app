@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/api/distribution_request.dart';
+import '../../data/api/distribution_status_change.dart';
 import '../../data/api/distribution_vo.dart';
 
 import '../../data/repositories/distribution_repository.dart';
@@ -34,14 +34,21 @@ class DistributionListNotifier extends AsyncNotifier<List<DistributionVo>> {
   /// user had not yet opened the Vehicles tab, no controller existed and the call threw.
   /// `ref.invalidate` needs no instance — it marks the provider stale, and it is rebuilt
   /// if and when something is watching it.
-  Future<void> advance(DistributionRequest distribution) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      await ref.read(distributionRepositoryProvider).save(distribution);
-      ref.invalidate(vehicleListProvider);
-      ref.invalidate(driverListProvider);
-      return ref.read(distributionRepositoryProvider).list();
-    });
+  ///
+  /// The order is moved, not re-filed: this called `save` once, which posted a new order
+  /// and left the original under review.
+  Future<void> advance(
+    String id,
+    DistributionStatusChangeStatusEnum status,
+  ) async {
+    // Throws rather than landing in `state`. A refused move - INVALID_STATUS_TRANSITION, or
+    // a driver already out - is an answer about one order, and turning the whole list into
+    // an error screen for it hid every other order behind it. The caller says why; the list
+    // stays.
+    await ref.read(distributionRepositoryProvider).changeStatus(id, status);
+    ref.invalidate(vehicleListProvider);
+    ref.invalidate(driverListProvider);
+    await refresh();
   }
 }
 
