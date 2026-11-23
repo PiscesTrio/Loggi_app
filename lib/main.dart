@@ -59,8 +59,8 @@ Future<void> main() async {
   await container.read(authProvider.notifier).restore();
 
   // A rejected token now signs the app out through the same path the user's own logout
-  // takes, so the router redirects to the login screen on its own. The provider existed in
-  // S12 with nobody to set it; this is that wiring.
+  // takes, so the router redirects to the login screen on its own. The provider existed for
+  // a while with nobody to set it; this is that wiring.
   container.read(onUnauthorizedProvider.notifier).state = () =>
       container.read(authProvider.notifier).signOut();
 

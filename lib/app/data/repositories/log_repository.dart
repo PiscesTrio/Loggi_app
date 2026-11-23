@@ -45,7 +45,7 @@ class LogRepository {
   ///
   /// The controllers this replaces sorted by comparing the timestamps as strings, which
   /// worked only because the server happened to send a format that sorts lexicographically.
-  /// They are DateTime since S18 and this compares them as such.
+  /// They are DateTime on the wire now and this compares them as such.
   static List<T> _newestFirst<T>(List<T> rows, DateTime? Function(T) at) {
     final sorted = [...rows];
     sorted.sort((a, b) {

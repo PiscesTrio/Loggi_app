@@ -1,7 +1,7 @@
 /// Lets GetX controllers reach the Riverpod container.
 ///
 /// The controllers have no `ref` — they are `GetxController`s, and they will be until
-/// S14 onward moves them module by module. Until then something has to bridge the two,
+/// each one is moved to Riverpod. Until then something has to bridge the two,
 /// and this is it: one global, set once during bootstrap, named so nobody mistakes it
 /// for the architecture.
 ///

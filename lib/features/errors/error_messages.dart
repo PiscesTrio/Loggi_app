@@ -5,7 +5,7 @@ import '../../l10n/l10n.dart';
 
 /// What to tell the reader about a failed request, in their language.
 ///
-/// This is the last piece of the same move the server made in A3 and the database made in V9:
+/// This is the last piece of the same move the server made when it began sending error codes, and the database made in V9:
 /// the layer that knows *what* went wrong stops deciding *how to say it*. The network layer has
 /// no BuildContext and therefore cannot know which of three languages to use — so it hands up
 /// an identifier and this decides the words.

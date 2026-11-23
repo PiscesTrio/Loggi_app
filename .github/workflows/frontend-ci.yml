@@ -1,7 +1,7 @@
 name: frontend-ci
 on:
   push:
-    branches: [ master, "slice/**" ]
+    branches: [ master ]
   pull_request:
 jobs:
   analyze-test:
@@ -18,7 +18,7 @@ jobs:
       # This workflow lives inside the Loggi_app repo, so the checkout root is the frontend project root.
       - run: flutter pub get
       - name: Analyze
-        # The escape hatches are gone. S00 could only gate on errors because the repo carried
+        # The escape hatches are gone. CI once gated on errors only, because the repo carried
         # 481 infos; a bare `flutter analyze` defaults to fatal-infos and fatal-warnings, so it
         # would have failed on day one. The count is now zero, so the default IS the gate, and
         # the first new info fails the build instead of joining a pile nobody reads.
@@ -36,7 +36,7 @@ jobs:
         # push, and these run before it, on the machine of whoever broke them.
         run: flutter test --coverage
       - name: Check formatting
-        # S00 omitted this because the repo carried unformatted code and it would have failed on
+        # This step was once left out because the repo carried unformatted code and it would have failed on
         # day one — the same reason `flutter analyze` had escape hatches then and does not now.
         # `dart format .` reports 0 changed across all 170 files, so the condition that comment
         # set has been met.

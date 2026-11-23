@@ -202,7 +202,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                         routes: [
                           GoRoute(
                             path: Routes.segmentDistributionApply,
-                            // Slides up, as it did before S13. Filing an order is a task
+                            // Slides up, as it did under GetX. Filing an order is a task
                             // begun and finished on top of the list, not a place further in
                             // — go_router's default slide from the right says the opposite.
                             pageBuilder: (_, state) => CustomTransitionPage(

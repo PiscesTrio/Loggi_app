@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// A plain cross-fade between pages.
 ///
-/// The app ran on `GetMaterialApp(defaultTransition: Transition.fadeIn)` until S13 replaced
+/// The app ran on `GetMaterialApp(defaultTransition: Transition.fadeIn)` until the move that replaced
 /// GetX with go_router. Nothing replaced that setting, so every route in the app quietly
 /// switched to the platform default — a slide in from the right on Android. It was reported
 /// on the one screen where the meaning is wrong (filing an order, which slides up), but the

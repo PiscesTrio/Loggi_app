@@ -129,7 +129,7 @@ class ApplyFormNotifier extends AutoDisposeAsyncNotifier<ApplyFormState> {
     ),
   );
 
-  /// No formatting. The field is a DateTime on the wire since S09; the string the client
+  /// No formatting. The field is a DateTime on the wire; the string the client
   /// used to build was a presentation decision being made in a request body.
   void setDateTime(DateTime value) => _edit(
     (s) => s.copyWith(

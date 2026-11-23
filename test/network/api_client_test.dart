@@ -86,7 +86,7 @@ void main() {
     });
 
     test('code=201 is a success, not a failure', () async {
-      // Found on a device, not here. S10 made creating endpoints answer 201, the
+      // Found on a device, not here. Creating endpoints began answering 201, the
       // interceptor tested for 200 exactly, and an inventory movement the server had
       // already recorded came back to the screen as 请求出错. The old test pinned the
       // status code the API happened to use rather than what success means.
@@ -267,8 +267,8 @@ void main() {
         // Dio's own message here is English boilerplate; for a 401 it even describes the
         // status as "bad syntax". Nothing in this app should show a user that sentence.
         //
-        // Nor should this layer write the replacement. It asserted the Chinese sentence
-        // until A3, which was correct for one of the app's three languages; the sentence is
+        // Nor should this layer write the replacement. It used to assert the Chinese
+        // sentence, which was correct for one of the app's three languages; the sentence is
         // chosen by features/errors/error_messages.dart now, where there is a locale to
         // choose it with. What arrives here is the classification.
         await expectLater(

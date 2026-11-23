@@ -10,9 +10,9 @@ import 'package:flutter_test/flutter_test.dart';
 ///
 ///  * `fieldDescription` was the literal `"Description"` in **both** files — the Chinese was
 ///    never written, and no tool said so because the key existed in both.
-///  * five `track*` keys held the Japanese source text verbatim in `app_zh.arb`, because S17
-///    copied the strings across without translating them. The English side was fine.
-///  * fourteen keys were added and wired to nothing, so B1 added a second set for the same
+///  * five `track*` keys held the Japanese source text verbatim in `app_zh.arb`, because an earlier
+///    change copied the strings across without translating them. The English side was fine.
+///  * fourteen keys were added and wired to nothing, so a later change added a second set for the same
 ///    strings without knowing the first existed.
 ///  * `app_zh.arb` and `app_ja.arb` share a script. A value copied from one to the other is
 ///    invisible in a way that copying into English never is.
@@ -116,10 +116,10 @@ void main() {
   });
 
   test('every key is used by a screen', () {
-    // The failure this catches has happened three times in this project. S17 added
+    // The failure this catches has happened three times in this project. One change added
     // logAccount, trackAssigned and a dozen others to the ARB and wired none of them up, so
     // the screens went on rendering hardcoded strings while the entries sat there looking
-    // done — and when B1 came to migrate those screens it added a *second* set of keys for
+    // done — and when those screens were later migrated, a *second* set of keys was added for
     // the same strings, because nothing said the first set existed.
     //
     // An unused entry is not harmless: it is a translation someone will be asked to write,

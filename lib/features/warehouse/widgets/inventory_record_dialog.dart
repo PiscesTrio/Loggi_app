@@ -13,7 +13,7 @@ import '../providers.dart';
 
 /// Which way the stock is going.
 ///
-/// Carried its own Chinese label until B1. A constant cannot hold a localised string — there
+/// It used to carry its own Chinese label. A constant cannot hold a localised string — there
 /// is no context at class-initialisation time — so the wording moved out to [directionLabel]
 /// and the enum is just the direction again.
 enum InventoryDirection {
@@ -104,7 +104,7 @@ class _InventoryRecordDialogState extends ConsumerState<InventoryRecordDialog> {
       await ref
           .read(inventoryProvider(widget.warehouseId).notifier)
           .move(
-            // No name. The server derives it from commodityId (S18, backfilled by V8) — the
+            // No name. The server derives it from commodityId (backfilled for old rows by V8) — the
             // client used to supply a copy, and a movement filed without one produced the
             // unnamed slice in the chart. The generated model still carried the field until
             // it was regenerated, so this line had been sending something nobody read.

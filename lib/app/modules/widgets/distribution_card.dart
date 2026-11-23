@@ -465,7 +465,7 @@ class _StatusStepperDialogState extends ConsumerState<_StatusStepperDialog> {
 /// The order's stage as a step index.
 ///
 /// It was an int on the wire - 0, 1, 2 - and the stepper used it directly. It is the enum
-/// name now, which is what the database has held since S09, so the mapping to a screen
+/// name now, which is what the database holds since its V9 migration, so the mapping to a screen
 /// position lives here instead of being implied by four comparisons against bare numbers.
 int _stepOf(DistributionVoStatusEnum? status) => switch (status) {
   DistributionVoStatusEnum.REVIEW_SUCCESS => 1,
@@ -487,8 +487,8 @@ DistributionStatusChangeStatusEnum _statusAt(int step) => switch (step) {
 ///
 /// Was three near-identical `Container`s in an `IndexedStack`, each 70 logical pixels wide.
 /// 70 fits 等待审核 and 審査待ち; "Awaiting review" overflowed it by 38 pixels, which the app
-/// draws as a black-and-yellow stripe across the card. Nothing caught it because until B5
-/// there was no way to see an English screen — the tests assert the strings exist and differ
+/// draws as a black-and-yellow stripe across the card. Nothing caught it because until the app
+/// could switch language there was no way to see an English screen — the tests assert the strings exist and differ
 /// from one another, and a string that exists can still not fit.
 ///
 /// The width is gone rather than enlarged. A number chosen to fit today's longest translation

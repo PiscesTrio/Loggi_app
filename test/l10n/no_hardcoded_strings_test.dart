@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 /// No screen may contain a CJK string literal.
 ///
-/// B1 moved the last one out of the screens and A3 took the network layer with it, so the
+/// The last one has moved out of the screens and the network layer went with it, so the
 /// number is zero everywhere and this keeps it there.
 ///
 /// It was a ratchet at 10 for a while: the network layer builds its messages where there is no

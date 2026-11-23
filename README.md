@@ -139,7 +139,7 @@ lib/
 ```
 
 Two directories exist at once on purpose. `features/` is where a screen belongs;
-`app/modules/` is what is left of the GetX layout, and it shrinks with each slice. Still
+`app/modules/` is what is left of the GetX layout, and it shrinks as screens move. Still
 living there, all of them routed: `login`, the three delivery screens (`distribution_list`,
 `distribution_apply`, `distribution_status`), `driver_list` and `vehicle_list`.
 
