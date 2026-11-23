@@ -1,43 +1,52 @@
-import 'package:loggi_app/app/data/network/api.dart';
 import 'package:loggi_app/app/data/network/container_access.dart';
 import 'package:get/get.dart';
 import 'package:loggi_app/app/auth/auth_provider.dart';
 
 import '../../data/api/login_dto.dart';
+import '../../data/api/login_vo.dart';
+import '../../data/network/api_client.dart';
+import '../../data/network/network_providers.dart';
 
 class LoginController extends GetxController {
   LoginController();
   RxBool isVisible = false.obs;
-  RxBool failed = false.obs;
+
+  /// Why the last attempt failed, or null. The view turns it into words.
+  final Rxn<Object> error = Rxn<Object>();
   RxBool loading = false.obs;
   Rx<LoginDto> loginData = LoginDto(email: '', password: '').obs;
 
-  /// Signs in, and hands back the message to announce.
+  /// Signs in. Returns whether it worked; on failure [error] says why.
   ///
-  /// Returns null on failure. The message is the caller's to show because this class has no
-  /// BuildContext and therefore cannot know which language to say it in — the same reason the
-  /// server stopped sending display text. The alternative, a global Get.context, is exactly
-  /// the ambient-lookup this refactor has been removing.
+  /// The reason is kept rather than collapsed into "failed". It used to be a bool, and the
+  /// screen answered every failure with "wrong e-mail or password" - including a locked
+  /// address, where the password the reader had just typed may well have been right, and a
+  /// phone with no network. The words are the view's to choose, because this class has no
+  /// BuildContext and so cannot know the language.
+  ///
+  /// This was the last caller of the legacy `NbRequest`, whose methods returned null on any
+  /// failure and so could not have said why even if asked.
   Future<bool> signIn() async {
     loading(true);
-    var ok = false;
+    error.value = null;
     try {
-      await NbRequest().login(loginData.value).then((value) async {
-        // One write reaches both stacks — secure storage for the new client, the legacy
-        // Dio's header until the last NbRequest caller is gone — and moves the session to
-        // signed-in, which is what the router watches.
-        await appContainer.read(authProvider.notifier).signIn(value!.token!);
-
-        // No navigation call. The router's redirect reacts to the session change, so
-        // there is one rule deciding where a signed-in user belongs instead of a rule and
-        // a scattering of navigation calls that have to agree with it.
-      });
-      ok = true;
+      final data = await appContainer
+          .read(apiClientProvider)
+          .post<dynamic>(
+            '/admin/login/password',
+            data: loginData.value.toJson(),
+          );
+      final login = decodeObject(data, LoginVo.fromJson);
+      // Moves the session to signed-in, which is what the router watches. No navigation
+      // call: the router's redirect is the one rule deciding where a signed-in user belongs.
+      await appContainer.read(authProvider.notifier).signIn(login.token!);
+      return true;
     } catch (e) {
-      failed(true);
+      error.value = e;
+      return false;
+    } finally {
+      loading(false);
     }
-    loading(false);
-    return ok;
   }
 
   /// Called immediately after the widget is allocated in memory.

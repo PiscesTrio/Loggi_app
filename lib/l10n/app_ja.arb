@@ -180,7 +180,6 @@
   "validationPlateRequired": "車両番号を入力してください",
   "logModuleAuditLog": "監査ログ",
   "errorInvalidStatusTransition": "この配送依頼はその段階に進めません",
-  "errorInvalidCredentials": "メールアドレスまたはパスワードが違います",
   "errorLoginAttemptsExhausted": "サインインの失敗が続いています。しばらくしてからお試しください",
   "driverAddTitle": "ドライバーを登録",
   "driverPhone": "電話番号",

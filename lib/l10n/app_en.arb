@@ -230,7 +230,6 @@
   "validationPlateRequired": "Enter a plate number",
   "logModuleAuditLog": "Audit log",
   "errorInvalidStatusTransition": "This order cannot move to that step",
-  "errorInvalidCredentials": "Wrong e-mail or password",
   "errorLoginAttemptsExhausted": "Too many failed sign-ins — try again later",
   "driverAddTitle": "Register a driver",
   "driverPhone": "Phone",

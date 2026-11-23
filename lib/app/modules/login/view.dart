@@ -8,6 +8,7 @@ import '../../data/api/login_dto.dart';
 import 'package:get/get.dart';
 
 import '../../theme/color_palette.dart';
+import '../../../features/errors/error_messages.dart';
 import 'index.dart';
 import 'login_title.dart';
 
@@ -158,9 +159,10 @@ class LoginPage extends GetView<LoginController> {
                   const SizedBox(height: 15),
                   Center(
                     child: Text(
-                      controller.failed.value
-                          ? context.l10n.loginBadCredentials
-                          : '',
+                      switch (controller.error.value) {
+                        null => '',
+                        final error => apiErrorMessage(context, error),
+                      },
                       style: const TextStyle(
                         color: ColorPalette.mandy,
                         fontFamily: "Nunito",

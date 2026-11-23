@@ -74,7 +74,7 @@ String? _byCode(BuildContext context, String code) {
     'TOKEN_INVALID' => l10n.errorTokenInvalid,
     // A 401 too, but from the sign-in screen, where there is no session to end - so unlike the
     // two above this is the sentence the reader actually sees.
-    'INVALID_CREDENTIALS' => l10n.errorInvalidCredentials,
+    'INVALID_CREDENTIALS' => l10n.loginBadCredentials,
     'LOGIN_ATTEMPTS_EXHAUSTED' => l10n.errorLoginAttemptsExhausted,
     'ACCESS_DENIED' => l10n.errorAccessDenied,
     'METHOD_NOT_ALLOWED' => l10n.errorMethodNotAllowed,
