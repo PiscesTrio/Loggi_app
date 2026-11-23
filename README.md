@@ -17,6 +17,10 @@ The models in `lib/app/data/api/` are **generated from the backend's OpenAPI doc
 [Regenerating the API models](#regenerating-the-api-models). They are committed, so a clone
 builds without running the generator.
 
+| Warehouses | Delivery orders | Tracking |
+|:-:|:-:|:-:|
+| ![Warehouse list](docs/screenshots/warehouses.jpeg) | ![Delivery orders with their review status](docs/screenshots/deliveries.jpeg) | ![An order's route and tracking timeline on a map](docs/screenshots/tracking.jpeg) |
+
 ## Tech stack
 
 | | |

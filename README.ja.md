@@ -17,6 +17,10 @@
 [API モデルの再生成](#api-モデルの再生成)を参照。生成物はコミットしてあるので、クローン
 しただけでジェネレータを走らせずにビルドできる。
 
+| 倉庫 | 配送依頼 | 配送状況 |
+|:-:|:-:|:-:|
+| ![倉庫一覧](docs/screenshots/warehouses.jpeg) | ![審査状態つきの配送依頼一覧](docs/screenshots/deliveries.jpeg) | ![地図上のルートと追跡タイムライン](docs/screenshots/tracking.jpeg) |
+
 ## 技術スタック
 
 | | |
