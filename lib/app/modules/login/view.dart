@@ -6,16 +6,14 @@ import '../../../l10n/l10n.dart';
 import '../../data/api/login_dto.dart';
 
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../../theme/color_palette.dart';
+import '../../../features/errors/error_messages.dart';
 import 'index.dart';
 import 'login_title.dart';
 
 class LoginPage extends GetView<LoginController> {
-  LoginPage({super.key});
-
-  final GetStorage box = GetStorage();
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -161,9 +159,13 @@ class LoginPage extends GetView<LoginController> {
                   const SizedBox(height: 15),
                   Center(
                     child: Text(
-                      controller.failed.value
-                          ? context.l10n.loginBadCredentials
-                          : '',
+                      switch (controller.error.value) {
+                        null => '',
+                        final error => apiErrorMessage(context, error),
+                      },
+                      // Centred as a block, not only as a box: the lockout sentence wraps
+                      // to two lines in Japanese, and the second line hugged the left edge.
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: ColorPalette.mandy,
                         fontFamily: "Nunito",

@@ -14,10 +14,10 @@ enum MovementDirection {
 
   const MovementDirection(this.wireValue);
 
-  /// What the API expects. It was `type=1` / `type=-1` until S09, with the meaning of those
+  /// What the API expects. It was `type=1` / `type=-1` until the server's V9 migration, with the meaning of those
   /// numbers living in a private field of one backend service.
   ///
-  /// It carried a Chinese `label` beside this until B1. Nothing read it — the chart gets its
+  /// It used to carry a Chinese `label` beside this. Nothing read it — the chart gets its
   /// section headings from the ARB — so it was a display string sitting in a repository,
   /// waiting to disagree with the one actually shown.
   final String wireValue;

@@ -24,7 +24,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      title: 'Application',
+      title: 'Loggi',
       // Null means "follow the device", which is MaterialApp's own default behaviour for
       // this parameter — so the three-way choice needs no special case here.
       locale: ref.watch(localeProvider),

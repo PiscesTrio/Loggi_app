@@ -28,7 +28,7 @@ final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
   // Pinned to 9.2.4 rather than 11.x, which requires compileSdk 37 while this project
   // compiles against 36 — and 36 is also the highest AGP 9.1.0 recommends. Raising
   // compileSdk past the toolchain's supported ceiling to satisfy one plugin would undo the
-  // version work S11 did; the 9.x line does the same job inside it.
+  // toolchain upgrade; the 9.x line does the same job inside it.
   return const FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
   );

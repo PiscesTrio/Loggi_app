@@ -36,7 +36,7 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    # S15 renamed four PascalCase module directories (WarehouseInventory/,
+    # An earlier cleanup renamed four PascalCase module directories (WarehouseInventory/,
     # ProductDetailMin/ and friends) and the classes inside them. This is what stops the
     # next one appearing: the rule is only enable-able because the tree is clean now, and
     # it fails the analyzer the moment it stops being.

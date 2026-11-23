@@ -20,7 +20,7 @@ part 'state.freezed.dart';
 ///
 /// One value, replaced as a whole.
 ///
-/// The draft is a [DistributionRequest] rather than an order. Since S10 those are
+/// The draft is a [DistributionRequest] rather than an order. Those are
 /// different types, and the difference is the point: a request names the driver, vehicle
 /// and warehouse by id and has no id of its own, while an order carries an id the server
 /// assigned and the rows it points at. This form is composing a request, so it holds one —

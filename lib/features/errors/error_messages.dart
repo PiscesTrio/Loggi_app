@@ -5,7 +5,7 @@ import '../../l10n/l10n.dart';
 
 /// What to tell the reader about a failed request, in their language.
 ///
-/// This is the last piece of the same move the server made in A3 and the database made in V9:
+/// This is the last piece of the same move the server made when it began sending error codes, and the database made in V9:
 /// the layer that knows *what* went wrong stops deciding *how to say it*. The network layer has
 /// no BuildContext and therefore cannot know which of three languages to use — so it hands up
 /// an identifier and this decides the words.
@@ -74,7 +74,7 @@ String? _byCode(BuildContext context, String code) {
     'TOKEN_INVALID' => l10n.errorTokenInvalid,
     // A 401 too, but from the sign-in screen, where there is no session to end - so unlike the
     // two above this is the sentence the reader actually sees.
-    'INVALID_CREDENTIALS' => l10n.errorInvalidCredentials,
+    'INVALID_CREDENTIALS' => l10n.loginBadCredentials,
     'LOGIN_ATTEMPTS_EXHAUSTED' => l10n.errorLoginAttemptsExhausted,
     'ACCESS_DENIED' => l10n.errorAccessDenied,
     'METHOD_NOT_ALLOWED' => l10n.errorMethodNotAllowed,

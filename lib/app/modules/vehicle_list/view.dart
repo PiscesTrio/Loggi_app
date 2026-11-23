@@ -77,7 +77,7 @@ class _AddVehicleDialogState extends ConsumerState<_AddVehicleDialog> {
   Future<void> _submit() async {
     // Every other form in this app checks its required fields before sending; this one did
     // not, and it was the only place where a server validation failure was reachable from
-    // the UI. That mattered after A3: the client maps VALIDATION_FAILED to one sentence for
+    // the UI. That mattered once errors arrived as codes: the client maps VALIDATION_FAILED to one sentence for
     // all fifty-two constraints, so a blank plate produced "check the form" where it used to
     // produce "the plate number is required". Saying which field needs either a check here
     // or a field-level code from the server — this is the cheap half.

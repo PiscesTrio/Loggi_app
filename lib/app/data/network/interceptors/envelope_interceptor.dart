@@ -45,8 +45,8 @@ class EnvelopeInterceptor extends Interceptor {
     }
 
     final code = body['code'];
-    // Any 2xx, not only 200. The envelope's code mirrors the HTTP status, and since S10 a
-    // POST that creates a row answers 201 — so an inventory movement that the server had
+    // Any 2xx, not only 200. The envelope's code mirrors the HTTP status, and a POST that
+    // creates a row answers 201 — so an inventory movement that the server had
     // recorded came back through here as a failure, and the screen reported 请求出错 over
     // a write that had already happened. Testing 200 exactly encoded an assumption about
     // which success codes the API uses; this tests what success means.
