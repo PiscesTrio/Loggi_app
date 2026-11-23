@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/available_fleet_vo.dart';
 import '../api/distribution_request.dart';
+import '../api/distribution_status_change.dart';
 import '../api/distribution_track_request.dart';
 import '../api/distribution_track_vo.dart';
 import '../api/distribution_vo.dart';
@@ -28,6 +29,24 @@ class DistributionRepository {
     final data = await _client.post<dynamic>(
       '/distribution',
       data: order.toJson(),
+    );
+    return decodeObject(data, DistributionVo.fromJson);
+  }
+
+  /// Moves an existing order to [status]: approving it, or marking it delivered.
+  ///
+  /// This used to be [save] with the next status filled in. A create carries no id, so the
+  /// server filed a second order with the new status and the one on screen stayed under
+  /// review — every approval doubled the list and approved nothing. The order is named in
+  /// the path now, and the server refuses a move its state machine does not allow with
+  /// `INVALID_STATUS_TRANSITION`.
+  Future<DistributionVo> changeStatus(
+    String id,
+    DistributionStatusChangeStatusEnum status,
+  ) async {
+    final data = await _client.patch<dynamic>(
+      '/distribution/${Uri.encodeComponent(id)}/status',
+      data: DistributionStatusChange(status: status).toJson(),
     );
     return decodeObject(data, DistributionVo.fromJson);
   }

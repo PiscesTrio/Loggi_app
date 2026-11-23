@@ -115,7 +115,9 @@ enum SystemLogVoModuleEnum {
   @JsonValue(r'DISTRIBUTION')
   DISTRIBUTION(r'DISTRIBUTION'),
   @JsonValue(r'DISTRIBUTION_TRACK')
-  DISTRIBUTION_TRACK(r'DISTRIBUTION_TRACK');
+  DISTRIBUTION_TRACK(r'DISTRIBUTION_TRACK'),
+  @JsonValue(r'AUDIT_LOG')
+  AUDIT_LOG(r'AUDIT_LOG');
 
   const SystemLogVoModuleEnum(this.value);
 

@@ -228,5 +228,9 @@
   "errorTokenInvalid": "Your session expired — sign in again",
   "errorVerificationCodeInvalid": "That code is not right",
   "errorUnsupportedMediaType": "That format is not supported",
-  "validationPlateRequired": "Enter a plate number"
+  "validationPlateRequired": "Enter a plate number",
+  "logModuleAuditLog": "Audit log",
+  "errorInvalidStatusTransition": "This order cannot move to that step",
+  "errorInvalidCredentials": "Wrong e-mail or password",
+  "errorLoginAttemptsExhausted": "Too many failed sign-ins — try again later"
 }

@@ -59,6 +59,7 @@ String? _byCode(BuildContext context, String code) {
     'VEHICLE_UNAVAILABLE' => l10n.errorVehicleUnavailable,
     'INSUFFICIENT_STOCK' => l10n.errorInsufficientStock,
     'ALREADY_EXISTS' => l10n.errorAlreadyExists,
+    'INVALID_STATUS_TRANSITION' => l10n.errorInvalidStatusTransition,
     'QUANTITY_NOT_POSITIVE' => l10n.errorQuantityNotPositive,
     'VALIDATION_FAILED' => l10n.errorValidationFailed,
     'MALFORMED_REQUEST' => l10n.errorMalformedRequest,
@@ -71,6 +72,10 @@ String? _byCode(BuildContext context, String code) {
     // a 401 as "the session is over" and leaves the screen before reading this.
     'AUTHENTICATION_REQUIRED' => l10n.errorAuthenticationRequired,
     'TOKEN_INVALID' => l10n.errorTokenInvalid,
+    // A 401 too, but from the sign-in screen, where there is no session to end - so unlike the
+    // two above this is the sentence the reader actually sees.
+    'INVALID_CREDENTIALS' => l10n.errorInvalidCredentials,
+    'LOGIN_ATTEMPTS_EXHAUSTED' => l10n.errorLoginAttemptsExhausted,
     'ACCESS_DENIED' => l10n.errorAccessDenied,
     'METHOD_NOT_ALLOWED' => l10n.errorMethodNotAllowed,
     'UNSUPPORTED_MEDIA_TYPE' => l10n.errorUnsupportedMediaType,

@@ -26,6 +26,7 @@ String logModuleLabel(BuildContext context, SystemLogVoModuleEnum? module) {
     SystemLogVoModuleEnum.VEHICLE => l10n.logModuleVehicle,
     SystemLogVoModuleEnum.DISTRIBUTION => l10n.logModuleDistribution,
     SystemLogVoModuleEnum.DISTRIBUTION_TRACK => l10n.logModuleDistributionTrack,
+    SystemLogVoModuleEnum.AUDIT_LOG => l10n.logModuleAuditLog,
     // V10 empties a module it cannot map rather than guessing, so this is reachable for a row
     // written before the conversion by something that is no longer in the codebase.
     null => '-',
