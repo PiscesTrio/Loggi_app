@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/api/driver_request.dart';
 import '../../data/api/driver_vo.dart';
 
 import '../../data/repositories/fleet_repository.dart';
@@ -26,7 +27,19 @@ class DriverListNotifier extends AsyncNotifier<List<DriverVo>> {
       () => ref.read(fleetRepositoryProvider).drivers(),
     );
   }
+
+  /// Registers a driver and reloads. Throws on failure so the dialog can say why, as
+  /// `VehicleListNotifier.add` does.
+  Future<void> add(DriverRequest driver) async {
+    await ref.read(fleetRepositoryProvider).addDriver(driver);
+    await refresh();
+  }
 }
+
+/// The driver being typed into the register-driver dialog, disposed with it.
+final driverDraftProvider = StateProvider.autoDispose<DriverRequest>(
+  (ref) => DriverRequest(name: '', phone: ''),
+);
 
 final driverListProvider =
     AsyncNotifierProvider<DriverListNotifier, List<DriverVo>>(
