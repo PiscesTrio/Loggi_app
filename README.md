@@ -36,12 +36,14 @@ for reading the legacy token during migration. Everything else has moved.
 
 ## What it does
 
-- **Sign in** with a password or an e-mailed code; the JWT is kept in the platform keystore
-  and attached by an interceptor, so no screen handles it.
+- **Sign in** with an e-mail address and password; the JWT is kept in the platform keystore
+  and attached by an interceptor, so no screen handles it. (The server also offers sign-in
+  by an e-mailed one-time code; this app does not use it yet.)
 - **Master data** — commodities and warehouses, each with a table and an editor.
 - **Stock** — what a warehouse holds, and recording goods in or out.
-- **Deliveries** — the order list, filing a new one, and a tracking timeline on a map.
-- **Fleet** — drivers and vehicles.
+- **Deliveries** — the order list, filing a new one, approving and completing it, and a
+  tracking timeline on a map.
+- **Fleet** — registering and listing drivers and vehicles.
 - **Analytics** — what moved in and out, by commodity.
 - **Audit** — sign-in and operation logs.
 - **Languages** — 日本語, 中文 and English, switched in settings; the choice outlives a
@@ -197,6 +199,15 @@ dart run build_runner build --delete-conflicting-outputs
 
 `lib/app/data/api/README.md` has the details. The directory is excluded from analysis in
 `analysis_options.yaml`.
+
+## Project history
+
+This began as a university graduation project in 2023 (卒業設計). That code was imported here
+as a single commit in April 2026 (`init: project reupload`); its earlier history is not part
+of this repository, which is why the log starts there. From August 2026 the client was
+rebuilt on top of it — GetX replaced by Riverpod and go_router, a hand-written Dio client,
+models generated from the server's OpenAPI document, three languages — and the commits since
+then are that work. The history has not been rewritten to look otherwise.
 
 ## License
 
