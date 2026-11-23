@@ -232,5 +232,10 @@
   "logModuleAuditLog": "Audit log",
   "errorInvalidStatusTransition": "This order cannot move to that step",
   "errorInvalidCredentials": "Wrong e-mail or password",
-  "errorLoginAttemptsExhausted": "Too many failed sign-ins — try again later"
+  "errorLoginAttemptsExhausted": "Too many failed sign-ins — try again later",
+  "driverAddTitle": "Register a driver",
+  "driverPhone": "Phone",
+  "fieldGender": "Gender:",
+  "fieldLicence": "Licence",
+  "validationPhoneRequired": "Enter a phone number"
 }

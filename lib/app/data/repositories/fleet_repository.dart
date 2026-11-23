@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../api/driver_request.dart';
 import '../api/driver_vo.dart';
 import '../api/vehicle_request.dart';
 import '../api/vehicle_vo.dart';
@@ -21,6 +22,13 @@ class FleetRepository {
     final data = await _client.get<dynamic>('/vehicle');
     return decodeList(data, VehicleVo.fromJson);
   }
+
+  /// Registers a driver. Same shape as [addVehicle]: a request type, never the view type.
+  ///
+  /// The server has always had this endpoint; the app had no way to reach it, so a driver
+  /// could only be added by hand in the database even though the delivery form required one.
+  Future<void> addDriver(DriverRequest driver) =>
+      _client.post<dynamic>('/driver', data: driver.toJson());
 
   /// Adds a vehicle.
   ///

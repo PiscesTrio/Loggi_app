@@ -182,5 +182,10 @@
   "logModuleAuditLog": "監査ログ",
   "errorInvalidStatusTransition": "この配送依頼はその段階に進めません",
   "errorInvalidCredentials": "メールアドレスまたはパスワードが違います",
-  "errorLoginAttemptsExhausted": "サインインの失敗が続いています。しばらくしてからお試しください"
+  "errorLoginAttemptsExhausted": "サインインの失敗が続いています。しばらくしてからお試しください",
+  "driverAddTitle": "ドライバーを登録",
+  "driverPhone": "電話番号",
+  "fieldGender": "性別：",
+  "fieldLicence": "運転免許",
+  "validationPhoneRequired": "電話番号を入力してください"
 }
