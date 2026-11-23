@@ -6,16 +6,13 @@ import '../../../l10n/l10n.dart';
 import '../../data/api/login_dto.dart';
 
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../../theme/color_palette.dart';
 import 'index.dart';
 import 'login_title.dart';
 
 class LoginPage extends GetView<LoginController> {
-  LoginPage({super.key});
-
-  final GetStorage box = GetStorage();
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {

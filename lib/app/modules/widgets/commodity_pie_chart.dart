@@ -6,9 +6,9 @@ import '../../theme/color_palette.dart';
 
 import 'package:flutter/material.dart';
 
-class PieChartSample2 extends StatelessWidget {
+class CommodityPieChart extends StatelessWidget {
   final List<CommodityChartVo> data;
-  PieChartSample2({super.key, required this.data});
+  CommodityPieChart({super.key, required this.data});
   final List<Color> color = [
     ChartPalette.slices[0],
     ChartPalette.slices[1],

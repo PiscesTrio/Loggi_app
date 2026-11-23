@@ -189,7 +189,6 @@
   "trackDriverAndVehicle": "驾驶员：{driver} / {vehicle}",
   "mapRouteTitle": "配送路线",
   "mapNoLocation": "没有位置信息",
-  "vehicleDriver": "驾驶员：",
   "warehousePrinciple": "负责人：",
   "fleetStatusBusy": "配送中",
   "fleetStatusIdle": "空闲",

@@ -1,6 +1,5 @@
 import '../../l10n/l10n.dart';
 
-import 'package:loggi_app/app/data/network/api.dart';
 import 'package:loggi_app/app/theme/color_palette.dart';
 import 'package:loggi_app/app/data/network/container_access.dart';
 import 'package:flutter/material.dart';
@@ -33,14 +32,10 @@ class SysMain extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: [
+              // No onTap: there is no account screen yet. The handler that sat here fired ten
+              // product-list requests a second apart - a load-test left behind - so tapping the
+              // row hammered the server and showed nothing.
               ListTile(
-                onTap: () async {
-                  for (int i = 0; i < 10; i++) {
-                    await Future.delayed(Duration(seconds: 1)).then((value) {
-                      NbRequest().getAllProducts();
-                    });
-                  }
-                },
                 title: Text(context.l10n.settingsAccount),
                 subtitle: Text(context.l10n.settingsAccountSubtitle),
               ),

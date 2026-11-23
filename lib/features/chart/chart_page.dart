@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/data/api/commodity_chart_vo.dart';
 import '../../app/modules/widgets/async_view.dart';
 import '../../app/modules/widgets/indicator.dart';
-import '../../app/modules/widgets/pie_chart_sample2.dart';
+import '../../app/modules/widgets/commodity_pie_chart.dart';
 import '../../app/theme/color_palette.dart';
 import '../../l10n/l10n.dart';
 import '../shell/page_header.dart';
@@ -89,7 +89,7 @@ class _Section extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
           ),
         ),
-        PieChartSample2(data: rows),
+        CommodityPieChart(data: rows),
         for (final (index, row) in rows.indexed)
           Indicator(
             // No `!` on either field. Every field of a generated model is nullable, and one

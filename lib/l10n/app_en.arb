@@ -182,7 +182,6 @@
   "trackDriverAndVehicle": "Driver: {driver} / {vehicle}",
   "mapRouteTitle": "Delivery route",
   "mapNoLocation": "No location data",
-  "vehicleDriver": "Driver:",
   "warehousePrinciple": "In charge:",
   "fleetStatusBusy": "On a run",
   "fleetStatusIdle": "Available",

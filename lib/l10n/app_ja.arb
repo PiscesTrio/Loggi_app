@@ -132,7 +132,6 @@
   "trackDriverAndVehicle": "ドライバー：{driver} / {vehicle}",
   "mapRouteTitle": "配送ルート",
   "mapNoLocation": "位置情報がありません",
-  "vehicleDriver": "ドライバー：",
   "warehousePrinciple": "担当者：",
   "fleetStatusBusy": "配送中",
   "fleetStatusIdle": "待機中",
