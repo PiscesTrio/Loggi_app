@@ -163,6 +163,9 @@ class LoginPage extends GetView<LoginController> {
                         null => '',
                         final error => apiErrorMessage(context, error),
                       },
+                      // Centred as a block, not only as a box: the lockout sentence wraps
+                      // to two lines in Japanese, and the second line hugged the left edge.
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: ColorPalette.mandy,
                         fontFamily: "Nunito",
